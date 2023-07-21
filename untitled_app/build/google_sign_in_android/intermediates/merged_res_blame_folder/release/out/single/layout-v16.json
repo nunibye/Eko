@@ -1,0 +1,6 @@
+[
+    {
+        "merged": "io.flutter.plugins.googlesignin.google_sign_in_android-merged_res-13:/layout-v16/notification_template_custom_big.xml",
+        "source": "io.flutter.plugins.googlesignin.google_sign_in_android-core-1.6.0-0:/layout-v16/notification_template_custom_big.xml"
+    }
+]

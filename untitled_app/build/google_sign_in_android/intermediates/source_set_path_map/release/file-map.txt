@@ -1,0 +1,15 @@
+io.flutter.plugins.googlesignin.google_sign_in_android-core-1.6.0-0 C:\Users\ereec\.gradle\caches\transforms-3\1033e36e972b24f495cbeb7edb0f8401\transformed\core-1.6.0\res
+io.flutter.plugins.googlesignin.google_sign_in_android-jetified-play-services-basement-18.2.0-1 C:\Users\ereec\.gradle\caches\transforms-3\2902fe815c63999d569532b6755ee4ea\transformed\jetified-play-services-basement-18.2.0\res
+io.flutter.plugins.googlesignin.google_sign_in_android-jetified-annotation-experimental-1.1.0-2 C:\Users\ereec\.gradle\caches\transforms-3\424fe90f0bd6d50b9ed38cb53548737f\transformed\jetified-annotation-experimental-1.1.0\res
+io.flutter.plugins.googlesignin.google_sign_in_android-jetified-window-java-1.0.0-beta04-3 C:\Users\ereec\.gradle\caches\transforms-3\5ddc55be9a1f9ca3021e908092377266\transformed\jetified-window-java-1.0.0-beta04\res
+io.flutter.plugins.googlesignin.google_sign_in_android-jetified-play-services-auth-20.6.0-4 C:\Users\ereec\.gradle\caches\transforms-3\85b29c7e281f49f9c0c1ccd04ea78f9c\transformed\jetified-play-services-auth-20.6.0\res
+io.flutter.plugins.googlesignin.google_sign_in_android-jetified-play-services-base-18.0.1-5 C:\Users\ereec\.gradle\caches\transforms-3\9ebd79deafa7858804ec340d69f3fa3d\transformed\jetified-play-services-base-18.0.1\res
+io.flutter.plugins.googlesignin.google_sign_in_android-jetified-window-1.0.0-beta04-6 C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\res
+io.flutter.plugins.googlesignin.google_sign_in_android-main-7 C:\Users\ereec\AppData\Local\Pub\Cache\hosted\pub.dev\google_sign_in_android-6.1.18\android\src\main\res
+io.flutter.plugins.googlesignin.google_sign_in_android-release-8 C:\Users\ereec\AppData\Local\Pub\Cache\hosted\pub.dev\google_sign_in_android-6.1.18\android\src\release\res
+io.flutter.plugins.googlesignin.google_sign_in_android-pngs-9 C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\generated\res\pngs\release
+io.flutter.plugins.googlesignin.google_sign_in_android-resValues-10 C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\generated\res\resValues\release
+io.flutter.plugins.googlesignin.google_sign_in_android-rs-11 C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\generated\res\rs\release
+io.flutter.plugins.googlesignin.google_sign_in_android-mergeReleaseResources-12 C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\intermediates\incremental\release\mergeReleaseResources\merged.dir
+io.flutter.plugins.googlesignin.google_sign_in_android-mergeReleaseResources-13 C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+io.flutter.plugins.googlesignin.google_sign_in_android-merged_res-14 C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\intermediates\merged_res\release
