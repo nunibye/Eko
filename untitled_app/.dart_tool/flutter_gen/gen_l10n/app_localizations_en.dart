@@ -4,5 +4,12 @@ import 'app_localizations.dart';
 class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
+  @override
+  String get email => 'Email';
 
+  @override
+  String get password => 'Password';
+
+  @override
+  String get logIn => 'Log In';
 }

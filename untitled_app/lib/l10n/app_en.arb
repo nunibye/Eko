@@ -1,4 +1,7 @@
 {
-    
+    "email":"Email",
+    "password":"Password",
+    "logIn":"Log In"
+
 
 }

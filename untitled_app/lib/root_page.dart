@@ -17,7 +17,9 @@ class RootPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return HomePage();
-          } else {
+          } else if(snapshot.hasError){
+            return Placeholder();
+            }else {
             return LoginPage();
           }
         },

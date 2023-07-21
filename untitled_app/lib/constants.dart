@@ -24,7 +24,7 @@ ColorScheme darkThemeColors(context) {
     brightness: Brightness.dark,
     primary: Color(0xFFFFFFFF),
     onPrimary: Color.fromARGB(255, 139, 139, 139),
-    secondary: Color(0xff1ce0d1),
+    secondary: Color.fromARGB(255, 14, 54, 235),
     onSecondary: Color(0xFFEAEAEA),
     tertiary: Color(0xffffffff),
     error: Color(0xFFF32424),
@@ -35,3 +35,7 @@ ColorScheme darkThemeColors(context) {
     onSurface: Color(0xFFFFFFFF),
   );
 }
+
+const double logoPaddingVert = 30;
+const double logoPaddingHoriz = 0;
+const double loginPadding = 0.006;
