@@ -110,6 +110,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log In'**
   String get logIn;
+
+  /// No description provided for @invalidEmailTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Email Formating'**
+  String get invalidEmailTittle;
+
+  /// No description provided for @invalidEmailBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your email and try again.'**
+  String get invalidEmailBody;
+
+  /// No description provided for @userNotFoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t Find Account'**
+  String get userNotFoundTitle;
+
+  /// No description provided for @userNotFoundBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We can\'t find an account with that email. Try another email, or sign up.'**
+  String get userNotFoundBody;
+
+  /// No description provided for @wrongPasswordTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect Password'**
+  String get wrongPasswordTittle;
+
+  /// No description provided for @wrongPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The password you entered is incorrect.'**
+  String get wrongPasswordBody;
+
+  /// No description provided for @tooManyRequestsTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'Too Much Traffic'**
+  String get tooManyRequestsTittle;
+
+  /// No description provided for @tooManyRequestsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re sorry! Our servers are full at the moment, please try again another time.'**
+  String get tooManyRequestsBody;
+
+  /// No description provided for @userDisabledTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Disabled'**
+  String get userDisabledTittle;
+
+  /// No description provided for @userDisabledBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been disabled. Please contact us at conetechnologiesdev@gmail.com.'**
+  String get userDisabledBody;
+
+  /// No description provided for @defaultErrorTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something Went Wrong'**
+  String get defaultErrorTittle;
+
+  /// No description provided for @defaultErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again later or reach out to conetechnologiesdev@gmail.com'**
+  String get defaultErrorBody;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @forgotPasswordTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve Got Mail!'**
+  String get forgotPasswordTittle;
+
+  /// No description provided for @forgotPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email for a password reset link.'**
+  String get forgotPasswordBody;
+
+  /// No description provided for @channelErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure you entered an email in the correct feild.'**
+  String get channelErrorBody;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

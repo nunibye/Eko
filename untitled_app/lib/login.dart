@@ -33,22 +33,178 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final emailFocus = FocusNode();
+  final passwordFocus = FocusNode();
   bool loggingIn = false;
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
     super.dispose();
   }
 
+  Future<void> _showMyDialog(
+      String title, String line1, String button1, bool signUp) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: Text(line1),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(button1),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            if (signUp)
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.signUp),
+                onPressed: () {
+                  Navigator.of(context).pop(); //TODO fix this
+                },
+              ),
+          ],
+        );
+      },
+    );
+  }
+
+  signInError(errorCode) {
+    switch (errorCode) {
+      case 'invalid-email':
+        _showMyDialog(
+            AppLocalizations.of(context)!.invalidEmailTittle,
+            AppLocalizations.of(context)!.invalidEmailBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+      case 'user-not-found':
+        _showMyDialog(
+            AppLocalizations.of(context)!.userNotFoundTitle,
+            AppLocalizations.of(context)!.userNotFoundBody,
+            AppLocalizations.of(context)!.tryAgain,
+            true);
+        break;
+      case 'wrong-password':
+        _showMyDialog(
+            AppLocalizations.of(context)!.wrongPasswordTittle,
+            AppLocalizations.of(context)!.wrongPasswordBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+      case 'too-many-requests':
+        _showMyDialog(
+            AppLocalizations.of(context)!.tooManyRequestsTittle,
+            AppLocalizations.of(context)!.tooManyRequestsBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+      case 'user-disabled':
+        _showMyDialog(
+            AppLocalizations.of(context)!.userDisabledTittle,
+            AppLocalizations.of(context)!.userDisabledBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+      default:
+        _showMyDialog(
+            AppLocalizations.of(context)!.defaultErrorTittle,
+            AppLocalizations.of(context)!.defaultErrorBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+    }
+  }
+
   Future signIn() async {
-    
-    setState(() {
-      loggingIn = true;
-    });
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
-    
+    if (emailController.text == '') {
+      emailFocus.requestFocus();
+    } else if (passwordController.text == '') {
+      passwordFocus.requestFocus();
+    } else {
+      try {
+        setState(() {
+          loggingIn = true;
+        });
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          loggingIn = false;
+        });
+        signInError(e.code);
+      }
+    }
+  }
+
+  forgotPasswordError(errorCode) {
+    switch (errorCode) {
+      case 'invalid-email':
+        _showMyDialog(
+            AppLocalizations.of(context)!.invalidEmailTittle,
+            AppLocalizations.of(context)!.invalidEmailBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+      case 'user-not-found':
+        _showMyDialog(
+            AppLocalizations.of(context)!.userNotFoundTitle,
+            AppLocalizations.of(context)!.userNotFoundBody,
+            AppLocalizations.of(context)!.tryAgain,
+            true);
+        break;
+      case 'too-many-requests':
+        _showMyDialog(
+            AppLocalizations.of(context)!.tooManyRequestsTittle,
+            AppLocalizations.of(context)!.tooManyRequestsBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+      case 'channel-error':
+        
+        _showMyDialog(
+            AppLocalizations.of(context)!.defaultErrorTittle,
+            AppLocalizations.of(context)!.channelErrorBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+            emailFocus.requestFocus();
+        break;
+      default:
+        _showMyDialog(
+            AppLocalizations.of(context)!.defaultErrorTittle,
+            AppLocalizations.of(context)!.defaultErrorBody,
+            AppLocalizations.of(context)!.tryAgain,
+            false);
+        break;
+    }
+  }
+
+  showForgotPasswordSuccess() {
+    _showMyDialog(
+        AppLocalizations.of(context)!.forgotPasswordTittle,
+        AppLocalizations.of(context)!.forgotPasswordBody,
+        AppLocalizations.of(context)!.close,
+        false);
+  }
+
+  Future forgotPassword() async {
+    await FirebaseAuth.instance
+        .setLanguageCode(AppLocalizations.of(context)!.localeName);
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text);
+      showForgotPasswordSuccess();
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      forgotPasswordError(e.code);
+    }
   }
 
   @override
@@ -74,12 +230,14 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           CustomInputFeild(
+            focus: emailFocus,
             label: AppLocalizations.of(context)!.email,
             controller: emailController,
             inputType: TextInputType.emailAddress,
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.006),
           CustomInputFeild(
+            focus: passwordFocus,
             label: AppLocalizations.of(context)!.password,
             controller: passwordController,
             inputType: TextInputType.visiblePassword,
@@ -87,24 +245,41 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.009),
           SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.width * 0.15,
-              child: TextButton(
-                onPressed: signIn,
-                style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary),
-                child: loggingIn
-                    ? const CircularProgressIndicator()
-                    : Text(
-                        AppLocalizations.of(context)!.logIn,
-                        style: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.width * 0.15,
+            child: TextButton(
+              onPressed: signIn,
+              style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.secondary),
+              child: loggingIn
+                  ? const CircularProgressIndicator()
+                  : Text(
+                      AppLocalizations.of(context)!.logIn,
+                      style: TextStyle(
+                        fontSize: 18,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-              ))
+                    ),
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.width * 0.1,
+            child: TextButton(
+              onPressed: forgotPassword,
+              child: Text(
+                AppLocalizations.of(context)!.forgotPassword,
+                style: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.normal,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

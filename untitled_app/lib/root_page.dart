@@ -9,6 +9,7 @@ import 'home_page.dart';
 class RootPage extends StatelessWidget {
   const RootPage({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,11 +17,11 @@ class RootPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return const HomePage();
           } else if(snapshot.hasError){
-            return Placeholder();
+            return const Placeholder();
             }else {
-            return LoginPage();
+            return const LoginPage();
           }
         },
       ),
