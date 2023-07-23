@@ -144,6 +144,33 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<UserCredential?> signUp() async {
+    if (emailController.text == '') {
+      emailFocus.requestFocus();
+    } else if (passwordController.text == '') {
+      passwordFocus.requestFocus();
+    } else {
+      try {
+        setState(() {
+          loggingIn = true;
+        });
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        // User has been signed up successfully, you can do additional operations if needed
+        return userCredential;
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          loggingIn = false;
+        });
+        signInError(e.code);
+      }
+    }
+    return null;
+  }
+
   forgotPasswordError(errorCode) {
     switch (errorCode) {
       case 'invalid-email':
@@ -168,13 +195,12 @@ class _LoginPageState extends State<LoginPage> {
             false);
         break;
       case 'channel-error':
-        
         _showMyDialog(
             AppLocalizations.of(context)!.defaultErrorTittle,
             AppLocalizations.of(context)!.channelErrorBody,
             AppLocalizations.of(context)!.tryAgain,
             false);
-            emailFocus.requestFocus();
+        emailFocus.requestFocus();
         break;
       default:
         _showMyDialog(
@@ -243,6 +269,22 @@ class _LoginPageState extends State<LoginPage> {
             inputType: TextInputType.visiblePassword,
             obscure: true,
           ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.width * 0.1,
+            child: TextButton(
+              onPressed: forgotPassword,
+              child: Text(
+                AppLocalizations.of(context)!.forgotPassword,
+                style: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.normal,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.009),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
@@ -264,15 +306,21 @@ class _LoginPageState extends State<LoginPage> {
                     ),
             ),
           ),
+          const Padding(
+              padding: EdgeInsets.all(12), child: Text("---- or ----")),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.width * 0.1,
+            height: MediaQuery.of(context).size.width * 0.10,
             child: TextButton(
-              onPressed: forgotPassword,
+              onPressed: signUp, // Use signUp function here
+              style: TextButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+              ),
               child: Text(
-                AppLocalizations.of(context)!.forgotPassword,
+                // AppLocalizations.of(context)!.signUp, // Change the label
+                "Create Account",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   letterSpacing: 1,
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.primary,
