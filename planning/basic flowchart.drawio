@@ -1,0 +1,82 @@
+<mxfile host="Electron" modified="2023-07-23T16:42:14.296Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.6.5 Chrome/114.0.5735.243 Electron/25.3.1 Safari/537.36" etag="9Q0r_45pY7-63tkP9jVW" version="21.6.5" type="device">
+  <diagram name="Page-1" id="82P5hLtWtYogdQjPVqZA">
+    <mxGraphModel dx="1078" dy="654" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bazWB1a_1vviRYI613Vn-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="bazWB1a_1vviRYI613Vn-1" target="bazWB1a_1vviRYI613Vn-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="bazWB1a_1vviRYI613Vn-1" target="bazWB1a_1vviRYI613Vn-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-1" value="Login Page" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="397.63" y="370" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="bazWB1a_1vviRYI613Vn-2" target="bazWB1a_1vviRYI613Vn-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-2" value="Signup&lt;br&gt;page" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="610" y="370" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-8" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="bazWB1a_1vviRYI613Vn-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="410" as="sourcePoint" />
+            <mxPoint x="450" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-10" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="500" as="sourcePoint" />
+            <mxPoint x="320" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-11" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="500" as="sourcePoint" />
+            <mxPoint x="440" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-12" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="bazWB1a_1vviRYI613Vn-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="440" y="500" as="sourcePoint" />
+            <mxPoint x="530" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-13" value="Error || forgot password" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="247.63" y="370" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-15" value="signUp button pressed" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="470" y="378" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-19" value="Home Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="278" y="250" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-20" value="Explore Page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="398" y="250" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-22" value="create post page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="518" y="250" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-24" value="Profile page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="638" y="250" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-27" value="Bottom navigation bar" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="460" y="288" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-28" value="This will have all peoples&lt;br&gt;&amp;nbsp;posts you follow" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="238" y="210" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-29" value="All posts on app" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="398" y="210" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-30" value="Create post setup" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="518" y="210" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bazWB1a_1vviRYI613Vn-31" value="similar profile to instagram" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="638" y="210" width="160" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
