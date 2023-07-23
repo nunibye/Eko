@@ -12,7 +12,7 @@ class CustomInputFeild extends StatelessWidget {
   final double? width;
   final bool enabled;
   final bool obscure;
-  CustomInputFeild(
+  const CustomInputFeild(
       {required this.label,
       required this.controller,
       this.focus,
@@ -25,10 +25,9 @@ class CustomInputFeild extends StatelessWidget {
       this.obscure = false,
       super.key});
 
-  double feildWidth = 0.0;
-
   @override
   Widget build(BuildContext context) {
+    double feildWidth;
     if (width == null) {
       feildWidth = MediaQuery.of(context).size.width * 0.9;
     } else {
@@ -75,6 +74,5 @@ class CustomInputFeild extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
