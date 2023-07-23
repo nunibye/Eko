@@ -1,4 +1,6 @@
 # This is a generated file; do not edit or check into version control.
+cloud_firestore=/Users/christianknab/.pub-cache/hosted/pub.dev/cloud_firestore-4.8.3/
+cloud_firestore_web=/Users/christianknab/.pub-cache/hosted/pub.dev/cloud_firestore_web-3.6.3/
 firebase_analytics=/Users/christianknab/.pub-cache/hosted/pub.dev/firebase_analytics-10.4.4/
 firebase_analytics_web=/Users/christianknab/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.4+4/
 firebase_auth=/Users/christianknab/.pub-cache/hosted/pub.dev/firebase_auth-4.7.1/

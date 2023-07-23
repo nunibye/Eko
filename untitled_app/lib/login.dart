@@ -5,6 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'widgets.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 Future<UserCredential> signInWithGoogle() async {
   // Trigger the authentication flow
   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -36,6 +38,9 @@ class _LoginPageState extends State<LoginPage> {
   final emailFocus = FocusNode();
   final passwordFocus = FocusNode();
   bool loggingIn = false;
+  bool showNameInput = false; // control whether to show the name input or not.
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   @override
   void dispose() {
     emailController.dispose();
@@ -169,6 +174,27 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
     return null;
+  }
+  // TODO: fix this to work
+  // Add user data to Firestore
+  Future<void> _addUserDataToFirestore(User user) async {
+    final firestore = FirebaseFirestore.instance;
+    final userData = {
+      'uid': user.uid,
+      'firstName': firstNameController.text,
+      'lastName': lastNameController.text,
+    };
+    await firestore.collection('users').doc(user.uid).set(userData);
+  }
+
+  // Function to handle the "Next" button click
+  void _handleNextClick() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await _addUserDataToFirestore(user);
+      // User data added to Firestore successfully
+      // You can navigate to the next page or perform any other action here.
+    }
   }
 
   forgotPasswordError(errorCode) {
@@ -307,7 +333,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           const Padding(
-              padding: EdgeInsets.all(12), child: Text("---- or ----")),
+              padding: EdgeInsets.all(12), child: Text("---- or ----")), // TODO: placeholder, beautify later
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.width * 0.10,
@@ -328,6 +354,39 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+          // Show the first and last name input if showNameInput is true
+          if (showNameInput) ...[
+            SizedBox(height: MediaQuery.of(context).size.height * 0.009),
+            CustomInputFeild(
+              label: 'First Name',
+              controller: firstNameController,
+              inputType: TextInputType.text,
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.006),
+            CustomInputFeild(
+              label: 'Last Name',
+              controller: lastNameController,
+              inputType: TextInputType.text,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.width * 0.15,
+              child: TextButton(
+                onPressed: _handleNextClick, // Use _handleNextClick function here
+                style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary),
+                child: Text(
+                  "Next",
+                  style: TextStyle(
+                    fontSize: 18,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.normal,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
