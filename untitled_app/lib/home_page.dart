@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'profile_page.dart';
 
 // class HomePage extends StatelessWidget {
 //   const HomePage({super.key});
@@ -19,12 +20,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //   }
 // }
 
-class ProfilePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _HomePageState extends State<HomePage> {
   String _username = "Loading...";
 
   @override
@@ -32,7 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _loadUserData();
   }
-import 'profile_page.dart';
 
   // Function to load user data from Firestore
   Future<void> _loadUserData() async {
@@ -82,16 +82,22 @@ import 'profile_page.dart';
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Welcome,",
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               _username,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
+            TextButton(
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProfilePage()),
+                    ),
+                child: const Text("View Profile")),
             IconButton(
                 onPressed: () => FirebaseAuth.instance.signOut(),
                 icon: const Icon(Icons.abc)),

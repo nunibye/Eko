@@ -28,7 +28,7 @@ class EditProfile extends StatelessWidget {
       ),
       body: ListView(children: const [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: EdgeInsets.symmetric(vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [ImageSelection()],
