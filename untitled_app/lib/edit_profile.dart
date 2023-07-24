@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
+import 'package:untitled_app/image_helper.dart';
 
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
@@ -39,6 +38,8 @@ class EditProfile extends StatelessWidget {
   }
 }
 
+final imageHelper = ImageHelper();
+
 class ImageSelection extends StatefulWidget {
   const ImageSelection({super.key});
 
@@ -48,28 +49,20 @@ class ImageSelection extends StatefulWidget {
 
 class _ImageSelectionState extends State<ImageSelection> {
   File? _image;
-
-  Future _pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      File? img = File(image.path);
-      setState(
-        () {
-          _image = img;
-        },
-      );
-    } on PlatformException {
-      Navigator.of(context).pop();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
         width: MediaQuery.sizeOf(context).width * 0.26,
         child: IconButton(
-          onPressed: () => _pickImage,
+          onPressed: () async {
+            final files = await imageHelper.pickImage();
+            if (files != null) {
+              final croppedFile = await imageHelper.crop(file: files);
+              if (croppedFile != null) {
+                setState(() => _image = File(croppedFile.path));
+              }
+            }
+          },
           icon: const ClipOval(
             child: Stack(
               children: [
