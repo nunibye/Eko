@@ -9,7 +9,6 @@ import 'home_page.dart';
 class RootPage extends StatelessWidget {
   const RootPage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +17,9 @@ class RootPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return const HomePage();
-          } else if(snapshot.hasError){
+          } else if (snapshot.hasError) {
             return const Placeholder();
-            }else {
+          } else {
             return const LoginPage();
           }
         },
