@@ -41,6 +41,9 @@ class _LoginPageState extends State<LoginPage> {
   bool showNameInput = false; // control whether to show the name input or not.
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+
+  int currentStep = 0;
+
   @override
   void dispose() {
     emailController.dispose();
@@ -175,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     return null;
   }
+
   // TODO: fix this to work
   // Add user data to Firestore
   Future<void> _addUserDataToFirestore(User user) async {
@@ -184,16 +188,26 @@ class _LoginPageState extends State<LoginPage> {
       'firstName': firstNameController.text,
       'lastName': lastNameController.text,
     };
-    await firestore.collection('users').doc(user.uid).set(userData);
+    print('here');
+    await firestore.collection('users').add(userData);
   }
 
   // Function to handle the "Next" button click
   void _handleNextClick() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await _addUserDataToFirestore(user);
-      // User data added to Firestore successfully
-      // You can navigate to the next page or perform any other action here.
+    final userCredential = await signUp();
+   
+    if (userCredential != null) {
+      final user = userCredential.user;
+
+      if (user != null) {
+        await _addUserDataToFirestore(user);
+        // User data added to Firestore successfully
+        // You can navigate to the next page or perform any other action here.
+      } else {
+        print('User is null');
+      }
+    } else {
+      print('Sign-up failed');
     }
   }
 
@@ -333,17 +347,22 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           const Padding(
-              padding: EdgeInsets.all(12), child: Text("---- or ----")), // TODO: placeholder, beautify later
+              padding: EdgeInsets.all(12),
+              child: Text("---- or ----")), // TODO: placeholder, beautify later
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.width * 0.10,
             child: TextButton(
-              onPressed: signUp, // Use signUp function here
+              onPressed: () {
+                // Show the first and last name input when "Create Account" button is clicked
+                setState(() {
+                  showNameInput = true;
+                });
+              },
               style: TextButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
               child: Text(
-                // AppLocalizations.of(context)!.signUp, // Change the label
                 "Create Account",
                 style: TextStyle(
                   fontSize: 18,
@@ -354,6 +373,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+
           // Show the first and last name input if showNameInput is true
           if (showNameInput) ...[
             SizedBox(height: MediaQuery.of(context).size.height * 0.009),
@@ -372,7 +392,8 @@ class _LoginPageState extends State<LoginPage> {
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.width * 0.15,
               child: TextButton(
-                onPressed: _handleNextClick, // Use _handleNextClick function here
+                onPressed:
+                    _handleNextClick, // Use _handleNextClick function here
                 style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.secondary),
                 child: Text(
