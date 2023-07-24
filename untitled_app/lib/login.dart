@@ -41,6 +41,10 @@ class _LoginPageState extends State<LoginPage> {
   bool showNameInput = false; // control whether to show the name input or not.
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
+  final userNameController = TextEditingController();
+
+  int currentStep = 0;
+
   @override
   void dispose() {
     emailController.dispose();
@@ -175,25 +179,38 @@ class _LoginPageState extends State<LoginPage> {
     }
     return null;
   }
-  // TODO: fix this to work
+
   // Add user data to Firestore
   Future<void> _addUserDataToFirestore(User user) async {
     final firestore = FirebaseFirestore.instance;
     final userData = {
       'uid': user.uid,
-      'firstName': firstNameController.text,
-      'lastName': lastNameController.text,
+      'email': emailController.text,
+      'username': userNameController.text,
+      'name': {
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+      },
     };
-    await firestore.collection('users').doc(user.uid).set(userData);
+    await firestore.collection('users').add(userData);
   }
 
   // Function to handle the "Next" button click
   void _handleNextClick() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      await _addUserDataToFirestore(user);
-      // User data added to Firestore successfully
-      // You can navigate to the next page or perform any other action here.
+    final userCredential = await signUp();
+
+    if (userCredential != null) {
+      final user = userCredential.user;
+
+      if (user != null) {
+        await _addUserDataToFirestore(user);
+        // User data added to Firestore successfully
+        // You can navigate to the next page or perform any other action here.
+      } else {
+        print('User is null');
+      }
+    } else {
+      print('Sign-up failed');
     }
   }
 
@@ -261,68 +278,118 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: c.logoPaddingVert, horizontal: c.logoPaddingHoriz),
-            child: Container(
-              //logo
-              height: MediaQuery.of(context).size.width * 0.2,
-              width: MediaQuery.of(context).size.width * 0.2,
-              decoration: const BoxDecoration(
-                color: Colors.cyan,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          leading: showNameInput
+              ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    setState(() {
+                      showNameInput = false;
+                    });
+                  },
+                )
+              : null,
+
+          // Optional: You can set other properties for the AppBar as needed
+          // title: Text("Login Page"), // Replace "Login Page" with your desired title
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: c.logoPaddingVert,
+                    horizontal: c.logoPaddingHoriz),
+                child: Container(
+                  //logo
+                  height: MediaQuery.of(context).size.width * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: const BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          CustomInputFeild(
-            focus: emailFocus,
-            label: AppLocalizations.of(context)!.email,
-            controller: emailController,
-            inputType: TextInputType.emailAddress,
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.006),
-          CustomInputFeild(
-            focus: passwordFocus,
-            label: AppLocalizations.of(context)!.password,
-            controller: passwordController,
-            inputType: TextInputType.visiblePassword,
-            obscure: true,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.width * 0.1,
-            child: TextButton(
-              onPressed: forgotPassword,
-              child: Text(
-                AppLocalizations.of(context)!.forgotPassword,
-                style: TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+              CustomInputFeild(
+                focus: emailFocus,
+                label: AppLocalizations.of(context)!.email,
+                controller: emailController,
+                inputType: TextInputType.emailAddress,
               ),
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.009),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.width * 0.15,
-            child: TextButton(
-              onPressed: signIn,
-              style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary),
-              child: loggingIn
-                  ? const CircularProgressIndicator()
-                  : Text(
-                      AppLocalizations.of(context)!.logIn,
+              SizedBox(height: MediaQuery.of(context).size.height * 0.006),
+              CustomInputFeild(
+                focus: passwordFocus,
+                label: AppLocalizations.of(context)!.password,
+                controller: passwordController,
+                inputType: TextInputType.visiblePassword,
+                obscure: true,
+              ),
+              if (!showNameInput) ...[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.width * 0.1,
+                  child: TextButton(
+                    onPressed: forgotPassword,
+                    child: Text(
+                      AppLocalizations.of(context)!.forgotPassword,
+                      style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.009),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  child: TextButton(
+                    onPressed: signIn,
+                    style: TextButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary),
+                    child: loggingIn
+                        ? const CircularProgressIndicator()
+                        : Text(
+                            AppLocalizations.of(context)!.logIn,
+                            style: TextStyle(
+                              fontSize: 18,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                  ),
+                ),
+
+                const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Text(
+                        "---- or ----")), // TODO: placeholder, beautify later
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.width * 0.10,
+                  child: TextButton(
+                    onPressed: () {
+                      // Show the first and last name input when "Create Account" button is clicked
+                      setState(() {
+                        showNameInput = true;
+                      });
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: Text(
+                      "Create Account",
                       style: TextStyle(
                         fontSize: 18,
                         letterSpacing: 1,
@@ -330,65 +397,53 @@ class _LoginPageState extends State<LoginPage> {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
-            ),
-          ),
-          const Padding(
-              padding: EdgeInsets.all(12), child: Text("---- or ----")), // TODO: placeholder, beautify later
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.width * 0.10,
-            child: TextButton(
-              onPressed: signUp, // Use signUp function here
-              style: TextButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-              ),
-              child: Text(
-                // AppLocalizations.of(context)!.signUp, // Change the label
-                "Create Account",
-                style: TextStyle(
-                  fontSize: 18,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-          ),
-          // Show the first and last name input if showNameInput is true
-          if (showNameInput) ...[
-            SizedBox(height: MediaQuery.of(context).size.height * 0.009),
-            CustomInputFeild(
-              label: 'First Name',
-              controller: firstNameController,
-              inputType: TextInputType.text,
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.006),
-            CustomInputFeild(
-              label: 'Last Name',
-              controller: lastNameController,
-              inputType: TextInputType.text,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.width * 0.15,
-              child: TextButton(
-                onPressed: _handleNextClick, // Use _handleNextClick function here
-                style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary),
-                child: Text(
-                  "Next",
-                  style: TextStyle(
-                    fontSize: 18,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.normal,
-                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
+              ] else ...[
+                // Show the first and last name input if showNameInput is true
+                // if (showNameInput) ...[
+                SizedBox(height: MediaQuery.of(context).size.height * 0.009),
+                CustomInputFeild(
+                  label: 'Username',
+                  controller: userNameController,
+                  inputType: TextInputType.text,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.009),
+                CustomInputFeild(
+                  label: 'First Name',
+                  controller: firstNameController,
+                  inputType: TextInputType.text,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.006),
+                CustomInputFeild(
+                  label: 'Last Name',
+                  controller: lastNameController,
+                  inputType: TextInputType.text,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.018),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.width * 0.15,
+                  child: TextButton(
+                    onPressed:
+                        _handleNextClick, // Use _handleNextClick function here
+                    style: TextButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary),
+                    child: Text(
+                      "Next",
+                      style: TextStyle(
+                        fontSize: 18,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ));
   }
 }
