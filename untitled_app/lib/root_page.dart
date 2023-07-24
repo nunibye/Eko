@@ -16,7 +16,9 @@ class RootPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const HomePage();
+            // TODO: i changed this fyi, you'll prob want to change it back to HomePage()!
+            // return HomePage();
+            return ProfilePage();
           } else if (snapshot.hasError) {
             return const Placeholder();
           } else {
