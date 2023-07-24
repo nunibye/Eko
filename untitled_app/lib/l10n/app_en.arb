@@ -20,7 +20,12 @@
     "forgotPasswordTittle":"You've Got Mail!",
     "forgotPasswordBody":"Check your email for a password reset link.",
     "channelErrorBody":"Make sure you entered an email in the correct feild.",
-    "close":"Close"
+    "close":"Close",
+    "likes":"Likes",
+    "followers":"Followers",
+    "following":"Following",
+    "editProfile":"Edit Profile"
+    
 
 
 

@@ -5,12 +5,16 @@ MERGED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untit
 MERGED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_analytics\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-19:19
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-15:19
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:28:5-73:19
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:24:5-31:19
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:15:5-23:19
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:15:5-23:19
 MERGED from [com.google.firebase:firebase-analytics:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\dacf2f9ab7ce61a3a1d10b1f5a5ad191\transformed\jetified-firebase-analytics-21.3.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\dacf2f9ab7ce61a3a1d10b1f5a5ad191\transformed\jetified-firebase-analytics-21.3.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:27:5-35:19
@@ -65,12 +69,14 @@ INJECTED from C:\Users\ereec\Documents\GitHub\untitled\untitled_app\android\app\
 MERGED from C:\Users\ereec\Documents\GitHub\untitled\untitled_app\android\app\src\main\AndroidManifest.xml:1:1-35:12
 MERGED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_analytics\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:google_sign_in_android] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\ereec\.gradle\caches\transforms-3\3452427f6812a7e384f08112f51b692d\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:2:1-10:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\5ddc55be9a1f9ca3021e908092377266\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:17:1-33:12
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:2:1-25:12
 MERGED from [com.google.firebase:firebase-analytics:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\dacf2f9ab7ce61a3a1d10b1f5a5ad191\transformed\jetified-firebase-analytics-21.3.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:17:1-37:12
 MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\ereec\.gradle\caches\transforms-3\2750a8b1aaced1921190cfaa4bfdf479\transformed\jetified-firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
@@ -81,6 +87,7 @@ MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.1] C:\User
 MERGED from [com.google.android.gms:play-services-auth-base:18.0.4] C:\Users\ereec\.gradle\caches\transforms-3\8c8b36a8fd610588325642f413f417b1\transformed\jetified-play-services-auth-base-18.0.4\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-fido:20.0.1] C:\Users\ereec\.gradle\caches\transforms-3\ac3bfa3d2001c2ea68dece9bd0097de5\transformed\jetified-play-services-fido-20.0.1\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\ereec\.gradle\caches\transforms-3\db8d006a282f6d944137179236f25bc6\transformed\jetified-firebase-appcheck-interop-17.0.0\AndroidManifest.xml:15:1-25:12
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\ereec\.gradle\caches\transforms-3\ab3b9b3796cc41c79d5406ec2dbef466\transformed\jetified-firebase-database-collection-18.0.1\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\ereec\.gradle\caches\transforms-3\9ebd79deafa7858804ec340d69f3fa3d\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:16:1-24:12
 MERGED from [com.google.android.gms:play-services-measurement:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\20be11d723f6aaa1f1d4d710465d2277\transformed\jetified-play-services-measurement-21.3.0\AndroidManifest.xml:17:1-46:12
 MERGED from [com.google.android.gms:play-services-measurement-sdk:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\052c3bc2de8d149eb259761e0ab97d1b\transformed\jetified-play-services-measurement-sdk-21.3.0\AndroidManifest.xml:17:1-25:12
@@ -115,6 +122,8 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\ereec\.gradle\ca
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\ereec\.gradle\caches\transforms-3\cb9a06cbe62bc0c37af4ca227f623fb9\transformed\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ereec\.gradle\caches\transforms-3\28eb3ce83170f7adbefee097d6206bc7\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\ereec\.gradle\caches\transforms-3\1d66e762527fa0bb055ea8b3a28c90ce\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [io.grpc:grpc-android:1.52.1] C:\Users\ereec\.gradle\caches\transforms-3\539ba96f34593fceb650f9f12cf48e08\transformed\jetified-grpc-android-1.52.1\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\ereec\.gradle\caches\transforms-3\1e9d8a0cfba124aea732661cd56e7bb9\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\ereec\.gradle\caches\transforms-3\424fe90f0bd6d50b9ed38cb53548737f\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
 INJECTED from C:\Users\ereec\Documents\GitHub\untitled\untitled_app\android\app\src\debug\AndroidManifest.xml:1:1-8:12
 INJECTED from C:\Users\ereec\Documents\GitHub\untitled\untitled_app\android\app\src\debug\AndroidManifest.xml:1:1-8:12
@@ -145,6 +154,8 @@ MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\ca
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:25:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\ereec\.gradle\caches\transforms-3\3452427f6812a7e384f08112f51b692d\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\ereec\.gradle\caches\transforms-3\3452427f6812a7e384f08112f51b692d\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:7:5-67
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:13:5-67
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:13:5-67
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:22:5-67
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:22:5-67
 MERGED from [com.google.firebase:firebase-installations:17.1.3] C:\Users\ereec\.gradle\caches\transforms-3\145460536d7b6a34950545be2bfc92d8\transformed\jetified-firebase-installations-17.1.3\AndroidManifest.xml:10:5-67
@@ -165,6 +176,8 @@ MERGED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untit
 MERGED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_analytics\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:google_sign_in_android] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\google_sign_in_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
@@ -177,6 +190,8 @@ MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ereec\.gradle\ca
 MERGED from [androidx.window:window-java:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\5ddc55be9a1f9ca3021e908092377266\transformed\jetified-window-java-1.0.0-beta04\AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:6:5-8:41
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:6:5-8:41
 MERGED from [com.google.firebase:firebase-analytics:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\dacf2f9ab7ce61a3a1d10b1f5a5ad191\transformed\jetified-firebase-analytics-21.3.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\dacf2f9ab7ce61a3a1d10b1f5a5ad191\transformed\jetified-firebase-analytics-21.3.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:20:5-44
@@ -197,6 +212,8 @@ MERGED from [com.google.android.gms:play-services-fido:20.0.1] C:\Users\ereec\.g
 MERGED from [com.google.android.gms:play-services-fido:20.0.1] C:\Users\ereec\.gradle\caches\transforms-3\ac3bfa3d2001c2ea68dece9bd0097de5\transformed\jetified-play-services-fido-20.0.1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\ereec\.gradle\caches\transforms-3\db8d006a282f6d944137179236f25bc6\transformed\jetified-firebase-appcheck-interop-17.0.0\AndroidManifest.xml:18:5-20:41
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.0.0] C:\Users\ereec\.gradle\caches\transforms-3\db8d006a282f6d944137179236f25bc6\transformed\jetified-firebase-appcheck-interop-17.0.0\AndroidManifest.xml:18:5-20:41
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\ereec\.gradle\caches\transforms-3\ab3b9b3796cc41c79d5406ec2dbef466\transformed\jetified-firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\ereec\.gradle\caches\transforms-3\ab3b9b3796cc41c79d5406ec2dbef466\transformed\jetified-firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\ereec\.gradle\caches\transforms-3\9ebd79deafa7858804ec340d69f3fa3d\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-base:18.0.1] C:\Users\ereec\.gradle\caches\transforms-3\9ebd79deafa7858804ec340d69f3fa3d\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-measurement:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\20be11d723f6aaa1f1d4d710465d2277\transformed\jetified-play-services-measurement-21.3.0\AndroidManifest.xml:20:5-44
@@ -265,6 +282,10 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ereec\.gradle\ca
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\ereec\.gradle\caches\transforms-3\28eb3ce83170f7adbefee097d6206bc7\transformed\documentfile-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] C:\Users\ereec\.gradle\caches\transforms-3\1d66e762527fa0bb055ea8b3a28c90ce\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] C:\Users\ereec\.gradle\caches\transforms-3\1d66e762527fa0bb055ea8b3a28c90ce\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [io.grpc:grpc-android:1.52.1] C:\Users\ereec\.gradle\caches\transforms-3\539ba96f34593fceb650f9f12cf48e08\transformed\jetified-grpc-android-1.52.1\AndroidManifest.xml:5:5-7:41
+MERGED from [io.grpc:grpc-android:1.52.1] C:\Users\ereec\.gradle\caches\transforms-3\539ba96f34593fceb650f9f12cf48e08\transformed\jetified-grpc-android-1.52.1\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\ereec\.gradle\caches\transforms-3\1e9d8a0cfba124aea732661cd56e7bb9\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\ereec\.gradle\caches\transforms-3\1e9d8a0cfba124aea732661cd56e7bb9\transformed\jetified-protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\ereec\.gradle\caches\transforms-3\424fe90f0bd6d50b9ed38cb53548737f\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\ereec\.gradle\caches\transforms-3\424fe90f0bd6d50b9ed38cb53548737f\transformed\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:20:5-22:41
 INJECTED from C:\Users\ereec\Documents\GitHub\untitled\untitled_app\android\app\src\debug\AndroidManifest.xml
@@ -283,6 +304,8 @@ MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\ca
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:26:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\ereec\.gradle\caches\transforms-3\3452427f6812a7e384f08112f51b692d\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:8:5-79
 MERGED from [com.google.android.recaptcha:recaptcha:18.1.2] C:\Users\ereec\.gradle\caches\transforms-3\3452427f6812a7e384f08112f51b692d\transformed\jetified-recaptcha-18.1.2\AndroidManifest.xml:8:5-79
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:12:5-79
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:12:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-installations:17.1.3] C:\Users\ereec\.gradle\caches\transforms-3\145460536d7b6a34950545be2bfc92d8\transformed\jetified-firebase-installations-17.1.3\AndroidManifest.xml:9:5-79
@@ -293,6 +316,8 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:21.3.0] C:\Us
 MERGED from [com.google.android.gms:play-services-measurement-impl:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\ef26c7a116265672f074030345cdf56e\transformed\jetified-play-services-measurement-impl-21.3.0\AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\2df2872316a415c8a2cfe1c7b9f3371a\transformed\jetified-play-services-measurement-sdk-api-21.3.0\AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\2df2872316a415c8a2cfe1c7b9f3371a\transformed\jetified-play-services-measurement-sdk-api-21.3.0\AndroidManifest.xml:24:5-79
+MERGED from [io.grpc:grpc-android:1.52.1] C:\Users\ereec\.gradle\caches\transforms-3\539ba96f34593fceb650f9f12cf48e08\transformed\jetified-grpc-android-1.52.1\AndroidManifest.xml:9:5-79
+MERGED from [io.grpc:grpc-android:1.52.1] C:\Users\ereec\.gradle\caches\transforms-3\539ba96f34593fceb650f9f12cf48e08\transformed\jetified-grpc-android-1.52.1\AndroidManifest.xml:9:5-79
 	android:name
 		ADDED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_analytics\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-76
 uses-permission#android.permission.WAKE_LOCK
@@ -311,10 +336,14 @@ service#com.google.firebase.components.ComponentDiscoveryService
 ADDED from [:firebase_analytics] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_analytics\intermediates\merged_manifest\debug\AndroidManifest.xml:14:9-18:19
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+MERGED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:66:9-72:19
 MERGED from [com.google.firebase:firebase-auth:22.1.0] C:\Users\ereec\.gradle\caches\transforms-3\ccae3fca6397bf572ac3a52bb645eed1\transformed\jetified-firebase-auth-22.1.0\AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:16:9-22:19
+MERGED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:16:9-22:19
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:28:9-34:19
 MERGED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:28:9-34:19
 MERGED from [com.google.firebase:firebase-installations:17.1.3] C:\Users\ereec\.gradle\caches\transforms-3\145460536d7b6a34950545be2bfc92d8\transformed\jetified-firebase-installations-17.1.3\AndroidManifest.xml:14:9-20:19
@@ -341,6 +370,12 @@ ADDED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_ap
 		ADDED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 	android:name
 		ADDED from [:firebase_auth] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
+ADDED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+	android:value
+		ADDED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+	android:name
+		ADDED from [:cloud_firestore] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
 ADDED from [:firebase_core] C:\Users\ereec\Documents\GitHub\untitled\untitled_app\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 	android:value
@@ -413,6 +448,12 @@ ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\t
 		ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
 	android:name
 		ADDED from [androidx.window:window:1.0.0-beta04] C:\Users\ereec\.gradle\caches\transforms-3\beb1df14a36789fd46f1fa73f36b9595\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
+ADDED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:19:13-21:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:21:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:24.7.0] C:\Users\ereec\.gradle\caches\transforms-3\841ff102a2101b2fc868da6a8e82c4fc\transformed\jetified-firebase-firestore-24.7.0\AndroidManifest.xml:20:17-111
 uses-permission#com.google.android.gms.permission.AD_ID
 ADDED from [com.google.android.gms:play-services-measurement-api:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\e5549056c67a75ab30ee81d91a1c47c8\transformed\jetified-play-services-measurement-api-21.3.0\AndroidManifest.xml:25:5-79
 MERGED from [com.google.android.gms:play-services-measurement-impl:21.3.0] C:\Users\ereec\.gradle\caches\transforms-3\ef26c7a116265672f074030345cdf56e\transformed\jetified-play-services-measurement-impl-21.3.0\AndroidManifest.xml:27:5-79

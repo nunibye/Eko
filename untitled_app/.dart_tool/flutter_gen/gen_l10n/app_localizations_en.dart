@@ -69,4 +69,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get likes => 'Likes';
+
+  @override
+  String get followers => 'Followers';
+
+  @override
+  String get following => 'Following';
+
+  @override
+  String get editProfile => 'Edit Profile';
 }
