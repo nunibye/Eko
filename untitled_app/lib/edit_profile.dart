@@ -51,18 +51,24 @@ class ImageSelection extends StatefulWidget {
 }
 
 class _ImageSelectionState extends State<ImageSelection> {
+  final user = FirebaseAuth.instance.currentUser;
   uploadProfilePicture(File? file) async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-    var snapshot = await FirebaseStorage.instance
+    await FirebaseStorage.instance
         .ref()
-        .child(
-            "profile_pictures/${uid}/profile.jpg")
+        .child("profile_pictures/${user?.uid}/profile.jpg")
         .putFile(file!);
-    var downloadUrl = await snapshot.ref.getDownloadURL();
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .update({"profileImage":downloadUrl});
+  }
+
+  Future<String?> _getProfileImage() async {
+    try {
+      var urlRef = FirebaseStorage.instance
+          .ref()
+          .child("profile_pictures/${user!.uid}/profile.jpg");
+      var imageUrl = urlRef.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      return null;
+    }
   }
 
   File? _image;
@@ -81,17 +87,26 @@ class _ImageSelectionState extends State<ImageSelection> {
               }
             }
           },
-          icon: const ClipOval(
-            child: Stack(
-              children: [
-                Image(
-                  image: NetworkImage(
-                      "https://avatarfiles.alphacoders.com/656/65658.png"),
-                ),
-                Image(
-                  image: AssetImage('images/edit.png'),
-                )
-              ],
+          icon: ClipOval(
+            child: FutureBuilder(
+              future: _getProfileImage(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Stack(
+                    children: [
+                      Image(
+                        image: NetworkImage(
+                            snapshot.data!),
+                      ),
+                      const Image(
+                        image: AssetImage('images/edit.png'),
+                      )
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ),
         ));

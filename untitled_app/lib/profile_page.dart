@@ -4,6 +4,7 @@ import 'edit_profile.dart';
 import 'widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfilePage extends StatefulWidget {
   // const ProfilePage({super.key});
@@ -16,6 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   int _followers = 0;
   int _following = 0;
   String _username = "...";
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -23,13 +25,24 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadUserData();
   }
 
+  Future<String?> _getProfileImage() async {
+    try {
+      var urlRef = FirebaseStorage.instance
+          .ref()
+          .child("profile_pictures/${user!.uid}/profile.jpg");
+      var imageUrl = urlRef.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> _loadUserData() async {
-    final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final firestore = FirebaseFirestore.instance;
       final querySnapshot = await firestore
           .collection('users')
-          .where("uid", isEqualTo: user.uid)
+          .where("uid", isEqualTo: user?.uid)
           .get(); // Get the user's document based on their UID
       if (querySnapshot.docs.isNotEmpty) {
         final userData = querySnapshot.docs.first.data();
@@ -68,10 +81,19 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: MediaQuery.sizeOf(context).width * 0.13,
-                  backgroundImage: const NetworkImage(
-                      "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb_16x9.jpg?w=1200"),
+                FutureBuilder(
+                  future: _getProfileImage(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CircleAvatar(
+                        radius: MediaQuery.sizeOf(context).width * 0.13,
+                        backgroundImage: NetworkImage(
+                            snapshot.data!),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
                 ),
                 const SizedBox(height: 10),
                 Text(
