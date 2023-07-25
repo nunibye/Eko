@@ -192,7 +192,8 @@ class _LoginPageState extends State<LoginPage> {
         'lastName': lastNameController.text,
       },
     };
-    await firestore.collection('users').add(userData);
+    await firestore.collection('users').doc(user.uid).set(userData);//TODO i changed this
+    
   }
 
   // Function to handle the "Next" button click

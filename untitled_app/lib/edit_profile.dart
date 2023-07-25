@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:io';
 import 'package:untitled_app/image_helper.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
@@ -48,6 +51,20 @@ class ImageSelection extends StatefulWidget {
 }
 
 class _ImageSelectionState extends State<ImageSelection> {
+  uploadProfilePicture(File? file) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    var snapshot = await FirebaseStorage.instance
+        .ref()
+        .child(
+            "profile_pictures/${uid}/profile.jpg")
+        .putFile(file!);
+    var downloadUrl = await snapshot.ref.getDownloadURL();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({"profileImage":downloadUrl});
+  }
+
   File? _image;
   @override
   Widget build(BuildContext context) {
@@ -60,6 +77,7 @@ class _ImageSelectionState extends State<ImageSelection> {
               final croppedFile = await imageHelper.crop(file: files);
               if (croppedFile != null) {
                 setState(() => _image = File(croppedFile.path));
+                uploadProfilePicture(_image);
               }
             }
           },
