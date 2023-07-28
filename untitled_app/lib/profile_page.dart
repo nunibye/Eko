@@ -6,8 +6,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+class Post {
+  final Timestamp date;
+  final List<dynamic> likes;
+  final List<dynamic> comments;
+  final String text;
+
+  Post({
+    required this.date,
+    required this.likes,
+    required this.comments,
+    required this.text,
+  });
+}
+
 class ProfilePage extends StatefulWidget {
-  // const ProfilePage({super.key});
+  const ProfilePage({super.key});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -71,6 +85,70 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  // Future<List<Post>> _loadPosts() async {
+  //   List<Post> postsList = [];
+
+  //   if (user != null) {
+  //     final firestore = FirebaseFirestore.instance;
+  //     final querySnapshot = await firestore
+  //         .collection('posts')
+  //         .doc(user?.uid)
+  //         .collection('posts')
+  //         .get();
+
+  //     if (querySnapshot.docs.isNotEmpty) {
+  //       postsList = querySnapshot.docs.map((doc) {
+  //         var data = doc.data();
+  //         return Post(
+  //           date: data['date'] ?? '',
+  //           likes: List.from(data['likes'] ?? []),
+  //           comments: List.from(data['comments'] ?? []),
+  //           text: data['text'] ?? '',
+  //         );
+  //       }).toList();
+  //     }
+  //   }
+
+  //   return postsList;
+  // }
+  Future<List<Post>> _loadPosts() async {
+    try {
+      List<Post> postsList = [];
+
+      if (user == null) {
+        print('User is null. Ensure the user is authenticated.');
+        return postsList;
+      }
+
+      final firestore = FirebaseFirestore.instance;
+      final querySnapshot = await firestore
+          .collection('posts')
+          .doc(user!.uid)
+          .collection('posts')
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        print('No posts data found for the user.');
+        return postsList;
+      }
+
+      postsList = querySnapshot.docs.map((doc) {
+        var data = doc.data();
+        return Post(
+          date: data['date'] ?? '',
+          likes: List.from(data['likes'] ?? []),
+          comments: List.from(data['comments'] ?? []),
+          text: data['text'] ?? '',
+        );
+      }).toList();
+
+      return postsList;
+    } catch (e) {
+      print('Error fetching posts: $e');
+      return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,8 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (snapshot.hasData) {
                       return CircleAvatar(
                         radius: MediaQuery.sizeOf(context).width * 0.13,
-                        backgroundImage: NetworkImage(
-                            snapshot.data!),
+                        backgroundImage: NetworkImage(snapshot.data!),
                       );
                     } else {
                       return Container();
@@ -153,7 +230,42 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-          )
+          ),
+          const SizedBox(
+            child: Text(
+              "Your Posts",
+              style: TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          FutureBuilder<List<Post>>(
+            future: _loadPosts(),
+            builder: (context, snapshot) {
+              print('Connection State: ${snapshot.connectionState}');
+              print('Has Data: ${snapshot.hasData}');
+              print('Has Error: ${snapshot.hasError}');
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // Show a loading indicator while fetching data
+              } else if (snapshot.hasError || !snapshot.hasData) {
+                return Text("Error loading posts."); // Handle error case
+              } else {
+                // Display the posts in a ListView
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final post = snapshot.data![index];
+                    // Customize the post item UI according to your needs
+                    return ListTile(
+                      title: Text(post.text),
+                      subtitle: Text(DateTime.parse(post.date.toDate().toString()).toString()),
+                      trailing: Text('${post.likes.length} Likes'),
+                    );
+                  },
+                );
+              }
+            },
+          ),
         ],
       ),
     );
