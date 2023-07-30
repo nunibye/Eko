@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 // TODO: the code here is very messy and long and can def be fixed, i was just playing around with the database at night to get it to load posts
+// TODO: check the README for picture example. Add the database info to your doc to check it out on your user. or text me.
 
 class Post {
   final Timestamp date;
@@ -63,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
       var urlRef = FirebaseStorage.instance
           .ref()
           .child("profile_pictures/$uid/profile.jpg");
-      var imageUrl = urlRef.getDownloadURL();
+      var imageUrl = await urlRef.getDownloadURL();
       return imageUrl;
     } catch (e) {
       return null;
@@ -113,22 +114,28 @@ class _ProfilePageState extends State<ProfilePage> {
           .collection('posts')
           .doc(user?.uid)
           .collection('posts')
+          .orderBy('date', descending: true)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        postsList = await Future.wait(querySnapshot.docs.map((doc) async {
-          var data = doc.data();
-          String username = await _getUsernameFromDocument(data[
-              'author']); // TODO: too many read calls, can fix later with less functions...
-          String uid = await _getUIDFromDocument(data['author']);
-          return Post(
-            date: data['date'] ?? '',
-            likes: List.from(data['likes'] ?? []),
-            comments: List.from(data['comments'] ?? []),
-            text: data['text'] ?? '',
-            username: username,
-            uid: uid,
-          );
-        }));
+        postsList = await Future.wait(
+          querySnapshot.docs.map(
+            (doc) async {
+              var data = doc.data();
+              DocumentReference authorRef = data['author'];
+              String username = await _getUsernameFromDocument(
+                  authorRef); // TODO: too many read calls, can fix later with less functions...
+              String uid = await _getUIDFromDocument(authorRef);
+              return Post(
+                date: data['date'] ?? '',
+                likes: List.from(data['likes'] ?? []),
+                comments: List.from(data['comments'] ?? []),
+                text: data['text'] ?? '',
+                username: username,
+                uid: uid,
+              );
+            },
+          ),
+        );
       }
     }
     return postsList;
@@ -230,8 +237,10 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return CircularProgressIndicator.adaptive();
-              } else if (snapshot.hasError || !snapshot.hasData) {
-                return Text("Error loading posts.");
+              } else if (snapshot.hasError) {
+                return Text("Error loading posts: ${snapshot.error}");
+              } else if (!snapshot.hasData) {
+                return Text("No posts available.");
               } else {
                 // Display the posts in a ListView
                 return ListView.builder(
@@ -251,7 +260,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }
             },
-          ),
+          )
         ],
       ),
     );
@@ -273,7 +282,7 @@ class TweetCard extends StatelessWidget {
     required this.profileImageURL,
   });
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -308,7 +317,8 @@ class TweetCard extends StatelessWidget {
               ),
 
               const SizedBox(width: 10),
-              Expanded( // Use Expanded to allow the content to wrap
+              Expanded(
+                // Use Expanded to allow the content to wrap
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -347,4 +357,3 @@ class TweetCard extends StatelessWidget {
     );
   }
 }
-
