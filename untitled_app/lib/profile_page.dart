@@ -5,6 +5,7 @@ import 'widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'constants.dart' as c;
 
 // TODO: the code here is very messy and long and can def be fixed, i was just playing around with the database at night to get it to load posts
 // TODO: check the README for picture example. Add the database info to your doc to check it out on your user. or text me.
@@ -236,11 +237,11 @@ class _ProfilePageState extends State<ProfilePage> {
             future: _loadPosts(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator.adaptive();
+                return const CircularProgressIndicator.adaptive();
               } else if (snapshot.hasError) {
                 return Text("Error loading posts: ${snapshot.error}");
               } else if (!snapshot.hasData) {
-                return Text("No posts available.");
+                return const Text("No posts available.");
               } else {
                 // Display the posts in a ListView
                 return ListView.builder(
@@ -254,6 +255,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       content: post.text,
                       date: post.date.toDate(),
                       likes: post.likes.length,
+                      comments: post.comments.length,
                       profileImageURL: _getProfileImage(post.uid),
                     );
                   },
@@ -272,85 +274,118 @@ class TweetCard extends StatelessWidget {
   final String content;
   final DateTime date;
   final int likes;
+  final int comments;
   final Future<String?> profileImageURL;
 
-  TweetCard({
+  const TweetCard({
+    super.key,
     required this.username,
     required this.content,
     required this.date,
     required this.likes,
+    required this.comments,
     required this.profileImageURL,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Display the profile picture as a CircleAvatar
-              FutureBuilder<String?>(
-                future: profileImageURL,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    // Show a loading indicator while the image URL is being fetched
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError || !snapshot.hasData) {
-                    // Handle the error if fetching the image URL fails
-                    return CircleAvatar(
-                      radius: MediaQuery.of(context).size.width * 0.06,
-                      backgroundColor: Colors.grey,
-                    );
-                  } else {
-                    // Display the CircleAvatar with the fetched profile image URL
-                    return CircleAvatar(
-                      radius: MediaQuery.of(context).size.width * 0.06,
-                      backgroundImage: NetworkImage(snapshot.data!),
-                    );
-                  }
-                },
-              ),
-
-              const SizedBox(width: 10),
-              Expanded(
-                // Use Expanded to allow the content to wrap
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      username,
-                      style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.normal,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      content,
-                      style: TextStyle(
-                        fontSize: 14, // Adjust the font size as needed
-                        color: Colors.white, // or any other color you want
-                      ),
-                    ),
-                  ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Divider(
+              color: Colors.grey[30],
+              height: 1,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: c.postPaddingHoriz,
+              vertical: c.postPaddingVert,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Display the profile picture as a CircleAvatar
+                FutureBuilder<String?>(
+                  future: profileImageURL,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // Show a loading indicator while the image URL is being fetched
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError || !snapshot.hasData) {
+                      // Handle the error if fetching the image URL fails
+                      return CircleAvatar(
+                        radius: MediaQuery.of(context).size.width * 0.05,
+                        backgroundColor: Colors.grey,
+                      );
+                    } else {
+                      // Display the CircleAvatar with the fetched profile image URL
+                      return CircleAvatar(
+                        radius: MediaQuery.of(context).size.width * 0.05,
+                        backgroundImage: NetworkImage(snapshot.data!),
+                      );
+                    }
+                  },
                 ),
-              ),
-            ],
+
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        username,
+                        style: TextStyle(
+                          fontSize: 16,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        content,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Icon(Icons.favorite_border),
-              Text('$likes Likes'),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: c.postPaddingHoriz,
+              vertical: c.postPaddingVert,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.comment),
+                    const SizedBox(width: 5),
+                    Text('$comments'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Icon(Icons.favorite_border),
+                    const SizedBox(width: 5),
+                    Text('$likes'),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
