@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'constants.dart' as c;
+import 'comments_page.dart';
 
 // TODO: the code here is very messy and long and can def be fixed, i was just playing around with the database at night to get it to load posts
 // TODO: check the README for picture example. Add the database info to your doc to check it out on your user. or text me.
@@ -13,22 +14,28 @@ import 'constants.dart' as c;
 class Post {
   final Timestamp date;
   final List<dynamic> likes;
-  final List<dynamic> comments;
+  final List<dynamic>
+      comments; // TODO: fix this i have commments and postReference. Why? idk, i must fix when im not tired
   final String username;
   final String text;
   final String uid;
+  final List<DocumentReference<Object?>> postReference;
 
-  Post(
-      {required this.date,
-      required this.username,
-      required this.likes,
-      required this.comments,
-      required this.text,
-      required this.uid});
+  Post({
+    required this.date,
+    required this.username,
+    required this.likes,
+    required this.comments,
+    required this.text,
+    required this.uid,
+    required this.postReference,
+  });
 }
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final List<DocumentReference> postReferences;
+  const ProfilePage({required this.postReferences});
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -44,6 +51,16 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _loadUserData();
+  }
+
+  // Function to navigate to the comments page when a post is clicked
+  void _onPostClicked(List<DocumentReference> postReference) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommentsPage(postReferences: postReference),
+      ),
+    );
   }
 
   Future<String> _getUsernameFromDocument(DocumentReference usernameRef) async {
@@ -133,6 +150,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 text: data['text'] ?? '',
                 username: username,
                 uid: uid,
+                postReference:
+                    List<DocumentReference<Object?>>.from(data['comments']),
               );
             },
           ),
@@ -257,6 +276,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       likes: post.likes.length,
                       comments: post.comments.length,
                       profileImageURL: _getProfileImage(post.uid),
+                      // uid: post.uid,
+                      postReference: post.postReference,
+                      onPostClick: () => _onPostClicked(post.postReference),
                     );
                   },
                 );
@@ -276,6 +298,8 @@ class TweetCard extends StatelessWidget {
   final int likes;
   final int comments;
   final Future<String?> profileImageURL;
+  final VoidCallback onPostClick;
+  final List<DocumentReference<Object?>> postReference;
 
   const TweetCard({
     super.key,
@@ -285,110 +309,114 @@ class TweetCard extends StatelessWidget {
     required this.likes,
     required this.comments,
     required this.profileImageURL,
+    required this.onPostClick,
+    required this.postReference,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: Divider(
-              color: Colors.grey[30],
-              height: 1,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: c.postPaddingHoriz,
-              vertical: c.postPaddingVert,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Display the profile picture as a CircleAvatar
-                FutureBuilder<String?>(
-                  future: profileImageURL,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      // Show a loading indicator while the image URL is being fetched
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError || !snapshot.hasData) {
-                      // Handle the error if fetching the image URL fails
-                      return CircleAvatar(
-                        radius: MediaQuery.of(context).size.width * 0.05,
-                        backgroundColor: Colors.grey,
-                      );
-                    } else {
-                      // Display the CircleAvatar with the fetched profile image URL
-                      return CircleAvatar(
-                        radius: MediaQuery.of(context).size.width * 0.05,
-                        backgroundImage: NetworkImage(snapshot.data!),
-                      );
-                    }
-                  },
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: GestureDetector(
+          onTap: onPostClick,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Divider(
+                  color: Colors.grey[30],
+                  height: 1,
                 ),
-
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        username,
-                        style: TextStyle(
-                          fontSize: 16,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        content,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: c.postPaddingHoriz,
+                  vertical: c.postPaddingVert,
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: c.postPaddingHoriz,
-              vertical: c.postPaddingVert,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.comment),
-                    const SizedBox(width: 5),
-                    Text('$comments'),
+                    // Display the profile picture as a CircleAvatar
+                    FutureBuilder<String?>(
+                      future: profileImageURL,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // Show a loading indicator while the image URL is being fetched
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError || !snapshot.hasData) {
+                          // Handle the error if fetching the image URL fails
+                          return CircleAvatar(
+                            radius: MediaQuery.of(context).size.width * 0.05,
+                            backgroundColor: Colors.grey,
+                          );
+                        } else {
+                          // Display the CircleAvatar with the fetched profile image URL
+                          return CircleAvatar(
+                            radius: MediaQuery.of(context).size.width * 0.05,
+                            backgroundImage: NetworkImage(snapshot.data!),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            username,
+                            style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          Text(
+                            content,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-                Row(
+              ),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: c.postPaddingHoriz,
+                  vertical: c.postPaddingVert,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Icon(Icons.favorite_border),
-                    const SizedBox(width: 5),
-                    Text('$likes'),
+                    Row(
+                      children: [
+                        const Icon(Icons.comment),
+                        const SizedBox(width: 5),
+                        Text('$comments'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.favorite_border),
+                        const SizedBox(width: 5),
+                        Text('$likes'),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

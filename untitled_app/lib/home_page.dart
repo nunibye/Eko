@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
             TextButton(
                 onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                      MaterialPageRoute(builder: (context) => ProfilePage(postReferences: [],)),
                     ),
                 child: const Text("View Profile")),
             IconButton(
