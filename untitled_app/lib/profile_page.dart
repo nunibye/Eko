@@ -34,7 +34,7 @@ class Post {
 
 class ProfilePage extends StatefulWidget {
   final List<DocumentReference> postReferences;
-  const ProfilePage({required this.postReferences});
+  const ProfilePage({super.key, required this.postReferences});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -62,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
+  //TODO: these functions should probably be put in a separate dart file to access in other places
   Future<String> _getUsernameFromDocument(DocumentReference usernameRef) async {
     final snapshot = await usernameRef.get();
     final data =

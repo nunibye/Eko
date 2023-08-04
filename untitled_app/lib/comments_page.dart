@@ -41,8 +41,9 @@ class CommentsPage extends StatelessWidget {
                   // otherwise, fetch it similar to the ProfilePage
                   profileImageURL: Future.value(null),
                   // postID: snapshot.data!.id,
-                  postReference:
-                      List<DocumentReference<Object?>>.from(post['comments']), // Access fields using [String] key
+                  postReference: List<DocumentReference<Object?>>.from(
+                      post['comments']), // Access fields using [String] key
+                  // Access fields using [String] key
                   onPostClick: () {
                     // Handle the post click if needed
                   },
