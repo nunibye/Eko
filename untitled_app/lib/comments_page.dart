@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/profile_page.dart';
+import 'post_functions.dart';
 
 class CommentsPage extends StatelessWidget {
   final List<DocumentReference> postReferences;
@@ -19,8 +20,10 @@ class CommentsPage extends StatelessWidget {
           return FutureBuilder<DocumentSnapshot>(
             future: postReferences[index].get(),
             builder: (context, snapshot) {
+              print(postReferences);
+              print("Connection state: ${snapshot.connectionState}");
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator.adaptive();
               } else if (snapshot.hasError) {
                 return Text("Error loading post: ${snapshot.error}");
               } else if (!snapshot.hasData || !snapshot.data!.exists) {
@@ -44,9 +47,9 @@ class CommentsPage extends StatelessWidget {
                   postReference: List<DocumentReference<Object?>>.from(
                       post['comments']), // Access fields using [String] key
                   // Access fields using [String] key
-                  onPostClick: () {
-                    // Handle the post click if needed
-                  },
+                  onPostClick: () => onPostClicked(
+                      List<DocumentReference<Object?>>.from(post['comments']),
+                      context),
                 );
               }
             },
