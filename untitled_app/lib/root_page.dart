@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/views/login.dart';
 import 'constants.dart' as c;
 import 'home_page.dart';
@@ -21,7 +21,7 @@ class RootPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Placeholder();
           } else {
-            return const LoginPage();
+            return LoginPage();
           }
         },
       ),

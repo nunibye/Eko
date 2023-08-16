@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'dart:io';
 import 'package:untitled_app/image_helper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 import 'constants.dart' as c;
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -80,8 +80,8 @@ class _ImageSelectionState extends State<ImageSelection> {
         width: MediaQuery.sizeOf(context).width * 0.26,
         child: IconButton(
           onPressed: () async {
-            final files =
-                await imageHelper.pickImage(imageQuality: c.imageQuality, imageHeight: c.imageSize);
+            final files = await imageHelper.pickImage(
+                imageQuality: c.imageQuality, imageHeight: c.imageSize);
             if (files != null) {
               final croppedFile = await imageHelper.crop(file: files);
               if (croppedFile != null) {

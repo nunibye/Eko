@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:untitled_app/navigation_service.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'constants.dart' as c;
 import 'root_page.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  
   runApp(const MyApp());
 }
 
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
+      navigatorKey: NavigationService.navigatorKey,
       title: 'Untitled',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'edit_profile.dart';
 import 'widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -174,4 +174,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
