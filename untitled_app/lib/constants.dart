@@ -39,6 +39,9 @@ ColorScheme darkThemeColors(context) {
 const double logoPaddingVert = 30;
 const double logoPaddingHoriz = 0;
 const double loginPadding = 0.006;
+//profile pic
+const int imageQuality = 85;
+const double imageSize = 150;
 
 const double postPaddingVert = 0;
 const double postPaddingHoriz = 12;

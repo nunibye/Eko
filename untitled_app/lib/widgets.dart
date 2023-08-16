@@ -13,9 +13,11 @@ class CustomInputFeild extends StatelessWidget {
   final double? width;
   final bool enabled;
   final bool obscure;
+  final void Function(String)? onChanged;
   const CustomInputFeild(
       {required this.label,
       required this.controller,
+      this.onChanged,
       this.focus,
       this.width,
       this.inputType = TextInputType.text,
@@ -47,6 +49,7 @@ class CustomInputFeild extends StatelessWidget {
         validator: validatorFunction,
         controller: controller,
         focusNode: focus,
+        onChanged: onChanged,
         //autofocus: true,
         keyboardType: inputType,
         style: TextStyle(
@@ -81,20 +84,24 @@ class CustomInputFeild extends StatelessWidget {
 class ProfilePageTopNumberDisplay extends StatelessWidget {
   final int number;
   final String label;
-  const ProfilePageTopNumberDisplay({required this.number, required this.label, super.key});
+  const ProfilePageTopNumberDisplay(
+      {required this.number, required this.label, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(alignment: Alignment.center,width: MediaQuery.sizeOf(context).width * 0.3,child: RichText(
-      textAlign: TextAlign.center,
+    return Container(
+        alignment: Alignment.center,
+        width: MediaQuery.sizeOf(context).width * 0.3,
+        child: RichText(
+          textAlign: TextAlign.center,
           text: TextSpan(
-          text: NumberFormat.compact().format(number),
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          children: [
-            TextSpan(
-                text: "\n$label",
-                style: const TextStyle(fontWeight: FontWeight.normal))
-          ]),
-    ));
+              text: NumberFormat.compact().format(number),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              children: [
+                TextSpan(
+                    text: "\n$label",
+                    style: const TextStyle(fontWeight: FontWeight.normal))
+              ]),
+        ));
   }
 }

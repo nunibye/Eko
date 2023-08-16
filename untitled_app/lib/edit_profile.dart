@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:untitled_app/image_helper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'constants.dart' as c;
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
@@ -78,7 +80,8 @@ class _ImageSelectionState extends State<ImageSelection> {
         width: MediaQuery.sizeOf(context).width * 0.26,
         child: IconButton(
           onPressed: () async {
-            final files = await imageHelper.pickImage();
+            final files =
+                await imageHelper.pickImage(imageQuality: c.imageQuality, imageHeight: c.imageSize);
             if (files != null) {
               final croppedFile = await imageHelper.crop(file: files);
               if (croppedFile != null) {
@@ -95,8 +98,7 @@ class _ImageSelectionState extends State<ImageSelection> {
                   return Stack(
                     children: [
                       Image(
-                        image: NetworkImage(
-                            snapshot.data!),
+                        image: NetworkImage(snapshot.data!),
                       ),
                       const Image(
                         image: AssetImage('images/edit.png'),

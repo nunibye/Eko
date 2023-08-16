@@ -11,8 +11,8 @@ class ImageHelper {
 
   pickImage(
       {ImageSource source = ImageSource.gallery,
-      int imageQuality = 100}) async {
-    return await _imagePicker.pickImage(
+      int imageQuality = 100, imageHeight = 150}) async {
+    return await _imagePicker.pickImage(maxHeight: imageHeight,
         source: source, imageQuality: imageQuality);
   }
 
