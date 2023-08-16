@@ -21,7 +21,7 @@ class RootPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Placeholder();
           } else {
-            return LoginPage();
+            return const LoginPage();
           }
         },
       ),

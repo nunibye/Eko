@@ -10,74 +10,6 @@ class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
   //int currentStep = 0;
 
-  // signInError(errorCode) {
-  //   switch (errorCode) {
-  //     case 'invalid-email':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.invalidEmailTittle,
-  //           AppLocalizations.of(context)!.invalidEmailBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //     case 'user-not-found':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.userNotFoundTitle,
-  //           AppLocalizations.of(context)!.userNotFoundBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           true);
-  //       break;
-  //     case 'wrong-password':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.wrongPasswordTittle,
-  //           AppLocalizations.of(context)!.wrongPasswordBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //     case 'too-many-requests':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.tooManyRequestsTittle,
-  //           AppLocalizations.of(context)!.tooManyRequestsBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //     case 'user-disabled':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.userDisabledTittle,
-  //           AppLocalizations.of(context)!.userDisabledBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //     default:
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.defaultErrorTittle,
-  //           AppLocalizations.of(context)!.defaultErrorBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //   }
-  // }
-
-  // Future signIn() async {
-  //   if (emailController.text == '') {
-  //     emailFocus.requestFocus();
-  //   } else if (passwordController.text == '') {
-  //     passwordFocus.requestFocus();
-  //   } else {
-  //     try {
-  //       setState(() {
-  //         loggingIn = true;
-  //       });
-  //       await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //           email: emailController.text, password: passwordController.text);
-  //     } on FirebaseAuthException catch (e) {
-  //       setState(() {
-  //         loggingIn = false;
-  //       });
-  //       signInError(e.code);
-  //     }
-  //   }
-  // }
-
   // Future<UserCredential?> signUp() async {
   //   if (emailController.text == '') {
   //     emailFocus.requestFocus();
@@ -145,67 +77,7 @@ class LoginPage extends StatelessWidget {
   //   }
   // }
 
-  // forgotPasswordError(errorCode) {
-  //   switch (errorCode) {
-  //     case 'invalid-email':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.invalidEmailTittle,
-  //           AppLocalizations.of(context)!.invalidEmailBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //     case 'user-not-found':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.userNotFoundTitle,
-  //           AppLocalizations.of(context)!.userNotFoundBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           true);
-  //       break;
-  //     case 'too-many-requests':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.tooManyRequestsTittle,
-  //           AppLocalizations.of(context)!.tooManyRequestsBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //     case 'channel-error':
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.defaultErrorTittle,
-  //           AppLocalizations.of(context)!.channelErrorBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       emailFocus.requestFocus();
-  //       break;
-  //     default:
-  //       _showMyDialog(
-  //           AppLocalizations.of(context)!.defaultErrorTittle,
-  //           AppLocalizations.of(context)!.defaultErrorBody,
-  //           AppLocalizations.of(context)!.tryAgain,
-  //           false);
-  //       break;
-  //   }
-  // }
-
-  // showForgotPasswordSuccess() {
-  //   _showMyDialog(
-  //       AppLocalizations.of(context)!.forgotPasswordTittle,
-  //       AppLocalizations.of(context)!.forgotPasswordBody,
-  //       AppLocalizations.of(context)!.close,
-  //       false);
-  // }
-
-  // Future forgotPassword() async {
-  //   await FirebaseAuth.instance
-  //       .setLanguageCode(AppLocalizations.of(context)!.localeName);
-  //   try {
-  //     await FirebaseAuth.instance
-  //         .sendPasswordResetEmail(email: emailController.text);
-  //     showForgotPasswordSuccess();
-  //   } on FirebaseAuthException catch (e) {
-  //     print(e.code);
-  //     forgotPasswordError(e.code);
-  //   }
-  // }
+  
 
   @override
   Widget build(BuildContext context) {

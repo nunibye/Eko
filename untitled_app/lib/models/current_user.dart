@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../controllers/login_controller.dart';
 
 class CurrentUser {
   String email;
@@ -11,8 +9,9 @@ class CurrentUser {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      return ("success");
     } on FirebaseAuthException catch (e) {
-      return(e.code);
+      return (e.code);
     }
   }
 
@@ -20,10 +19,9 @@ class CurrentUser {
     await FirebaseAuth.instance.setLanguageCode(countryCode);
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      //showForgotPasswordSuccess();
+      return ("success");
     } on FirebaseAuthException catch (e) {
-      // print(e.code);
-      //forgotPasswordError(e.code);
+      return (e.code);
     }
   }
 }

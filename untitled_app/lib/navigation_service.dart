@@ -9,7 +9,7 @@ class NavigationService {
   //       .pushNamed(routeName);
   // }
 
-  // goBack() {
-  //   return navigatorKey.currentState!.pop();
-  // }
+  goBack() {
+    return navigatorKey.currentState!.pop();
+  }
 }

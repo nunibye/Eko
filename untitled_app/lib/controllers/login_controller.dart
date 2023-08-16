@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/navigation_service.dart';
 import '../models/current_user.dart';
@@ -17,9 +15,18 @@ class LoginController extends ChangeNotifier {
   final emailFocus = FocusNode();
   final passwordFocus = FocusNode();
 
-  forgotPasswordPressed(countryCode) {
+  final BuildContext _context = NavigationService.navigatorKey.currentContext!;
+  void _pop() {
+    Navigator.of(_context).pop();
+  }
+
+  void _signUp() {
+    Navigator.of(_context).pop(); //FIXME should go to sign up
+  }
+
+  forgotPasswordPressed(countryCode) async {
     model.email = emailController.text;
-    model.forgotPassword(countryCode);
+    _handleError(await model.forgotPassword(countryCode));
   }
 
   logInPressed() async {
@@ -33,87 +40,76 @@ class LoginController extends ChangeNotifier {
       loggingIn = true;
       notifyListeners();
 
-      _handleLogInError(await model.signIn());
+      _handleError(await model.signIn());
 
       loggingIn = false;
       notifyListeners();
     }
   }
 
-  _handleLogInError(errorCode) {
-    BuildContext context = NavigationService.navigatorKey.currentContext!;
+  void _handleError(String errorCode) {
     switch (errorCode) {
+      case 'success':
+        break;
       case 'invalid-email':
         showMyDialog(
-            AppLocalizations.of(context)!.invalidEmailTittle,
-            AppLocalizations.of(context)!.invalidEmailBody,
-            [AppLocalizations.of(context)!.tryAgain],
-            [Navigator.of(context).pop()], context);
+            AppLocalizations.of(_context)!.invalidEmailTittle,
+            AppLocalizations.of(_context)!.invalidEmailBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
         break;
       case 'user-not-found':
-        _showMyDialog(
-            AppLocalizations.of(context)!.userNotFoundTitle,
-            AppLocalizations.of(context)!.userNotFoundBody,
-            AppLocalizations.of(context)!.tryAgain,
-            true);
+        showMyDialog(
+            AppLocalizations.of(_context)!.userNotFoundTitle,
+            AppLocalizations.of(_context)!.userNotFoundBody,
+            [
+              AppLocalizations.of(_context)!.signUp,
+              AppLocalizations.of(_context)!.tryAgain
+            ],
+            [_signUp, _pop],
+            _context);
         break;
       case 'wrong-password':
-        _showMyDialog(
-            AppLocalizations.of(context)!.wrongPasswordTittle,
-            AppLocalizations.of(context)!.wrongPasswordBody,
-            AppLocalizations.of(context)!.tryAgain,
-            false);
+        showMyDialog(
+            AppLocalizations.of(_context)!.wrongPasswordTittle,
+            AppLocalizations.of(_context)!.wrongPasswordBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
         break;
       case 'too-many-requests':
-        _showMyDialog(
-            AppLocalizations.of(context)!.tooManyRequestsTittle,
-            AppLocalizations.of(context)!.tooManyRequestsBody,
-            AppLocalizations.of(context)!.tryAgain,
-            false);
+        showMyDialog(
+            AppLocalizations.of(_context)!.tooManyRequestsTittle,
+            AppLocalizations.of(_context)!.tooManyRequestsBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
         break;
       case 'user-disabled':
-        _showMyDialog(
-            AppLocalizations.of(context)!.userDisabledTittle,
-            AppLocalizations.of(context)!.userDisabledBody,
-            AppLocalizations.of(context)!.tryAgain,
-            false);
+        showMyDialog(
+            AppLocalizations.of(_context)!.userDisabledTittle,
+            AppLocalizations.of(_context)!.userDisabledBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
+        break;
+      case 'channel-error':
+        showMyDialog(
+            AppLocalizations.of(_context)!.defaultErrorTittle,
+            AppLocalizations.of(_context)!.channelErrorBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
         break;
       default:
-        _showMyDialog(
-            AppLocalizations.of(context)!.defaultErrorTittle,
-            AppLocalizations.of(context)!.defaultErrorBody,
-            AppLocalizations.of(context)!.tryAgain,
-            false);
+        showMyDialog(
+            AppLocalizations.of(_context)!.defaultErrorTittle,
+            AppLocalizations.of(_context)!.defaultErrorBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
         break;
     }
   }
 }
-
- //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text(title),
-  //         content: SingleChildScrollView(
-  //           child: Text(line1),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text(button1),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           if (signUp)
-  //             TextButton(
-  //               child: Text(AppLocalizations.of(context)!.signUp),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop(); //TODO fix this
-  //               },
-  //             ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
