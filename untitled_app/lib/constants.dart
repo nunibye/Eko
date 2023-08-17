@@ -45,3 +45,5 @@ const double imageSize = 150;
 
 const double postPaddingVert = 0;
 const double postPaddingHoriz = 12;
+
+const int signUpAnimationDuration = 300;

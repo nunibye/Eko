@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/views/login.dart';
 import 'constants.dart' as c;
-import 'home_page.dart';
+import 'views/navigation_bar.dart';
 
 class RootPage extends StatelessWidget {
   const RootPage({super.key});
@@ -16,7 +16,6 @@ class RootPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            // TODO: I chnaged it;
             return HomePage();
           } else if (snapshot.hasError) {
             return const Placeholder();

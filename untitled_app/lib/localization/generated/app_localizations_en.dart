@@ -32,22 +32,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wrongPasswordBody => 'The password you entered is incorrect.';
 
   @override
-  String get tooManyRequestsTittle => 'Too Much Traffic';
-
-  @override
-  String get tooManyRequestsBody => 'We\'re sorry! Our servers are full at the moment, please try again another time.';
-
-  @override
   String get userDisabledTittle => 'Account Disabled';
 
   @override
   String get userDisabledBody => 'Your account has been disabled. Please contact us at conetechnologiesdev@gmail.com.';
 
   @override
+  String get weakPasswordTitle => 'Weak Password';
+
+  @override
+  String get weakPasswordBody => 'Update your password and try again.';
+
+  @override
   String get defaultErrorTittle => 'Something Went Wrong';
 
   @override
-  String get defaultErrorBody => 'Please try again later or reach out to conetechnologiesdev@gmail.com';
+  String get defaultErrorBody => 'Please try again later or reach out to conetechnologiesdev@gmail.com.';
+
+  @override
+  String get emailAlreadyInUseTitle => 'Email Already In-Use';
+
+  @override
+  String get emailAlreadyInUseBody => 'An account with that email already exists';
+
+  @override
+  String get forgotPasswordTittle => 'You\'ve Got Mail!';
+
+  @override
+  String get forgotPasswordBody => 'Check your email for a password reset link.';
+
+  @override
+  String get exitCreateAccountTitle => 'Return to login';
+
+  @override
+  String get exitCreateAccountBody => 'Are you sure you want to go back? your information will be deleted.';
+
+  @override
+  String get stay => 'Stay';
+
+  @override
+  String get go => 'Go Back';
 
   @override
   String get tryAgain => 'Try Again';
@@ -57,15 +81,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forgotPassword => 'Forgot Password?';
-
-  @override
-  String get forgotPasswordTittle => 'You\'ve Got Mail!';
-
-  @override
-  String get forgotPasswordBody => 'Check your email for a password reset link.';
-
-  @override
-  String get channelErrorBody => 'Make sure you entered an email in the correct feild.';
 
   @override
   String get close => 'Close';
@@ -81,4 +96,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editProfile => 'Edit Profile';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get userName => 'Username';
+
+  @override
+  String get previous => 'Previous';
 }

@@ -2,10 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class CurrentUser {
   String email;
-  String password;
-  CurrentUser({this.email = '', this.password = ''});
+  String firstName;
+  String lastName;
+  String userName;
+  CurrentUser(
+      {this.email = '',
+      this.firstName = '',
+      this.userName = '',
+      this.lastName = ''});
 
-  Future signIn() async {
+  Future signUp(password) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return ("success");
+    } on FirebaseAuthException catch (e) {
+      return (e.code);
+    }
+  }
+
+  Future signIn(password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);

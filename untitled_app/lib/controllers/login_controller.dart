@@ -3,11 +3,13 @@ import 'package:untitled_app/navigation_service.dart';
 import '../models/current_user.dart';
 import 'package:flutter/material.dart';
 import '../custom_widgets/login_dialog.dart';
+import '../locator.dart';
+import '../views/sign_up.dart';
 
 class LoginController extends ChangeNotifier {
   // BuildContext context;
   // LoginController(this.context);
-  CurrentUser model = CurrentUser();
+
   bool loggingIn = false;
 
   final emailController = TextEditingController();
@@ -20,13 +22,21 @@ class LoginController extends ChangeNotifier {
     Navigator.of(_context).pop();
   }
 
-  void _signUp() {
-    Navigator.of(_context).pop(); //FIXME should go to sign up
+  void _signUpFromAlert() {
+    _pop();
+    signUp();
+  }
+
+  void signUp() {
+    Navigator.push(
+      _context,
+      MaterialPageRoute(builder: (context) => SignUp()),
+    ); //FIXME should we need to potomize this
   }
 
   forgotPasswordPressed(countryCode) async {
-    model.email = emailController.text;
-    _handleError(await model.forgotPassword(countryCode));
+    locator<CurrentUser>().email = emailController.text;
+    _handleError(await locator<CurrentUser>().forgotPassword(countryCode));
   }
 
   logInPressed() async {
@@ -35,12 +45,11 @@ class LoginController extends ChangeNotifier {
     } else if (passwordController.text == '') {
       passwordFocus.requestFocus();
     } else {
-      model.email = emailController.text;
-      model.password = passwordController.text;
+      locator<CurrentUser>().email = emailController.text;
       loggingIn = true;
       notifyListeners();
 
-      _handleError(await model.signIn());
+      _handleError(await locator<CurrentUser>().signIn(passwordController.text));
 
       loggingIn = false;
       notifyListeners();
@@ -67,7 +76,7 @@ class LoginController extends ChangeNotifier {
               AppLocalizations.of(_context)!.signUp,
               AppLocalizations.of(_context)!.tryAgain
             ],
-            [_signUp, _pop],
+            [_signUpFromAlert, _pop],
             _context);
         break;
       case 'wrong-password':
@@ -78,26 +87,10 @@ class LoginController extends ChangeNotifier {
             [_pop],
             _context);
         break;
-      case 'too-many-requests':
-        showMyDialog(
-            AppLocalizations.of(_context)!.tooManyRequestsTittle,
-            AppLocalizations.of(_context)!.tooManyRequestsBody,
-            [AppLocalizations.of(_context)!.tryAgain],
-            [_pop],
-            _context);
-        break;
       case 'user-disabled':
         showMyDialog(
             AppLocalizations.of(_context)!.userDisabledTittle,
             AppLocalizations.of(_context)!.userDisabledBody,
-            [AppLocalizations.of(_context)!.tryAgain],
-            [_pop],
-            _context);
-        break;
-      case 'channel-error':
-        showMyDialog(
-            AppLocalizations.of(_context)!.defaultErrorTittle,
-            AppLocalizations.of(_context)!.channelErrorBody,
             [AppLocalizations.of(_context)!.tryAgain],
             [_pop],
             _context);

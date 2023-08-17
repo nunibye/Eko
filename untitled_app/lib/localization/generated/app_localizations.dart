@@ -147,18 +147,6 @@ abstract class AppLocalizations {
   /// **'The password you entered is incorrect.'**
   String get wrongPasswordBody;
 
-  /// No description provided for @tooManyRequestsTittle.
-  ///
-  /// In en, this message translates to:
-  /// **'Too Much Traffic'**
-  String get tooManyRequestsTittle;
-
-  /// No description provided for @tooManyRequestsBody.
-  ///
-  /// In en, this message translates to:
-  /// **'We\'re sorry! Our servers are full at the moment, please try again another time.'**
-  String get tooManyRequestsBody;
-
   /// No description provided for @userDisabledTittle.
   ///
   /// In en, this message translates to:
@@ -171,6 +159,18 @@ abstract class AppLocalizations {
   /// **'Your account has been disabled. Please contact us at conetechnologiesdev@gmail.com.'**
   String get userDisabledBody;
 
+  /// No description provided for @weakPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak Password'**
+  String get weakPasswordTitle;
+
+  /// No description provided for @weakPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your password and try again.'**
+  String get weakPasswordBody;
+
   /// No description provided for @defaultErrorTittle.
   ///
   /// In en, this message translates to:
@@ -180,8 +180,56 @@ abstract class AppLocalizations {
   /// No description provided for @defaultErrorBody.
   ///
   /// In en, this message translates to:
-  /// **'Please try again later or reach out to conetechnologiesdev@gmail.com'**
+  /// **'Please try again later or reach out to conetechnologiesdev@gmail.com.'**
   String get defaultErrorBody;
+
+  /// No description provided for @emailAlreadyInUseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Already In-Use'**
+  String get emailAlreadyInUseTitle;
+
+  /// No description provided for @emailAlreadyInUseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'An account with that email already exists'**
+  String get emailAlreadyInUseBody;
+
+  /// No description provided for @forgotPasswordTittle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve Got Mail!'**
+  String get forgotPasswordTittle;
+
+  /// No description provided for @forgotPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email for a password reset link.'**
+  String get forgotPasswordBody;
+
+  /// No description provided for @exitCreateAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to login'**
+  String get exitCreateAccountTitle;
+
+  /// No description provided for @exitCreateAccountBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to go back? your information will be deleted.'**
+  String get exitCreateAccountBody;
+
+  /// No description provided for @stay.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get stay;
+
+  /// No description provided for @go.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get go;
 
   /// No description provided for @tryAgain.
   ///
@@ -200,24 +248,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Forgot Password?'**
   String get forgotPassword;
-
-  /// No description provided for @forgotPasswordTittle.
-  ///
-  /// In en, this message translates to:
-  /// **'You\'ve Got Mail!'**
-  String get forgotPasswordTittle;
-
-  /// No description provided for @forgotPasswordBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your email for a password reset link.'**
-  String get forgotPasswordBody;
-
-  /// No description provided for @channelErrorBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Make sure you entered an email in the correct feild.'**
-  String get channelErrorBody;
 
   /// No description provided for @close.
   ///
@@ -248,6 +278,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Profile'**
   String get editProfile;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get lastName;
+
+  /// No description provided for @userName.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get userName;
+
+  /// No description provided for @previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previous;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
