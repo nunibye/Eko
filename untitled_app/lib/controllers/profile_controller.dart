@@ -11,9 +11,15 @@ class ProfileController extends ChangeNotifier {
   int followers = 0;
   int following = 0;
   String username = '';
+  ImageProvider<Object>? profileImage;
 
   ProfileController() {
-    loadUserData(); // Load user data when the ProfileController is created
+    init(); // wait until AFTER object is created
+  }
+
+  Future<void> init() async {
+    await locator<CurrentUser>().readUserData();
+    loadUserData();
   }
 
   loadUserData() async {
@@ -21,6 +27,11 @@ class ProfileController extends ChangeNotifier {
     followers = locator<CurrentUser>().followers;
     following = locator<CurrentUser>().following;
     username = locator<CurrentUser>().username;
+    String? profileImageUrl = await locator<CurrentUser>().getProfileImageUrl();
+    if (profileImageUrl != null) {
+      profileImage = NetworkImage(
+          profileImageUrl); // FIXME!!! IS THIS LEGAL??? i way having trouble passing in a networkImage into here from model
+    }
     notifyListeners();
   }
 }

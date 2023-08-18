@@ -6,7 +6,7 @@ import '../navigation_service.dart';
 import '../custom_widgets/login_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
-//TODO add presubmission error checking
+// TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
   final BuildContext _context = NavigationService.navigatorKey.currentContext!;
 

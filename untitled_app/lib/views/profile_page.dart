@@ -31,21 +31,10 @@ class ProfileView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // FutureBuilder(
-                //   future: getProfileImage(user!.uid),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData) {
-                //       return CircleAvatar(
-                //         radius: MediaQuery.sizeOf(context).width * 0.13,
-                //         backgroundImage: NetworkImage(snapshot.data!),
-                //       );
-                //     } else {
-                //       return CircleAvatar(
-                //         radius: MediaQuery.sizeOf(context).width * 0.13,
-                //       );
-                //     }
-                //   },
-                // ),
+                CircleAvatar(
+                  radius: MediaQuery.sizeOf(context).width * 0.13,
+                  backgroundImage: profileController.profileImage,
+                ),
                 const SizedBox(height: 10),
                 Text(
                   profileController.username,

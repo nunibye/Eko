@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CurrentUser {
   String email;
@@ -12,6 +14,8 @@ class CurrentUser {
   int following;
   String username;
 
+  ImageProvider<Object>? profileImage;
+
   CurrentUser({
     this.email = '',
     this.firstName = '',
@@ -21,6 +25,7 @@ class CurrentUser {
     this.followers = 0,
     this.following = 0,
     this.username = '',
+    this.profileImage, // TODO: we want caching
   });
 
   Future signUp(password) async {
@@ -57,7 +62,6 @@ class CurrentUser {
 
   Future readUserData() async {
     final user = FirebaseAuth.instance.currentUser;
-
     if (user != null) {
       final firestore = FirebaseFirestore.instance;
       final querySnapshot = await firestore
@@ -71,6 +75,21 @@ class CurrentUser {
         following = userData['profileData']['likes'];
         username = userData['username'];
       }
+    }
+  }
+
+// FIXME: theres got to be a better way?
+  Future<String?> getProfileImageUrl() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    try {
+      var urlRef = FirebaseStorage.instance
+          .ref()
+          .child("profile_pictures/${user?.uid}/profile.jpg");
+      var imageUrl = await urlRef.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      return null;
     }
   }
 }
