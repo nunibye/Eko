@@ -37,6 +37,7 @@ class BottomNavBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //shouldn't need this cause we dont need to rebuild navigation bar all the time. well change to indexed stack implementtation anyway
     final navController = Provider.of<BottomNavBarController>(context,
         ); // Access the controller // TODO: this is correct to have listen be true correct
 

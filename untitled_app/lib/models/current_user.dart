@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class CurrentUser {
   String email;
@@ -14,7 +18,7 @@ class CurrentUser {
   int following;
   String username;
 
-  ImageProvider<Object>? profileImage;
+  String profileImage;
 
   CurrentUser({
     this.email = '',
@@ -25,7 +29,7 @@ class CurrentUser {
     this.followers = 0,
     this.following = 0,
     this.username = '',
-    this.profileImage, // TODO: we want caching
+    this.profileImage = 'https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg', // TODO: we want caching
   });
 
   Future signUp(password) async {
@@ -78,18 +82,70 @@ class CurrentUser {
     }
   }
 
-// FIXME: theres got to be a better way?
-  Future<String?> getProfileImageUrl() async {
-    final user = FirebaseAuth.instance.currentUser;
+  setProfileImage(
+      {ImageSource source = ImageSource.gallery,
+      int imageQuality = 100,
+      imageHeight = 150.0}) async {
+    final ImagePicker imagePicker = ImagePicker();
+    final ImageCropper imageCropper = ImageCropper();
+    XFile? pickedFile;
+    CroppedFile? cropedFile;
+    pickedFile = await imagePicker.pickImage(
+        maxHeight: imageHeight, source: source, imageQuality: imageQuality);
+    if (pickedFile == null) {
+      return "fail";
+    }
 
+    cropedFile = await imageCropper.cropImage(
+        sourcePath: pickedFile.path,
+        cropStyle: CropStyle.circle,
+        aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 300),
+        uiSettings: [
+          AndroidUiSettings(
+            showCropGrid: false,
+            hideBottomControls: true,
+          ),
+          IOSUiSettings() //TODO make this look good
+        ]);
+    if (cropedFile == null) {
+      return "fail";
+    }
+    if (_uploadProfilePicture(File(cropedFile.path)) == "success") {
+      return "success";
+    }
+    return "fail";
+  }
+
+  _uploadProfilePicture(File profile) async {
+    final user = FirebaseAuth
+        .instance.currentUser; //FIXME Move somewhere where we can save data
+    await FirebaseStorage.instance
+        .ref()
+        .child("profile_pictures/${user?.uid}/profile.jpg")
+        .putFile(profile);
     try {
-      var urlRef = FirebaseStorage.instance
+      final ref = FirebaseStorage.instance
           .ref()
-          .child("profile_pictures/${user?.uid}/profile.jpg");
-      var imageUrl = await urlRef.getDownloadURL();
-      return imageUrl;
+          .child("profile_pictures/${user!.uid}/profile.jpg");
+      profileImage = await ref.getDownloadURL();
+      return "success";
     } catch (e) {
-      return null;
+      return "fail";
     }
   }
+
+// FIXME: theres got to be a better way?
+//   Future<String?> getProfileImageUrl() async {
+//     final user = FirebaseAuth.instance.currentUser;
+
+//     try {
+//       var urlRef = FirebaseStorage.instance
+//           .ref()
+//           .child("profile_pictures/${user?.uid}/profile.jpg");
+//       var imageUrl = await urlRef.getDownloadURL();
+//       return imageUrl;
+//     } catch (e) {
+//       return null;
+//     }
+//   }
 }

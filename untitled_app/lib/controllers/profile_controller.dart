@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/navigation_service.dart';
 import '../models/current_user.dart';
-
-import 'package:provider/provider.dart';
+import '../views/edit_profile.dart';
 import '../locator.dart';
 
 class ProfileController extends ChangeNotifier {
@@ -11,7 +10,7 @@ class ProfileController extends ChangeNotifier {
   int followers = 0;
   int following = 0;
   String username = '';
-  ImageProvider<Object>? profileImage;
+  String profileImage = locator<CurrentUser>().profileImage;
 
   ProfileController() {
     init(); // wait until AFTER object is created
@@ -22,16 +21,23 @@ class ProfileController extends ChangeNotifier {
     loadUserData();
   }
 
+  editProfilePressed() {
+    Navigator.push(
+      NavigationService.navigatorKey.currentContext!,
+      MaterialPageRoute(builder: (context) => const EditProfile()),
+    );
+  }
+
   loadUserData() async {
     likes = locator<CurrentUser>().likes;
     followers = locator<CurrentUser>().followers;
     following = locator<CurrentUser>().following;
     username = locator<CurrentUser>().username;
-    String? profileImageUrl = await locator<CurrentUser>().getProfileImageUrl();
-    if (profileImageUrl != null) {
-      profileImage = NetworkImage(
-          profileImageUrl); // FIXME!!! IS THIS LEGAL??? i way having trouble passing in a networkImage into here from model
-    }
+    // String? profileImageUrl = await locator<CurrentUser>().getProfileImageUrl();
+    // if (profileImageUrl != null) {
+    //   profileImage = NetworkImage(
+    //       profileImageUrl); // FIXME!!! IS THIS LEGAL??? i way having trouble passing in a networkImage into here from model not legal Ill look. we need to chnage anyway
+    // }
     notifyListeners();
   }
 }
