@@ -16,7 +16,7 @@ class RootPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return BottomNavBarPage();
           } else if (snapshot.hasError) {
             return const Placeholder();
           } else {
