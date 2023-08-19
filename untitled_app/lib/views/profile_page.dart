@@ -12,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(), // Provide the ViewModel
-      child: const ProfileView(),
+      child: ProfileView(),
     );
   }
 }
@@ -22,7 +22,7 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final profileController = Provider.of<ProfileController>(context);//FIXME listens too much
+    final profileController = Provider.of<ProfileController>(context);
     return Scaffold(
       body: ListView(
         children: [
@@ -46,7 +46,7 @@ class ProfileView extends StatelessWidget {
                 ),),
                 const SizedBox(height: 10),
                 Text(
-                  profileController.username,
+                  Provider.of<ProfileController>(context, listen: true).username,
                   style: TextStyle(
                     fontSize: 16,
                     letterSpacing: 1,
@@ -61,13 +61,13 @@ class ProfileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ProfilePageTopNumberDisplay(
-                  number: profileController.likes,
+                  number: Provider.of<ProfileController>(context, listen: true).likes,
                   label: AppLocalizations.of(context)!.likes),
               ProfilePageTopNumberDisplay(
-                  number: profileController.followers,
+                  number: Provider.of<ProfileController>(context, listen: true).followers,
                   label: AppLocalizations.of(context)!.followers),
               ProfilePageTopNumberDisplay(
-                  number: profileController.following,
+                  number: Provider.of<ProfileController>(context, listen: true).following,
                   label: AppLocalizations.of(context)!.following),
             ],
           ),
@@ -85,7 +85,7 @@ class ProfileView extends StatelessWidget {
                           width: 2,
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    onPressed: () => profileController.editProfilePressed(),
+                    onPressed: () => profileController.editProfilePressed(), // why does this break if i change to Provider.of<ProfileController>(context)?
                     child: Text(
                       AppLocalizations.of(context)!.editProfile,
                       style: TextStyle(
