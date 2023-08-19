@@ -54,6 +54,7 @@ class BottomNavBarView extends StatelessWidget {
       ),
       // TODO: is this correct at all or am i bozo
       // i just tested it by putting a test field in and it saves the info and before it did not
+      // it will create all the pages. it loads the data on profile when it creates the object
       body: IndexedStack(
         index: Provider.of<BottomNavBarController>(context).currentIndex,
         children: [

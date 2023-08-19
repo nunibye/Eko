@@ -17,7 +17,8 @@ class ProfileController extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    // await locator<CurrentUser>().readUserData();
+    await locator<CurrentUser>().readUserData();
+    print('loaded');
     loadUserData();
   }
 
@@ -27,13 +28,13 @@ class ProfileController extends ChangeNotifier {
       MaterialPageRoute(builder: (context) => const EditProfile()),
     );
   }
+
   // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later
   loadUserData() async {
     likes = locator<CurrentUser>().likes;
     followers = locator<CurrentUser>().followers;
     following = locator<CurrentUser>().following;
     username = locator<CurrentUser>().username;
-    print(likes);
     notifyListeners();
   }
 }

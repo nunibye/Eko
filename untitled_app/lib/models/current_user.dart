@@ -49,7 +49,6 @@ class CurrentUser {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      readUserData(); // atm this works when user logs in it loads the data, will inevitably change this
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -60,7 +59,6 @@ class CurrentUser {
     await FirebaseAuth.instance.setLanguageCode(countryCode);
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      readUserData(); // atm this works when user logs in it loads the data, will inevitably change this
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
