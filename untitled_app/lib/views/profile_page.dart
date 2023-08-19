@@ -31,22 +31,24 @@ class ProfileView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: MediaQuery.sizeOf(context).width * 0.26,child: ClipOval(
-                  
-                  child: CachedNetworkImage(
-                                imageUrl: Provider.of<ProfileController>(
-                                        context,
-                                        listen: true)
-                                    .profileImage,
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                ),),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.26,
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          Provider.of<ProfileController>(context, listen: true)
+                              .profileImage,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Text(
-                  Provider.of<ProfileController>(context, listen: true).username,
+                  Provider.of<ProfileController>(context, listen: true)
+                      .username,
                   style: TextStyle(
                     fontSize: 16,
                     letterSpacing: 1,
@@ -61,13 +63,16 @@ class ProfileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ProfilePageTopNumberDisplay(
-                  number: Provider.of<ProfileController>(context, listen: true).likes,
+                  number: Provider.of<ProfileController>(context, listen: true)
+                      .likes,
                   label: AppLocalizations.of(context)!.likes),
               ProfilePageTopNumberDisplay(
-                  number: Provider.of<ProfileController>(context, listen: true).followers,
+                  number: Provider.of<ProfileController>(context, listen: true)
+                      .followers,
                   label: AppLocalizations.of(context)!.followers),
               ProfilePageTopNumberDisplay(
-                  number: Provider.of<ProfileController>(context, listen: true).following,
+                  number: Provider.of<ProfileController>(context, listen: true)
+                      .following,
                   label: AppLocalizations.of(context)!.following),
             ],
           ),
@@ -85,7 +90,8 @@ class ProfileView extends StatelessWidget {
                           width: 2,
                           color: Theme.of(context).colorScheme.primary),
                     ),
-                    onPressed: () => profileController.editProfilePressed(), // why does this break if i change to Provider.of<ProfileController>(context)?
+                    onPressed: () => profileController
+                        .editProfilePressed(), // why does this break if i change to Provider.of<ProfileController>(context)?
                     child: Text(
                       AppLocalizations.of(context)!.editProfile,
                       style: TextStyle(

@@ -9,48 +9,6 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  // // Add user data to Firestore
-  // Future<void> _addUserDataToFirestore(User user) async {
-  //   final firestore = FirebaseFirestore.instance;
-  //   final userData = {
-  //     'uid': user.uid,
-  //     'email': emailController.text,
-  //     'username': userNameController.text,
-  //     'name': {
-  //       'firstName': firstNameController.text,
-  //       'lastName': lastNameController.text,
-  //     },
-  //     'profileData': {
-  //       'followers': 0,
-  //       'following': 0,
-  //       'likes': 0,
-  //       'profilePicture': "NoProfilePicture",
-  //     }
-  //   };
-  //   await firestore.collection('users').doc(user.uid).set(userData);
-  // }
-
-  // // Function to handle the "Next" button click
-  // void _handleNextClick() async {
-  //   final userCredential = await signUp();
-
-  //   if (userCredential != null) {
-  //     final user = userCredential.user;
-
-  //     if (user != null) {
-  //       await _addUserDataToFirestore(user);
-  //       // User data added to Firestore successfully
-  //       // You can navigate to the next page or perform any other action here.
-  //     } else {
-  //       print('User is null');
-  //     }
-  //   } else {
-  //     print('Sign-up failed');
-  //   }
-  // }
-
-  
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

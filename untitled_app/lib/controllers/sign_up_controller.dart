@@ -73,7 +73,7 @@ class SignUpController extends ChangeNotifier {
       notifyListeners();
 
       _handleError(await locator<CurrentUser>().signUp(controller2.text));
-
+      locator<CurrentUser>().addUserDataToFirestore();
       loggingIn = false;
       notifyListeners();
     }
@@ -88,11 +88,14 @@ class SignUpController extends ChangeNotifier {
       _setPageData(pageController.page!.toInt());
     } else {
       showMyDialog(
-            AppLocalizations.of(_context)!.exitCreateAccountTitle,
-            AppLocalizations.of(_context)!.exitCreateAccountBody,
-            [AppLocalizations.of(_context)!.go, AppLocalizations.of(_context)!.stay],
-            [_returnToLogin, _pop],
-            _context);
+          AppLocalizations.of(_context)!.exitCreateAccountTitle,
+          AppLocalizations.of(_context)!.exitCreateAccountBody,
+          [
+            AppLocalizations.of(_context)!.go,
+            AppLocalizations.of(_context)!.stay
+          ],
+          [_returnToLogin, _pop],
+          _context);
     }
   }
 
@@ -113,7 +116,7 @@ class SignUpController extends ChangeNotifier {
         locator<CurrentUser>().lastName = controller2.text;
         break;
       case 1:
-        locator<CurrentUser>().userName = controller1.text;
+        locator<CurrentUser>().username = controller1.text;
         break;
       case 2:
         locator<CurrentUser>().email = controller1.text;
@@ -133,7 +136,7 @@ class SignUpController extends ChangeNotifier {
         firstPage = false;
         lastPage = false;
         notifyListeners();
-        controller1.text = locator<CurrentUser>().userName;
+        controller1.text = locator<CurrentUser>().username;
         break;
       case 2:
         lastPage = true;

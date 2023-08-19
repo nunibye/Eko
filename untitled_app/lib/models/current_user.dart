@@ -11,7 +11,6 @@ class CurrentUser {
   String email;
   String firstName;
   String lastName;
-  String userName;
 
   int likes;
   int followers;
@@ -23,14 +22,12 @@ class CurrentUser {
   CurrentUser({
     this.email = '',
     this.firstName = '',
-    this.userName = '',
     this.lastName = '',
     this.likes = 0,
     this.followers = 0,
     this.following = 0,
     this.username = '',
-    this.profileImage =
-        'https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg', // TODO: we want caching
+    this.profileImage = '', // TODO: we want caching
   });
 
   Future signUp(password) async {
@@ -49,7 +46,7 @@ class CurrentUser {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      readUserData(); // atm this works when user logs in it loads the data, will inevitably change this
+      //readUserData(); // atm this works when user logs in it loads the data, will inevitably change this
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -80,6 +77,7 @@ class CurrentUser {
         likes = userData['profileData']['followers']; // exmaple map querey
         followers = userData['profileData']['following']; // exmaple map querey
         following = userData['profileData']['likes'];
+        profileImage = userData['profileData']['profilePicture'];
         username = userData['username'];
         print(likes);
       }
@@ -112,15 +110,18 @@ class CurrentUser {
           IOSUiSettings() //TODO make this look good
         ]);
     if (cropedFile == null) {
+      print("fail3");
       return "fail";
     }
-    if (_uploadProfilePicture(File(cropedFile.path)) == "success") {
+    if (await _uploadProfilePicture(File(cropedFile.path)) == "success") {
       return "success";
     }
+    print("fail2");
     return "fail";
   }
 
   _uploadProfilePicture(File profile) async {
+    final firestore = FirebaseFirestore.instance;
     final user = FirebaseAuth
         .instance.currentUser; //FIXME Move somewhere where we can save data
     await FirebaseStorage.instance
@@ -132,24 +133,37 @@ class CurrentUser {
           .ref()
           .child("profile_pictures/${user!.uid}/profile.jpg");
       profileImage = await ref.getDownloadURL();
+      firestore
+          .collection('users')
+          .doc(user.uid)
+          .update({"profileData.profilePicture": profileImage});
       return "success";
     } catch (e) {
+      print("fail1");
       return "fail";
     }
   }
 
-// FIXME: theres got to be a better way?
-//   Future<String?> getProfileImageUrl() async {
-//     final user = FirebaseAuth.instance.currentUser;
-
-//     try {
-//       var urlRef = FirebaseStorage.instance
-//           .ref()
-//           .child("profile_pictures/${user?.uid}/profile.jpg");
-//       var imageUrl = await urlRef.getDownloadURL();
-//       return imageUrl;
-//     } catch (e) {
-//       return null;
-//     }
-//   }
+  Future<void> addUserDataToFirestore() async {
+    final user = FirebaseAuth
+        .instance.currentUser; //FIXME Move somewhere where we can save data
+    final firestore = FirebaseFirestore.instance;
+    final userData = {
+      'uid': user!.uid,
+      'email': email,
+      'username': username,
+      'name': {
+        'firstName': firstName,
+        'lastName': lastName,
+      },
+      'profileData': {
+        'followers': 0,
+        'following': 0,
+        'likes': 0,
+        'profilePicture':
+            "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2FsSzhSpVql8TQX3E4HcCmnBWXVOp2%2Fprofile.jpg?alt=media&token=d0f3c099-4036-487a-b86d-b7bd040f4d22",
+      }
+    };
+    await firestore.collection('users').doc(user.uid).set(userData);
+  }
 }

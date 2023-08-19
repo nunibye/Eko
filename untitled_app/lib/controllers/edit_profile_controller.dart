@@ -6,11 +6,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 class EditProfileController extends ChangeNotifier {
   String profileImage = locator<CurrentUser>().profileImage;
 
-  editProfilePressed() async {
+  editProfileImagePressed() async { //FIXME crashes if you exit before function finishes
     if (await locator<CurrentUser>().setProfileImage() == "success") {
-      await CachedNetworkImage.evictFromCache(locator<CurrentUser>().profileImage);
       profileImage = locator<CurrentUser>().profileImage;
+
       notifyListeners();
-    }
+    } else {}
   }
 }

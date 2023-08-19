@@ -6,7 +6,7 @@ import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'constants.dart' as c;
-import 'root_page.dart';
+import 'views/root_page.dart';
 import 'locator.dart';
 
 Future<void> main() async {
