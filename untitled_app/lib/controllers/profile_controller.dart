@@ -18,10 +18,11 @@ class ProfileController extends ChangeNotifier {
   //   init(); // wait until AFTER object is created
   // }
 
-  // Future<void> init() async {
-  //   // await locator<CurrentUser>().readUserData();
-  //   loadUserData();
-  // }
+  Future<void> init() async {
+    await locator<CurrentUser>().readUserData();
+    print('loaded');
+    loadUserData();
+  }
 
   editProfilePressed() {
     Navigator.push(
@@ -33,6 +34,7 @@ class ProfileController extends ChangeNotifier {
       //await CachedNetworkImage.evictFromCache("test");
     });
   }
+
 
   // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later
   loadUserData() async {
