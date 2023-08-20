@@ -49,7 +49,6 @@ class CurrentUser {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       print("sigh1");
-      //readUserData(); // atm this works when user logs in it loads the data, will inevitably change this
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);

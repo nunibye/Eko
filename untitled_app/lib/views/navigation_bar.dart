@@ -11,7 +11,6 @@ import '../views/search_page.dart';
 
 class BottomNavBarPage extends StatelessWidget {
   const BottomNavBarPage({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +26,6 @@ class BottomNavBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: this will be an indexed stack
-
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -39,21 +36,18 @@ class BottomNavBarView extends StatelessWidget {
               .changePage(index); // Update selected index
         },
         elevation: 16,
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
         unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
         selectedItemColor: Theme.of(context).colorScheme.secondary,
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label:
-                  'home'), // FIXME: there was a running error that requires label != null
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile')
         ],
       ),
-      // TODO: is this correct at all or am i bozo
-      // i just tested it by putting a test field in and it saves the info and before it did not
+
       // it will create all the pages. it loads the data on profile when it creates the object
       body: IndexedStack(
         index: Provider.of<BottomNavBarController>(context).currentIndex,
@@ -64,9 +58,6 @@ class BottomNavBarView extends StatelessWidget {
           ProfilePage(),
         ],
       ),
-      // body: Center(
-      //   child: Provider.of<BottomNavBarController>(context, listen: false).getPage(), // Display the selected page
-      // ),
     );
   }
 }
