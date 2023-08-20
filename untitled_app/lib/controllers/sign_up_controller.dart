@@ -31,11 +31,20 @@ class SignUpController extends ChangeNotifier {
   void _handleError(String errorCode) {
     switch (errorCode) {
       case 'success':
+        _pop();
         break;
       case 'invalid-email':
         showMyDialog(
             AppLocalizations.of(_context)!.invalidEmailTittle,
             AppLocalizations.of(_context)!.invalidEmailBody,
+            [AppLocalizations.of(_context)!.tryAgain],
+            [_pop],
+            _context);
+        break;
+      case 'weak-password':
+        showMyDialog(
+            AppLocalizations.of(_context)!.weakPasswordTitle,
+            AppLocalizations.of(_context)!.weakPasswordBody,
             [AppLocalizations.of(_context)!.tryAgain],
             [_pop],
             _context);
