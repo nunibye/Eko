@@ -36,10 +36,34 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: c.lightThemeColors(context),
         useMaterial3: true,
+        // Get rid of splash animation
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
+        // elevatedButtonTheme:
+        //     ElevatedButtonThemeData(style: c.buttonStyle(context)),
+        // textButtonTheme: TextButtonThemeData(style: c.buttonStyle(context)),
+        // outlinedButtonTheme:
+        //     OutlinedButtonThemeData(style: c.buttonStyle(context)),
+        // iconButtonTheme: IconButtonThemeData(style: c.buttonStyle(context)),
       ),
       darkTheme: ThemeData(
         colorScheme: c.darkThemeColors(context),
         useMaterial3: true,
+        // Get rid of splash animation
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
+        
+        // Depends on if you want the button across the app to have splash or not
+        // elevatedButtonTheme:
+        //     ElevatedButtonThemeData(style: c.buttonStyle(context)),
+        // textButtonTheme: TextButtonThemeData(style: c.buttonStyle(context)),
+        // outlinedButtonTheme:
+        //     OutlinedButtonThemeData(style: c.buttonStyle(context)),
+        // iconButtonTheme: IconButtonThemeData(style: c.buttonStyle(context)),
       ),
       themeMode: ThemeMode.dark,
       localizationsDelegates: const [

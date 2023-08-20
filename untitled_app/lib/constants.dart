@@ -36,6 +36,15 @@ ColorScheme darkThemeColors(context) {
   );
 }
 
+//Button Style
+ButtonStyle buttonStyle(context) {
+  return ButtonStyle(
+    splashFactory: NoSplash.splashFactory,
+    overlayColor: MaterialStateProperty.all(Colors.transparent),
+    mouseCursor: MaterialStateProperty.all(MouseCursor.defer),
+  );
+}
+
 const double logoPaddingVert = 30;
 const double logoPaddingHoriz = 0;
 const double loginPadding = 0.006;
