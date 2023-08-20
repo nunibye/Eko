@@ -121,12 +121,12 @@ class LoginPage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.width * 0.10,
                       child: TextButton(
-                        onPressed: () => Provider.of<LoginController>(context,
-                                  listen: false)
-                              .signUp()
-                        ,
+                        onPressed: () =>
+                            Provider.of<LoginController>(context, listen: false)
+                                .signUp(),
                         style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
                         ),
                         child: Text(
                           "Create Account",

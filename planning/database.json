@@ -1,0 +1,21 @@
+{
+    "users": {
+        "email": "johnsmith@email.com",
+        "name": {
+            "firstName": "John",
+            "lastName": "Smith"
+        },
+        "profileData": {
+            "followers": 0,
+            "following": 0,
+            "likes": 0,
+            "profilePicture": "https://firebasestorage.googleapis.com/download/link"
+        },
+        "_uid": "foobarbaz",
+        "username": "johnsmith"
+    },
+    "posts": {
+        "comments": {},
+        "posts": {}
+    }
+}
