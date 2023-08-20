@@ -154,7 +154,7 @@ class GetEmail extends StatelessWidget {
               controller: Provider.of<SignUpController>(context, listen: false)
                   .controller2,
               inputType: TextInputType.visiblePassword,
-              obscure: true,
+              password: true,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,

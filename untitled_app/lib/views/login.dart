@@ -40,6 +40,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     CustomInputFeild(
+                      onEditingComplete: () => Provider.of<LoginController>(context, listen: false).nextFeild(),
                       focus:
                           Provider.of<LoginController>(context, listen: false)
                               .emailFocus,
@@ -52,6 +53,7 @@ class LoginPage extends StatelessWidget {
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.006),
                     CustomInputFeild(
+                      onEditingComplete:() => Provider.of<LoginController>(context, listen: false).logInPressed(),
                       focus:
                           Provider.of<LoginController>(context, listen: false)
                               .passwordFocus,
@@ -60,7 +62,7 @@ class LoginPage extends StatelessWidget {
                           Provider.of<LoginController>(context, listen: false)
                               .passwordController,
                       inputType: TextInputType.visiblePassword,
-                      obscure: true,
+                      password: true,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,

@@ -51,10 +51,14 @@ class LoginController extends ChangeNotifier {
 
       _handleError(
           await locator<CurrentUser>().signIn(passwordController.text));
-      
+
       loggingIn = false;
       notifyListeners();
     }
+  }
+
+  void nextFeild() {
+    passwordFocus.requestFocus();
   }
 
   void _handleError(String errorCode) {

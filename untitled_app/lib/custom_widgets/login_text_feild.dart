@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'controllers/login_text_feild_controller.dart';
 
 class CustomInputFeild extends StatelessWidget {
   final String label;
@@ -11,12 +13,16 @@ class CustomInputFeild extends StatelessWidget {
   final String filter;
   final double? width;
   final bool enabled;
-  final bool obscure;
+  final bool password;
+  final TextInputAction textInputAction;
+
   final void Function(String)? onChanged;
+  final void Function()? onEditingComplete;
   const CustomInputFeild(
       {required this.label,
       required this.controller,
       this.onChanged,
+      this.onEditingComplete,
       this.focus,
       this.width,
       this.inputType = TextInputType.text,
@@ -24,7 +30,8 @@ class CustomInputFeild extends StatelessWidget {
       this.validator = AutovalidateMode.disabled,
       this.validatorFunction,
       this.enabled = true,
-      this.obscure = false,
+      this.password = false,
+      this.textInputAction = TextInputAction.next,
       super.key});
 
   @override
@@ -35,48 +42,69 @@ class CustomInputFeild extends StatelessWidget {
     } else {
       feildWidth = width!;
     }
-    return Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      width: feildWidth,
-      child: TextFormField(
-        obscureText: obscure,
-        enabled: enabled,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(filter)),
-        ],
-        autovalidateMode: validator,
-        validator: validatorFunction,
-        controller: controller,
-        focusNode: focus,
-        onChanged: onChanged,
-        //autofocus: true,
-        keyboardType: inputType,
-        style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-            color: Theme.of(context).colorScheme.tertiary),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(
-            fontSize: 18,
-            letterSpacing: 1,
-            fontWeight: FontWeight.normal,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          fillColor: Theme.of(context).colorScheme.onBackground,
-          filled: true,
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onPrimary),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.primary)),
-        ),
-      ),
-    );
+    return ChangeNotifierProvider(
+        create: (context) => LoginFieldController(password: password),
+        builder: (context, child) {
+          return Container(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            width: feildWidth,
+            child: TextFormField(
+              obscureText:
+                  Provider.of<LoginFieldController>(context, listen: true)
+                      .hidden,
+
+              enabled: enabled,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(filter)),
+              ],
+              textInputAction: textInputAction,
+              autovalidateMode: validator,
+              validator: validatorFunction,
+              controller: controller,
+              focusNode: focus,
+              onChanged: onChanged,
+              onEditingComplete: onEditingComplete,
+              //autofocus: true,
+              keyboardType: inputType,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: Theme.of(context).colorScheme.tertiary),
+              decoration: InputDecoration(
+                labelText: label,
+                labelStyle: TextStyle(
+                  fontSize: 18,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.normal,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                fillColor: Theme.of(context).colorScheme.onBackground,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.onPrimary),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).colorScheme.primary)),
+                suffixIcon: password
+                    ? IconButton(
+                        icon: Icon(Provider.of<LoginFieldController>(context,
+                                    listen: true)
+                                .hidden
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        onPressed: () => Provider.of<LoginFieldController>(
+                                context,
+                                listen: false)
+                            .bottonPressed(),
+                      )
+                    : null,
+              ),
+            ),
+          );
+        });
   }
 }
-
