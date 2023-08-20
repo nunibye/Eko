@@ -22,12 +22,17 @@ class LoginController extends ChangeNotifier {
     Navigator.of(_context).pop();
   }
 
+  void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
   void _signUpFromAlert() {
     _pop();
     signUp();
   }
 
   void signUp() {
+    hideKeyboard();
     Navigator.push(
       _context,
       MaterialPageRoute(builder: (context) => SignUp()),
@@ -35,11 +40,13 @@ class LoginController extends ChangeNotifier {
   }
 
   forgotPasswordPressed(countryCode) async {
+    hideKeyboard();
     locator<CurrentUser>().email = emailController.text;
     _handleError(await locator<CurrentUser>().forgotPassword(countryCode));
   }
 
   logInPressed() async {
+    hideKeyboard();
     if (emailController.text == '') {
       emailFocus.requestFocus();
     } else if (passwordController.text == '') {
@@ -57,9 +64,7 @@ class LoginController extends ChangeNotifier {
     }
   }
 
-  void nextFeild() {
-    passwordFocus.requestFocus();
-  }
+
 
   void _handleError(String errorCode) {
     switch (errorCode) {

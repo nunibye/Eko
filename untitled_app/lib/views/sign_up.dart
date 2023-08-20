@@ -12,9 +12,12 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => SignUpController(),
-        builder: (context, child) {
-          return Scaffold(
+      create: (context) => SignUpController(),
+      builder: (context, child) {
+        return GestureDetector(
+          onTap: () => Provider.of<SignUpController>(context, listen: false)
+              .hideKeyboard(),
+          child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
               leadingWidth: 150,
@@ -71,8 +74,10 @@ class SignUp extends StatelessWidget {
                 Placeholder(), //FIXME for some reson this stops everything from breaking
               ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -86,6 +91,8 @@ class GetLegalName extends StatelessWidget {
         child: Column(
           children: [
             CustomInputFeild(
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .focus1,
               label: AppLocalizations.of(context)!.firstName,
               controller: Provider.of<SignUpController>(context, listen: false)
                   .controller1,
@@ -94,6 +101,11 @@ class GetLegalName extends StatelessWidget {
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .focus2,
+              onEditingComplete: () =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .keyboardGoToNextPage(),
               label: AppLocalizations.of(context)!.lastName,
               controller: Provider.of<SignUpController>(context, listen: false)
                   .controller2,
@@ -116,6 +128,12 @@ class GetUserName extends StatelessWidget {
         child: Column(
           children: [
             CustomInputFeild(
+              focus:
+                  Provider.of<SignUpController>(context, listen: false).focus1,
+              textInputAction: TextInputAction.go,
+              onEditingComplete: () =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .keyboardGoToNextPage(),
               label: AppLocalizations.of(context)!.userName,
               controller: Provider.of<SignUpController>(context, listen: false)
                   .controller1,
@@ -134,8 +152,8 @@ class GetEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
+      body: Padding(padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),child: Center(
+        child: ListView(
           children: [
             CustomInputFeild(
               label: AppLocalizations.of(context)!.email,
@@ -148,6 +166,13 @@ class GetEmail extends StatelessWidget {
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
+              onChanged: (s) =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .passwordChanged(),
+              onEditingComplete: () =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .focus3
+                      .requestFocus(),
               label: AppLocalizations.of(context)!.password,
               focus:
                   Provider.of<SignUpController>(context, listen: false).focus2,
@@ -156,6 +181,45 @@ class GetEmail extends StatelessWidget {
               inputType: TextInputType.visiblePassword,
               password: true,
             ),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * c.loginPadding),
+            CustomInputFeild(
+              onChanged: (s) =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .passwordChanged(),
+              onEditingComplete: () =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .signUpPressed(),
+              textInputAction: TextInputAction.done,
+              label: AppLocalizations.of(context)!.confirmPassword,
+              focus:
+                  Provider.of<SignUpController>(context, listen: false).focus3,
+              controller: Provider.of<SignUpController>(context, listen: false)
+                  .controller3,
+              inputType: TextInputType.visiblePassword,
+              password: true,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * c.loginPadding,
+                  ),
+              child: LinearProgressIndicator(
+                value: Provider.of<SignUpController>(context, listen: true)
+                    .passwordPercent,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            Container(alignment: Alignment.centerLeft,child: Consumer<SignUpController>(
+              builder: (context, signUpController, _) => Text(
+                  "${signUpController.passed[0]}${AppLocalizations.of(context)!.passwordLen}\n"
+                  "${signUpController.passed[1]}${AppLocalizations.of(context)!.passwordLower}\n"
+                  "${signUpController.passed[2]}${AppLocalizations.of(context)!.passwordUpper}\n"
+                  "${signUpController.passed[3]}${AppLocalizations.of(context)!.passwordNumber}\n"
+                  "${signUpController.passed[4]}${AppLocalizations.of(context)!.passwordSpecial}\n"
+                  "${signUpController.passed[5]}${AppLocalizations.of(context)!.passwordMatch}\n",
+                  style: const  TextStyle(fontSize: 18),),
+            ),),
+            //const Spacer(),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.width * 0.15,
@@ -169,7 +233,7 @@ class GetEmail extends StatelessWidget {
                         .loggingIn
                     ? const CircularProgressIndicator()
                     : Text(
-                        AppLocalizations.of(context)!.logIn,
+                        AppLocalizations.of(context)!.signUp,
                         style: TextStyle(
                           fontSize: 18,
                           letterSpacing: 1,
@@ -179,9 +243,10 @@ class GetEmail extends StatelessWidget {
                       ),
               ),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           ],
         ),
-      ),
+      ),)
     );
   }
 }

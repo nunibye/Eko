@@ -11,6 +11,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'Password';
 
   @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
   String get logIn => 'Log In';
 
   @override
@@ -41,7 +44,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get weakPasswordTitle => 'Weak Password';
 
   @override
-  String get weakPasswordBody => 'Update your password and try again.';
+  String get weakPasswordBody => 'Check password requirements and try again.';
 
   @override
   String get defaultErrorTittle => 'Something Went Wrong';
@@ -81,6 +84,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get passwordLen => 'Between 8 and 32 characters.';
+
+  @override
+  String get passwordLower => 'Contains a lowercase letter';
+
+  @override
+  String get passwordUpper => 'Contains a uppercase letter';
+
+  @override
+  String get passwordNumber => 'Contains a number';
+
+  @override
+  String get passwordSpecial => 'Contains a special character';
+
+  @override
+  String get passwordMatch => 'Passwords match';
 
   @override
   String get close => 'Close';

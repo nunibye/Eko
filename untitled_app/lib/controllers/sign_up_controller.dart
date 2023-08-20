@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../constants.dart' as c;
 import '../locator.dart';
@@ -12,13 +14,58 @@ class SignUpController extends ChangeNotifier {
 
   final controller1 = TextEditingController();
   final controller2 = TextEditingController();
+  final controller3 = TextEditingController();
   final focus1 = FocusNode();
   final focus2 = FocusNode();
+  final focus3 = FocusNode();
   final pageController = PageController();
 
   bool firstPage = true;
   bool lastPage = false;
   bool loggingIn = false;
+  bool goodPassword = false;
+  double passwordPercent = 0;
+  List<String> passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
+
+  passwordChanged() {
+    passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
+    int points = 0;
+    String pass1 = controller2.text;
+    String pass2 = controller3.text;
+    if ((pass1).length >= 7 && (pass1).length <= 32) {
+      points++;
+      passed[0] = "✅";
+    }
+    if (pass1.contains(RegExp(r'[a-z]'))) {
+      points++;
+      passed[2] = "✅";
+    }
+    if (pass1.contains(RegExp(r'[A-Z]'))) {
+      points++;
+      passed[1] = "✅";
+    }
+
+    if (pass1.contains(RegExp(r'[0-9]'))) {
+      points++;
+      passed[3] = "✅";
+    }
+    if (!pass1.contains(RegExp(r'^[A-Za-z0-9]*$'))) {
+      points++;
+      passed[4] = "✅";
+    }
+    if (pass1 == pass2 && pass1 != "") {
+      points++;
+      passed[5] = "✅";
+    }
+    goodPassword = (points == 6);
+    if (pass1 != '') {
+      passwordPercent = points / 6;
+    } else {
+      passwordPercent = 0;
+    }
+    notifyListeners();
+  }
+
   void _pop() {
     Navigator.of(_context).pop();
   }
@@ -26,6 +73,16 @@ class SignUpController extends ChangeNotifier {
   void _returnToLogin() {
     _pop();
     _pop();
+  }
+
+  void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  void keyboardGoToNextPage() async {
+    hideKeyboard();
+    await forwardPressed();
+    focus1.requestFocus();
   }
 
   void _handleError(String errorCode) {
@@ -72,23 +129,30 @@ class SignUpController extends ChangeNotifier {
   }
 
   signUpPressed() async {
+    hideKeyboard();
+
     if (controller1.text == '') {
       focus1.requestFocus();
     } else if (controller2.text == '') {
       focus2.requestFocus();
     } else {
-      locator<CurrentUser>().email = controller1.text;
-      loggingIn = true;
-      notifyListeners();
+      if (goodPassword || controller2.text == "password") { //TODO delete || controller2.text == "password" before production
+        locator<CurrentUser>().email = controller1.text;
+        loggingIn = true;
+        notifyListeners();
 
-      _handleError(await locator<CurrentUser>().signUp(controller2.text));
-      locator<CurrentUser>().addUserDataToFirestore();
-      loggingIn = false;
-      notifyListeners();
+        _handleError(await locator<CurrentUser>().signUp(controller2.text));
+        locator<CurrentUser>().addUserDataToFirestore();
+        loggingIn = false;
+        notifyListeners();
+      } else {
+        _handleError("weak-password");
+      }
     }
   }
 
   void backPressed() async {
+    hideKeyboard();
     if (pageController.page != 0.0) {
       _getPageData(pageController.page!.toInt());
       await pageController.previousPage(
@@ -108,14 +172,26 @@ class SignUpController extends ChangeNotifier {
     }
   }
 
-  void forwardPressed() async {
-    if (pageController.page! <= 1.0) {
-      _getPageData(pageController.page!.toInt());
+  forwardPressed() async {
+    hideKeyboard();
+    int page = pageController.page!.toInt();
+    if (controller1.text == "") {
+      focus1.requestFocus();
+      return "done";
+    }
+    if(controller2.text == "" && page == 0){
+      focus2.requestFocus();
+      return "done";
+    }
+    if (page <= 1) {
+      _getPageData(page);
+      _setPageData(page +1);
       await pageController.nextPage(
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
-      _setPageData(pageController.page!.toInt());
+      // _setPageData(page);
     }
+    return "done";
   }
 
   _getPageData(int page) {
@@ -137,20 +213,27 @@ class SignUpController extends ChangeNotifier {
     switch (page) {
       case 0:
         firstPage = true;
-        notifyListeners();
+
         controller1.text = locator<CurrentUser>().firstName;
         controller2.text = locator<CurrentUser>().lastName;
+        notifyListeners();
         break;
       case 1:
         firstPage = false;
         lastPage = false;
-        notifyListeners();
+
         controller1.text = locator<CurrentUser>().username;
+        controller2.text = "";
+        controller3.text = "";
+        notifyListeners();
         break;
       case 2:
         lastPage = true;
-        notifyListeners();
+
         controller1.text = locator<CurrentUser>().email;
+        controller2.text = "";
+        controller3.text = "";
+        notifyListeners();
         break;
     }
   }

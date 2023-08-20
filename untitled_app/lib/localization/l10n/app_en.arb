@@ -1,6 +1,7 @@
 {
     "email":"Email",
     "password":"Password",
+    "confirmPassword":"Confirm Password",
     "logIn":"Log In",
 
     "invalidEmailTittle":"Invalid Email Formating",
@@ -16,7 +17,7 @@
     "userDisabledBody":"Your account has been disabled. Please contact us at conetechnologiesdev@gmail.com.",
 
     "weakPasswordTitle":"Weak Password",
-    "weakPasswordBody":"Update your password and try again.",
+    "weakPasswordBody":"Check password requirements and try again.",
 
     "defaultErrorTittle":"Something Went Wrong",
     "defaultErrorBody":"Please try again later or reach out to conetechnologiesdev@gmail.com.",
@@ -36,6 +37,12 @@
     "signUp":"Sign Up",
     "forgotPassword":"Forgot Password?",
 
+    "passwordLen":"Between 8 and 32 characters.",
+    "passwordLower":"Contains a lowercase letter",
+    "passwordUpper":"Contains a uppercase letter",
+    "passwordNumber":"Contains a number",
+    "passwordSpecial":"Contains a special character",
+    "passwordMatch":"Passwords match",
 
     "close":"Close",
     "likes":"Likes",

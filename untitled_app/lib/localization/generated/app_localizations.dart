@@ -105,6 +105,12 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
   /// No description provided for @logIn.
   ///
   /// In en, this message translates to:
@@ -168,7 +174,7 @@ abstract class AppLocalizations {
   /// No description provided for @weakPasswordBody.
   ///
   /// In en, this message translates to:
-  /// **'Update your password and try again.'**
+  /// **'Check password requirements and try again.'**
   String get weakPasswordBody;
 
   /// No description provided for @defaultErrorTittle.
@@ -248,6 +254,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Forgot Password?'**
   String get forgotPassword;
+
+  /// No description provided for @passwordLen.
+  ///
+  /// In en, this message translates to:
+  /// **'Between 8 and 32 characters.'**
+  String get passwordLen;
+
+  /// No description provided for @passwordLower.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains a lowercase letter'**
+  String get passwordLower;
+
+  /// No description provided for @passwordUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains a uppercase letter'**
+  String get passwordUpper;
+
+  /// No description provided for @passwordNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains a number'**
+  String get passwordNumber;
+
+  /// No description provided for @passwordSpecial.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains a special character'**
+  String get passwordSpecial;
+
+  /// No description provided for @passwordMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords match'**
+  String get passwordMatch;
 
   /// No description provided for @close.
   ///
