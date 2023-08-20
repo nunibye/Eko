@@ -88,13 +88,13 @@ class CurrentUser {
   setProfileImage(
       {ImageSource source = ImageSource.gallery,
       int imageQuality = 100,
-      imageHeight = 150.0}) async {
+      imageHeight = 300.0}) async {
     final ImagePicker imagePicker = ImagePicker();
     final ImageCropper imageCropper = ImageCropper();
     XFile? pickedFile;
     CroppedFile? cropedFile;
     pickedFile = await imagePicker.pickImage(
-        maxHeight: imageHeight, source: source, imageQuality: imageQuality);
+         source: source, );//maxHeight: imageHeight,imageQuality: imageQuality
     if (pickedFile == null) {
       return "fail";
     }
@@ -102,7 +102,10 @@ class CurrentUser {
     cropedFile = await imageCropper.cropImage(
         sourcePath: pickedFile.path,
         cropStyle: CropStyle.circle,
-        aspectRatio: const CropAspectRatio(ratioX: 300, ratioY: 300),
+        
+        maxHeight: 300,
+        maxWidth: 300,
+        aspectRatio: const CropAspectRatio(ratioX: 150, ratioY: 150),
         uiSettings: [
           AndroidUiSettings(
             showCropGrid: false,

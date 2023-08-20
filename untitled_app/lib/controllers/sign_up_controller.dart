@@ -38,11 +38,11 @@ class SignUpController extends ChangeNotifier {
     }
     if (pass1.contains(RegExp(r'[a-z]'))) {
       points++;
-      passed[2] = "✅";
+      passed[1] = "✅";
     }
     if (pass1.contains(RegExp(r'[A-Z]'))) {
       points++;
-      passed[1] = "✅";
+      passed[2] = "✅";
     }
 
     if (pass1.contains(RegExp(r'[0-9]'))) {

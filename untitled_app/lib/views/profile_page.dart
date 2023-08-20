@@ -12,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(), // Provide the ViewModel
-      child: ProfileView(),
+      child: const ProfileView(),
     );
   }
 }
@@ -27,10 +27,21 @@ class ProfileView extends StatelessWidget {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Row(children: [
+                  Text(
+                    "@${Provider.of<ProfileController>(context, listen: true).username}",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22),
+                  ),
+                  const Spacer(),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.settings_outlined, size: 35,))
+                ]),
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.26,
                   child: ClipOval(

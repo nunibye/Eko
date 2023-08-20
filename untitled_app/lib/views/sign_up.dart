@@ -205,6 +205,7 @@ class GetEmail extends StatelessWidget {
                   vertical: MediaQuery.of(context).size.height * c.loginPadding,
                   ),
               child: LinearProgressIndicator(
+                minHeight: 12,
                 value: Provider.of<SignUpController>(context, listen: true)
                     .passwordPercent,
                 color: Theme.of(context).colorScheme.secondary,
