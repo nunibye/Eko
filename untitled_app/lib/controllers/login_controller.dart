@@ -49,8 +49,9 @@ class LoginController extends ChangeNotifier {
       loggingIn = true;
       notifyListeners();
 
-      _handleError(await locator<CurrentUser>().signIn(passwordController.text));
-
+      _handleError(
+          await locator<CurrentUser>().signIn(passwordController.text));
+      
       loggingIn = false;
       notifyListeners();
     }

@@ -15,11 +15,13 @@ class RootPage extends StatelessWidget {
       builder: (context, child) {
         return Scaffold(
           body: StreamBuilder<User?>(
-            stream: Provider.of<RootPageController>(context, listen: true).auth,
+            stream: FirebaseAuth.instance
+                .authStateChanges(), //Provider.of<RootPageController>(context, listen: true).auth,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 // Provider.of<RootPageController>(context, listen: false)
                 //     .loggedIn();
+                print("got!");
                 return const BottomNavBarPage();
               } else {
                 return const LoginPage();

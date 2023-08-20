@@ -27,7 +27,8 @@ class CurrentUser {
     this.followers = 0,
     this.following = 0,
     this.username = '',
-    this.profileImage = '', // TODO: we want caching
+    this.profileImage =
+        'https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c', // TODO: we want caching
   });
 
   Future signUp(password) async {
@@ -44,8 +45,10 @@ class CurrentUser {
 
   Future signIn(password) async {
     try {
+      print("sigh2");
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      print("sigh1");
       //readUserData(); // atm this works when user logs in it loads the data, will inevitably change this
       return ("success");
     } on FirebaseAuthException catch (e) {
@@ -109,36 +112,35 @@ class CurrentUser {
           IOSUiSettings() //TODO make this look good
         ]);
     if (cropedFile == null) {
-      print("fail3");
       return "fail";
     }
     if (await _uploadProfilePicture(File(cropedFile.path)) == "success") {
       return "success";
     }
-    print("fail2");
     return "fail";
   }
 
   _uploadProfilePicture(File profile) async {
     final firestore = FirebaseFirestore.instance;
     final user = FirebaseAuth
-        .instance.currentUser; //FIXME Move somewhere where we can save data
+        .instance.currentUser!; //FIXME Move somewhere where we can save data
     await FirebaseStorage.instance
         .ref()
-        .child("profile_pictures/${user?.uid}/profile.jpg")
+        .child("profile_pictures/${user.uid}/profile.jpg")
         .putFile(profile);
     try {
       final ref = FirebaseStorage.instance
           .ref()
-          .child("profile_pictures/${user!.uid}/profile.jpg");
+          .child("profile_pictures/${user.uid}/profile.jpg");
+
       profileImage = await ref.getDownloadURL();
+
       firestore
           .collection('users')
           .doc(user.uid)
           .update({"profileData.profilePicture": profileImage});
       return "success";
     } catch (e) {
-      print("fail1");
       return "fail";
     }
   }
@@ -160,7 +162,7 @@ class CurrentUser {
         'following': 0,
         'likes': 0,
         'profilePicture':
-            "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2FsSzhSpVql8TQX3E4HcCmnBWXVOp2%2Fprofile.jpg?alt=media&token=d0f3c099-4036-487a-b86d-b7bd040f4d22",
+            "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",
       }
     };
     await firestore.collection('users').doc(user.uid).set(userData);

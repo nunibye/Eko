@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:untitled_app/views/sign_up.dart';
 import '../controllers/login_controller.dart';
 import '../constants.dart' as c;
 import '../custom_widgets/login_text_feild.dart';
