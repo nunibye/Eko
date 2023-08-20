@@ -27,27 +27,34 @@ class BottomNavBarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: Provider.of<BottomNavBarController>(context)
-            .currentIndex, // Use the current index from the ViewModel
-        onTap: (index) {
-          Provider.of<BottomNavBarController>(context, listen: false)
-              .changePage(index); // Update selected index
-        },
-        elevation: 16,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
-        selectedItemColor: Theme.of(context).colorScheme.secondary,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile')
-        ],
+      // THEME gets rid of the weird splash animation if you hold a button in idk why it was annoying me
+      bottomNavigationBar: Theme(
+        data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          colorScheme: Theme.of(context).colorScheme
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: Provider.of<BottomNavBarController>(context)
+              .currentIndex, // Use the current index from the ViewModel
+          onTap: (index) {
+            Provider.of<BottomNavBarController>(context, listen: false)
+                .changePage(index); // Update selected index
+          },
+          elevation: 16,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
+          unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
+          selectedItemColor: Theme.of(context).colorScheme.secondary,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
+            BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile')
+          ],
+        ),
       ),
-
       // it will create all the pages. it loads the data on profile when it creates the object
       body: IndexedStack(
         index: Provider.of<BottomNavBarController>(context).currentIndex,
