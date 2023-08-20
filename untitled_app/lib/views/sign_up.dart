@@ -101,6 +101,7 @@ class GetLegalName extends StatelessWidget {
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
+              textInputAction: TextInputAction.go,
               focus: Provider.of<SignUpController>(context, listen: false)
                   .focus2,
               onEditingComplete: () =>

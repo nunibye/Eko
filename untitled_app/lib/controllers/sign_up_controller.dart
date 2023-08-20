@@ -80,9 +80,10 @@ class SignUpController extends ChangeNotifier {
   }
 
   void keyboardGoToNextPage() async {
-    hideKeyboard();
     await forwardPressed();
-    focus1.requestFocus();
+    Future.delayed(const Duration(milliseconds: 100), () => focus1.requestFocus()); //waits for keyboard to close
+
+    //focus1.requestFocus();
   }
 
   void _handleError(String errorCode) {
@@ -136,7 +137,8 @@ class SignUpController extends ChangeNotifier {
     } else if (controller2.text == '') {
       focus2.requestFocus();
     } else {
-      if (goodPassword || controller2.text == "password") { //TODO delete || controller2.text == "password" before production
+      //TODO delete || controller2.text == "password" before production
+      if (goodPassword || controller2.text == "password") {
         locator<CurrentUser>().email = controller1.text;
         loggingIn = true;
         notifyListeners();
@@ -179,16 +181,17 @@ class SignUpController extends ChangeNotifier {
       focus1.requestFocus();
       return "done";
     }
-    if(controller2.text == "" && page == 0){
+    if (controller2.text == "" && page == 0) {
       focus2.requestFocus();
       return "done";
     }
     if (page <= 1) {
       _getPageData(page);
-      _setPageData(page +1);
+      _setPageData(page + 1);
       await pageController.nextPage(
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
+
       // _setPageData(page);
     }
     return "done";
