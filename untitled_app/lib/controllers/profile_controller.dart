@@ -14,9 +14,9 @@ class ProfileController extends ChangeNotifier {
   String profileImage = locator<CurrentUser>().profileImage;
 
 //not needed now
-  // ProfileController() {
-  //   init(); // wait until AFTER object is created
-  // }
+  ProfileController() {
+    init(); // wait until AFTER object is created
+  }
 
   Future<void> init() async {
     await locator<CurrentUser>().readUserData();

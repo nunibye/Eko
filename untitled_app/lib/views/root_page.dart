@@ -18,8 +18,8 @@ class RootPage extends StatelessWidget {
             stream: Provider.of<RootPageController>(context, listen: true).auth,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                Provider.of<RootPageController>(context, listen: false)
-                    .loggedIn();
+                // Provider.of<RootPageController>(context, listen: false)
+                //     .loggedIn();
                 return const BottomNavBarPage();
               } else {
                 return const LoginPage();
