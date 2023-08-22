@@ -35,22 +35,22 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Display the profile picture as a CircleAvatar
-                CircleAvatar(
-                  radius: MediaQuery.of(context).size.width * 0.05,
+               SizedBox( width: MediaQuery.of(context).size.width * 0.1, child: ClipOval(
+                  
                   child: CachedNetworkImage(
                     imageUrl: post.profilePic,
                     placeholder: (context, url) =>
                         const CircularProgressIndicator(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                ),
+                ),),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        post.username,
+                        "@${post.username}",
                         style: TextStyle(
                           fontSize: 16,
                           letterSpacing: 1,

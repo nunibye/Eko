@@ -23,12 +23,16 @@ class ProfileController extends ChangeNotifier {
   ];
 
 //not needed now
-  ProfileController(){
+  ProfileController() {
     init(); // wait until AFTER object is created
   }
 
   Future<void> init() async {
-    await locator<CurrentUser>().readUserData();
+    loadUserData();
+    fetchUserPosts();
+  }
+
+  fetchUserPosts() async {
     List test = await locator<CurrentUser>().getUserPosts();
     userPosts = test
         .map(
@@ -42,9 +46,8 @@ class ProfileController extends ChangeNotifier {
         )
         .toList();
     notifyListeners();
-    loadUserData();
   }
-  
+
   editProfilePressed() {
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
@@ -52,12 +55,15 @@ class ProfileController extends ChangeNotifier {
     ).then((value) {
       profileImage = locator<CurrentUser>().profileImage;
       notifyListeners();
+      //FIXME move this
+      fetchUserPosts();
       //await CachedNetworkImage.evictFromCache("test");
     });
   }
 
   // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later
   loadUserData() async {
+    await locator<CurrentUser>().readUserData();
     likes = locator<CurrentUser>().likes;
     followers = locator<CurrentUser>().followers;
     following = locator<CurrentUser>().following;
