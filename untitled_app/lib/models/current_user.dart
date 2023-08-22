@@ -178,12 +178,13 @@ class CurrentUser {
           .collection('posts')
           .doc(user.uid)
           .collection('posts')
-          .orderBy('date', descending: true)
+          .orderBy('time', descending: true)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         postsList = querySnapshot.docs.map((doc) => doc.data()).toList();
       }
     }
+    
     return postsList;
   }
 }

@@ -1,7 +1,23 @@
 //rename later with more defined scope?
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+
+
+class Post {
+  final String username;
+  final String profilePic;
+  final String time;
+  final String title;
+  final String body;
+  final int likes;
+  Post(
+      {required this.username,
+      required this.profilePic,
+      required this.time,
+      required this.title,
+      required this.body,
+      required this.likes});
+}
 
 class PostsHandling {
   createPost(Map<String, dynamic> post) async {

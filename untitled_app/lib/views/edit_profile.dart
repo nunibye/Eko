@@ -50,7 +50,6 @@ class EditProfile extends StatelessWidget {
                               //      Consumer<EditProfileController>(
                               // builder: (context, editProfileController, _) =>
                               CachedNetworkImage(
-                            //cacheKey: "test",
                             imageUrl: Provider.of<EditProfileController>(
                                     context,
                                     listen: true)

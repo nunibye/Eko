@@ -3,21 +3,7 @@ import 'package:untitled_app/utilities/navigation_service.dart';
 import '../models/current_user.dart';
 import '../views/edit_profile.dart';
 import '../utilities/locator.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-class Post {
-  final String author;
-  final String time;
-  final String title;
-  final String body;
-  final List<String> likes;
-  Post(
-      {required this.author,
-      required this.time,
-      required this.title,
-      required this.body,
-      required this.likes});
-}
+import '../models/posts.dart';
 
 class ProfileController extends ChangeNotifier {
   // final BuildContext _context = NavigationService.navigatorKey.currentContext!;
@@ -26,10 +12,18 @@ class ProfileController extends ChangeNotifier {
   int following = locator<CurrentUser>().following;
   String username = locator<CurrentUser>().username;
   String profileImage = locator<CurrentUser>().profileImage;
-  late List<Post> userPosts;
+  List<Post> userPosts = [
+    Post(
+        username: "",
+        profilePic: locator<CurrentUser>().profileImage,
+        time: "",
+        title: "",
+        body: "",
+        likes: 3)
+  ];
 
 //not needed now
-  ProfileController() {
+  ProfileController(){
     init(); // wait until AFTER object is created
   }
 
@@ -39,17 +33,18 @@ class ProfileController extends ChangeNotifier {
     userPosts = test
         .map(
           (doc) => Post(
-              author: doc["author"] ?? '',
+              profilePic: locator<CurrentUser>().profileImage,
+              username: locator<CurrentUser>().username,
               time: doc["time"] ?? '',
               title: doc["title"] ?? '',
               body: doc["body"] ?? '',
-              likes: doc["likes"] ?? []),
+              likes: doc["likes"].length ?? 0),
         )
         .toList();
-    print('loaded');
+    notifyListeners();
     loadUserData();
   }
-
+  
   editProfilePressed() {
     Navigator.push(
       NavigationService.navigatorKey.currentContext!,
