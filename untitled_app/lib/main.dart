@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:untitled_app/navigation_service.dart';
+import 'package:untitled_app/utilities/navigation_service.dart';
 import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'constants.dart' as c;
+import 'utilities/constants.dart' as c;
 import 'views/root_page.dart';
-import 'locator.dart';
+import 'utilities/locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

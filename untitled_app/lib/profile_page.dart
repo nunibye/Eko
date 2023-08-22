@@ -5,7 +5,7 @@ import './custom_widgets/profile_page_top.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'constants.dart' as c;
+import 'utilities/constants.dart' as c;
 import 'comments_page.dart';
 import 'post_functions.dart';
 

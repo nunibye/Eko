@@ -1,10 +1,10 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import '../constants.dart' as c;
-import '../locator.dart';
+import '../utilities/constants.dart' as c;
+import '../utilities/locator.dart';
 import '../models/current_user.dart';
-import '../navigation_service.dart';
+import '../utilities/navigation_service.dart';
 import '../custom_widgets/login_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 

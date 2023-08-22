@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'comments_page.dart';
 import 'package:flutter/material.dart';
-import 'constants.dart' as c;
+import 'utilities/constants.dart' as c;
 
 class Post {
   final Timestamp date;

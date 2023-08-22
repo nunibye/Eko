@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/navigation_service.dart';
+import 'package:untitled_app/utilities/navigation_service.dart';
 import '../models/current_user.dart';
 import '../views/edit_profile.dart';
-import '../locator.dart';
+import '../utilities/locator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+class Post {
+  final String author;
+  final String time;
+  final String title;
+  final String body;
+  final List<String> likes;
+  Post(
+      {required this.author,
+      required this.time,
+      required this.title,
+      required this.body,
+      required this.likes});
+}
 
 class ProfileController extends ChangeNotifier {
   // final BuildContext _context = NavigationService.navigatorKey.currentContext!;
@@ -12,6 +26,7 @@ class ProfileController extends ChangeNotifier {
   int following = locator<CurrentUser>().following;
   String username = locator<CurrentUser>().username;
   String profileImage = locator<CurrentUser>().profileImage;
+  late List<Post> userPosts;
 
 //not needed now
   ProfileController() {
@@ -20,6 +35,17 @@ class ProfileController extends ChangeNotifier {
 
   Future<void> init() async {
     await locator<CurrentUser>().readUserData();
+    List test = await locator<CurrentUser>().getUserPosts();
+    userPosts = test
+        .map(
+          (doc) => Post(
+              author: doc["author"] ?? '',
+              time: doc["time"] ?? '',
+              title: doc["title"] ?? '',
+              body: doc["body"] ?? '',
+              likes: doc["likes"] ?? []),
+        )
+        .toList();
     print('loaded');
     loadUserData();
   }
@@ -34,7 +60,6 @@ class ProfileController extends ChangeNotifier {
       //await CachedNetworkImage.evictFromCache("test");
     });
   }
-
 
   // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later
   loadUserData() async {

@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -94,7 +92,8 @@ class CurrentUser {
     XFile? pickedFile;
     CroppedFile? cropedFile;
     pickedFile = await imagePicker.pickImage(
-         source: source, );//maxHeight: imageHeight,imageQuality: imageQuality
+      source: source,
+    ); //maxHeight: imageHeight,imageQuality: imageQuality
     if (pickedFile == null) {
       return "fail";
     }
@@ -102,7 +101,6 @@ class CurrentUser {
     cropedFile = await imageCropper.cropImage(
         sourcePath: pickedFile.path,
         cropStyle: CropStyle.circle,
-        
         maxHeight: 300,
         maxWidth: 300,
         aspectRatio: const CropAspectRatio(ratioX: 150, ratioY: 150),
@@ -168,5 +166,24 @@ class CurrentUser {
       }
     };
     await firestore.collection('users').doc(user.uid).set(userData);
+  }
+
+  Future<List<Map<String, dynamic>>> getUserPosts() async {
+    List<Map<String, dynamic>> postsList = [];
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final firestore = FirebaseFirestore.instance;
+      final querySnapshot = await firestore
+          .collection('posts')
+          .doc(user.uid)
+          .collection('posts')
+          .orderBy('date', descending: true)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        postsList = querySnapshot.docs.map((doc) => doc.data()).toList();
+      }
+    }
+    return postsList;
   }
 }

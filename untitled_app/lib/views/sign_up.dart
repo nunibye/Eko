@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/sign_up_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/login_text_feild.dart';
-import '../constants.dart' as c;
+import '../utilities/constants.dart' as c;
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});

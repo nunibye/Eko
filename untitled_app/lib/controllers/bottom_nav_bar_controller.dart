@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled_app/locator.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import 'package:untitled_app/models/current_user.dart';
 import '../views/feed_page.dart';
 import '../views/compose_page.dart';

@@ -344,6 +344,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Previous'**
   String get previous;
+
+  /// No description provided for @postTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get postTitle;
+
+  /// No description provided for @postBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body'**
+  String get postBody;
+
+  /// No description provided for @newLines.
+  ///
+  /// In en, this message translates to:
+  /// **'New Lines'**
+  String get newLines;
+
+  /// No description provided for @characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Characters'**
+  String get characters;
+
+  /// No description provided for @postButton.
+  ///
+  /// In en, this message translates to:
+  /// **'POST'**
+  String get postButton;
+
+  /// No description provided for @tooManyChar.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many characters.'**
+  String get tooManyChar;
+
+  /// No description provided for @tooManyLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many newlines.'**
+  String get tooManyLine;
+
+  /// No description provided for @emptyFieldError.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure all feilds are filled.'**
+  String get emptyFieldError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

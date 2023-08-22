@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../constants.dart' as c;
+import '../utilities/constants.dart' as c;
 import '../controllers/edit_profile_controller.dart';
 import 'package:provider/provider.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';

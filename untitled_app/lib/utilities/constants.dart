@@ -36,6 +36,15 @@ ColorScheme darkThemeColors(context) {
   );
 }
 
+//Button Style
+ButtonStyle buttonStyle(context) {
+  return ButtonStyle(
+    splashFactory: NoSplash.splashFactory,
+    overlayColor: MaterialStateProperty.all(Colors.transparent),
+    mouseCursor: MaterialStateProperty.all(MouseCursor.defer),
+  );
+}
+
 const double logoPaddingVert = 30;
 const double logoPaddingHoriz = 0;
 const double loginPadding = 0.006;
@@ -45,3 +54,8 @@ const double imageSize = 150;
 
 const double postPaddingVert = 0;
 const double postPaddingHoriz = 12;
+
+const int signUpAnimationDuration = 300;
+const int maxPostLines = 12;
+const int maxPostChars = 160;
+const int maxTittleChars = 60;

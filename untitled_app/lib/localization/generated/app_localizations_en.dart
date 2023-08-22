@@ -129,4 +129,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get previous => 'Previous';
+
+  @override
+  String get postTitle => 'Title';
+
+  @override
+  String get postBody => 'Body';
+
+  @override
+  String get newLines => 'New Lines';
+
+  @override
+  String get characters => 'Characters';
+
+  @override
+  String get postButton => 'POST';
+
+  @override
+  String get tooManyChar => 'Too many characters.';
+
+  @override
+  String get tooManyLine => 'Too many newlines.';
+
+  @override
+  String get emptyFieldError => 'Make sure all feilds are filled.';
 }

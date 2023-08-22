@@ -1,9 +1,9 @@
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:untitled_app/navigation_service.dart';
+import 'package:untitled_app/utilities/navigation_service.dart';
 import '../models/current_user.dart';
 import 'package:flutter/material.dart';
 import '../custom_widgets/login_dialog.dart';
-import '../locator.dart';
+import '../utilities/locator.dart';
 import '../views/sign_up.dart';
 
 class LoginController extends ChangeNotifier {

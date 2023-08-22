@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../locator.dart';
+import '../utilities/locator.dart';
 import '../models/current_user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 

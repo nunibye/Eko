@@ -52,8 +52,18 @@
     "firstName":"First Name",
     "lastName":"Last Name",
     "userName":"Username",
-    "previous":"Previous"
+    "previous":"Previous",
 
+    "postTitle":"Title",
+    "postBody":"Body",
+    "newLines":"New Lines",
+    "characters":"Characters",
+
+    "postButton":"POST",
+    "tooManyChar":"Too many characters.",
+    "tooManyLine":"Too many newlines.",
+
+    "emptyFieldError":"Make sure all feilds are filled."
 
 
 }
