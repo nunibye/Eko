@@ -43,10 +43,10 @@ class CurrentUser {
 
   Future signIn(password) async {
     try {
-      print("sigh2");
+
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print("sigh1");
+
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -168,23 +168,22 @@ class CurrentUser {
     await firestore.collection('users').doc(user.uid).set(userData);
   }
 
-  Future<List<Map<String, dynamic>>> getUserPosts() async {
-    List<Map<String, dynamic>> postsList = [];
-    final user = FirebaseAuth.instance.currentUser;
+  // Future<List<Map<String, dynamic>>> getUserPosts() async {
+  //   List<Map<String, dynamic>> postsList = [];
+  //   final user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      final firestore = FirebaseFirestore.instance;
-      final querySnapshot = await firestore
-          .collection('posts')
-          .doc(user.uid)
-          .collection('posts')
-          .orderBy('time', descending: true)
-          .get();
-      if (querySnapshot.docs.isNotEmpty) {
-        postsList = querySnapshot.docs.map((doc) => doc.data()).toList();
-      }
-    }
+  //   if (user != null) {
+  //     final firestore = FirebaseFirestore.instance;
+  //     final querySnapshot = await firestore
+  //         .collection('posts').where("author", isEqualTo: user.uid)
+          
+  //         .orderBy('time', descending: true)
+  //         .get();
+  //     if (querySnapshot.docs.isNotEmpty) {
+  //       postsList = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //     }
+  //   }
     
-    return postsList;
-  }
+  //   return postsList;
+  // }
 }

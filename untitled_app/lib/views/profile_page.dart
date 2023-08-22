@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/profile_page_top.dart';
 import '../controllers/profile_controller.dart';
-import '../custom_widgets/post_card.dart';
+//import '../custom_widgets/post_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -26,13 +26,14 @@ class ProfileView extends StatelessWidget {
     final profileController = Provider.of<ProfileController>(context);
     return Scaffold(
       body: ListView.builder(
-          itemCount: Provider.of<ProfileController>(context, listen: true)
-                  .userPosts
-                  .length +
-              1,
+          itemCount: 1,
+          // Provider.of<ProfileController>(context, listen: true)
+          //         .userPosts
+          //         .length +
+          //     1,
           itemBuilder: (BuildContext context, int index) {
             //top
-            if (index == 0) {
+            if (true) {
               return Column(
                 children: [
                   Padding(
@@ -136,18 +137,19 @@ class ProfileView extends StatelessWidget {
                   ),
                 ],
               );
-            } else if (index <
-                Provider.of<ProfileController>(context, listen: true)
-                    .userPosts
-                    .length +1) {
-              // Show your info
-              return Consumer<ProfileController>(
-                  builder: (context, profileController, _) =>
-                      PostCard(post: profileController.userPosts[index - 1]));
-            } else {
-              //getMoreData();
-              return const Center(); //for inf scrollchild: CircularProgressIndicator()
-            }
+            } 
+            // else if (index <
+            //     Provider.of<ProfileController>(context, listen: true)
+            //         .userPosts
+            //         .length +1) {
+            //   // Show your info
+            //   return Consumer<ProfileController>(
+            //       builder: (context, profileController, _) =>
+            //           PostCard(post: profileController.userPosts[index - 1]));
+            // } else {
+            //   //getMoreData();
+            //   return const Center(); //for inf scrollchild: CircularProgressIndicator()
+            // }
           }),
     );
   }

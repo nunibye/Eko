@@ -45,7 +45,10 @@ class ComposeController extends ChangeNotifier {
       bodyFocus.requestFocus();
       showSnackBar(text: AppLocalizations.of(_context)!.emptyFieldError);
     } else {
-      locator<PostsHandling>().createPost({"title":titleController.text,"body":bodyController.text});
+      locator<PostsHandling>().createPost(
+          {"title": titleController.text, "body": bodyController.text});
+      titleController.text = "";
+      bodyController.text = "";
     }
   }
 }

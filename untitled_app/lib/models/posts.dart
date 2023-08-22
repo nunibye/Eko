@@ -1,10 +1,13 @@
 //rename later with more defined scope?
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../utilities/constants.dart' as c;
 
 class Post {
   final String username;
+  final String firstName;
+  final String lastName;
+
   final String profilePic;
   final String time;
   final String title;
@@ -12,10 +15,26 @@ class Post {
   final int likes;
   Post(
       {required this.username,
+      required this.firstName,
+      required this.lastName,
       required this.profilePic,
       required this.time,
       required this.title,
       required this.body,
+      required this.likes});
+}
+
+class RawPostObject {
+  final String author;
+  final String title;
+  final String body;
+  final String time;
+  final List<dynamic> likes;
+  RawPostObject(
+      {required this.author,
+      required this.title,
+      required this.body,
+      required this.time,
       required this.likes});
 }
 
@@ -26,13 +45,34 @@ class PostsHandling {
     post["author"] = user.uid;
     post["time"] = DateTime.now().toUtc().toIso8601String();
     post["likes"] = [user.uid];
-    await firestore
-        .collection('posts')
-        .doc(user.uid)
-        .collection('posts')
-        .add(post)
-        .then((documentSnapshot) =>
-            print("Added Data with ID: ${documentSnapshot.id}"));
+    await firestore.collection('posts').add(post).then((documentSnapshot) =>
+        print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
+  }
+
+  Future<List<RawPostObject>> getPosts(String? time) async {
+    final collectionRef = FirebaseFirestore.instance.collection("posts");
+    late QuerySnapshot<Map<String, dynamic>> snapshot;
+    if (time == null) {
+      //initial data
+      snapshot = await collectionRef
+          .orderBy('time', descending: true)
+          .limit(c.postsOnRefresh)
+          .get();
+    } else {
+      snapshot = await collectionRef
+          .orderBy('time', descending: true)
+          .startAfter([time])
+          .limit(c.postsOnRefresh)
+          .get();
+    }
+    return snapshot.docs
+        .map<RawPostObject>((data) => RawPostObject(
+            author: data["author"] ?? "",
+            title: data["title"] ?? "",
+            body: data["body"] ?? "",
+            time: data["time"] ?? "",
+            likes: data["likes"] ?? []))
+        .toList();
   }
 }

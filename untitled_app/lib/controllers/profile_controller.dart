@@ -12,15 +12,17 @@ class ProfileController extends ChangeNotifier {
   int following = locator<CurrentUser>().following;
   String username = locator<CurrentUser>().username;
   String profileImage = locator<CurrentUser>().profileImage;
-  List<Post> userPosts = [
-    Post(
-        username: "",
-        profilePic: locator<CurrentUser>().profileImage,
-        time: "",
-        title: "",
-        body: "",
-        likes: 3)
-  ];
+  // List<Post> userPosts = [
+  //   Post(
+  //       username: "",
+  //       lastName: "",
+  //       firstName: "",
+  //       profilePic: locator<CurrentUser>().profileImage,
+  //       time: "",
+  //       title: "",
+  //       body: "",
+  //       likes: 3)
+  // ];
 
 //not needed now
   ProfileController() {
@@ -29,24 +31,26 @@ class ProfileController extends ChangeNotifier {
 
   Future<void> init() async {
     loadUserData();
-    fetchUserPosts();
+    //fetchUserPosts();
   }
 
-  fetchUserPosts() async {
-    List test = await locator<CurrentUser>().getUserPosts();
-    userPosts = test
-        .map(
-          (doc) => Post(
-              profilePic: locator<CurrentUser>().profileImage,
-              username: locator<CurrentUser>().username,
-              time: doc["time"] ?? '',
-              title: doc["title"] ?? '',
-              body: doc["body"] ?? '',
-              likes: doc["likes"].length ?? 0),
-        )
-        .toList();
-    notifyListeners();
-  }
+  // fetchUserPosts() async {
+  //   List test = await locator<CurrentUser>().getUserPosts();
+  //   userPosts = test
+  //       .map(
+  //         (doc) => Post(
+  //             profilePic: locator<CurrentUser>().profileImage,
+  //             username: locator<CurrentUser>().username,
+  //             firstName: locator<CurrentUser>().firstName,
+  //             lastName: locator<CurrentUser>().lastName,
+  //             time: doc["time"] ?? '',
+  //             title: doc["title"] ?? '',
+  //             body: doc["body"] ?? '',
+  //             likes: doc["likes"].length ?? 0),
+  //       )
+  //       .toList();
+  //   notifyListeners();
+  // }
 
   editProfilePressed() {
     Navigator.push(
@@ -56,7 +60,7 @@ class ProfileController extends ChangeNotifier {
       profileImage = locator<CurrentUser>().profileImage;
       notifyListeners();
       //FIXME move this
-      fetchUserPosts();
+      //fetchUserPosts();
       //await CachedNetworkImage.evictFromCache("test");
     });
   }
