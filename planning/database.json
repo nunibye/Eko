@@ -15,32 +15,16 @@
         "username": "johnsmith"
     },
     "posts": {
-        "uid": {
-            "posts": {
-                "author": "uid1",
-                "body": "This is my first post",
-                "title": "test", // whats the title for?
-                "likes": [
-                    "uid2"
-                ],
-                "comments": [
-                    "docRef1",
-                    "docRef2"
-                ],
-                "time": "2023-08-22T20:17:51.137375Z"
-            },
-            "comments": {
-                "author": "Amy Smith",
-                "body": "This is my first post",
-                "title": "test", // whats the title for?
-                "likes": [
-                    "uid1"
-                ],
-                "comments": [
-                ],
-                "time": "2023-08-22T20:17:51.137375Z"
-            }
-        }
-        
+        "author": "uid1",
+        "body": "This is my first post",
+        "title": "test",
+        "likes": [
+            "uid2"
+        ],
+        "comments": [
+            "docRef1",
+            "docRef2"
+        ],
+        "time": "2023-08-22T20:17:51.137375Z"  
     }
 }
