@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import '../views/profile_page.dart';
 import '../views/feed_page.dart';
@@ -52,11 +52,11 @@ class BottomNavBarView extends StatelessWidget {
       // it will create all the pages. it loads the data on profile when it creates the object
       body: IndexedStack(
         index: Provider.of<BottomNavBarController>(context).currentIndex,
-        children: [
-          FeedPage(),
-          SearchPage(),
+        children: const[
+           FeedPage(),
+           SearchPage(),
           ComposePage(),
-          ProfilePage(),
+           ProfilePage(),
         ],
       ),
     );

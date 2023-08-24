@@ -4,7 +4,7 @@ import '../utilities/constants.dart' as c;
 import '../custom_widgets/error_snack_bar.dart';
 import '../utilities/navigation_service.dart';
 import '../utilities/locator.dart';
-import '../models/posts.dart';
+import '../models/post_handler.dart';
 
 class ComposeController extends ChangeNotifier {
   final BuildContext _context = NavigationService.navigatorKey.currentContext!;
@@ -45,7 +45,10 @@ class ComposeController extends ChangeNotifier {
       bodyFocus.requestFocus();
       showSnackBar(text: AppLocalizations.of(_context)!.emptyFieldError);
     } else {
-      locator<PostsHandling>().createPost({"title":titleController.text,"body":bodyController.text});
+      locator<PostsHandling>().createPost(
+          {"title": titleController.text, "body": bodyController.text});
+      titleController.text = "";
+      bodyController.text = "";
     }
   }
 }

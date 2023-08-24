@@ -4,30 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import '../models/users.dart';
 
-class CurrentUser {
+class CurrentUser extends AppUser {
   String email;
-  String firstName;
-  String lastName;
+  List<dynamic> likedPosts;
+  String uid;
 
-  int likes;
-  int followers;
-  int following;
-  String username;
+  CurrentUser({this.uid = "", this.email = '', this.likedPosts = const []});
 
-  String profileImage;
-
-  CurrentUser({
-    this.email = '',
-    this.firstName = '',
-    this.lastName = '',
-    this.likes = 0,
-    this.followers = 0,
-    this.following = 0,
-    this.username = '',
-    this.profileImage =
-        'https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c', // TODO: we want caching
-  });
+//gets uid making sure it is current. idk if this is neccesary but it will be easy to remove.
+  String getUID() {
+    if (uid == '') {
+      uid = FirebaseAuth.instance.currentUser?.uid ?? "";
+    }
+    return uid;
+  }
 
   Future signUp(password) async {
     try {
@@ -35,6 +27,7 @@ class CurrentUser {
         email: email,
         password: password,
       );
+      uid = FirebaseAuth.instance.currentUser!.uid;
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -43,10 +36,9 @@ class CurrentUser {
 
   Future signIn(password) async {
     try {
-      print("sigh2");
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print("sigh1");
+      uid = FirebaseAuth.instance.currentUser!.uid;
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -63,27 +55,16 @@ class CurrentUser {
     }
   }
 
-  Future readUserData() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final firestore = FirebaseFirestore.instance;
-      final querySnapshot = await firestore
-          .collection('users')
-          .where("uid", isEqualTo: user.uid)
-          .get(); // Get the user's document based on their UID
-      if (querySnapshot.docs.isNotEmpty) {
-        final userData = querySnapshot.docs.first.data();
-        likes = userData['profileData']['followers']; // exmaple map querey
-        followers = userData['profileData']['following']; // exmaple map querey
-        following = userData['profileData']['likes'];
-        profileImage = userData['profileData']['profilePicture'];
-        username = userData['username'];
-        print(likes);
-      }
+  Future<void> readCurrentUserData() async {
+    final user = getUID();
+    final userData = await readUserData(user); //uses function from parent class
+    if (userData != null) {
+      email = userData["email"] ?? "";
+      likedPosts = userData["likedPosts"] ?? [];
     }
   }
 
-  setProfileImage(
+  Future<String> setProfileImage(
       {ImageSource source = ImageSource.gallery,
       int imageQuality = 100,
       imageHeight = 300.0}) async {
@@ -120,24 +101,23 @@ class CurrentUser {
     return "fail";
   }
 
-  _uploadProfilePicture(File profile) async {
+  Future<String> _uploadProfilePicture(File profile) async {
     final firestore = FirebaseFirestore.instance;
-    final user = FirebaseAuth
-        .instance.currentUser!; //FIXME Move somewhere where we can save data
+    final user = getUID();
     await FirebaseStorage.instance
         .ref()
-        .child("profile_pictures/${user.uid}/profile.jpg")
+        .child("profile_pictures/$user/profile.jpg")
         .putFile(profile);
     try {
       final ref = FirebaseStorage.instance
           .ref()
-          .child("profile_pictures/${user.uid}/profile.jpg");
+          .child("profile_pictures/$user/profile.jpg");
 
       profileImage = await ref.getDownloadURL();
 
       firestore
           .collection('users')
-          .doc(user.uid)
+          .doc(user)
           .update({"profileData.profilePicture": profileImage});
       return "success";
     } catch (e) {
@@ -146,11 +126,10 @@ class CurrentUser {
   }
 
   Future<void> addUserDataToFirestore() async {
-    final user = FirebaseAuth
-        .instance.currentUser; //FIXME Move somewhere where we can save data
+    final user = getUID();
     final firestore = FirebaseFirestore.instance;
     final userData = {
-      'uid': user!.uid,
+      'uid': user,
       'email': email,
       'username': username,
       'name': {
@@ -165,26 +144,6 @@ class CurrentUser {
             "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",
       }
     };
-    await firestore.collection('users').doc(user.uid).set(userData);
-  }
-
-  Future<List<Map<String, dynamic>>> getUserPosts() async {
-    List<Map<String, dynamic>> postsList = [];
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final firestore = FirebaseFirestore.instance;
-      final querySnapshot = await firestore
-          .collection('posts')
-          .doc(user.uid)
-          .collection('posts')
-          .orderBy('time', descending: true)
-          .get();
-      if (querySnapshot.docs.isNotEmpty) {
-        postsList = querySnapshot.docs.map((doc) => doc.data()).toList();
-      }
-    }
-    
-    return postsList;
+    await firestore.collection('users').doc(user).set(userData);
   }
 }

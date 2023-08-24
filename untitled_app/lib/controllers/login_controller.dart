@@ -60,7 +60,7 @@ class LoginController extends ChangeNotifier {
           await locator<CurrentUser>().signIn(passwordController.text));
 
       loggingIn = false;
-      notifyListeners();
+      notifyListeners();  //FIXME problems can apear here since it gets disposed
     }
   }
 

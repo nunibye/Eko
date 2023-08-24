@@ -59,3 +59,5 @@ const int signUpAnimationDuration = 300;
 const int maxPostLines = 12;
 const int maxPostChars = 160;
 const int maxTittleChars = 60;
+
+const int postsOnRefresh = 10;

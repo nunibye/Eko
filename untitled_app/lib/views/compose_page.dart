@@ -6,6 +6,7 @@ import '../controllers/compose_controller.dart';
 import '../utilities/constants.dart' as c;
 
 class ComposePage extends StatelessWidget {
+  const ComposePage({super.key});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

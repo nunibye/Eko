@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../utilities/constants.dart' as c;
+//import '../utilities/constants.dart' as c;
 import '../controllers/edit_profile_controller.dart';
 import 'package:provider/provider.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,21 +46,23 @@ class EditProfile extends StatelessWidget {
                                 listen: false)
                             .editProfileImagePressed(),
                         icon: ClipOval(
-                          child:
-                              //      Consumer<EditProfileController>(
-                              // builder: (context, editProfileController, _) =>
-                              CachedNetworkImage(
-                            imageUrl: Provider.of<EditProfileController>(
-                                    context,
-                                    listen: true)
-                                .profileImage,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                          //),
-                        ),
+                            child: Stack(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: Provider.of<EditProfileController>(
+                                      context,
+                                      listen: true)
+                                  .profileImage,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            const Image(
+                              image: AssetImage('images/edit.png'),
+                            )
+                          ],
+                        )),
                       ),
                     )
                   ],

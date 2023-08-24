@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../utilities/constants.dart' as c;
-import '../models/posts.dart';
+import '../models/post_handler.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;

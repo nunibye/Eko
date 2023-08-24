@@ -6,6 +6,6 @@ import '../utilities/locator.dart';
 class RootPageController extends ChangeNotifier {
   var auth = FirebaseAuth.instance.authStateChanges();
   loggedIn() {
-    locator<CurrentUser>().readUserData();
+    locator<CurrentUser>().readCurrentUserData();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:untitled_app/utilities/locator.dart';
-import 'package:untitled_app/models/current_user.dart';
+// import 'package:provider/provider.dart';
+// import 'package:untitled_app/utilities/locator.dart';
+// import 'package:untitled_app/models/current_user.dart';
 import '../views/feed_page.dart';
 import '../views/compose_page.dart';
 import '../views/profile_page.dart';
@@ -18,15 +18,15 @@ class BottomNavBarController extends ChangeNotifier {
   Widget getPage() {
     switch (currentIndex) {
       case 0:
-        return FeedPage();
+        return const FeedPage();
       case 1:
-        return SearchPage();
+        return const SearchPage();
       case 2:
-        return ComposePage();
+        return const ComposePage();
       case 3:
-        return ProfilePage();
+        return const ProfilePage();
       default:
-        return Placeholder(); // TODO: Handle invalid index
+        return const Placeholder(); // TODO: Handle invalid index
     }
   }
 }
