@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:untitled_app/utilities/navigation_service.dart';
 import 'utilities/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return MaterialApp(
-      navigatorKey: NavigationService.navigatorKey,
+
       title: 'Untitled',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

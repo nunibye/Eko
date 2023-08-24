@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => LoginController(),
+      create: (context) => LoginController(context: context),
       builder: (context, child) {
         return GestureDetector(
           onTap: () => Provider.of<LoginController>(context, listen: false)

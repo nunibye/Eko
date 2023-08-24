@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/utilities/navigation_service.dart';
+
 import '../models/current_user.dart';
-import '../views/edit_profile.dart';
+//import '../views/edit_profile.dart';
 import '../utilities/locator.dart';
 
 class ProfileController extends ChangeNotifier {
@@ -23,14 +23,9 @@ class ProfileController extends ChangeNotifier {
     loadUserData();
   }
 
-  editProfilePressed() {
-    Navigator.push(
-      NavigationService.navigatorKey.currentContext!,
-      MaterialPageRoute(builder: (context) => const EditProfile()),
-    ).then((value) {
-      profileImage = locator<CurrentUser>().profileImage;
-      notifyListeners();
-    });
+  editProfileDissmissed() {
+    profileImage = locator<CurrentUser>().profileImage;
+    notifyListeners();
   }
 
   String getUID() {

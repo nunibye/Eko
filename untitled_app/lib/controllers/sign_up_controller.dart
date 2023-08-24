@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
 import '../models/current_user.dart';
-import '../utilities/navigation_service.dart';
+
 import '../custom_widgets/login_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 // TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
-  final BuildContext _context = NavigationService.navigatorKey.currentContext!;
+  
 
   final controller1 = TextEditingController();
   final controller2 = TextEditingController();
@@ -17,6 +17,7 @@ class SignUpController extends ChangeNotifier {
   final focus2 = FocusNode();
   final focus3 = FocusNode();
   final pageController = PageController();
+  final BuildContext context;
 
   bool firstPage = true;
   bool lastPage = false;
@@ -24,6 +25,8 @@ class SignUpController extends ChangeNotifier {
   bool goodPassword = false;
   double passwordPercent = 0;
   List<String> passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
+
+  SignUpController({required this.context});
 
   passwordChanged() {
     passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
@@ -65,7 +68,7 @@ class SignUpController extends ChangeNotifier {
   }
 
   void _pop() {
-    Navigator.of(_context).pop();
+    Navigator.of(context).pop();
   }
 
   void _returnToLogin() {
@@ -79,7 +82,8 @@ class SignUpController extends ChangeNotifier {
 
   void keyboardGoToNextPage() async {
     await forwardPressed();
-    Future.delayed(const Duration(milliseconds: 100), () => focus1.requestFocus()); //waits for keyboard to close
+    Future.delayed(const Duration(milliseconds: 100),
+        () => focus1.requestFocus()); //waits for keyboard to close
 
     //focus1.requestFocus();
   }
@@ -91,38 +95,38 @@ class SignUpController extends ChangeNotifier {
         break;
       case 'invalid-email':
         showMyDialog(
-            AppLocalizations.of(_context)!.invalidEmailTittle,
-            AppLocalizations.of(_context)!.invalidEmailBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.invalidEmailTittle,
+            AppLocalizations.of(context)!.invalidEmailBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
       case 'weak-password':
         showMyDialog(
-            AppLocalizations.of(_context)!.weakPasswordTitle,
-            AppLocalizations.of(_context)!.weakPasswordBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.weakPasswordTitle,
+            AppLocalizations.of(context)!.weakPasswordBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
       case 'email-already-in-use':
         showMyDialog(
-            AppLocalizations.of(_context)!.emailAlreadyInUseTitle,
-            AppLocalizations.of(_context)!.emailAlreadyInUseBody,
+            AppLocalizations.of(context)!.emailAlreadyInUseTitle,
+            AppLocalizations.of(context)!.emailAlreadyInUseBody,
             [
-              AppLocalizations.of(_context)!.logIn,
-              AppLocalizations.of(_context)!.tryAgain
+              AppLocalizations.of(context)!.logIn,
+              AppLocalizations.of(context)!.tryAgain
             ],
             [_returnToLogin, _pop],
-            _context);
+            context);
         break;
       default:
         showMyDialog(
-            AppLocalizations.of(_context)!.defaultErrorTittle,
-            AppLocalizations.of(_context)!.defaultErrorBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.defaultErrorTittle,
+            AppLocalizations.of(context)!.defaultErrorBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
     }
   }
@@ -161,14 +165,14 @@ class SignUpController extends ChangeNotifier {
       _setPageData(pageController.page!.toInt());
     } else {
       showMyDialog(
-          AppLocalizations.of(_context)!.exitCreateAccountTitle,
-          AppLocalizations.of(_context)!.exitCreateAccountBody,
+          AppLocalizations.of(context)!.exitCreateAccountTitle,
+          AppLocalizations.of(context)!.exitCreateAccountBody,
           [
-            AppLocalizations.of(_context)!.go,
-            AppLocalizations.of(_context)!.stay
+            AppLocalizations.of(context)!.go,
+            AppLocalizations.of(context)!.stay
           ],
           [_returnToLogin, _pop],
-          _context);
+          context);
     }
   }
 

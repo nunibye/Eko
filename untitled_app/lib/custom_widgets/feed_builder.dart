@@ -17,7 +17,7 @@ class FeedBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => FeedBuilderController(
-          firestoreQuery: firestoreQuery, refreshFunction: refreshFunction),
+          firestoreQuery: firestoreQuery, refreshFunction: refreshFunction, context:context),
       builder: (context, child) {
         return Scaffold(
           body: RefreshIndicator(

@@ -1,5 +1,5 @@
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:untitled_app/utilities/navigation_service.dart';
+
 import '../models/current_user.dart';
 import 'package:flutter/material.dart';
 import '../custom_widgets/login_dialog.dart';
@@ -17,9 +17,11 @@ class LoginController extends ChangeNotifier {
   final emailFocus = FocusNode();
   final passwordFocus = FocusNode();
 
-  final BuildContext _context = NavigationService.navigatorKey.currentContext!;
+  final BuildContext context;
+
+  LoginController({required this.context});
   void _pop() {
-    Navigator.of(_context).pop();
+    Navigator.of(context).pop();
   }
 
   void hideKeyboard() {
@@ -34,7 +36,7 @@ class LoginController extends ChangeNotifier {
   void signUp() {
     hideKeyboard();
     Navigator.push(
-      _context,
+      context,
       MaterialPageRoute(builder: (context) => SignUp()),
     ); //FIXME should we need to potomize this
   }
@@ -60,11 +62,9 @@ class LoginController extends ChangeNotifier {
           await locator<CurrentUser>().signIn(passwordController.text));
 
       loggingIn = false;
-      notifyListeners();  //FIXME problems can apear here since it gets disposed
+      notifyListeners(); //FIXME problems can apear here since it gets disposed
     }
   }
-
-
 
   void _handleError(String errorCode) {
     switch (errorCode) {
@@ -72,46 +72,46 @@ class LoginController extends ChangeNotifier {
         break;
       case 'invalid-email':
         showMyDialog(
-            AppLocalizations.of(_context)!.invalidEmailTittle,
-            AppLocalizations.of(_context)!.invalidEmailBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.invalidEmailTittle,
+            AppLocalizations.of(context)!.invalidEmailBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
       case 'user-not-found':
         showMyDialog(
-            AppLocalizations.of(_context)!.userNotFoundTitle,
-            AppLocalizations.of(_context)!.userNotFoundBody,
+            AppLocalizations.of(context)!.userNotFoundTitle,
+            AppLocalizations.of(context)!.userNotFoundBody,
             [
-              AppLocalizations.of(_context)!.signUp,
-              AppLocalizations.of(_context)!.tryAgain
+              AppLocalizations.of(context)!.signUp,
+              AppLocalizations.of(context)!.tryAgain
             ],
             [_signUpFromAlert, _pop],
-            _context);
+            context);
         break;
       case 'wrong-password':
         showMyDialog(
-            AppLocalizations.of(_context)!.wrongPasswordTittle,
-            AppLocalizations.of(_context)!.wrongPasswordBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.wrongPasswordTittle,
+            AppLocalizations.of(context)!.wrongPasswordBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
       case 'user-disabled':
         showMyDialog(
-            AppLocalizations.of(_context)!.userDisabledTittle,
-            AppLocalizations.of(_context)!.userDisabledBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.userDisabledTittle,
+            AppLocalizations.of(context)!.userDisabledBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
       default:
         showMyDialog(
-            AppLocalizations.of(_context)!.defaultErrorTittle,
-            AppLocalizations.of(_context)!.defaultErrorBody,
-            [AppLocalizations.of(_context)!.tryAgain],
+            AppLocalizations.of(context)!.defaultErrorTittle,
+            AppLocalizations.of(context)!.defaultErrorBody,
+            [AppLocalizations.of(context)!.tryAgain],
             [_pop],
-            _context);
+            context);
         break;
     }
   }

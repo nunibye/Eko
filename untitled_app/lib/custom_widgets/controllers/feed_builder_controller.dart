@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import '../../models/post_handler.dart';
 import '../../models/users.dart';
 import '../../utilities/locator.dart';
-import 'package:untitled_app/utilities/navigation_service.dart';
 import '../../utilities/constants.dart' as c;
 import 'package:cloud_firestore/cloud_firestore.dart' show Query;
 
@@ -14,8 +13,13 @@ class FeedBuilderController extends ChangeNotifier {
   final Query<Map<String, dynamic>> firestoreQuery;
   final Function? refreshFunction;
 
+  final BuildContext context;
+
   FeedBuilderController(
-      {required this.firestoreQuery, required this.refreshFunction}) {
+      {required this.firestoreQuery,
+      required this.refreshFunction,
+      
+      required this.context}) {
     init();
   }
   init() async {
@@ -27,8 +31,6 @@ class FeedBuilderController extends ChangeNotifier {
 
   _onScroll() async {
     if (!end) {
-      final BuildContext context =
-          NavigationService.navigatorKey.currentContext!;
       if (scroll.position.maxScrollExtent - scroll.position.pixels <=
           MediaQuery.sizeOf(context).height * 0.2) {
         if (loading == false) {

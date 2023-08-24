@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../utilities/navigation_service.dart';
 
-showSnackBar({String text = "", int time = 1500}) {
-  final BuildContext context = NavigationService.navigatorKey.currentContext!;
+
+showSnackBar({String text = "", int time = 1500, required BuildContext context}) {
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: Theme.of(context).colorScheme.onBackground,

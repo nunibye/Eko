@@ -12,7 +12,7 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SignUpController(),
+      create: (context) => SignUpController(context: context),
       builder: (context, child) {
         return GestureDetector(
           onTap: () => Provider.of<SignUpController>(context, listen: false)

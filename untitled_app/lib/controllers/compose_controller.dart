@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../utilities/constants.dart' as c;
 import '../custom_widgets/error_snack_bar.dart';
-import '../utilities/navigation_service.dart';
+
 import '../utilities/locator.dart';
 import '../models/post_handler.dart';
 
 class ComposeController extends ChangeNotifier {
-  final BuildContext _context = NavigationService.navigatorKey.currentContext!;
+  final BuildContext context;
   final titleController = TextEditingController();
   final bodyController = TextEditingController();
   final titleFocus = FocusNode();
@@ -15,6 +15,8 @@ class ComposeController extends ChangeNotifier {
   int newLines = 0;
   int bodyChars = 0;
   int titleChars = 0;
+
+  ComposeController({required this.context});
 
   updateCountsBody(String str) {
     bodyChars = str.length;
@@ -33,17 +35,17 @@ class ComposeController extends ChangeNotifier {
     updateCountsBody(bodyController.text);
     updateCountsTitle(titleController.text);
     if (titleChars > c.maxTittleChars) {
-      showSnackBar(text: AppLocalizations.of(_context)!.tooManyChar);
+      showSnackBar(text: AppLocalizations.of(context)!.tooManyChar, context: context);
     } else if (newLines > c.maxPostLines) {
-      showSnackBar(text: AppLocalizations.of(_context)!.tooManyChar);
+      showSnackBar(text: AppLocalizations.of(context)!.tooManyChar, context: context);
     } else if (bodyChars > c.maxPostChars) {
-      showSnackBar(text: AppLocalizations.of(_context)!.tooManyLine);
+      showSnackBar(text: AppLocalizations.of(context)!.tooManyLine, context: context);
     } else if (titleController.text == "") {
       titleFocus.requestFocus();
-      showSnackBar(text: AppLocalizations.of(_context)!.emptyFieldError);
+      showSnackBar(text: AppLocalizations.of(context)!.emptyFieldError, context: context);
     } else if (bodyController.text == "") {
       bodyFocus.requestFocus();
-      showSnackBar(text: AppLocalizations.of(_context)!.emptyFieldError);
+      showSnackBar(text: AppLocalizations.of(context)!.emptyFieldError, context: context);
     } else {
       locator<PostsHandling>().createPost(
           {"title": titleController.text, "body": bodyController.text});

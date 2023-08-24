@@ -10,7 +10,7 @@ class ComposePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ComposeController(),
+      create: (context) => ComposeController(context: context),
       builder: (context, child) {
         return Scaffold(
           body: Padding(

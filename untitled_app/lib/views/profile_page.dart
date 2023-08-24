@@ -6,6 +6,7 @@ import '../controllers/profile_controller.dart';
 import '../custom_widgets/feed_builder.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../views/edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -48,22 +49,25 @@ class Header extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(children: [
-                Text(
-                  "@${Provider.of<ProfileController>(context, listen: true).username}",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22),
-                ),
-                const Spacer(),
-                IconButton(
+              Row(
+                children: [
+                  Text(
+                    "@${Provider.of<ProfileController>(context, listen: true).username}",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22),
+                  ),
+                  const Spacer(),
+                  IconButton(
                     onPressed: () {},
                     icon: const Icon(
                       Icons.settings_outlined,
                       size: 35,
-                    ),)
-              ],),
+                    ),
+                  )
+                ],
+              ),
               SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.26,
                 child: ClipOval(
@@ -121,9 +125,14 @@ class Header extends StatelessWidget {
                     side: BorderSide(
                         width: 2, color: Theme.of(context).colorScheme.primary),
                   ),
-                  onPressed: () =>
-                      Provider.of<ProfileController>(context, listen: false)
-                          .editProfilePressed(),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditProfile()),
+                  ).then((value) {
+                    Provider.of<ProfileController>(context, listen: false)
+                        .editProfileDissmissed();
+                  }),
                   child: Text(
                     AppLocalizations.of(context)!.editProfile,
                     style: TextStyle(
