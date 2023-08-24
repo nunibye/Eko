@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
+  const SearchPage({super.key});
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

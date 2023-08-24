@@ -11,11 +11,20 @@
             "likes": 0,
             "profilePicture": "https://firebasestorage.googleapis.com/download/link"
         },
-        "_uid": "foobarbaz",
+        "uid": "uid1",
         "username": "johnsmith"
     },
     "posts": {
-        "comments": {},
-        "posts": {}
+        "author": "uid1",
+        "body": "This is my first post",
+        "title": "test",
+        "likes": [
+            "uid2"
+        ],
+        "comments": [
+            "docRef1",
+            "docRef2"
+        ],
+        "time": "2023-08-22T20:17:51.137375Z"  
     }
 }
