@@ -9,8 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../views/edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
+  const ProfilePage({super.key, required this.details});
+  final String details;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

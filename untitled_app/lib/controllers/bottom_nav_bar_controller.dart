@@ -24,7 +24,7 @@ class BottomNavBarController extends ChangeNotifier {
       case 2:
         return const ComposePage();
       case 3:
-        return const ProfilePage();
+        return const ProfilePage(details: "s",);
       default:
         return const Placeholder(); // TODO: Handle invalid index
     }

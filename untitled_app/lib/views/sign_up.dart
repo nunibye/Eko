@@ -6,8 +6,8 @@ import '../custom_widgets/login_text_feild.dart';
 import '../utilities/constants.dart' as c;
 
 class SignUp extends StatelessWidget {
-  SignUp({super.key});
-  final temp = TextEditingController();
+  const SignUp({super.key});
+
 
   @override
   Widget build(BuildContext context) {

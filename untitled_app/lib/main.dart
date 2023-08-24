@@ -5,7 +5,8 @@ import 'utilities/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/constants.dart' as c;
-import 'views/root_page.dart';
+//import 'views/root_page.dart';
+import 'utilities/router.dart';
 import 'utilities/locator.dart';
 
 Future<void> main() async {
@@ -28,8 +29,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return MaterialApp(
-
+    return MaterialApp.router(
       title: 'Untitled',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
         splashFactory: NoSplash.splashFactory,
-        
+
         // Depends on if you want the button across the app to have splash or not
         // elevatedButtonTheme:
         //     ElevatedButtonThemeData(style: c.buttonStyle(context)),
@@ -75,7 +75,8 @@ class MyApp extends StatelessWidget {
         Locale('en'), // English
         Locale('es'), // Spanish
       ],
-      home: const RootPage(),
+      routerConfig: goRouter,
+      //home: const RootPage(),
     );
   }
 }

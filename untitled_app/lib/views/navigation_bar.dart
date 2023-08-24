@@ -55,8 +55,8 @@ class BottomNavBarView extends StatelessWidget {
         children: const[
            FeedPage(),
            SearchPage(),
-          ComposePage(),
-           ProfilePage(),
+           ComposePage(),
+           ProfilePage(details: "t"),
         ],
       ),
     );

@@ -10,7 +10,7 @@ class FeedPage extends StatelessWidget {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("feed page"),
+        const Text("feed page"),
         IconButton(
             onPressed: () => FirebaseAuth.instance.signOut(),
             icon: const Icon(Icons.logout)),

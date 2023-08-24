@@ -41,7 +41,7 @@ class PostCard extends StatelessWidget {
                     imageUrl: post.profilePic,
                     placeholder: (context, url) =>
                         const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),),
                 const SizedBox(width: 10),

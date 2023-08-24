@@ -45,8 +45,8 @@ class PostsHandling {
     post["author"] = user.uid;
     post["time"] = DateTime.now().toUtc().toIso8601String();
     post["likes"] = [user.uid];
-    await firestore.collection('posts').add(post).then((documentSnapshot) =>
-        print("Added Data with ID: ${documentSnapshot.id}"));
+    await firestore.collection('posts').add(post);
+    //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }
 

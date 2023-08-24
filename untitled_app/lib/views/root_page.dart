@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:untitled_app/views/login.dart';
 import 'navigation_bar.dart';
 import '../controllers/root_controller.dart';
@@ -10,25 +11,17 @@ class RootPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges().listen(((User? user) {
+      if (user != null) {
+        context.go('/profile');
+      } else {
+        context.go('/login');
+      }
+    }));
     return ChangeNotifierProvider(
       create: (context) => RootPageController(),
       builder: (context, child) {
-        return Scaffold(
-          body: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance
-                .authStateChanges(), //Provider.of<RootPageController>(context, listen: true).auth,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                // Provider.of<RootPageController>(context, listen: false)
-                //     .loggedIn();
-                print("got!");
-                return const BottomNavBarPage();
-              } else {
-                return const LoginPage();
-              }
-            },
-          ),
-        );
+        return const CircularProgressIndicator();
       },
     );
   }
