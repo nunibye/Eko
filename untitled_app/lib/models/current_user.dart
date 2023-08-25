@@ -19,7 +19,7 @@ class CurrentUser extends AppUser {
       uid = FirebaseAuth.instance.currentUser?.uid ?? "";
     }
     return uid;
-  }
+  }   
 
   Future signUp(password) async {
     try {

@@ -1,64 +1,80 @@
-
 import 'package:flutter/material.dart';
-import '../controllers/bottom_nav_bar_controller.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../utilities/locator.dart';
+import '../controllers/bottom_nav_bar_controller.dart';
 
-
-import '../views/profile_page.dart';
-import '../views/feed_page.dart';
-import '../views/compose_page.dart';
-import '../views/search_page.dart';
-
-class BottomNavBarPage extends StatelessWidget {
-  const BottomNavBarPage({super.key});
+class ScaffoldWithNestedNavigation extends StatelessWidget {
+  const ScaffoldWithNestedNavigation({
+    Key? key,
+    required this.navigationShell,
+  }) : super(
+            key: key ?? const ValueKey<String>('ScaffoldWithNestedNavigation'));
+  final StatefulNavigationShell navigationShell;
+//TODO not MVVM
+  void _goBranch(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => BottomNavBarController(), // Provide the ViewModel
-      child: const BottomNavBarView(),
+    return ScaffoldWithNavigationBar(
+      body: navigationShell,
+      selectedIndex: navigationShell.currentIndex,
+      onDestinationSelected: _goBranch,
     );
   }
 }
 
-class BottomNavBarView extends StatelessWidget {
-  const BottomNavBarView({super.key});
+class ScaffoldWithNavigationBar extends StatelessWidget {
+  const ScaffoldWithNavigationBar({
+    super.key,
+    required this.body,
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+  final Widget body;
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // THEME gets rid of the weird splash animation if you hold a button in idk why it was annoying me
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: Provider.of<BottomNavBarController>(context)
-            .currentIndex, // Use the current index from the ViewModel
-        onTap: (index) {
-          Provider.of<BottomNavBarController>(context, listen: false)
-              .changePage(index); // Update selected index
-        },
-        iconSize: 25, //TODO: idk. should these change size based on how big the device is?
-        elevation: 16,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
-        selectedItemColor: Theme.of(context).colorScheme.secondary,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'add'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile')
-        ],
-      ),
-      // it will create all the pages. it loads the data on profile when it creates the object
-      body: IndexedStack(
-        index: Provider.of<BottomNavBarController>(context).currentIndex,
-        children: const[
-           FeedPage(),
-           SearchPage(),
-           ComposePage(),
-           ProfilePage(details: "t"),
-        ],
-      ),
-    );
+    return ChangeNotifierProvider(
+        create: (context) => locator<NavBarController>(),
+        builder: (context, child) {
+          return Scaffold(
+            body: body,
+            bottomNavigationBar: Provider.of<NavBarController>(context, listen: true)
+                                .enabled
+                ? 
+                 BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: selectedIndex,
+                    iconSize:
+                        25, //TODO: idk. should these change size based on how big the device is?
+                    elevation: 16,
+                    showUnselectedLabels: false,
+                    showSelectedLabels: false,
+                    unselectedItemColor:
+                        Theme.of(context).colorScheme.onPrimary,
+                    selectedItemColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).colorScheme.onBackground,
+                    items: const [
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.home), label: 'home'),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.search), label: 'search'),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.add), label: 'add'),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.person), label: 'profile')
+                    ],
+                    onTap: onDestinationSelected,
+                  ): null,
+          );
+        });
   }
 }

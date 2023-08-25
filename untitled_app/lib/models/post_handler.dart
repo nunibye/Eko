@@ -7,12 +7,15 @@ class Post {
   final String username;
   final String firstName;
   final String lastName;
-
+  final String uid;
   final String profilePic;
   final String time;
   final String title;
   final String body;
   final int likes;
+  final int followers;
+  final int following;
+  final int userLikes;
   Post(
       {required this.username,
       required this.firstName,
@@ -20,8 +23,12 @@ class Post {
       required this.profilePic,
       required this.time,
       required this.title,
+      required this.uid,
       required this.body,
-      required this.likes});
+      required this.likes,
+      required this.followers,
+      required this.following,
+      required this.userLikes});
 }
 
 class RawPostObject {
@@ -29,13 +36,15 @@ class RawPostObject {
   final String title;
   final String body;
   final String time;
+
   final List<dynamic> likes;
-  RawPostObject(
-      {required this.author,
-      required this.title,
-      required this.body,
-      required this.time,
-      required this.likes});
+  RawPostObject({
+    required this.author,
+    required this.title,
+    required this.body,
+    required this.time,
+    required this.likes,
+  });
 }
 
 class PostsHandling {
@@ -50,19 +59,14 @@ class PostsHandling {
     return "success";
   }
 
-  Future<List<RawPostObject>> getPosts(String? time, Query<Map<String, dynamic>> query) async {
-    
+  Future<List<RawPostObject>> getPosts(
+      String? time, Query<Map<String, dynamic>> query) async {
     late QuerySnapshot<Map<String, dynamic>> snapshot;
     if (time == null) {
       //initial data
-      snapshot = await query
-          .limit(c.postsOnRefresh)
-          .get();
+      snapshot = await query.limit(c.postsOnRefresh).get();
     } else {
-      snapshot = await query
-          .startAfter([time])
-          .limit(c.postsOnRefresh)
-          .get();
+      snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
     }
     return snapshot.docs
         .map<RawPostObject>((data) => RawPostObject(

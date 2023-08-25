@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import '../custom_widgets/profile_page_top.dart';
+import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
 import '../custom_widgets/feed_builder.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../views/edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key, required this.details});
-  final String details;
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProfileController(),
+      create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return FeedBuilder(
+        return Scaffold(
+            body: FeedBuilder(
           //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
           firestoreQuery: FirebaseFirestore.instance
               .collection('posts')
@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
           refreshFunction:
               Provider.of<ProfileController>(context, listen: false)
                   .onPageRefresh,
-        );
+        ));
       },
     );
   }
@@ -44,74 +44,13 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "@${Provider.of<ProfileController>(context, listen: true).username}",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.settings_outlined,
-                      size: 35,
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.26,
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        Provider.of<ProfileController>(context, listen: true)
-                            .profileImage,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                Provider.of<ProfileController>(context, listen: true).username,
-                style: TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ProfilePageTopNumberDisplay(
-                number:
-                    Provider.of<ProfileController>(context, listen: true).likes,
-                label: AppLocalizations.of(context)!.likes),
-            ProfilePageTopNumberDisplay(
-                number: Provider.of<ProfileController>(context, listen: true)
-                    .followers,
-                label: AppLocalizations.of(context)!.followers),
-            ProfilePageTopNumberDisplay(
-                number: Provider.of<ProfileController>(context, listen: true)
-                    .following,
-                label: AppLocalizations.of(context)!.following),
-          ],
-        ),
+        Consumer<ProfileController>(
+            builder: (context, profileController, _) => ProfileHeader(
+                username: profileController.username,
+                profilePic: profileController.profileImage,
+                likes: profileController.likes,
+                following: profileController.following,
+                followers: profileController.followers)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
@@ -125,14 +64,9 @@ class Header extends StatelessWidget {
                     side: BorderSide(
                         width: 2, color: Theme.of(context).colorScheme.primary),
                   ),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const EditProfile()),
-                  ).then((value) {
-                    Provider.of<ProfileController>(context, listen: false)
-                        .editProfileDissmissed();
-                  }),
+                  onPressed: () =>
+                      Provider.of<ProfileController>(context, listen: false)
+                          .editProfilePressed(),
                   child: Text(
                     AppLocalizations.of(context)!.editProfile,
                     style: TextStyle(

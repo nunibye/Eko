@@ -17,39 +17,39 @@ class FeedBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => FeedBuilderController(
-          firestoreQuery: firestoreQuery, refreshFunction: refreshFunction, context:context),
+          firestoreQuery: firestoreQuery,
+          refreshFunction: refreshFunction,
+          context: context),
       builder: (context, child) {
-        return Scaffold(
-          body: RefreshIndicator(
-            child: Consumer<FeedBuilderController>(
-              builder: (context, feedController, child) => ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller:
-                    Provider.of<FeedBuilderController>(context, listen: false)
-                        .scroll,
-                itemCount: feedController.posts.length + 2,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == 0) {
-                    return child;
-                  } else if (feedController.posts.isNotEmpty &&
-                      index < feedController.posts.length + 1) {
-                    return PostCard(post: feedController.posts[index - 1]);
-                  } else {
-                    return feedController.end
-                        ? const Center(child: Text("No More Posts"))
-                        : const Center(
-                            child: Padding(
-                                padding: EdgeInsets.all(10),
-                                child: CircularProgressIndicator()));
-                  }
-                },
-              ),
-              child: header,
+        return RefreshIndicator(
+          child: Consumer<FeedBuilderController>(
+            builder: (context, feedController, child) => ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller:
+                  Provider.of<FeedBuilderController>(context, listen: false)
+                      .scroll,
+              itemCount: feedController.posts.length + 2,
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0) {
+                  return child;
+                } else if (feedController.posts.isNotEmpty &&
+                    index < feedController.posts.length + 1) {
+                  return PostCard(post: feedController.posts[index - 1]);
+                } else {
+                  return feedController.end
+                      ? const Center(child: Text("No More Posts"))
+                      : const Center(
+                          child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: CircularProgressIndicator()));
+                }
+              },
             ),
-            onRefresh: () =>
-                Provider.of<FeedBuilderController>(context, listen: false)
-                    .onRefresh(),
+            child: header,
           ),
+          onRefresh: () =>
+              Provider.of<FeedBuilderController>(context, listen: false)
+                  .onRefresh(),
         );
       },
     );

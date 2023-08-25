@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 //import '../utilities/constants.dart' as c;
 import '../controllers/edit_profile_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatelessWidget {
@@ -19,7 +20,7 @@ class EditProfile extends StatelessWidget {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded,
                   color: Theme.of(context).colorScheme.primary),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop("poped"),
             ),
             backgroundColor: Theme.of(context).colorScheme.background,
             title: Text(

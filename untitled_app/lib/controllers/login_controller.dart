@@ -4,7 +4,7 @@ import '../models/current_user.dart';
 import 'package:flutter/material.dart';
 import '../custom_widgets/login_dialog.dart';
 import '../utilities/locator.dart';
-import '../views/sign_up.dart';
+import "package:go_router/go_router.dart";
 
 class LoginController extends ChangeNotifier {
   // BuildContext context;
@@ -35,10 +35,7 @@ class LoginController extends ChangeNotifier {
 
   void signUp() {
     hideKeyboard();
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SignUp()),
-    ); //FIXME should we need to potomize this
+    context.go("/signup");
   }
 
   forgotPasswordPressed(countryCode) async {

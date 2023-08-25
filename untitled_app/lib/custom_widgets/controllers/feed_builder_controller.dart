@@ -52,10 +52,14 @@ class FeedBuilderController extends ChangeNotifier {
       AppUser user = AppUser();
       await user.readUserData(raw.author, checkCurrentUser: true);
       posts.add(Post(
+          followers: user.followers,
+          following: user.following,
+          userLikes: user.likes,
           username: user.username,
           profilePic: user.profileImage,
           firstName: user.firstName,
           lastName: user.lastName,
+          uid: raw.author,
           time: raw.time,
           title: raw.title,
           body: raw.body,
