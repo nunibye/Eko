@@ -7,9 +7,9 @@ import '../custom_widgets/feed_builder.dart';
 import '../models/post_handler.dart' show Post;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SubProfile extends StatelessWidget {
-  final Post post;
-  const SubProfile({super.key, required this.post});
+class OtherProfile extends StatelessWidget {
+  final Post? post;
+  const OtherProfile({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,9 @@ class SubProfile extends StatelessWidget {
         return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              
               leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios_rounded,
-                          color: Theme.of(context).colorScheme.primary),
+                      color: Theme.of(context).colorScheme.primary),
                   onPressed: () => context.pop()),
               backgroundColor: Theme.of(context).colorScheme.background,
               title: Text(
@@ -38,7 +37,8 @@ class SubProfile extends StatelessWidget {
               //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
               firestoreQuery: FirebaseFirestore.instance
                   .collection('posts')
-                  .where("author", isEqualTo: post.uid)
+                  .where("author", isEqualTo: Provider.of<OtherProfileController>(context, listen: false)
+                      .uid)
                   .orderBy('time', descending: true),
               //This widget will be first in the list. use Column for this not ListView
               header: const _Header(),

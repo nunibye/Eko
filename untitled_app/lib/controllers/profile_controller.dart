@@ -4,7 +4,7 @@ import '../models/current_user.dart';
 import 'bottom_nav_bar_controller.dart';
 //import '../views/edit_profile.dart';
 import '../utilities/locator.dart';
-import '../models/post_handler.dart';
+
 
 class ProfileController extends ChangeNotifier {
   int likes = locator<CurrentUser>().likes;

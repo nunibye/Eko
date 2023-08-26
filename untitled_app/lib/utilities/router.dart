@@ -77,8 +77,8 @@ final goRouter = GoRouter(
                     path: 'profile',
                     name: 'sub_profile',
                     builder: (context, state) {
-                      Post post = state.extra as Post;
-                      return SubProfile(post: post);
+                      Post? post = state.extra as Post?;
+                      return OtherProfile(post: post);
                     },
                   ),
                 ]),
