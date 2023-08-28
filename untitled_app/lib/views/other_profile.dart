@@ -32,13 +32,21 @@ class OtherProfile extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
+                )
+              ],
             ),
             body: FeedBuilder(
               //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
               firestoreQuery: FirebaseFirestore.instance
                   .collection('posts')
-                  .where("author", isEqualTo: Provider.of<OtherProfileController>(context, listen: false)
-                      .uid)
+                  .where("author",
+                      isEqualTo: Provider.of<OtherProfileController>(context,
+                              listen: false)
+                          .uid)
                   .orderBy('time', descending: true),
               //This widget will be first in the list. use Column for this not ListView
               header: const _Header(),
@@ -61,11 +69,13 @@ class _Header extends StatelessWidget {
       children: [
         Consumer<OtherProfileController>(
             builder: (context, otherProfileController, _) => ProfileHeader(
-                username: otherProfileController.username,
-                profilePic: otherProfileController.profileImage,
-                likes: otherProfileController.likes,
-                following: otherProfileController.following,
-                followers: otherProfileController.followers))
+                  username: otherProfileController.username,
+                  profilePic: otherProfileController.profileImage,
+                  likes: otherProfileController.likes,
+                  following: otherProfileController.following,
+                  followers: otherProfileController.followers,
+                  user_settings: false,
+                ))
       ],
     );
   }

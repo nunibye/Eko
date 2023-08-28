@@ -5,7 +5,6 @@ import 'bottom_nav_bar_controller.dart';
 //import '../views/edit_profile.dart';
 import '../utilities/locator.dart';
 
-
 class ProfileController extends ChangeNotifier {
   int likes = locator<CurrentUser>().likes;
   int followers = locator<CurrentUser>().followers;
@@ -29,10 +28,14 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  String getUID() {
-    
-      return locator<CurrentUser>().getUID();
+  settingsButtonPressed() async {
+    locator<NavBarController>().disable();
+    await context.push('/profile/user_settings');
+    locator<NavBarController>().enable();
+  }
 
+  String getUID() {
+    return locator<CurrentUser>().getUID();
   }
 
   // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later

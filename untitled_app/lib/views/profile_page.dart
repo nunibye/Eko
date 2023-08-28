@@ -50,7 +50,8 @@ class Header extends StatelessWidget {
                 profilePic: profileController.profileImage,
                 likes: profileController.likes,
                 following: profileController.following,
-                followers: profileController.followers)),
+                followers: profileController.followers,
+                user_settings: true,)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
