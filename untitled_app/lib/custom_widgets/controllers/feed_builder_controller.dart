@@ -37,6 +37,7 @@ class FeedBuilderController extends ChangeNotifier {
           MediaQuery.sizeOf(context).height * 0.2) {
         if (loading == false) {
           loading = true;
+          
           await parseRawPosts(await locator<PostsHandling>()
               .getPosts(posts.last.time, firestoreQuery));
           notifyListeners();
@@ -47,8 +48,6 @@ class FeedBuilderController extends ChangeNotifier {
   }
 
   parseRawPosts(List<RawPostObject> rawPosts) async {
-    
-
     if (rawPosts.length < c.postsOnRefresh) {
       end = true;
     }
@@ -77,6 +76,7 @@ class FeedBuilderController extends ChangeNotifier {
   Future<void> onRefresh() async {
     end = false;
     posts = [];
+    locator<PostsHandling>().feedChunks = [];
     await parseRawPosts(
         await locator<PostsHandling>().getPosts(null, firestoreQuery));
     if (refreshFunction != null) {

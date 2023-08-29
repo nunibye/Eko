@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../custom_widgets/feed_builder.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
@@ -11,11 +10,11 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-        return Scaffold(
+        return const  Scaffold(
             body: FeedBuilder(
               //TODO maybe optimize to check current user?
               user: null,
-          header: const _Header(),
+          header: _Header(),
           
         )
       

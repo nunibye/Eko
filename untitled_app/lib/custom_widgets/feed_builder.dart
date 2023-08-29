@@ -11,7 +11,7 @@ class FeedBuilder extends StatelessWidget {
   final Function? refreshFunction;
   final AppUser? user;
   const FeedBuilder(
-      {required this.firestoreQuery,
+      {this.firestoreQuery,
       required this.header,
       this.refreshFunction,
       super.key,
@@ -42,7 +42,19 @@ class FeedBuilder extends StatelessWidget {
                   return PostCard(post: feedController.posts[index - 1]);
                 } else {
                   if (feedController.posts.isEmpty) {
-                    return const Center(child:Column(children: [Text("add loading animation"), CircularProgressIndicator()],));
+                    if (feedController.end) {
+                      return const Center(child: Text(
+                          "Nothing to see. Go follow some people!"));
+                    } else {
+                      return const Center(
+                        child: Column(
+                          children: [
+                            Text("add loading animation"),
+                            CircularProgressIndicator()
+                          ],
+                        ),
+                      );
+                    }
                   } else {
                     return feedController.end
                         ? const Center(

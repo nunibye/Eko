@@ -52,7 +52,7 @@ class RawPostObject {
 
 class feedChunk {
   final List<dynamic> uids;
-  final RawPostObject oldestPost;
+  RawPostObject oldestPost;
   feedChunk({required this.uids, required this.oldestPost});
 }
 
@@ -71,7 +71,7 @@ class PostsHandling {
 
   Future<List<RawPostObject>> getPosts(
       String? time, Query<Map<String, dynamic>>? query) async {
-    late QuerySnapshot<Map<String, dynamic>> snapshot;
+    late QuerySnapshot<Map<String, dynamic>>? snapshot;
     if (query != null) {
       if (time == null) {
         //initial data
@@ -92,15 +92,19 @@ class PostsHandling {
     } else {
       final firestore = FirebaseFirestore.instance;
       List<RawPostObject> postsToPassBack = [];
+      if (locator<CurrentUser>().following.isEmpty) {
+        return postsToPassBack;
+      }
       if (feedChunks.isEmpty) {
         final following = locator<CurrentUser>().following.slices(30);
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
-              .where(locator<CurrentUser>().getUID(), whereIn: slice)
+              .where('author', whereIn: slice)
               .orderBy('time', descending: true)
               .limit(1)
               .get();
+
           final data = snapshot.docs.first;
           feedChunks.add(feedChunk(
               uids: slice,
@@ -114,10 +118,35 @@ class PostsHandling {
 
         feedChunks
             .sort((a, b) => a.oldestPost.time.compareTo(a.oldestPost.time));
+        postsToPassBack.add(feedChunks.first.oldestPost);
       }
 
-      while (postsToPassBack.length < 5) {
-        
+      while (postsToPassBack.length < c.postsOnRefresh) {
+        snapshot = await firestore
+            .collection('posts')
+            .where("author", whereIn: feedChunks.first.uids)
+            .orderBy('time', descending: true)
+            .startAfter([feedChunks.first.oldestPost.time])
+            .limit(1)
+            .get();
+        if (snapshot.docs.isNotEmpty) {
+          final data = snapshot.docs.first;
+          feedChunks.first.oldestPost = RawPostObject(
+              author: data["author"] ?? "",
+              title: data["title"] ?? "",
+              body: data["body"] ?? "",
+              time: data["time"] ?? "",
+              likes: data["likes"] ?? []);
+          postsToPassBack.add(feedChunks.first.oldestPost);
+          feedChunks.sort(
+            (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
+          );
+        } else {
+          feedChunks.removeAt(0);
+          if (feedChunks.isEmpty) {
+            return postsToPassBack;
+          }
+        }
       }
 
       return postsToPassBack;
