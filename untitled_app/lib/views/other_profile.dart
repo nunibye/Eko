@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/custom_widgets/profile_page_header.dart';
+import 'package:untitled_app/models/users.dart' show AppUser;
 import '../controllers/other_profile_controller.dart';
 import 'package:provider/provider.dart';
 import '../custom_widgets/feed_builder.dart';
 import '../models/post_handler.dart' show Post;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 class OtherProfile extends StatelessWidget {
   final Post? post;
@@ -32,13 +34,38 @@ class OtherProfile extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons
+                      .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
+                )
+              ],
             ),
             body: FeedBuilder(
+              user: AppUser(
+                  username:
+                      Provider.of<OtherProfileController>(context, listen: true)
+                          .username,
+                  firstName:
+                      Provider.of<OtherProfileController>(context, listen: true)
+                          .firstName,
+                  lastName:
+                      Provider.of<OtherProfileController>(context, listen: true)
+                          .lastName,
+                  profileImage:
+                      Provider.of<OtherProfileController>(context, listen: true)
+                          .profileImage,
+                  uid:
+                      Provider.of<OtherProfileController>(context, listen: true)
+                          .uid),
               //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
               firestoreQuery: FirebaseFirestore.instance
                   .collection('posts')
-                  .where("author", isEqualTo: Provider.of<OtherProfileController>(context, listen: false)
-                      .uid)
+                  .where("author",
+                      isEqualTo: Provider.of<OtherProfileController>(context,
+                              listen: false)
+                          .uid)
                   .orderBy('time', descending: true),
               //This widget will be first in the list. use Column for this not ListView
               header: const _Header(),
@@ -60,12 +87,46 @@ class _Header extends StatelessWidget {
     return Column(
       children: [
         Consumer<OtherProfileController>(
-            builder: (context, otherProfileController, _) => ProfileHeader(
-                username: otherProfileController.username,
-                profilePic: otherProfileController.profileImage,
-                likes: otherProfileController.likes,
-                following: otherProfileController.following,
-                followers: otherProfileController.followers))
+          builder: (context, otherProfileController, _) => ProfileHeader(
+            username: otherProfileController.username,
+            profilePic: otherProfileController.profileImage,
+            likes: otherProfileController.likes,
+            following: otherProfileController.following.length,
+            followers: otherProfileController.followers.length,
+          ),
+        ),
+        //TODO style
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.width * 0.1,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    side: BorderSide(
+                        width: 2, color: Theme.of(context).colorScheme.primary),
+                  ),
+                  onPressed: () =>
+                      Provider.of<OtherProfileController>(context, listen: false)
+                          .onFollowPressed(),
+                  child: Text(Provider.of<OtherProfileController>(context, listen: true)
+                          .isFollowing ?
+                     AppLocalizations.of(context)!.following:AppLocalizations.of(context)!.follow ,
+                    style: TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

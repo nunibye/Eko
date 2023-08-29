@@ -303,6 +303,12 @@ abstract class AppLocalizations {
   /// **'Likes'**
   String get likes;
 
+  /// No description provided for @follow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get follow;
+
   /// No description provided for @followers.
   ///
   /// In en, this message translates to:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/profile_picture_loading.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 //import '../utilities/constants.dart' as c;
@@ -40,6 +41,7 @@ class EditProfile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
+                      height: MediaQuery.sizeOf(context).width * 0.26,
                       width: MediaQuery.sizeOf(context).width * 0.26,
                       child: IconButton(
                         onPressed: () => Provider.of<EditProfileController>(
@@ -55,7 +57,7 @@ class EditProfile extends StatelessWidget {
                                       listen: true)
                                   .profileImage,
                               placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
+                                  const LoadingProfileImage(),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
                             ),

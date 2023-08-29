@@ -46,6 +46,7 @@
 
     "close":"Close",
     "likes":"Likes",
+    "follow":"Follow",
     "followers":"Followers",
     "following":"Following",
     "editProfile":"Edit Profile",

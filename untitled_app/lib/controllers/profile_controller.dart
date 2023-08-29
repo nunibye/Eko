@@ -1,38 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/users.dart' show AppUser;
 import '../models/current_user.dart';
 import 'bottom_nav_bar_controller.dart';
 //import '../views/edit_profile.dart';
 import '../utilities/locator.dart';
 
-
 class ProfileController extends ChangeNotifier {
   int likes = locator<CurrentUser>().likes;
-  int followers = locator<CurrentUser>().followers;
-  int following = locator<CurrentUser>().following;
+  List<dynamic> followers = locator<CurrentUser>().followers;
+  List<dynamic> following = locator<CurrentUser>().following;
   String username = locator<CurrentUser>().username;
   String profileImage = locator<CurrentUser>().profileImage;
+  String firstName = locator<CurrentUser>().firstName;
+  String lastName = locator<CurrentUser>().lastName;
   final BuildContext context;
+  late AppUser user;
 
   ProfileController({
     required this.context,
-  });
+  }) {
+    initUser();
+  }
   onPageRefresh() {
     loadUserData();
+  }
+
+//FIXME maybe move to a standard class format for more reusablity
+  initUser() {
+    user = AppUser(
+      uid: getUID(),
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      profileImage: profileImage,
+    );
   }
 
   editProfilePressed() async {
     locator<NavBarController>().disable();
     await context.push("/profile/edit_profile");
+
     locator<NavBarController>().enable();
     profileImage = locator<CurrentUser>().profileImage;
+    user.profileImage = profileImage;
     notifyListeners();
   }
 
-  String getUID() {
-    
-      return locator<CurrentUser>().getUID();
+  settingsButtonPressed() async {
+    locator<NavBarController>().disable();
+    await context.push('/profile/user_settings');
+    locator<NavBarController>().enable();
+  }
 
+  String getUID() {
+    return locator<CurrentUser>().getUID();
   }
 
   // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later
@@ -43,6 +65,7 @@ class ProfileController extends ChangeNotifier {
     following = locator<CurrentUser>().following;
     username = locator<CurrentUser>().username;
     profileImage = locator<CurrentUser>().profileImage;
+    initUser();
     //print(username);
     notifyListeners();
   }

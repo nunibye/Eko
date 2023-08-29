@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utilities/locator.dart';
-import '../models/current_user.dart';
 
 class AppUser {
   String firstName;
@@ -8,35 +6,36 @@ class AppUser {
   String username;
   String profileImage;
   int likes;
-  int followers;
-  int following;
+  List<dynamic> followers;
+  List<dynamic> following;
+  String uid;
 
   AppUser({
+    this.uid = '',
     this.firstName = '',
     this.lastName = '',
     this.likes = 0,
-    this.followers = 0,
-    this.following = 0,
+    this.followers = const [],
+    this.following = const [],
     this.username = '',
     this.profileImage =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",
   });
 
-  Future<Map<String, dynamic>?> readUserData(String uid,
-      {bool checkCurrentUser = false}) async {
-
-
+  Future<Map<String, dynamic>?> readUserData(String passedUid,
+      {AppUser? user}) async {
+    uid = passedUid;
     //checks if post author is the current user because then data can be saved by not getting there info. Must have toggle so that profile doesn't try to save data.
-    if (checkCurrentUser) {
-      if (uid == locator<CurrentUser>().getUID()) {
+    if (user != null) {
+      if (passedUid == user.uid) {
+        profileImage = user.profileImage;
+        followers = user.followers;
+        following = user.following;
+        likes = user.likes;
+        username = user.username;
+        firstName = user.firstName;
+        lastName = user.firstName;
 
-        profileImage = locator<CurrentUser>().profileImage;
-        followers = locator<CurrentUser>().followers;
-        following = locator<CurrentUser>().following;
-        likes = locator<CurrentUser>().likes;
-        username = locator<CurrentUser>().username;
-        firstName = locator<CurrentUser>().firstName;
-        lastName = locator<CurrentUser>().firstName;
         return null;
       }
     }
@@ -44,10 +43,11 @@ class AppUser {
     final data = await userRef.doc(uid).get(); //FIXME need exception handleing
     final userData = data.data();
     if (userData != null) {
-    
       profileImage = userData['profileData']['profilePicture'];
       followers = userData['profileData']['followers'];
+      
       following = userData['profileData']['following'];
+      print(following);
       likes = userData['profileData']['likes'];
       username = userData['username'];
       firstName = userData['name']['firstName'];

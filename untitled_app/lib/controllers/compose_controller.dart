@@ -29,6 +29,8 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
+
+//TODO add more content like a preview of a post.
   postPressed() {
     bodyController.text = bodyController.text.trim();
     titleController.text = titleController.text.trim();

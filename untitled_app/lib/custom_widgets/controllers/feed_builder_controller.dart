@@ -4,13 +4,15 @@ import '../../models/users.dart';
 import '../../utilities/locator.dart';
 import '../../utilities/constants.dart' as c;
 import 'package:cloud_firestore/cloud_firestore.dart' show Query;
+import '../../models/users.dart' show AppUser;
 
 class FeedBuilderController extends ChangeNotifier {
   List<Post> posts = [];
+  AppUser? passedUser;
   final scroll = ScrollController();
   bool loading = false;
   bool end = false;
-  final Query<Map<String, dynamic>> firestoreQuery;
+  final Query<Map<String, dynamic>>? firestoreQuery;
   final Function? refreshFunction;
 
   final BuildContext context;
@@ -18,8 +20,8 @@ class FeedBuilderController extends ChangeNotifier {
   FeedBuilderController(
       {required this.firestoreQuery,
       required this.refreshFunction,
-      
-      required this.context}) {
+      required this.context,
+      this.passedUser}) {
     init();
   }
   init() async {
@@ -45,13 +47,16 @@ class FeedBuilderController extends ChangeNotifier {
   }
 
   parseRawPosts(List<RawPostObject> rawPosts) async {
+    
+
     if (rawPosts.length < c.postsOnRefresh) {
       end = true;
     }
     for (RawPostObject raw in rawPosts) {
       AppUser user = AppUser();
-      await user.readUserData(raw.author, checkCurrentUser: true);
-      posts.add(Post(
+      await user.readUserData(raw.author, user: passedUser);
+      posts.add(
+        Post(
           followers: user.followers,
           following: user.following,
           userLikes: user.likes,
@@ -63,7 +68,9 @@ class FeedBuilderController extends ChangeNotifier {
           time: raw.time,
           title: raw.title,
           body: raw.body,
-          likes: raw.likes.length));
+          likes: raw.likes.length,
+        ),
+      );
     }
   }
 

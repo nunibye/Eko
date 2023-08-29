@@ -9,8 +9,8 @@ class EditProfileController extends ChangeNotifier {
     //FIXME crashes if you exit before function finishes
     if (await locator<CurrentUser>().setProfileImage() == "success") {
       profileImage = locator<CurrentUser>().profileImage;
+
       notifyListeners();
-    } else {
-    }
+    } else {}
   }
 }

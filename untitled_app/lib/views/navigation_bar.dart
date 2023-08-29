@@ -42,8 +42,9 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => locator<NavBarController>(),
+    return ChangeNotifierProvider.value(
+      
+        value: locator<NavBarController>(),
         builder: (context, child) {
           return Scaffold(
             body: body,

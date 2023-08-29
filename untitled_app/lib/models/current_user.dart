@@ -9,9 +9,8 @@ import '../models/users.dart';
 class CurrentUser extends AppUser {
   String email;
   List<dynamic> likedPosts;
-  String uid;
 
-  CurrentUser({this.uid = "", this.email = '', this.likedPosts = const []});
+  CurrentUser({this.email = '', this.likedPosts = const []});
 
 //gets uid making sure it is current. idk if this is neccesary but it will be easy to remove.
   String getUID() {
@@ -19,7 +18,7 @@ class CurrentUser extends AppUser {
       uid = FirebaseAuth.instance.currentUser?.uid ?? "";
     }
     return uid;
-  }   
+  }
 
   Future signUp(password) async {
     try {
@@ -61,6 +60,44 @@ class CurrentUser extends AppUser {
     if (userData != null) {
       email = userData["email"] ?? "";
       likedPosts = userData["likedPosts"] ?? [];
+    }
+  }
+
+  bool checkIsFollowing(String otherUid) {
+    return following.contains(otherUid);
+  }
+
+  Future<bool> addFollower(String otherUid) async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final user = getUID();
+      await firestore.collection("users").doc(user).update({
+        "profileData.following": FieldValue.arrayUnion([otherUid])
+      });
+      await firestore.collection("users").doc(otherUid).update({
+        "profileData.followers": FieldValue.arrayUnion([user])
+      });
+      following.add(otherUid);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> removeFollower(String otherUid) async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final user = getUID();
+      await firestore.collection("users").doc(user).update({
+        "profileData.following": FieldValue.arrayRemove([otherUid])
+      });
+      await firestore.collection("users").doc(otherUid).update({
+        "profileData.followers": FieldValue.arrayRemove([user])
+      });
+      following.remove(otherUid);
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
@@ -137,8 +174,8 @@ class CurrentUser extends AppUser {
         'lastName': lastName,
       },
       'profileData': {
-        'followers': 0,
-        'following': 0,
+        'followers': [],
+        'following': [],
         'likes': 0,
         'profilePicture':
             "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",

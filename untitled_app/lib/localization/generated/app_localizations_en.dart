@@ -110,6 +110,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get likes => 'Likes';
 
   @override
+  String get follow => 'Follow';
+
+  @override
   String get followers => 'Followers';
 
   @override

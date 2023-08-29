@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:untitled_app/views/login.dart';
 //import 'package:untitled_app/views/root_page.dart';
 import 'package:untitled_app/views/sign_up.dart';
+import 'package:untitled_app/views/user_settings.dart';
 import '../views/compose_page.dart';
 import '../views/feed_page.dart';
 import '../views/search_page.dart';
@@ -111,6 +112,11 @@ final goRouter = GoRouter(
                   path: 'edit_profile',
                   name: 'edit_profile',
                   builder: (context, state) => const EditProfile(),
+                ),
+                GoRoute(
+                  path: 'user_settings',
+                  name: 'user_settings',
+                  builder: (context, state) => const UserSettings(),
                 ),
               ],
             ),

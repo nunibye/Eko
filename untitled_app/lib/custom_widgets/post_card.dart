@@ -4,6 +4,7 @@ import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
+import 'profile_picture_loading.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
@@ -38,16 +39,16 @@ class PostCard extends StatelessWidget {
                   children: [
                     // Display the profile picture as a CircleAvatar
                     IconButton(
-                      onPressed: () =>
-                          Provider.of<PostCardController>(context, listen: false)
-                  .iconPressed(),
+                      onPressed: () => Provider.of<PostCardController>(context,
+                              listen: false)
+                          .iconPressed(),
                       icon: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.1,
                         child: ClipOval(
                           child: CachedNetworkImage(
                             imageUrl: post.profilePic,
                             placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
+                                const LoadingProfileImage(),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                           ),
