@@ -93,6 +93,12 @@ class PostsHandling {
       final firestore = FirebaseFirestore.instance;
       List<RawPostObject> postsToPassBack = [];
       if (feedChunks.isEmpty) {
+        
+        // must handle if the user is following no one or app crashes
+        if (locator<CurrentUser>().following.isEmpty) {
+          return postsToPassBack;
+        }
+
         final following = locator<CurrentUser>().following.slices(30);
         for (List<dynamic> slice in following) {
           snapshot = await firestore
@@ -116,9 +122,7 @@ class PostsHandling {
             .sort((a, b) => a.oldestPost.time.compareTo(a.oldestPost.time));
       }
 
-      while (postsToPassBack.length < 5) {
-        
-      }
+      while (postsToPassBack.length < 5) {}
 
       return postsToPassBack;
     }
