@@ -13,6 +13,7 @@ class FeedPage extends StatelessWidget {
         return const  Scaffold(
             body: FeedBuilder(
               //TODO maybe optimize to check current user?
+              firestoreQuery: null,
               user: null,
           header: _Header(),
           
