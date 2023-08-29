@@ -31,7 +31,7 @@ class OtherProfileController extends ChangeNotifier {
       profileImage = post!.profilePic;
     }
     isFollowing = locator<CurrentUser>().checkIsFollowing(uid);
-    print(isFollowing);
+    
     notifyListeners();
   }
 

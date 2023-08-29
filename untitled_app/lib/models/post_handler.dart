@@ -50,14 +50,14 @@ class RawPostObject {
   });
 }
 
-class feedChunk {
+class FeedChunk {
   final List<dynamic> uids;
   RawPostObject oldestPost;
-  feedChunk({required this.uids, required this.oldestPost});
+  FeedChunk({required this.uids, required this.oldestPost});
 }
 
 class PostsHandling {
-  List<feedChunk> feedChunks = [];
+  List<FeedChunk> feedChunks = [];
   createPost(Map<String, dynamic> post) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
@@ -112,7 +112,7 @@ class PostsHandling {
               .get();
 
           final data = snapshot.docs.first;
-          feedChunks.add(feedChunk(
+          feedChunks.add(FeedChunk(
               uids: slice,
               oldestPost: RawPostObject(
                   author: data["author"] ?? "",

@@ -47,7 +47,6 @@ class AppUser {
       followers = userData['profileData']['followers'];
       
       following = userData['profileData']['following'];
-      print(following);
       likes = userData['profileData']['likes'];
       username = userData['username'];
       firstName = userData['name']['firstName'];
