@@ -5,43 +5,47 @@ import '../controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utilities/themes/dark_theme_provider.dart';
+
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-
-          return Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back_ios_rounded,
-                      color: Theme.of(context).colorScheme.primary),
-                  onPressed: () => context.pop("poped"),
-                ),
-                backgroundColor: Theme.of(context).colorScheme.background,
-                title: Text(
-                  AppLocalizations.of(context)!.editProfile,
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Lato',
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
+    
+    return ChangeNotifierProvider(
+      create: (context) => SettingsController(context: context),
+      builder: (context, child) {
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios_rounded,
+                  color: Theme.of(context).colorScheme.primary),
+              onPressed: () => context.pop("poped"),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.background,
+            title: Text(
+              AppLocalizations.of(context)!.editProfile,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Lato',
+                color: Theme.of(context).colorScheme.primary,
               ),
-              body: ListView(
-                children: [
-                  SwitchListTile(
-                    title: Text('Dark Mode'),
-                    value: themeChange.darkTheme, // i dont think this is mvvm huh? i need to get it to work with the settingsController
-                    onChanged: (value) {
-                      themeChange.darkTheme = value; // // i dont think this is mvvm huh? i need to get it to work with the settingsController
-                      print(value);
-                    },
-                  ),
-                ],
-              ));
-        }
+            ),
+          ),
+          body: ListView(
+            children: [
+              SwitchListTile(
+                title: const Text('Dark Mode'), //TODO change to localization
+                value: Provider.of<SettingsController>(context, listen: false)
+                                .getValue(),
+                onChanged: (value) =>  Provider.of<SettingsController>(context, listen: false)
+                                .changeValue(value),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
+}

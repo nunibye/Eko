@@ -28,6 +28,11 @@ class FeedBuilderController extends ChangeNotifier {
       required this.index}) {
     // print(locator<FeedPostCache>().postsList[index ?? 0].length);
 
+    
+
+    init();
+  }
+  init() async {
     if (index == null) {
       posts = [];
       end = false;
@@ -35,13 +40,9 @@ class FeedBuilderController extends ChangeNotifier {
       posts = List.from(locator<FeedPostCache>().postsList[index!].posts);
       end = locator<FeedPostCache>().postsList[index!].end;
     }
-
-    init();
-  }
-  init() async {
     scroll.addListener(() => _onScroll());
     if (posts.isEmpty) {
-      print("getting new posts");
+ 
       await parseRawPosts(
           await locator<PostsHandling>().getPosts(null, firestoreQuery));
     }
@@ -91,7 +92,6 @@ class FeedBuilderController extends ChangeNotifier {
       );
       posts.add(post);
       if (index != null) {
-        print("adding");
         locator<FeedPostCache>().postsList[index!].posts.add(post);
       }
     }
@@ -100,7 +100,8 @@ class FeedBuilderController extends ChangeNotifier {
   Future<void> onRefresh() async {
     end = false;
     posts = [];
-    if(index != null){
+    if (index != null) {
+  
       locator<FeedPostCache>().postsList[index!].posts.clear();
       locator<FeedPostCache>().postsList[index!].end = false;
     }

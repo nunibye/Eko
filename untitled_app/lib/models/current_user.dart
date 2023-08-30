@@ -78,6 +78,7 @@ class CurrentUser extends AppUser {
     return following.contains(otherUid);
   }
 
+//TODO check these and add code to prevent double liking and following
   Future<bool> addFollower(String otherUid) async {
     try {
       final firestore = FirebaseFirestore.instance;
@@ -243,5 +244,11 @@ class CurrentUser extends AppUser {
       }
     };
     await firestore.collection('users').doc(user).set(userData);
+    await firestore
+        .collection('users')
+        .doc(user)
+        .collection("arrays")
+        .doc("likes")
+        .set({"likes": []});
   }
 }

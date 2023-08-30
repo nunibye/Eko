@@ -24,7 +24,7 @@ class OtherProfile extends StatelessWidget {
               leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios_rounded,
                       color: Theme.of(context).colorScheme.primary),
-                  onPressed: () => context.pop()),
+                  onPressed: () => context.pop("popped")),
               backgroundColor: Theme.of(context).colorScheme.background,
               title: Text(
                 Provider.of<OtherProfileController>(context, listen: true)

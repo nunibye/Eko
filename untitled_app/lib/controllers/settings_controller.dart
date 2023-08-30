@@ -10,12 +10,12 @@ class SettingsController extends ChangeNotifier {
   });
   
   bool getValue() {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context, listen: false);
     return themeChange.darkTheme;
   }
 
   changeValue(value) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context, listen: false);
     themeChange.darkTheme = value;
   }
 }

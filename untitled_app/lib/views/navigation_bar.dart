@@ -43,39 +43,39 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      
-        value: locator<NavBarController>(),
-        builder: (context, child) {
-          return Scaffold(
-            body: body,
-            bottomNavigationBar: Provider.of<NavBarController>(context, listen: true)
-                                .enabled
-                ? 
-                 BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    currentIndex: selectedIndex,
-                    iconSize:
-                        25, //TODO: idk. should these change size based on how big the device is?
-                    elevation: 16,
-                    showUnselectedLabels: false,
-                    showSelectedLabels: false,
-                    unselectedItemColor:
-                        Theme.of(context).colorScheme.onPrimary,
-                    selectedItemColor: Theme.of(context).colorScheme.secondary,
-                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                    items: const [
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.home), label: 'home'),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.search), label: 'search'),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.add), label: 'add'),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.person), label: 'profile')
-                    ],
-                    onTap: onDestinationSelected,
-                  ): null,
-          );
-        });
+      value: locator<NavBarController>(),
+      builder: (context, child) {
+        return Scaffold(
+          body: body,
+          bottomNavigationBar: Provider.of<NavBarController>(context,
+                      listen: true)
+                  .enabled
+              ? BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: selectedIndex,
+                  iconSize:
+                      25, //TODO: idk. should these change size based on how big the device is?
+                  elevation: 16,
+                  showUnselectedLabels: false,
+                  showSelectedLabels: false,
+                  unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
+                  selectedItemColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: Theme.of(context).colorScheme.onBackground,
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home), label: 'home'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.search), label: 'search'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.add), label: 'add'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.person), label: 'profile')
+                  ],
+                  onTap:(index) => onDestinationSelected(index),
+                )
+              : null,
+        );
+      },
+    );
   }
 }

@@ -14,8 +14,8 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => PostCardController(post: post, context: context),
+    return ChangeNotifierProvider.value(
+      value: PostCardController(post: post, context: context),
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),

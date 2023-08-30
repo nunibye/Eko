@@ -7,5 +7,17 @@ class Cache {
 }
 
 class FeedPostCache {
-  List<Cache> postsList = List.generate(4, (index) => Cache(posts: [], end: false));
+  List<Cache> postsList =
+      List.generate(4, (index) => Cache(posts: [], end: false));
+  //TODO review, considor other solutions
+  updateLikes(String id, int offset) {
+    for (Cache element in postsList) {
+      for (Post post in element.posts) {
+        if (post.postID == id) {
+          post.likes += offset;
+          break; //assumes each post is only in each list one time
+        }
+      }
+    }
+  }
 }

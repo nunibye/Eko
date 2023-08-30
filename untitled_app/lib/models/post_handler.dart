@@ -16,7 +16,7 @@ class Post {
   final String time;
   final String title;
   final String body;
-  final int likes;
+  int likes;
   final List<dynamic> followers;
   final List<dynamic> following;
   final int userLikes;
