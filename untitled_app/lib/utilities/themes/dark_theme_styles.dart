@@ -1,4 +1,4 @@
-import '../utilities/constants.dart' as c;
+import '../constants.dart' as c;
 
 import 'package:flutter/material.dart';
 

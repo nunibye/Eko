@@ -5,7 +5,7 @@ import '../controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utilities/dark_theme_provider.dart';
+import '../utilities/themes/dark_theme_provider.dart';
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
@@ -35,9 +35,9 @@ class UserSettings extends StatelessWidget {
                 children: [
                   SwitchListTile(
                     title: Text('Dark Mode'),
-                    value: themeChange.darkTheme,
+                    value: themeChange.darkTheme, // i dont think this is mvvm huh? i need to get it to work with the settingsController
                     onChanged: (value) {
-                      themeChange.darkTheme = value;
+                      themeChange.darkTheme = value; // // i dont think this is mvvm huh? i need to get it to work with the settingsController
                       print(value);
                     },
                   ),

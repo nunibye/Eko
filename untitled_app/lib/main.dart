@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled_app/utilities/dark_theme_preference.dart';
-import 'utilities/dark_theme_provider.dart';
-import 'utilities/dark_theme_styles.dart';
+import 'utilities/themes/dark_theme_provider.dart';
+import 'utilities/themes/dark_theme_styles.dart';
 import 'utilities/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
@@ -24,8 +23,6 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
-  DarkThemeProvider themeChangeProvider = new DarkThemeProvider();
 
   // This widget is the root of your application.
   @override
