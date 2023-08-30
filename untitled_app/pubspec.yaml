@@ -51,6 +51,7 @@ dependencies:
   go_router: ^10.1.0
   shimmer: ^3.0.0
   collection: ^1.17.2
+  shared_preferences: ^2.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
