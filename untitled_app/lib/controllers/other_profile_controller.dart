@@ -48,6 +48,8 @@ class OtherProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
+  
+
   onPageRefresh() {
     //TODO Add code to pull user data from database
   }

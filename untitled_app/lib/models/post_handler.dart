@@ -7,6 +7,7 @@ import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
 
 class Post {
+  final String postID;
   final String username;
   final String firstName;
   final String lastName;
@@ -22,6 +23,7 @@ class Post {
   Post(
       {required this.username,
       required this.firstName,
+      required this.postID,
       required this.lastName,
       required this.profilePic,
       required this.time,
@@ -35,13 +37,15 @@ class Post {
 }
 
 class RawPostObject {
+  final String postID;
   final String author;
   final String title;
   final String body;
   final String time;
+  final int likes;
 
-  final List<dynamic> likes;
   RawPostObject({
+    required this.postID,
     required this.author,
     required this.title,
     required this.body,
@@ -63,7 +67,7 @@ class PostsHandling {
     final firestore = FirebaseFirestore.instance;
     post["author"] = user.uid;
     post["time"] = DateTime.now().toUtc().toIso8601String();
-    post["likes"] = [user.uid]; //change this
+    post["likes"] = 0; //change this
     await firestore.collection('posts').add(post);
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
@@ -81,11 +85,12 @@ class PostsHandling {
       }
       return snapshot.docs
           .map<RawPostObject>((data) => RawPostObject(
+              postID: data.id,
               author: data["author"] ?? "",
               title: data["title"] ?? "",
               body: data["body"] ?? "",
               time: data["time"] ?? "",
-              likes: data["likes"] ?? []))
+              likes: data["likes"] ?? 0))
           .toList();
 
       //Following
@@ -96,7 +101,6 @@ class PostsHandling {
         return postsToPassBack;
       }
       if (feedChunks.isEmpty) {
-        
         // must handle if the user is following no one or app crashes
         if (locator<CurrentUser>().following.isEmpty) {
           return postsToPassBack;
@@ -110,16 +114,19 @@ class PostsHandling {
               .orderBy('time', descending: true)
               .limit(1)
               .get();
-
+          if (snapshot.docs.isEmpty) {
+            return postsToPassBack;
+          }
           final data = snapshot.docs.first;
           feedChunks.add(FeedChunk(
               uids: slice,
               oldestPost: RawPostObject(
+                  postID: data.id,
                   author: data["author"] ?? "",
                   title: data["title"] ?? "",
                   body: data["body"] ?? "",
                   time: data["time"] ?? "",
-                  likes: data["likes"] ?? [])));
+                  likes: data["likes"] ?? 0)));
         }
 
         feedChunks
@@ -138,11 +145,12 @@ class PostsHandling {
         if (snapshot.docs.isNotEmpty) {
           final data = snapshot.docs.first;
           feedChunks.first.oldestPost = RawPostObject(
+            postID: data.id,
               author: data["author"] ?? "",
               title: data["title"] ?? "",
               body: data["body"] ?? "",
               time: data["time"] ?? "",
-              likes: data["likes"] ?? []);
+              likes: data["likes"] ?? 0);
           postsToPassBack.add(feedChunks.first.oldestPost);
           feedChunks.sort(
             (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../custom_widgets/feed_builder.dart';
-
+import '../custom_widgets/tab_bar.dart';
+import '../controllers/feed_controller.dart';
+import 'package:provider/provider.dart';
 
 
 class FeedPage extends StatelessWidget {
@@ -9,16 +11,19 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-        return const  Scaffold(
-            body: FeedBuilder(
-              //TODO maybe optimize to check current user?
-              firestoreQuery: null,
-              user: null,
-          header: _Header(),
-          
-        )
-      
+    return ChangeNotifierProvider(
+      create: (context) => FeedController(),
+      builder: (context, child) {
+        return Scaffold(
+          body: FeedBuilder(
+            firestoreQuery: Provider.of<FeedController>(context, listen: true).query,
+            index: Provider.of<FeedController>(context, listen: true).index,
+            //TODO maybe optimize to check current user?
+            user: null,
+            header: const _Header(),
+          ),
+        );
+      },
     );
   }
 }
@@ -31,7 +36,7 @@ class _Header extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("feed page"),
+        const CustomTabBar(),
         IconButton(
             onPressed: () => FirebaseAuth.instance.signOut(),
             icon: const Icon(Icons.logout)),

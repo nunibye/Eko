@@ -54,13 +54,24 @@ class CurrentUser extends AppUser {
     }
   }
 
+  Future<void> _readLikedPosts() async {
+    final user = getUID();
+    final data = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user)
+        .collection("arrays")
+        .doc("likes")
+        .get();
+    likedPosts = (data.exists) ? data["likes"] : [];
+  }
+
   Future<void> readCurrentUserData() async {
     final user = getUID();
     final userData = await readUserData(user); //uses function from parent class
     if (userData != null) {
       email = userData["email"] ?? "";
-      likedPosts = userData["likedPosts"] ?? [];
     }
+    await _readLikedPosts();
   }
 
   bool checkIsFollowing(String otherUid) {
@@ -95,6 +106,56 @@ class CurrentUser extends AppUser {
         "profileData.followers": FieldValue.arrayRemove([user])
       });
       following.remove(otherUid);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool checkIsLiked(String postID) {
+    return likedPosts.contains(postID);
+  }
+
+  Future<bool> addLike(String postId) async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final user = getUID();
+      await firestore
+          .collection("users")
+          .doc(user)
+          .collection("arrays")
+          .doc("likes")
+          .update({
+        "likes": FieldValue.arrayUnion([postId])
+      });
+      await firestore
+          .collection("posts")
+          .doc(postId)
+          .update({"likes": FieldValue.increment(1)});
+      likedPosts.add(postId);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> removeLike(String postId) async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final user = getUID();
+      await firestore
+          .collection("users")
+          .doc(user)
+          .collection("arrays")
+          .doc("likes")
+          .update({
+        "likes": FieldValue.arrayRemove([postId])
+      });
+      await firestore
+          .collection("posts")
+          .doc(postId)
+          .update({"likes": FieldValue.increment(-1)});
+      likedPosts.remove(postId);
       return true;
     } catch (e) {
       return false;

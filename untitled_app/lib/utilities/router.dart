@@ -62,6 +62,16 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: FeedPage(),
               ),
+               routes: [
+                  GoRoute(
+                    path: 'profile',
+                    name: 'sub_profile',
+                    builder: (context, state) {
+                      Post? post = state.extra as Post?;
+                      return OtherProfile(post: post);
+                    },
+                  ),
+                ]
             ),
           ],
         ),
@@ -73,16 +83,7 @@ final goRouter = GoRouter(
                 pageBuilder: (context, state) => const NoTransitionPage(
                       child: SearchPage(),
                     ),
-                routes: [
-                  GoRoute(
-                    path: 'profile',
-                    name: 'sub_profile',
-                    builder: (context, state) {
-                      Post? post = state.extra as Post?;
-                      return OtherProfile(post: post);
-                    },
-                  ),
-                ]),
+               ),
           ],
         ),
         StatefulShellBranch(

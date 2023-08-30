@@ -5,17 +5,23 @@ import 'controllers/feed_builder_controller.dart';
 import '../custom_widgets/post_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' show Query;
 
+
 class FeedBuilder extends StatelessWidget {
   final Widget header;
   final Query<Map<String, dynamic>>? firestoreQuery;
   final Function? refreshFunction;
   final AppUser? user;
-  const FeedBuilder(
+
+  final int? index;
+
+ const FeedBuilder(
       {this.firestoreQuery,
       required this.header,
       this.refreshFunction,
       super.key,
-      this.user});
+      this.user,
+
+      this.index});
   @override
   Widget build(BuildContext context) {
     //TODO idk why this works. profile used to not reload then I changed it to .value now it does maybe more providers should be .value?
@@ -24,7 +30,9 @@ class FeedBuilder extends StatelessWidget {
           firestoreQuery: firestoreQuery,
           refreshFunction: refreshFunction,
           context: context,
-          passedUser: user),
+          passedUser: user,
+
+          index: index),
       builder: (context, child) {
         return RefreshIndicator(
           child: Consumer<FeedBuilderController>(

@@ -9,6 +9,7 @@ import 'profile_picture_loading.dart';
 class PostCard extends StatelessWidget {
   final Post post;
 
+
   const PostCard({super.key, required this.post});
 
   @override
@@ -100,13 +101,24 @@ class PostCard extends StatelessWidget {
                     //     Text('$comments'),
                     //   ],
                     // ),
-                    Row(
-                      children: [
-                        const Icon(Icons.favorite_border),
-                        const SizedBox(width: 5),
-                        Text('${post.likes}'),
-                      ],
-                    ),
+                    IconButton(
+                      onPressed: () => Provider.of<PostCardController>(context,
+                              listen: false)
+                          .likePressed(),
+                      icon: Row(
+                        children: [
+                          Icon((Provider.of<PostCardController>(context,
+                                      listen: true)
+                                  .liked)
+                              ? Icons.favorite
+                              : Icons.favorite_border),
+                          const SizedBox(width: 5),
+                          Text('${Provider.of<PostCardController>(context,
+                                      listen: true)
+                                  .likes}'),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
