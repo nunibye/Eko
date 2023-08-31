@@ -9,7 +9,8 @@ import '../models/users.dart';
 class CurrentUser extends AppUser {
   String email;
   List<dynamic> likedPosts;
-
+  bool stateIsLiking = false;
+  bool stateIsFollowing = false;
   CurrentUser({this.email = '', this.likedPosts = const []});
 
 //gets uid making sure it is current. idk if this is neccesary but it will be easy to remove.
@@ -74,41 +75,56 @@ class CurrentUser extends AppUser {
     await _readLikedPosts();
   }
 
+//TODO consolidate liking/following functions
   bool checkIsFollowing(String otherUid) {
     return following.contains(otherUid);
   }
 
-//TODO check these and add code to prevent double liking and following
   Future<bool> addFollower(String otherUid) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final user = getUID();
-      await firestore.collection("users").doc(user).update({
-        "profileData.following": FieldValue.arrayUnion([otherUid])
-      });
-      await firestore.collection("users").doc(otherUid).update({
-        "profileData.followers": FieldValue.arrayUnion([user])
-      });
-      following.add(otherUid);
-      return true;
-    } catch (e) {
+    if (!stateIsFollowing) {
+      stateIsFollowing = true;
+      try {
+        final firestore = FirebaseFirestore.instance;
+        final user = getUID();
+        await firestore.collection("users").doc(user).update({
+          "profileData.following": FieldValue.arrayUnion([otherUid])
+        });
+        await firestore.collection("users").doc(otherUid).update({
+          "profileData.followers": FieldValue.arrayUnion([user])
+        });
+        following.add(otherUid);
+        stateIsFollowing = false;
+        return true;
+      } catch (e) {
+        stateIsFollowing = false;
+        return false;
+      }
+    } else {
       return false;
     }
   }
 
   Future<bool> removeFollower(String otherUid) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final user = getUID();
-      await firestore.collection("users").doc(user).update({
-        "profileData.following": FieldValue.arrayRemove([otherUid])
-      });
-      await firestore.collection("users").doc(otherUid).update({
-        "profileData.followers": FieldValue.arrayRemove([user])
-      });
-      following.remove(otherUid);
-      return true;
-    } catch (e) {
+    if (!stateIsFollowing) {
+      stateIsFollowing = true;
+      try {
+        final firestore = FirebaseFirestore.instance;
+        final user = getUID();
+        await firestore.collection("users").doc(user).update({
+          "profileData.following": FieldValue.arrayRemove([otherUid])
+        });
+        await firestore.collection("users").doc(otherUid).update({
+          "profileData.followers": FieldValue.arrayRemove([user])
+        });
+        following.remove(otherUid);
+        stateIsFollowing = false;
+        return true;
+      } catch (e) {
+        stateIsFollowing = false;
+        return false;
+      }
+    } else {
+      
       return false;
     }
   }
@@ -118,47 +134,62 @@ class CurrentUser extends AppUser {
   }
 
   Future<bool> addLike(String postId) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final user = getUID();
-      await firestore
-          .collection("users")
-          .doc(user)
-          .collection("arrays")
-          .doc("likes")
-          .update({
-        "likes": FieldValue.arrayUnion([postId])
-      });
-      await firestore
-          .collection("posts")
-          .doc(postId)
-          .update({"likes": FieldValue.increment(1)});
-      likedPosts.add(postId);
-      return true;
-    } catch (e) {
+    if (!stateIsLiking) {
+      stateIsLiking = true;
+      try {
+        final firestore = FirebaseFirestore.instance;
+        final user = getUID();
+        await firestore
+            .collection("users")
+            .doc(user)
+            .collection("arrays")
+            .doc("likes")
+            .update({
+          "likes": FieldValue.arrayUnion([postId])
+        });
+        await firestore
+            .collection("posts")
+            .doc(postId)
+            .update({"likes": FieldValue.increment(1)});
+        likedPosts.add(postId);
+        stateIsLiking = false;
+        return true;
+      } catch (e) {
+        stateIsLiking = false;
+        return false;
+      }
+      
+    } else {
       return false;
     }
   }
 
   Future<bool> removeLike(String postId) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-      final user = getUID();
-      await firestore
-          .collection("users")
-          .doc(user)
-          .collection("arrays")
-          .doc("likes")
-          .update({
-        "likes": FieldValue.arrayRemove([postId])
-      });
-      await firestore
-          .collection("posts")
-          .doc(postId)
-          .update({"likes": FieldValue.increment(-1)});
-      likedPosts.remove(postId);
-      return true;
-    } catch (e) {
+    if (!stateIsLiking) {
+      stateIsLiking = true;
+      try {
+        final firestore = FirebaseFirestore.instance;
+        final user = getUID();
+        await firestore
+            .collection("users")
+            .doc(user)
+            .collection("arrays")
+            .doc("likes")
+            .update({
+          "likes": FieldValue.arrayRemove([postId])
+        });
+        await firestore
+            .collection("posts")
+            .doc(postId)
+            .update({"likes": FieldValue.increment(-1)});
+        likedPosts.remove(postId);
+        stateIsLiking = false;
+        return true;
+      } catch (e) {
+        stateIsLiking = false;
+        return false;
+      }
+    } else {
       return false;
     }
   }

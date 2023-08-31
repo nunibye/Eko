@@ -29,7 +29,6 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
-
 //TODO add more content like a preview of a post.
   postPressed() {
     bodyController.text = bodyController.text.trim();
@@ -37,17 +36,25 @@ class ComposeController extends ChangeNotifier {
     updateCountsBody(bodyController.text);
     updateCountsTitle(titleController.text);
     if (titleChars > c.maxTittleChars) {
-      showSnackBar(text: AppLocalizations.of(context)!.tooManyChar, context: context);
+      showSnackBar(
+          text: AppLocalizations.of(context)!.tooManyChar, context: context);
     } else if (newLines > c.maxPostLines) {
-      showSnackBar(text: AppLocalizations.of(context)!.tooManyChar, context: context);
+      
+      showSnackBar(
+          text: AppLocalizations.of(context)!.tooManyLine, context: context);
     } else if (bodyChars > c.maxPostChars) {
-      showSnackBar(text: AppLocalizations.of(context)!.tooManyLine, context: context);
+      showSnackBar(
+          text: AppLocalizations.of(context)!.tooManyChar, context: context);
     } else if (titleController.text == "") {
       titleFocus.requestFocus();
-      showSnackBar(text: AppLocalizations.of(context)!.emptyFieldError, context: context);
+      showSnackBar(
+          text: AppLocalizations.of(context)!.emptyFieldError,
+          context: context);
     } else if (bodyController.text == "") {
       bodyFocus.requestFocus();
-      showSnackBar(text: AppLocalizations.of(context)!.emptyFieldError, context: context);
+      showSnackBar(
+          text: AppLocalizations.of(context)!.emptyFieldError,
+          context: context);
     } else {
       locator<PostsHandling>().createPost(
           {"title": titleController.text, "body": bodyController.text});
