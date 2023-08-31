@@ -53,7 +53,7 @@ const int imageQuality = 85;
 const double imageSize = 150;
 
 const double postPaddingVert = 0;
-const double postPaddingHoriz = 12;
+const double postPaddingHoriz = 5;
 
 const int signUpAnimationDuration = 300;
 const int maxPostLines = 12;
@@ -61,3 +61,5 @@ const int maxPostChars = 160;
 const int maxTittleChars = 60;
 
 const int postsOnRefresh = 10;
+
+const double postIconSize = 17;

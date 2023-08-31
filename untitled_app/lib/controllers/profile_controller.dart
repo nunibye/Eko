@@ -57,7 +57,6 @@ class ProfileController extends ChangeNotifier {
     return locator<CurrentUser>().getUID();
   }
 
-  // FIXME: currently not updating the information after i changed navigation bar to indexed stack will fix later
   void loadUserData() async {
     await locator<CurrentUser>().readCurrentUserData();
     likes = locator<CurrentUser>().likes;

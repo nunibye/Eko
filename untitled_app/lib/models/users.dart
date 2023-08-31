@@ -34,7 +34,7 @@ class AppUser {
         likes = user.likes;
         username = user.username;
         firstName = user.firstName;
-        lastName = user.firstName;
+        lastName = user.lastName;
 
         return null;
       }
