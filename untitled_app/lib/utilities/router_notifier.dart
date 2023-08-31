@@ -21,7 +21,7 @@ class RouterNotifier extends ChangeNotifier {
   Future<String?> redirect(BuildContext context, GoRouterState state) async {
     final onLoginPage = state.fullPath == '/login';
     final onSignUpPage = state.fullPath == '/signup';
-    if (!loggedIn) {
+    if (!loggedIn && !(onSignUpPage || onLoginPage)) {
       return '/login';
     }
     if (loggedIn && (onLoginPage || onSignUpPage)) {

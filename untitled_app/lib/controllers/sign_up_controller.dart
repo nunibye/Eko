@@ -91,7 +91,7 @@ class SignUpController extends ChangeNotifier {
   void _handleError(String errorCode) {
     switch (errorCode) {
       case 'success':
-        _pop();
+        
         break;
       case 'invalid-email':
         showMyDialog(
