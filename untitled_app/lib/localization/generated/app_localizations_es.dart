@@ -156,4 +156,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get emptyFieldError => 'Make sure all feilds are filled.';
+
+  @override
+  String get bioTitle => 'Bio';
 }

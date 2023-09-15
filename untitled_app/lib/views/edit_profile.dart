@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/edit_profile_text_field.dart';
 import 'package:untitled_app/custom_widgets/profile_picture_loading.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/edit_profile_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../utilities/constants.dart' as c;
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatelessWidget {
@@ -67,10 +69,43 @@ class EditProfile extends StatelessWidget {
                           ],
                         )),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
+              ProfileInputFeild(
+                  onChanged: (s) =>
+                      Provider.of<EditProfileController>(context, listen: false)
+                          .updateCountsBody(s),
+                  onTap: () => {
+                        Provider.of<EditProfileController>(context,
+                                listen: false)
+                            .showCountsBody(true),
+                      },
+                  onEditingComplete: () =>
+                      Provider.of<EditProfileController>(context, listen: false)
+                          .showCountsBody(false),
+                  focus:
+                      Provider.of<EditProfileController>(context, listen: false)
+                          .bioFocus,
+                  label: AppLocalizations.of(context)!.bioTitle,
+                  controller:
+                      Provider.of<EditProfileController>(context, listen: false)
+                          .bioController),
+              if (Provider.of<EditProfileController>(context, listen: false)
+                  .showBioCounts)
+                Consumer<EditProfileController>(
+                  builder: (context, bioController, _) => Row(
+                    children: [
+                      Text(
+                          "${bioController.bioBodyChars}/${c.maxBioChars} ${AppLocalizations.of(context)!.characters}"),
+                      const Spacer(),
+                      // no new lines atm
+                      // Text(
+                      //     "${bioController.bioNewLines}/${c.maxBioLines} ${AppLocalizations.of(context)!.newLines}"),
+                    ],
+                  ),
+                ),
             ],
           ),
         );

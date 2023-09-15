@@ -398,6 +398,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Make sure all feilds are filled.'**
   String get emptyFieldError;
+
+  /// No description provided for @bioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bio'**
+  String get bioTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

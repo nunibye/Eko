@@ -64,7 +64,7 @@
     "tooManyChar":"Too many characters.",
     "tooManyLine":"Too many newlines.",
 
-    "emptyFieldError":"Make sure all feilds are filled."
+    "emptyFieldError":"Make sure all feilds are filled.",
 
-
+    "bioTitle":"Bio"
 }
