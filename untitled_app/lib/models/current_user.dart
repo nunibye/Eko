@@ -283,6 +283,7 @@ class CurrentUser extends AppUser {
         'lastName': lastName,
       },
       'profileData': {
+        'bio': '',
         'followers': [],
         'following': [],
         'likes': 0,
