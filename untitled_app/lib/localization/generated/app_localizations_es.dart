@@ -134,6 +134,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get previous => 'Previous';
 
   @override
+  String get followingTab => 'Following';
+
+  @override
+  String get popularTab => 'Popular';
+
+  @override
+  String get newTab => 'New';
+
+  @override
+  String get oldTab => 'Old';
+
+  @override
   String get postTitle => 'Title';
 
   @override
@@ -159,4 +171,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get bioTitle => 'Bio';
+
+  @override
+  String get logOut => 'Log Out';
+
+  @override
+  String get darkMode => 'Dark Mode';
 }

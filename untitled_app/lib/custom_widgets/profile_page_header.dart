@@ -123,7 +123,7 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
         textAlign: TextAlign.center,
         text: TextSpan(
           text: NumberFormat.compact().format(number),
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 17),
           children: [
             TextSpan(
               text: "\n$label",

@@ -5,7 +5,6 @@ import '../custom_widgets/tab_bar.dart';
 import '../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
 
-
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
 
@@ -15,8 +14,21 @@ class FeedPage extends StatelessWidget {
       create: (context) => FeedController(),
       builder: (context, child) {
         return Scaffold(
+          // TODO trying to make this app bar so it can be scrolled under maybe. might require feed builder to not have a header
+          // appBar: 
+          // AppBar(
+          //   titleTextStyle: TextStyle(),
+          //   automaticallyImplyLeading: false,
+          //   title: Container(
+          //       width: MediaQuery.of(context).size.width,
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //         children: <Widget>[_Header()],
+          //       )),
+          // ),
           body: FeedBuilder(
-            firestoreQuery: Provider.of<FeedController>(context, listen: true).query,
+            firestoreQuery:
+                Provider.of<FeedController>(context, listen: true).query,
             index: Provider.of<FeedController>(context, listen: true).index,
             //TODO maybe optimize to check current user?
             user: null,
@@ -33,14 +45,12 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const CustomTabBar(),
-        IconButton(
-            onPressed: () => FirebaseAuth.instance.signOut(),
-            icon: const Icon(Icons.logout)),
-      ],
+    const CustomTabBar(),
+    ],
     );
   }
 }

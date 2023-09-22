@@ -54,6 +54,10 @@
     "lastName":"Last Name",
     "userName":"Username",
     "previous":"Previous",
+    "followingTab":"Following",
+    "popularTab":"Popular",
+    "newTab":"New",
+    "oldTab":"Old",
 
     "postTitle":"Title",
     "postBody":"Body",
@@ -66,5 +70,8 @@
 
     "emptyFieldError":"Make sure all feilds are filled.",
 
-    "bioTitle":"Bio"
+    "bioTitle":"Bio",
+
+    "logOut":"Log Out",
+    "darkMode":"Dark Mode"
 }

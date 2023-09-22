@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/current_user.dart';
 //import '../utilities/constants.dart' as c;
 import '../controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     return ChangeNotifierProvider(
       create: (context) => SettingsController(context: context),
       builder: (context, child) {
@@ -36,12 +35,20 @@ class UserSettings extends StatelessWidget {
           body: ListView(
             children: [
               SwitchListTile(
-                title: const Text('Dark Mode'), //TODO change to localization
+                title: Text(AppLocalizations.of(context)!.darkMode),
                 value: Provider.of<SettingsController>(context, listen: false)
-                                .getValue(),
-                onChanged: (value) =>  Provider.of<SettingsController>(context, listen: false)
-                                .changeValue(value),
+                    .getValue(),
+                onChanged: (value) =>
+                    Provider.of<SettingsController>(context, listen: false)
+                        .changeValue(value),
               ),
+              TextButton(
+                  onPressed: () => {
+                        context.pop("poped"),
+                        Provider.of<SettingsController>(context, listen: false)
+                            .signOut()
+                      },
+                  child: Text(AppLocalizations.of(context)!.logOut)),
             ],
           ),
         );

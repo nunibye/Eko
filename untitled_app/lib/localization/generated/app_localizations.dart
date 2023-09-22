@@ -351,6 +351,30 @@ abstract class AppLocalizations {
   /// **'Previous'**
   String get previous;
 
+  /// No description provided for @followingTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get followingTab;
+
+  /// No description provided for @popularTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get popularTab;
+
+  /// No description provided for @newTab.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get newTab;
+
+  /// No description provided for @oldTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Old'**
+  String get oldTab;
+
   /// No description provided for @postTitle.
   ///
   /// In en, this message translates to:
@@ -404,6 +428,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bio'**
   String get bioTitle;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get logOut;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

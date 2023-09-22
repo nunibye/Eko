@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/controllers/feed_controller.dart';
 import 'package:untitled_app/utilities/constants.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 import 'package:provider/provider.dart';
 
-
+// TODO: I changed it to this does it look fine
 class CustomTabBar extends StatelessWidget {
-  const CustomTabBar({super.key,});
+  const CustomTabBar({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.sizeOf(context).height * 0.06,
-      decoration:
-          BoxDecoration(color: Theme.of(context).colorScheme.onBackground),
-      child:  const Row(
+      width: MediaQuery.of(context).size.width,
+      height: 50, // Adjust the height as needed
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _Button(text: "following", index: 0),
-          _Button(
-            text: "popular",
-            index: 1,
-          ),
-          _Button(
-            text: "new",
-            index: 2,
-          ),
-          _Button(text: "old", index: 3)
+          _Button(text: AppLocalizations.of(context)!.followingTab, index: 0),
+          _Button(text: AppLocalizations.of(context)!.popularTab, index: 1),
+          _Button(text: AppLocalizations.of(context)!.newTab, index: 2),
+          _Button(text: AppLocalizations.of(context)!.oldTab, index: 3),
         ],
       ),
     );
@@ -42,26 +37,27 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      height: MediaQuery.sizeOf(context).height * 0.05,
-      width: MediaQuery.sizeOf(context).width * 0.22,
-      decoration: BoxDecoration(
-        color:
-            (Provider.of<FeedController>(context, listen: true).index ==
-                    index)
-                ? Theme.of(context).colorScheme.background
-                : Colors.black,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
+    final isActive =
+        Provider.of<FeedController>(context, listen: true).index == index;
+
+    return GestureDetector(
+      onTap: () => Provider.of<FeedController>(context, listen: false)
+          .onTabPressed(index),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isActive
+              ? Theme.of(context).colorScheme.onBackground
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
         ),
-      ),
-      child: TextButton(
-        style: buttonStyle(context),
-        onPressed: () =>
-            Provider.of<FeedController>(context, listen: false).onTabPressed(index),
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+            fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
