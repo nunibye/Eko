@@ -82,9 +82,13 @@ class EditProfile extends StatelessWidget {
                                 listen: false)
                             .showCountsBody(true),
                       },
-                  onEditingComplete: () =>
-                      Provider.of<EditProfileController>(context, listen: false)
-                          .showCountsBody(false),
+                  onEditingComplete: () => {
+                        Provider.of<EditProfileController>(context,
+                                listen: false)
+                            .showCountsBody(false),
+                        Provider.of<EditProfileController>(context, listen: false).saveProfileData(Provider.of<EditProfileController>(context, listen: false)
+                          .bioController.text)
+                      },
                   focus:
                       Provider.of<EditProfileController>(context, listen: false)
                           .bioFocus,

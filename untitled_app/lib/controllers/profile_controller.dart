@@ -14,6 +14,7 @@ class ProfileController extends ChangeNotifier {
   String profileImage = locator<CurrentUser>().profileImage;
   String firstName = locator<CurrentUser>().firstName;
   String lastName = locator<CurrentUser>().lastName;
+  String profileBio = locator<CurrentUser>().bio;
   final BuildContext context;
   late AppUser user;
 
@@ -34,6 +35,7 @@ class ProfileController extends ChangeNotifier {
       lastName: lastName,
       username: username,
       profileImage: profileImage,
+      bio: profileBio,
     );
   }
 
@@ -43,7 +45,9 @@ class ProfileController extends ChangeNotifier {
 
     locator<NavBarController>().enable();
     profileImage = locator<CurrentUser>().profileImage;
+    profileBio = locator<CurrentUser>().bio;
     user.profileImage = profileImage;
+    user.bio = profileBio;
     notifyListeners();
   }
 
@@ -64,6 +68,7 @@ class ProfileController extends ChangeNotifier {
     following = locator<CurrentUser>().following;
     username = locator<CurrentUser>().username;
     profileImage = locator<CurrentUser>().profileImage;
+    profileBio = locator<CurrentUser>().bio;
     initUser();
     //print(username);
     notifyListeners();

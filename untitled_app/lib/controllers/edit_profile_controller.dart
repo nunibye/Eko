@@ -4,6 +4,7 @@ import '../models/current_user.dart';
 
 class EditProfileController extends ChangeNotifier {
   String profileImage = locator<CurrentUser>().profileImage;
+  String profileBio = locator<CurrentUser>().bio;
 
   final bioController = TextEditingController(text: locator<CurrentUser>().bio);
   final bioFocus = FocusNode();
@@ -36,5 +37,13 @@ class EditProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO: will implement it updating database
+  saveProfileData(String bio) async {
+    // TODO: This will eventually need to upload all the data that changed as profile editing gets larger
+    // Im thinking a 'save' and 'cancel' button pops up on the app bar is an edit is detected
+    if (await locator<CurrentUser>().uploadProfileBio(bio) == "success") {
+      locator<CurrentUser>().bio = bio;
+      notifyListeners();
+    } else {
+    }
+  }
 }

@@ -52,27 +52,30 @@ class Header extends StatelessWidget {
         Consumer<ProfileController>(
           builder: (context, profileController, _) => Column(
             children: [
-              Row(
-                children: [
-                  Text(
-                    "@${profileController.username}",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () =>
-                        Provider.of<ProfileController>(context, listen: false)
-                            .settingsButtonPressed(),
-                    icon: const Icon(
-                      Icons.settings_outlined,
-                      size: 25,
-                      weight: 10,
+              Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      "@${profileController.username}",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22),
                     ),
-                  ),
-                ],
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () =>
+                          Provider.of<ProfileController>(context, listen: false)
+                              .settingsButtonPressed(),
+                      icon: const Icon(
+                        Icons.settings_outlined,
+                        size: 25,
+                        weight: 10,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               ProfileHeader(
                 username: profileController.username,
@@ -80,7 +83,7 @@ class Header extends StatelessWidget {
                 likes: profileController.likes,
                 following: profileController.following.length,
                 followers: profileController.followers.length,
-                
+                profileBio: profileController.profileBio,
               ),
             ],
           ),

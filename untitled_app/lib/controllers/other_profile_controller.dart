@@ -14,6 +14,7 @@ class OtherProfileController extends ChangeNotifier {
   String firstName = "";
   String lastName = "";
   String uid = "";
+  String profileBio = "";
   late bool isFollowing;
 
   OtherProfileController({required this.context, required this.post}) {
@@ -29,9 +30,10 @@ class OtherProfileController extends ChangeNotifier {
       following = post!.following;
       username = post!.username;
       profileImage = post!.profilePic;
+      profileBio = post!.profileBio;
     }
     isFollowing = locator<CurrentUser>().checkIsFollowing(uid);
-    
+
     notifyListeners();
   }
 
@@ -47,8 +49,6 @@ class OtherProfileController extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-  
 
   onPageRefresh() {
     //TODO Add code to pull user data from database

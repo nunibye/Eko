@@ -16,24 +16,28 @@ class Post {
   final String time;
   final String title;
   final String body;
+  final String
+      profileBio; // TODO: idk if this should load here or only load if image is tapped
   int likes;
   final List<dynamic> followers;
   final List<dynamic> following;
   final int userLikes;
-  Post(
-      {required this.username,
-      required this.firstName,
-      required this.postID,
-      required this.lastName,
-      required this.profilePic,
-      required this.time,
-      required this.title,
-      required this.uid,
-      required this.body,
-      required this.likes,
-      required this.followers,
-      required this.following,
-      required this.userLikes});
+  Post({
+    required this.username,
+    required this.firstName,
+    required this.postID,
+    required this.lastName,
+    required this.profilePic,
+    required this.time,
+    required this.title,
+    required this.uid,
+    required this.body,
+    required this.likes,
+    required this.followers,
+    required this.following,
+    required this.userLikes,
+    required this.profileBio,
+  });
 }
 
 class RawPostObject {
@@ -145,7 +149,7 @@ class PostsHandling {
         if (snapshot.docs.isNotEmpty) {
           final data = snapshot.docs.first;
           feedChunks.first.oldestPost = RawPostObject(
-            postID: data.id,
+              postID: data.id,
               author: data["author"] ?? "",
               title: data["title"] ?? "",
               body: data["body"] ?? "",

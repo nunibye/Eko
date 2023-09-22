@@ -9,68 +9,100 @@ import 'profile_picture_loading.dart';
 class ProfileHeader extends StatelessWidget {
   final String username;
   final String profilePic;
+  final String profileBio;
   final int likes;
   final int following;
   final int followers;
- // idk if this needs to be done differently
-  const ProfileHeader(
-      {super.key,
-      required this.username,
-      required this.profilePic,
-      required this.likes,
-      required this.following,
-      required this.followers,
-      });
+
+  const ProfileHeader({
+    super.key,
+    required this.username,
+    required this.profilePic,
+    required this.likes,
+    required this.following,
+    required this.followers,
+    required this.profileBio,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              SizedBox(
-                width: MediaQuery.sizeOf(context).width * 0.26,
-                height: MediaQuery.sizeOf(context).width * 0.26,
-                child: ClipOval(
-                  child: 
-                  CachedNetworkImage(
-                    imageUrl: profilePic,
-                    placeholder: (context, url) =>
-                        const LoadingProfileImage(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
+          padding: const EdgeInsets.only(left: 15),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.24,
+                      height: MediaQuery.of(context).size.width * 0.24,
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: profilePic,
+                          placeholder: (context, url) =>
+                              const LoadingProfileImage(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _ProfilePageTopNumberDisplay(
+                                  number: likes,
+                                  label: AppLocalizations.of(context)!.likes,
+                                ),
+                                _ProfilePageTopNumberDisplay(
+                                  number: followers,
+                                  label:
+                                      AppLocalizations.of(context)!.followers,
+                                ),
+                                _ProfilePageTopNumberDisplay(
+                                  number: following,
+                                  label:
+                                      AppLocalizations.of(context)!.following,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                username,
-                style: TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      username,
+                      style: TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    Text(
+                      profileBio,
+                    )
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _ProfilePageTopNumberDisplay(
-                number: likes, label: AppLocalizations.of(context)!.likes),
-            _ProfilePageTopNumberDisplay(
-                number: followers,
-                label: AppLocalizations.of(context)!.followers),
-            _ProfilePageTopNumberDisplay(
-                number: following,
-                label: AppLocalizations.of(context)!.following),
-          ],
         ),
       ],
     );
@@ -87,12 +119,11 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: MediaQuery.sizeOf(context).width * 0.3,
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
           text: NumberFormat.compact().format(number),
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
           children: [
             TextSpan(
               text: "\n$label",

@@ -53,7 +53,7 @@ class AppUser {
       username = userData['username'];
       firstName = userData['name']['firstName'];
       lastName = userData['name']['lastName'];
-      bio = userData['profileData']['bio'];
+      bio = userData['profileData']['bio'] ?? '';
     }
     return userData;
   }

@@ -124,7 +124,6 @@ class CurrentUser extends AppUser {
         return false;
       }
     } else {
-      
       return false;
     }
   }
@@ -158,7 +157,6 @@ class CurrentUser extends AppUser {
         stateIsLiking = false;
         return false;
       }
-      
     } else {
       return false;
     }
@@ -251,6 +249,23 @@ class CurrentUser extends AppUser {
           .update({"profileData.profilePicture": profileImage});
       return "success";
     } catch (e) {
+      return "fail";
+    }
+  }
+
+  // TODO: This will eventually need to upload all the data that changed as profile editing gets larger
+  // Im thinking a 'save' and 'cancel' button pops up on the app bar is an edit is detected
+  Future<String> uploadProfileBio(String bio) async {
+    final firestore = FirebaseFirestore.instance;
+    final user = getUID();
+    try {
+      await firestore
+          .collection("users")
+          .doc(user)
+          .update({"profileData.bio": bio});
+      return "success";
+    } catch (e) {
+      stateIsLiking = false;
       return "fail";
     }
   }
