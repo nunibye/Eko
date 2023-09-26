@@ -301,7 +301,7 @@ class CurrentUser extends AppUser {
   }
 
   // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
-  signOut() async {
+  signOut() {
     FirebaseAuth.instance.signOut();
   }
 }

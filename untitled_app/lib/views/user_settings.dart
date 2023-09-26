@@ -43,12 +43,13 @@ class UserSettings extends StatelessWidget {
                         .changeValue(value),
               ),
               TextButton(
-                  onPressed: () => {
-                        context.pop("poped"),
-                        Provider.of<SettingsController>(context, listen: false)
-                            .signOut()
-                      },
-                  child: Text(AppLocalizations.of(context)!.logOut)),
+                onPressed: () {
+                  // FIXME there is something weird with redirect not disposing of the stack. not sure how to do that worked on it for 1 hour hehe <3
+                  Provider.of<SettingsController>(context, listen: false)
+                      .signOut();
+                },
+                child: Text(AppLocalizations.of(context)!.logOut),
+              ),
             ],
           ),
         );

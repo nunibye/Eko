@@ -22,7 +22,6 @@ class SettingsController extends ChangeNotifier {
   }
 
   signOut() {
-    // context.pop("poped");
     locator<CurrentUser>().signOut();
   }
 }
