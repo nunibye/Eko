@@ -16,8 +16,8 @@ class Post {
   final String time;
   final String title;
   final String body;
-  final String
-      profileBio; // TODO: idk if this should load here or only load if image is tapped
+  final String profileBio;
+  final String bioName;
   int likes;
   final List<dynamic> followers;
   final List<dynamic> following;
@@ -37,6 +37,7 @@ class Post {
     required this.following,
     required this.userLikes,
     required this.profileBio,
+    required this.bioName,
   });
 }
 

@@ -49,46 +49,49 @@ class ProfileInputFeild extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       width: feildWidth,
-      child: TextFormField(
-        enabled: enabled,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(filter)),
-        ],
-        textInputAction: textInputAction,
-        autovalidateMode: validator,
-        validator: validatorFunction,
-        controller: controller,
-        focusNode: focus,
-        onChanged: onChanged,
-        onTap: onTap,
-        onTapOutside: onTapOutside,
-        onEditingComplete: onEditingComplete,
-        keyboardType: inputType,
-        style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.normal,
-            color: Theme.of(context).colorScheme.tertiary),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(
-            fontSize: 18,
-            letterSpacing: 1,
-            fontWeight: FontWeight.normal,
-            color: Theme.of(context).colorScheme.primary,
+      child:
+          TextFormField(
+            enabled: enabled,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(filter)),
+            ],
+            textInputAction: TextInputAction.done,
+            autovalidateMode: validator,
+            validator: validatorFunction,
+            controller: controller,
+            focusNode: focus,
+            onChanged: onChanged,
+            onTap: onTap,
+            onTapOutside: onTapOutside,
+            onEditingComplete: onEditingComplete,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,
+            maxLines: 3,
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
+                color: Theme.of(context).colorScheme.tertiary),
+            decoration: InputDecoration(
+              labelText: label,
+              labelStyle: TextStyle(
+                fontSize: 18,
+                letterSpacing: 1,
+                fontWeight: FontWeight.normal,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              fillColor: Theme.of(context).colorScheme.onBackground,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.onPrimary),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide:
+                      BorderSide(color: Theme.of(context).colorScheme.primary)),
+            ),
           ),
-          fillColor: Theme.of(context).colorScheme.onBackground,
-          filled: true,
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onPrimary),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.primary)),
-        ),
-      ),
     );
   }
 }

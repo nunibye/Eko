@@ -94,6 +94,7 @@ class _Header extends StatelessWidget {
             following: otherProfileController.following.length,
             followers: otherProfileController.followers.length,
             profileBio: otherProfileController.profileBio,
+            bioName: otherProfileController.bioName,
           ),
         ),
         //TODO style

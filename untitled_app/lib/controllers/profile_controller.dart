@@ -15,6 +15,7 @@ class ProfileController extends ChangeNotifier {
   String firstName = locator<CurrentUser>().firstName;
   String lastName = locator<CurrentUser>().lastName;
   String profileBio = locator<CurrentUser>().bio;
+  String bioName = locator<CurrentUser>().bioName;
   final BuildContext context;
   late AppUser user;
 
@@ -36,6 +37,7 @@ class ProfileController extends ChangeNotifier {
       username: username,
       profileImage: profileImage,
       bio: profileBio,
+      bioName: bioName,
     );
   }
 

@@ -84,6 +84,7 @@ class Header extends StatelessWidget {
                 following: profileController.following.length,
                 followers: profileController.followers.length,
                 profileBio: profileController.profileBio,
+                bioName: profileController.bioName,
               ),
             ],
           ),

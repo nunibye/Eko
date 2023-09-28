@@ -77,17 +77,21 @@ class EditProfile extends StatelessWidget {
                   onChanged: (s) =>
                       Provider.of<EditProfileController>(context, listen: false)
                           .updateCountsBody(s),
-                  onTap: () => {
-                        Provider.of<EditProfileController>(context,
-                                listen: false)
-                            .showCountsBody(true),
-                      },
+                  onTap: () {
+                    Provider.of<EditProfileController>(context, listen: false)
+                        .showCountsBody(true);
+                  },
                   onEditingComplete: () => {
                         Provider.of<EditProfileController>(context,
                                 listen: false)
                             .showCountsBody(false),
-                        Provider.of<EditProfileController>(context, listen: false).saveProfileData(Provider.of<EditProfileController>(context, listen: false)
-                          .bioController.text)
+                        Provider.of<EditProfileController>(context,
+                                listen: false)
+                            .saveProfileData(Provider.of<EditProfileController>(
+                                    context,
+                                    listen: false)
+                                .bioController
+                                .text)
                       },
                   focus:
                       Provider.of<EditProfileController>(context, listen: false)

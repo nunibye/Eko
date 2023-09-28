@@ -6,6 +6,7 @@ class AppUser {
   String username;
   String profileImage;
   String bio;
+  String bioName;
   int likes;
   List<dynamic> followers;
   List<dynamic> following;
@@ -17,6 +18,7 @@ class AppUser {
     this.lastName = '',
     this.likes = 0,
     this.bio = '',
+    this.bioName = '',
     this.followers = const [],
     this.following = const [],
     this.username = '',
@@ -38,12 +40,14 @@ class AppUser {
         firstName = user.firstName;
         lastName = user.lastName;
         bio = user.bio;
+        bioName = user.bioName;
 
         return null;
       }
     }
     final userRef = FirebaseFirestore.instance.collection("users");
-    final data = await userRef.doc(uid).get(); //FIXME need exception handleing all below
+    final data =
+        await userRef.doc(uid).get(); //FIXME need exception handleing all below
     final userData = data.data();
     if (userData != null) {
       profileImage = userData['profileData']['profilePicture'];
@@ -54,6 +58,8 @@ class AppUser {
       firstName = userData['name']['firstName'];
       lastName = userData['name']['lastName'];
       bio = userData['profileData']['bio'] ?? '';
+      bioName = userData['profileData']['bioName']?.isEmpty == true ? '$firstName $lastName' : userData['profileData']['bioName'] ?? '$firstName $lastName';
+
     }
     return userData;
   }

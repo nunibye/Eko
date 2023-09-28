@@ -10,6 +10,7 @@ class ProfileHeader extends StatelessWidget {
   final String username;
   final String profilePic;
   final String profileBio;
+  final String bioName;
   final int likes;
   final int following;
   final int followers;
@@ -22,6 +23,7 @@ class ProfileHeader extends StatelessWidget {
     required this.following,
     required this.followers,
     required this.profileBio,
+    required this.bioName,
   });
 
   @override
@@ -87,7 +89,7 @@ class ProfileHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      username,
+                      bioName,
                       style: TextStyle(
                         fontSize: 16,
                         letterSpacing: 1,
@@ -123,7 +125,10 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
         textAlign: TextAlign.center,
         text: TextSpan(
           text: NumberFormat.compact().format(number),
-          style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold, fontSize: 17),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 17),
           children: [
             TextSpan(
               text: "\n$label",
