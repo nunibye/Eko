@@ -35,15 +35,15 @@ class RouterNotifier extends ChangeNotifier {
     return null;
   }
 
-  void signOut(BuildContext context) async {
-    loggedIn = false; // Set loggedIn to false before sign out
-    notifyListeners();
-    print(loggedIn);
-    // Sign out the user
-    await FirebaseAuth.instance.signOut();
+  // void signOut(BuildContext context) async {
+  //   loggedIn = false; // Set loggedIn to false before sign out
+  //   notifyListeners();
+  //   print(loggedIn);
+  //   // Sign out the user
+  //   await FirebaseAuth.instance.signOut();
 
-    // Clear the entire navigation stack and redirect to login
-    final goRouter = GoRouter.of(context);
-    goRouter.go('/login');
-  }
+  //   // Clear the entire navigation stack and redirect to login
+  //   final goRouter = GoRouter.of(context);
+  //   goRouter.go('/login');
+  // }
 }
