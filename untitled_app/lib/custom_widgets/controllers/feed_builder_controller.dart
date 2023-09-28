@@ -28,8 +28,6 @@ class FeedBuilderController extends ChangeNotifier {
       required this.index}) {
     // print(locator<FeedPostCache>().postsList[index ?? 0].length);
 
-    
-
     init();
   }
   init() async {
@@ -42,7 +40,6 @@ class FeedBuilderController extends ChangeNotifier {
     }
     scroll.addListener(() => _onScroll());
     if (posts.isEmpty) {
- 
       await parseRawPosts(
           await locator<PostsHandling>().getPosts(null, firestoreQuery));
     }
@@ -51,15 +48,17 @@ class FeedBuilderController extends ChangeNotifier {
 
   _onScroll() async {
     if (!end) {
+      print('here');
       if (scroll.position.maxScrollExtent - scroll.position.pixels <=
           MediaQuery.sizeOf(context).height * 0.2) {
         if (loading == false) {
           loading = true;
+          if (posts.isNotEmpty) {
+            await parseRawPosts(await locator<PostsHandling>()
+                .getPosts(posts.last.time, firestoreQuery));
+            notifyListeners();
+          }
 
-          await parseRawPosts(await locator<PostsHandling>()
-              .getPosts(posts.last.time, firestoreQuery)); 
-              //FIXME "Exception has occurred. StateError (Bad state: No element)" When reloading profile, uncheck uncaught exceptions
-          notifyListeners();
           loading = false;
         }
       }
@@ -104,7 +103,6 @@ class FeedBuilderController extends ChangeNotifier {
     end = false;
     posts = [];
     if (index != null) {
-  
       locator<FeedPostCache>().postsList[index!].posts.clear();
       locator<FeedPostCache>().postsList[index!].end = false;
     }
@@ -114,6 +112,8 @@ class FeedBuilderController extends ChangeNotifier {
     if (refreshFunction != null) {
       refreshFunction!();
     }
+    // end = false;
+    print('refresh');
     notifyListeners();
   }
 }
