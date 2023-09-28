@@ -28,7 +28,7 @@ class RouterNotifier extends ChangeNotifier {
     }
     else if (loggedIn && (onLoginPage || onSignUpPage)) {
       await locator<CurrentUser>().readCurrentUserData();
-
+      
       return '/profile';
     }
 

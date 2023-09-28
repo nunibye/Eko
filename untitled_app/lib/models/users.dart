@@ -58,9 +58,11 @@ class AppUser {
       firstName = userData['name']['firstName'];
       lastName = userData['name']['lastName'];
       bio = userData['profileData']['bio'] ?? '';
-      bioName = userData['profileData']['bioName']?.isEmpty == true ? '$firstName $lastName' : userData['profileData']['bioName'] ?? '$firstName $lastName';
-
+      bioName = userData['profileData']['bioName']?.isEmpty == true
+          ? '$firstName $lastName'
+          : userData['profileData']['bioName'] ?? '$firstName $lastName';
     }
+    //print(username);
     return userData;
   }
 }

@@ -270,6 +270,7 @@ class CurrentUser extends AppUser {
       return "fail";
     }
   }
+
   Future<String> uploadProfileBioName(String bioName) async {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();
@@ -317,6 +318,17 @@ class CurrentUser extends AppUser {
 
   // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
   signOut() {
+    uid = '';
+    firstName = '';
+    lastName = '';
+    likes = 0;
+    bio = '';
+    bioName = '';
+    followers = const [];
+    following = const [];
+    username = '';
+    profileImage =
+        "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c";
     FirebaseAuth.instance.signOut();
   }
 }
