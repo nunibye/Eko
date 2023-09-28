@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/themes/dark_theme_provider.dart';
+import '../controllers/bottom_nav_bar_controller.dart';
 
 class SettingsController extends ChangeNotifier {
   final BuildContext context;
@@ -22,6 +23,8 @@ class SettingsController extends ChangeNotifier {
   }
 
   signOut() {
+    
     locator<CurrentUser>().signOut();
+    locator<NavBarController>().enable();
   }
 }
