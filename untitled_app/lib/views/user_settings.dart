@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/current_user.dart';
+import 'package:untitled_app/utilities/router_notifier.dart';
 //import '../utilities/constants.dart' as c;
 import '../controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../utilities/locator.dart';
+
 //import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
@@ -45,8 +49,8 @@ class UserSettings extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   // FIXME there is something weird with redirect not disposing of the stack. not sure how to do that worked on it for 1 hour hehe <3
-                  Provider.of<SettingsController>(context, listen: false)
-                      .signOut();
+                  locator<RouterNotifier>()
+                      .signOut(context);
                 },
                 child: Text(AppLocalizations.of(context)!.logOut),
               ),
