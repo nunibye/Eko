@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:untitled_app/utilities/router_notifier.dart';
 import '../models/current_user.dart';
 import '../models/post_handler.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
@@ -10,4 +11,5 @@ void setupLocator() {
   locator.registerLazySingleton<PostsHandling>(() => PostsHandling());
   locator.registerSingleton<NavBarController>(NavBarController());
   locator.registerLazySingleton<FeedPostCache>(() => FeedPostCache());
+  locator.registerSingleton<RouterNotifier>(RouterNotifier());
 }
