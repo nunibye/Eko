@@ -57,7 +57,8 @@ class FeedBuilderController extends ChangeNotifier {
           loading = true;
 
           await parseRawPosts(await locator<PostsHandling>()
-              .getPosts(posts.last.time, firestoreQuery));
+              .getPosts(posts.last.time, firestoreQuery)); 
+              //FIXME "Exception has occurred. StateError (Bad state: No element)" When reloading profile, uncheck uncaught exceptions
           notifyListeners();
           loading = false;
         }

@@ -48,8 +48,10 @@ class ProfileController extends ChangeNotifier {
     locator<NavBarController>().enable();
     profileImage = locator<CurrentUser>().profileImage;
     profileBio = locator<CurrentUser>().bio;
+    bioName = locator<CurrentUser>().bioName;
     user.profileImage = profileImage;
     user.bio = profileBio;
+    user.bioName = bioName;
     notifyListeners();
   }
 

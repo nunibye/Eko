@@ -74,46 +74,84 @@ class EditProfile extends StatelessWidget {
                 ),
               ),
               ProfileInputFeild(
-                  onChanged: (s) =>
-                      Provider.of<EditProfileController>(context, listen: false)
-                          .updateCountsBody(s),
-                  onTap: () {
+                // TODO uncomment below if no like the built in character counting
+                // onChanged: (s) =>
+                //     Provider.of<EditProfileController>(context, listen: false)
+                //         .updateCountsBio(s),
+                onTap: () {
+                  Provider.of<EditProfileController>(context, listen: false)
+                      .showCountsBio(true);
+                },
+                onEditingComplete: () => {
+                  Provider.of<EditProfileController>(context, listen: false)
+                      .showCountsBio(false),
+                  Provider.of<EditProfileController>(context, listen: false)
+                      .saveBioData(Provider.of<EditProfileController>(context,
+                              listen: false)
+                          .bioController
+                          .text)
+                },
+                focus:
                     Provider.of<EditProfileController>(context, listen: false)
-                        .showCountsBody(true);
-                  },
-                  onEditingComplete: () => {
-                        Provider.of<EditProfileController>(context,
-                                listen: false)
-                            .showCountsBody(false),
-                        Provider.of<EditProfileController>(context,
-                                listen: false)
-                            .saveProfileData(Provider.of<EditProfileController>(
-                                    context,
-                                    listen: false)
-                                .bioController
-                                .text)
-                      },
-                  focus:
-                      Provider.of<EditProfileController>(context, listen: false)
-                          .bioFocus,
-                  label: AppLocalizations.of(context)!.bioTitle,
-                  controller:
-                      Provider.of<EditProfileController>(context, listen: false)
-                          .bioController),
-              if (Provider.of<EditProfileController>(context, listen: false)
-                  .showBioCounts)
-                Consumer<EditProfileController>(
-                  builder: (context, bioController, _) => Row(
-                    children: [
-                      Text(
-                          "${bioController.bioBodyChars}/${c.maxBioChars} ${AppLocalizations.of(context)!.characters}"),
-                      const Spacer(),
-                      // no new lines atm
-                      // Text(
-                      //     "${bioController.bioNewLines}/${c.maxBioLines} ${AppLocalizations.of(context)!.newLines}"),
-                    ],
-                  ),
-                ),
+                        .bioFocus,
+                label: AppLocalizations.of(context)!.bioTitle,
+                controller:
+                    Provider.of<EditProfileController>(context, listen: false)
+                        .bioController,
+                maxLength: c.maxBioChars,
+              ),
+              // if (Provider.of<EditProfileController>(context, listen: false)
+              //     .showBioCounts)
+              //   Consumer<EditProfileController>(
+              //     builder: (context, bioController, _) => Row(
+              //       children: [
+              //         Text(
+              //             "${bioController.bioBodyChars}/${c.maxBioChars} ${AppLocalizations.of(context)!.characters}"),
+              //         const Spacer()
+              //         // no new lines atm
+              //         // Text(
+              //         //     "${bioController.bioNewLines}/${c.maxBioLines} ${AppLocalizations.of(context)!.newLines}"),
+              //       ],
+              //     ),
+              // ),
+              ProfileInputFeild(
+                // onChanged: (s) =>
+                //     Provider.of<EditProfileController>(context, listen: false)
+                //         .updateCountsBioName(s),
+                onTap: () {
+                  Provider.of<EditProfileController>(context, listen: false)
+                      .showCountsBioName(true);
+                },
+                onEditingComplete: () => {
+                  Provider.of<EditProfileController>(context, listen: false)
+                      .showCountsBioName(false),
+                  Provider.of<EditProfileController>(context, listen: false)
+                      .saveBioNameData(Provider.of<EditProfileController>(
+                              context,
+                              listen: false)
+                          .bioNameController
+                          .text)
+                },
+                focus:
+                    Provider.of<EditProfileController>(context, listen: false)
+                        .bioNameFocus,
+                label: AppLocalizations.of(context)!.bioTitle,
+                controller:
+                    Provider.of<EditProfileController>(context, listen: false)
+                        .bioNameController,
+                maxLength: c.maxBioNameChars,
+              ),
+              // if (Provider.of<EditProfileController>(context, listen: false)
+              //     .showBioNameCounts)
+              //   Consumer<EditProfileController>(
+              //     builder: (context, bioNameController, _) => Row(
+              //       children: [
+              //         Text(
+              //             "${bioNameController.bioNameBodyChars}/${c.maxBioNameChars} ${AppLocalizations.of(context)!.characters}"),
+              //         const Spacer(),
+              //       ],
+              //     ),
+              //   ),
             ],
           ),
         );

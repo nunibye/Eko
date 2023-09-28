@@ -8,10 +8,17 @@ class EditProfileController extends ChangeNotifier {
 
   final bioController = TextEditingController(text: locator<CurrentUser>().bio);
   final bioFocus = FocusNode();
-  int bioNewLines = '\n'.allMatches(locator<CurrentUser>().bio).length;
-  int bioBodyChars = locator<CurrentUser>().bio.length;
+  // int bioNewLines = '\n'.allMatches(locator<CurrentUser>().bio).length;
+  // int bioBodyChars = locator<CurrentUser>().bio.length;
+
+  final bioNameController =
+      TextEditingController(text: locator<CurrentUser>().bioName);
+  final bioNameFocus = FocusNode();
+  // int bioNameBodyChars = locator<CurrentUser>().bioName.length;
+
   int titleChars = 0;
   bool showBioCounts = false;
+  bool showBioNameCounts = false;
 
   editProfileImagePressed() async {
     //FIXME crashes if you exit before function finishes
@@ -22,14 +29,18 @@ class EditProfileController extends ChangeNotifier {
     } else {}
   }
 
-  updateCountsBody(String str) {
-    bioBodyChars = str.length;
-    bioNewLines = '\n'.allMatches(str).length;
-    notifyListeners();
-  }
+  // updateCountsBio(String str) {
+  //   bioBodyChars = str.length;
+  //   bioNewLines = '\n'.allMatches(str).length;
+  //   notifyListeners();
+  // }
 
-  showCountsBody(bool show) {
-    print(bioNewLines);
+  // updateCountsBioName(String str) {
+  //   bioNameBodyChars = str.length;
+  //   notifyListeners();
+  // }
+
+  showCountsBio(bool show) {
     showBioCounts = show;
     if (!show) {
       bioFocus.unfocus();
@@ -37,13 +48,28 @@ class EditProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveProfileData(String bio) async {
+  showCountsBioName(bool show) {
+    showBioNameCounts = show;
+    if (!show) {
+      bioNameFocus.unfocus();
+    }
+    notifyListeners();
+  }
+
+  saveBioData(String bio) async {
     // TODO: This will eventually need to upload all the data that changed as profile editing gets larger
     // Im thinking a 'save' and 'cancel' button pops up on the app bar is an edit is detected
     if (await locator<CurrentUser>().uploadProfileBio(bio) == "success") {
       locator<CurrentUser>().bio = bio;
       notifyListeners();
-    } else {
-    }
+    } else {}
+  }
+
+  saveBioNameData(String bioName) async {
+    if (await locator<CurrentUser>().uploadProfileBioName(bioName) ==
+        "success") {
+      locator<CurrentUser>().bioName = bioName;
+      notifyListeners();
+    } else {}
   }
 }
