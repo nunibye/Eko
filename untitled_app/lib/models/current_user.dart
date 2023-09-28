@@ -5,6 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import '../models/users.dart';
 
 class CurrentUser extends AppUser {
@@ -318,6 +320,7 @@ class CurrentUser extends AppUser {
 
   // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
   signOut() {
+    locator<FeedPostCache>().clearCache();
     uid = '';
     firstName = '';
     lastName = '';
@@ -327,6 +330,8 @@ class CurrentUser extends AppUser {
     followers = const [];
     following = const [];
     username = '';
+    email = '';
+    likedPosts = const [];
     profileImage =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c";
     FirebaseAuth.instance.signOut();

@@ -9,7 +9,12 @@ class Cache {
 class FeedPostCache {
   List<Cache> postsList =
       List.generate(4, (index) => Cache(posts: [], end: false));
-  //TODO review, considor other solutions
+
+  clearCache(){
+    postsList =
+      List.generate(4, (index) => Cache(posts: [], end: false));
+  }
+    //TODO review, considor other solutions
   updateLikes(String id, int offset) {
     for (Cache element in postsList) {
       for (Post post in element.posts) {

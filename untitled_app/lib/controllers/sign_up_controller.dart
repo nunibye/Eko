@@ -5,7 +5,7 @@ import '../models/current_user.dart';
 
 import '../custom_widgets/login_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-
+import "package:go_router/go_router.dart";
 // TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
   
@@ -73,7 +73,7 @@ class SignUpController extends ChangeNotifier {
 
   void _returnToLogin() {
     _pop();
-    _pop();
+    context.go("/login");
   }
 
   void hideKeyboard() {
