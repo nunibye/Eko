@@ -52,7 +52,7 @@ const double loginPadding = 0.006;
 const int imageQuality = 85;
 const double imageSize = 150;
 
-const double postPaddingVert = 0;
+const double postPaddingVert = 8;
 const double postPaddingHoriz = 5;
 
 const int signUpAnimationDuration = 300;

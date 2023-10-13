@@ -13,6 +13,7 @@ import 'router_notifier.dart';
 import '../views/navigation_bar.dart';
 import '../models/post_handler.dart';
 import '../views/other_profile.dart';
+import '../views/view_post_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -62,16 +63,34 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: FeedPage(),
               ),
-               routes: [
-                  GoRoute(
-                    path: 'profile',
-                    name: 'sub_profile',
-                    builder: (context, state) {
-                      Post? post = state.extra as Post?;
-                      return OtherProfile(post: post);
-                    },
-                  ),
-                ]
+              routes: [
+                GoRoute(
+                      path: 'post',
+                      name: 'feed_posts',
+                      builder: (context, state) {
+                        Post? post = state.extra as Post?;
+                        return ViewPostPage(post: post);
+                      },
+                    ),
+                GoRoute(
+                  path: 'profile',
+                  name: 'sub_profile',
+                  builder: (context, state) {
+                    Post? post = state.extra as Post?;
+                    return OtherProfile(post: post);
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'post',
+                      name: 'sub_profile_post',
+                      builder: (context, state) {
+                        Post? post = state.extra as Post?;
+                        return ViewPostPage(post: post);
+                      },
+                    )
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -79,11 +98,11 @@ final goRouter = GoRouter(
           navigatorKey: _shellNavigatorSearchKey,
           routes: [
             GoRoute(
-                path: '/search',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                      child: SearchPage(),
-                    ),
-               ),
+              path: '/search',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: SearchPage(),
+              ),
+            ),
           ],
         ),
         StatefulShellBranch(
@@ -119,6 +138,14 @@ final goRouter = GoRouter(
                   name: 'user_settings',
                   builder: (context, state) => const UserSettings(),
                 ),
+                GoRoute(
+                      path: 'post',
+                      name: 'profile_post',
+                      builder: (context, state) {
+                        Post? post = state.extra as Post?;
+                        return ViewPostPage(post: post);
+                      },
+                    )
               ],
             ),
           ],
