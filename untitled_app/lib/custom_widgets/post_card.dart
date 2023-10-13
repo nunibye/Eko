@@ -20,9 +20,9 @@ class PostCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Container(
             child: InkWell(
-              onTap: () {
-                print("TAP!");
-               },
+              onTap: () =>
+                  Provider.of<PostCardController>(context, listen: false)
+                      .postPressed(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -47,7 +47,7 @@ class PostCard extends StatelessWidget {
                           onPressed: () => Provider.of<PostCardController>(
                                   context,
                                   listen: false)
-                              .iconPressed(),
+                              .avatarPressed(),
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           icon: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.115,

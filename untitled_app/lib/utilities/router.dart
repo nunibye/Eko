@@ -28,6 +28,7 @@ final goRouter = GoRouter(
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
   initialLocation: '/login',
+  
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -37,6 +38,14 @@ final goRouter = GoRouter(
     //     return const RootPage();
     //   },
     // ),
+    GoRoute(
+      path: '/post',
+      name: 'post_screen',
+      builder: (context, state) {
+        Post? post = state.extra as Post?;
+        return ViewPostPage(post: post);
+      },
+    ),
     GoRoute(
       path: '/login',
       builder: (context, state) {
@@ -65,30 +74,12 @@ final goRouter = GoRouter(
               ),
               routes: [
                 GoRoute(
-                      path: 'post',
-                      name: 'feed_posts',
-                      builder: (context, state) {
-                        Post? post = state.extra as Post?;
-                        return ViewPostPage(post: post);
-                      },
-                    ),
-                GoRoute(
                   path: 'profile',
                   name: 'sub_profile',
                   builder: (context, state) {
                     Post? post = state.extra as Post?;
                     return OtherProfile(post: post);
                   },
-                  routes: [
-                    GoRoute(
-                      path: 'post',
-                      name: 'sub_profile_post',
-                      builder: (context, state) {
-                        Post? post = state.extra as Post?;
-                        return ViewPostPage(post: post);
-                      },
-                    )
-                  ],
                 ),
               ],
             ),
@@ -138,14 +129,6 @@ final goRouter = GoRouter(
                   name: 'user_settings',
                   builder: (context, state) => const UserSettings(),
                 ),
-                GoRoute(
-                      path: 'post',
-                      name: 'profile_post',
-                      builder: (context, state) {
-                        Post? post = state.extra as Post?;
-                        return ViewPostPage(post: post);
-                      },
-                    )
               ],
             ),
           ],

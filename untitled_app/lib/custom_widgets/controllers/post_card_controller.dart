@@ -17,8 +17,11 @@ class PostCardController extends ChangeNotifier {
 
     notifyListeners();
   }
+  postPressed() {
+    context.pushNamed("post_screen", extra: post);
+  }
 
-  iconPressed() async {
+  avatarPressed() async {
     if (post.uid != locator<CurrentUser>().getUID()) {
       await context.pushNamed("sub_profile", extra: post);
       //update post liked in sub menu
@@ -65,7 +68,7 @@ class PostCardController extends ChangeNotifier {
             notifyListeners();
           }
         }
-        
+
         liking = false;
       }
     }
