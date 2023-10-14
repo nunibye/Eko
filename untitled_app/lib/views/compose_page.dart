@@ -12,7 +12,10 @@ class ComposePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ComposeController(context: context),
       builder: (context, child) {
-        return Scaffold(
+        return GestureDetector(
+          onTap: () => Provider.of<ComposeController>(context, listen: false)
+              .hideKeyboard(),
+          child: Scaffold(
           body: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.height * 0.02),
@@ -116,7 +119,7 @@ class ComposePage extends StatelessWidget {
               ],
             ),
           ),
-        );
+        ),);
       },
     );
   }

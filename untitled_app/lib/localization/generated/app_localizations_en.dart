@@ -5,6 +5,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get post => 'Post';
+
+  @override
   String get email => 'Email';
 
   @override
@@ -177,4 +180,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get darkMode => 'Dark Mode';
+
+  @override
+  String get addComment => 'Add a comment';
 }

@@ -28,6 +28,9 @@ class ComposeController extends ChangeNotifier {
     titleChars = str.length;
     notifyListeners();
   }
+  void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
 //TODO add more content like a preview of a post.
   postPressed() {
