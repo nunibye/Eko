@@ -35,14 +35,14 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
-        return ChangeNotifierProvider(  // is this okay that i changed it so that it can rebuild it? or should it be changed
+        return ChangeNotifierProvider(
+            // is this okay that i changed it so that it can rebuild it? or should it be changed
 
             create: (_) => DarkThemeProvider(),
             builder: (context, child) {
               final themeChangeProvider =
                   Provider.of<DarkThemeProvider>(context);
               return MaterialApp.router(
-
                 title: 'Untitled',
                 debugShowCheckedModeBanner: false,
                 theme: Styles.themeData(themeChangeProvider.darkTheme, context),
