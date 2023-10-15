@@ -15,6 +15,7 @@ class CustomInputFeild extends StatelessWidget {
   final bool enabled;
   final bool password;
   final TextInputAction textInputAction;
+  final double? height;
 
   final void Function(String)? onChanged;
   final void Function()? onEditingComplete;
@@ -25,6 +26,7 @@ class CustomInputFeild extends StatelessWidget {
       this.onEditingComplete,
       this.focus,
       this.width,
+      this.height,
       this.inputType = TextInputType.text,
       this.filter = r'[\s\S]*',
       this.validator = AutovalidateMode.disabled,
@@ -37,6 +39,7 @@ class CustomInputFeild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double feildWidth;
+  
     if (width == null) {
       feildWidth = MediaQuery.of(context).size.width * 0.9;
     } else {
@@ -46,8 +49,10 @@ class CustomInputFeild extends StatelessWidget {
         create: (context) => LoginFieldController(password: password),
         builder: (context, child) {
           return Container(
+            alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             width: feildWidth,
+            height: height,
             child: TextFormField(
               obscureText:
                   Provider.of<LoginFieldController>(context, listen: true)

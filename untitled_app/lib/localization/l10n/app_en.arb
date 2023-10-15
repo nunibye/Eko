@@ -1,4 +1,5 @@
 {
+    "post":"Post",
     "email":"Email",
     "password":"Password",
     "confirmPassword":"Confirm Password",
@@ -73,5 +74,6 @@
     "bioTitle":"Bio",
 
     "logOut":"Log Out",
-    "darkMode":"Dark Mode"
+    "darkMode":"Dark Mode",
+    "addComment":"Add a comment"
 }

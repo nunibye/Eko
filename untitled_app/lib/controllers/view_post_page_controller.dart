@@ -7,7 +7,17 @@ class PostPageController extends ChangeNotifier {
   final Post? post;
   String title = "";
   String body = "";
+  String profilePic = "";
+  String firstName = "";
+  String lastName = "";
+  String username = "";
+  TextEditingController commentFeild = TextEditingController();
+  FocusNode commentFeildFocus = FocusNode();
 
+  void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+  
   PostPageController({required this.post}) {
     _init();
   }
@@ -15,6 +25,10 @@ class PostPageController extends ChangeNotifier {
     if (post != null) {
       title = post!.title;
       body = post!.body;
+      profilePic = post!.profilePic;
+      firstName = post!.firstName;
+      lastName = post!.lastName;
+      username = post!.username;
     }
   }
 }
