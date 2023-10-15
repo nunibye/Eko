@@ -49,7 +49,7 @@ class _Header extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-    const CustomTabBar(),
+    CustomTabBar(),
     ],
     );
   }

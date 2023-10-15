@@ -3,22 +3,19 @@ import 'package:go_router/go_router.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart' show Post;
-import '../../models/feed_post_cache.dart' show FeedPostCache;
+//import '../../models/feed_post_cache.dart' show FeedPostCache;
 
-class PostCardController extends ChangeNotifier {
+class CommentCardController extends ChangeNotifier {
   BuildContext context;
   Post post;
   late int likes;
   late bool liked;
   bool liking = false;
-  PostCardController({required this.context, required this.post}) {
+  CommentCardController({required this.context, required this.post}) {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
     likes = post.likes;
 
     notifyListeners();
-  }
-  postPressed() {
-    context.pushNamed("post_screen", extra: post);
   }
 
   avatarPressed() async {
@@ -45,25 +42,25 @@ class PostCardController extends ChangeNotifier {
 
         if (liked) {
           liked = false;
-          locator<FeedPostCache>().updateLikes(post.postId, -1);
+          //locator<FeedPostCache>().updateLikes(post.postId, -1);
           likes--;
           notifyListeners();
           //undo if it fails. maybe remove this
           if (!await locator<CurrentUser>().removeLike(post.postId)) {
             liked = true;
-            locator<FeedPostCache>().updateLikes(post.postId, 1);
+            //locator<FeedPostCache>().updateLikes(post.postId, 1);
             likes++;
             notifyListeners();
           }
         } else {
           liked = true;
-          locator<FeedPostCache>().updateLikes(post.postId, 1);
+          //locator<FeedPostCache>().updateLikes(post.postId, 1);
           likes++;
           notifyListeners();
           //undo if it fails
           if (!await locator<CurrentUser>().addLike(post.postId)) {
             liked = false;
-            locator<FeedPostCache>().updateLikes(post.postId, -1);
+            //locator<FeedPostCache>().updateLikes(post.postId, -1);
             likes--;
             notifyListeners();
           }

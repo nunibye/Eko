@@ -76,7 +76,7 @@ class FeedBuilderController extends ChangeNotifier {
       AppUser user = AppUser();
       await user.readUserData(raw.author, user: passedUser);
       final post = Post(
-        postID: raw.postID,
+        postId: raw.postID,
         followers: user.followers,
         following: user.following,
         userLikes: user.likes,

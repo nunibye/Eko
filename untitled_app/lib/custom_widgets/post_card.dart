@@ -5,7 +5,7 @@ import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
-import '../utilities/comment_modal.dart';
+
 
 class PostCard extends StatelessWidget {
   final Post post;

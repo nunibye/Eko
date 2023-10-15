@@ -7,7 +7,7 @@ import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
 
 class Post {
-  final String postID;
+  final String postId;
   final String username;
   final String firstName;
   final String lastName;
@@ -25,7 +25,7 @@ class Post {
   Post({
     required this.username,
     required this.firstName,
-    required this.postID,
+    required this.postId,
     required this.lastName,
     required this.profilePic,
     required this.time,
@@ -74,6 +74,21 @@ class PostsHandling {
     post["time"] = DateTime.now().toUtc().toIso8601String();
     post["likes"] = 0; //change this
     await firestore.collection('posts').add(post);
+    //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
+    return "success";
+  }
+
+  createComment(Map<String, dynamic> comment, String postID) async {
+    final user = FirebaseAuth.instance.currentUser!;
+    final firestore = FirebaseFirestore.instance;
+    comment["author"] = user.uid;
+    comment["time"] = DateTime.now().toUtc().toIso8601String();
+    comment["likes"] = 0; //change this
+    await firestore
+        .collection('posts')
+        .doc(postID)
+        .collection('comments')
+        .add(comment);
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }

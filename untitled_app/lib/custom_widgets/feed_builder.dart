@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/comment_card.dart';
 import 'package:untitled_app/models/users.dart' show AppUser;
 import 'controllers/feed_builder_controller.dart';
 import '../custom_widgets/post_card.dart';
@@ -11,17 +12,18 @@ class FeedBuilder extends StatelessWidget {
   final Query<Map<String, dynamic>>? firestoreQuery;
   final Function? refreshFunction;
   final AppUser? user;
+  final bool isComment;
 
   final int? index;
 
- const FeedBuilder(
+  const FeedBuilder(
       {this.firestoreQuery,
       required this.header,
       this.refreshFunction,
       super.key,
       this.user,
-
-      this.index});
+      this.index,
+      this.isComment = false});
   @override
   Widget build(BuildContext context) {
     //TODO idk why this works. profile used to not reload then I changed it to .value now it does maybe more providers should be .value?
@@ -31,7 +33,6 @@ class FeedBuilder extends StatelessWidget {
           refreshFunction: refreshFunction,
           context: context,
           passedUser: user,
-
           index: index),
       builder: (context, child) {
         return RefreshIndicator(
@@ -47,12 +48,15 @@ class FeedBuilder extends StatelessWidget {
                   return child;
                 } else if (feedController.posts.isNotEmpty &&
                     index < feedController.posts.length + 1) {
-                  return PostCard(post: feedController.posts[index - 1]);
+                  return isComment
+                      ? CommentCard(post: feedController.posts[index - 1])
+                      : PostCard(post: feedController.posts[index - 1]);
                 } else {
                   if (feedController.posts.isEmpty) {
                     if (feedController.end) {
-                      return const Center(child: Text(
-                          "Nothing to see. Go follow some people!"));
+                      return Center(
+                          child: isComment?const  Text("No Comments"):
+                              const Text("Nothing to see. Go follow some people!"));//FIXME update text for translation and comments
                     } else {
                       return const Center(
                         child: Column(
@@ -65,8 +69,8 @@ class FeedBuilder extends StatelessWidget {
                     }
                   } else {
                     return feedController.end
-                        ? const Center(
-                            child: Text("No More Posts"),
+                        ? Center(
+                            child: isComment? const Text("No More Comments"):const Text("No More Posts"),
                           )
                         : const Center(
                             child: Padding(
