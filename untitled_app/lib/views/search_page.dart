@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:algolia/algolia.dart';
-
 import '../controllers/search_page_controller.dart';
 
+
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => SearchPageController(),
       builder: (context, child) {
-
+        
         return Scaffold(
           appBar: AppBar(
             title: const Text("User Search"),
@@ -23,31 +22,29 @@ class SearchPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextField(
-                  onChanged: (s)=>Provider.of<SearchPageController>(context, listen: false).search(s),
-                  controller: Provider.of<SearchPageController>(context, listen: false).searchText,
+                  controller: Provider.of<SearchPageController>(context, listen: false).searchTextController,
                   decoration: const InputDecoration(
                       hintText: "Search username here..."),
                 ),
                 Expanded(
-                  child: Provider.of<SearchPageController>(context, listen: true).searching == true
+                  child: Provider.of<SearchPageController>(context, listen: true).isLoading
                       ? const Center(
-                          child: Text("Searching..."),
+                          child: CircularProgressIndicator(),
                         )
-                      : Provider.of<SearchPageController>(context, listen: true).results.isEmpty
+                      : Provider.of<SearchPageController>(context, listen: true).hits.isEmpty
                           ? const Center(
                               child: Text("No results found."),
                             )
                           : ListView.builder(
-                              itemCount: Provider.of<SearchPageController>(context, listen: true).results.length,
+                              itemCount: Provider.of<SearchPageController>(context, listen: true).hits.length,
                               itemBuilder: (BuildContext ctx, int index) {
-                                AlgoliaObjectSnapshot snap = Provider.of<SearchPageController>(context, listen: true).results[
-                                    index]; // idk if this should be here
+                                Map<String, dynamic> hit = Provider.of<SearchPageController>(context, listen: true).hits[index];
 
                                 return TextButton(
                                   onPressed: () {
-                                    print(snap.data["uid"]);
+                                    print(hit["uid"]);
                                   },
-                                  child: Text(snap.data["username"]),
+                                  child: Text(hit["username"]),
                                 );
                               },
                             ),
@@ -60,3 +57,6 @@ class SearchPage extends StatelessWidget {
     );
   }
 }
+
+
+
