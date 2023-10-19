@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/users.dart';
 import 'package:untitled_app/views/login.dart';
 //import 'package:untitled_app/views/root_page.dart';
 import 'package:untitled_app/views/sign_up.dart';
@@ -51,8 +52,8 @@ final goRouter = GoRouter(
       path: '/sub_profile',
       name: 'sub_profile',
       builder: (context, state) {
-        Post? post = state.extra as Post?;
-        return OtherProfile(post: post);
+        AppUser? user = state.extra as AppUser?;
+        return OtherProfile(user: user);
       },
     ),
     GoRoute(

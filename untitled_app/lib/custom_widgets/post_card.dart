@@ -51,7 +51,7 @@ class PostCard extends StatelessWidget {
                           width: MediaQuery.of(context).size.width * 0.115,
                           child: ClipOval(
                             child: CachedNetworkImage(
-                              imageUrl: post.profilePic,
+                              imageUrl: post.author.profilePicture,
                               placeholder: (context, url) =>
                                   const LoadingProfileImage(),
                               errorWidget: (context, url, error) =>
@@ -68,7 +68,7 @@ class PostCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  post.name,
+                                  post.author.name,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class PostCard extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8.0),
                                 Text(
-                                  "@${post.username}",
+                                  "@${post.author.username}",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,

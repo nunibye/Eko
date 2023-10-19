@@ -244,12 +244,12 @@ class CurrentUser extends AppUser {
           .ref()
           .child("profile_pictures/$user/profile.jpg");
 
-      profileImage = await ref.getDownloadURL();
+      profilePicture = await ref.getDownloadURL();
 
       firestore
           .collection('users')
           .doc(user)
-          .update({"profileData.profilePicture": profileImage});
+          .update({"profileData.profilePicture": profilePicture});
       return "success";
     } catch (e) {
       return "fail";
@@ -326,7 +326,7 @@ class CurrentUser extends AppUser {
     username = '';
     email = '';
     likedPosts = const [];
-    profileImage =
+    profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c";
     FirebaseAuth.instance.signOut();
   }

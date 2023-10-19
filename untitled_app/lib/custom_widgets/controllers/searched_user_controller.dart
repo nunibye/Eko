@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../models/search_model.dart' show SearchedItem;
+import 'package:untitled_app/models/users.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchedUserController extends ChangeNotifier {
-  final SearchedItem user;
+  final AppUser user;
   final BuildContext context;
   SearchedUserController({required this.user, required this.context});
 
-  void onCardPressed() {}
+  void onCardPressed() {
+    context.pushNamed("sub_profile", extra: user);
+  }
 }

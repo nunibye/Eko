@@ -11,7 +11,7 @@ class ProfileController extends ChangeNotifier {
   List<dynamic> followers = locator<CurrentUser>().followers;
   List<dynamic> following = locator<CurrentUser>().following;
   String username = locator<CurrentUser>().username;
-  String profileImage = locator<CurrentUser>().profileImage;
+  String profileImage = locator<CurrentUser>().profilePicture;
   String name = locator<CurrentUser>().name;
 
   String profileBio = locator<CurrentUser>().bio;
@@ -33,11 +33,9 @@ class ProfileController extends ChangeNotifier {
     user = AppUser(
       uid: getUID(),
       name: name,
-      
       username: username,
-      profileImage: profileImage,
+      profilePicture: profileImage,
       bio: profileBio,
-      
     );
   }
 
@@ -46,10 +44,10 @@ class ProfileController extends ChangeNotifier {
     await context.push("/profile/edit_profile");
 
     locator<NavBarController>().enable();
-    profileImage = locator<CurrentUser>().profileImage;
+    profileImage = locator<CurrentUser>().profilePicture;
     profileBio = locator<CurrentUser>().bio;
     name = locator<CurrentUser>().name;
-    user.profileImage = profileImage;
+    user.profilePicture = profileImage;
     user.bio = profileBio;
     user.name = name;
     notifyListeners();
@@ -71,7 +69,7 @@ class ProfileController extends ChangeNotifier {
     followers = locator<CurrentUser>().followers;
     following = locator<CurrentUser>().following;
     username = locator<CurrentUser>().username;
-    profileImage = locator<CurrentUser>().profileImage;
+    profileImage = locator<CurrentUser>().profilePicture;
     profileBio = locator<CurrentUser>().bio;
     initUser();
     //print(username);

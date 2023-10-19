@@ -26,9 +26,9 @@ class PostPageController extends ChangeNotifier {
       postId = post!.postId;
       title = post!.title;
       body = post!.body;
-      profilePic = post!.profilePic;
-      name = post!.name;
-      username = post!.username;
+      profilePic = post!.author.profilePicture;
+      name = post!.author.name;
+      username = post!.author.username;
     }
   }
 

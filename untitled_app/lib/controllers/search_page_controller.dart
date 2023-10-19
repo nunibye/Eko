@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled_app/models/users.dart';
 import '../models/search_model.dart';
 
 class SearchPageController extends ChangeNotifier {
@@ -7,7 +8,7 @@ class SearchPageController extends ChangeNotifier {
 
   bool isLoading = false;
 
-  List<SearchedItem> hits = [];
+  List<AppUser> hits = [];
 
   void onSearchTextChanged(String s) async {
     if (s != '') {

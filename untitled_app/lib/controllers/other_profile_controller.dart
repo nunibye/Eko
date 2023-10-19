@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
-import '../models/post_handler.dart' show Post;
+import 'package:untitled_app/models/users.dart';
 import '../models/current_user.dart';
 import '../utilities/locator.dart';
 
 class OtherProfileController extends ChangeNotifier {
   final BuildContext context;
-  final Post? post;
+  final AppUser? user;
   int likes = 0;
   List<dynamic> followers = const [];
   List<dynamic> following = const [];
@@ -17,20 +17,20 @@ class OtherProfileController extends ChangeNotifier {
   String name = "";
   late bool isFollowing;
 
-  OtherProfileController({required this.context, required this.post}) {
+  OtherProfileController({required this.context, required this.user}) {
     _init();
   }
   void _init() {
-    if (post != null) {
-      uid = post!.uid;
-      name = post!.name;
+    if (user != null) {
+      uid = user!.uid;
+      name = user!.name;
       
-      likes = post!.userLikes;
-      followers = post!.followers;
-      following = post!.following;
-      username = post!.username;
-      profileImage = post!.profilePic;
-      profileBio = post!.profileBio;
+      likes = user!.likes;
+      followers = user!.followers;
+      following = user!.following;
+      username = user!.username;
+      profileImage = user!.profilePicture;
+      profileBio = user!.bio;
       
     }
     isFollowing = locator<CurrentUser>().checkIsFollowing(uid);

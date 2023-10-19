@@ -5,18 +5,17 @@ import 'package:untitled_app/models/users.dart' show AppUser;
 import '../controllers/other_profile_controller.dart';
 import 'package:provider/provider.dart';
 import '../custom_widgets/feed_builder.dart';
-import '../models/post_handler.dart' show Post;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 class OtherProfile extends StatelessWidget {
-  final Post? post;
-  const OtherProfile({super.key, required this.post});
+  final AppUser? user;
+  const OtherProfile({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => OtherProfileController(context: context, post: post),
+      create: (context) => OtherProfileController(context: context, user: user),
       builder: (context, child) {
         return Scaffold(
             appBar: AppBar(
@@ -50,7 +49,7 @@ class OtherProfile extends StatelessWidget {
                   name:
                       Provider.of<OtherProfileController>(context, listen: true)
                           .name,
-                  profileImage:
+                  profilePicture:
                       Provider.of<OtherProfileController>(context, listen: true)
                           .profileImage,
                   uid:
@@ -108,12 +107,14 @@ class _Header extends StatelessWidget {
                     side: BorderSide(
                         width: 2, color: Theme.of(context).colorScheme.primary),
                   ),
-                  onPressed: () =>
-                      Provider.of<OtherProfileController>(context, listen: false)
-                          .onFollowPressed(),
-                  child: Text(Provider.of<OtherProfileController>(context, listen: true)
-                          .isFollowing ?
-                     AppLocalizations.of(context)!.following:AppLocalizations.of(context)!.follow ,
+                  onPressed: () => Provider.of<OtherProfileController>(context,
+                          listen: false)
+                      .onFollowPressed(),
+                  child: Text(
+                    Provider.of<OtherProfileController>(context, listen: true)
+                            .isFollowing
+                        ? AppLocalizations.of(context)!.following
+                        : AppLocalizations.of(context)!.follow,
                     style: TextStyle(
                       fontSize: 16,
                       letterSpacing: 1,

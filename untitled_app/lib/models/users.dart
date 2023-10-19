@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AppUser {
   String name;
   String username;
-  String profileImage;
+  String profilePicture;
   String bio;
   int likes;
   List<dynamic> followers;
@@ -18,9 +18,21 @@ class AppUser {
     this.followers = const [],
     this.following = const [],
     this.username = '',
-    this.profileImage =
+    this.profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",
   });
+
+  static AppUser fromJson(Map<String, dynamic> json) {
+    return AppUser(
+        username: json['username'],
+        uid: json['uid'],
+        name: json['name'],
+        profilePicture: json['profileData']['profilePicture'],
+        likes: json['profileData']["likes"],
+        bio: json['profileData']['bio'],
+        followers: json['profileData']['followers'],
+        following: json['profileData']['following']);
+  }
 
   Future<Map<String, dynamic>?> readUserData(String passedUid,
       {AppUser? user}) async {
@@ -28,7 +40,7 @@ class AppUser {
     //checks if post author is the current user because then data can be saved by not getting there info. Must have toggle so that profile doesn't try to save data.
     if (user != null) {
       if (passedUid == user.uid) {
-        profileImage = user.profileImage;
+        profilePicture = user.profilePicture;
         followers = user.followers;
         following = user.following;
         likes = user.likes;
@@ -42,15 +54,16 @@ class AppUser {
     final userRef = FirebaseFirestore.instance.collection("users");
     final data =
         await userRef.doc(uid).get(); //FIXME need exception handleing all below
+
     final userData = data.data();
     if (userData != null) {
-      profileImage = userData['profileData']['profilePicture'];
+      profilePicture = userData['profileData']['profilePicture'];
       followers = userData['profileData']['followers'];
       following = userData['profileData']['following'];
       likes = userData['profileData']['likes'];
       username = userData['username'];
       name = userData['name'];
-      
+
       bio = userData['profileData']['bio'] ?? '';
     }
     //print(username);

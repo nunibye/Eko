@@ -5,38 +5,29 @@ import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
+import 'users.dart';
 
 class Post {
   final String postId;
-  final String username;
-  final String name;
- 
-  final String uid;
-  final String profilePic;
+
+  final AppUser author;
+
   final String time;
   final String title;
   final String body;
-  final String profileBio;
+
 
   int likes;
-  final List<dynamic> followers;
-  final List<dynamic> following;
-  final int userLikes;
+
   Post({
-    required this.username,
-   
+
     required this.postId,
-    required this.name,
-    required this.profilePic,
+
     required this.time,
     required this.title,
-    required this.uid,
+    required this.author,
     required this.body,
     required this.likes,
-    required this.followers,
-    required this.following,
-    required this.userLikes,
-    required this.profileBio,
 
   });
 }

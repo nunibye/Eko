@@ -48,7 +48,6 @@ class FeedBuilderController extends ChangeNotifier {
 
   _onScroll() async {
     if (!end) {
-      print('here');
       if (scroll.position.maxScrollExtent - scroll.position.pixels <=
           MediaQuery.sizeOf(context).height * 0.2) {
         if (loading == false) {
@@ -77,20 +76,11 @@ class FeedBuilderController extends ChangeNotifier {
       await user.readUserData(raw.author, user: passedUser);
       final post = Post(
         postId: raw.postID,
-        followers: user.followers,
-        following: user.following,
-        userLikes: user.likes,
-        username: user.username,
-        profilePic: user.profileImage,
-        name: user.name,
-        
-        uid: raw.author,
+        author: user,
         time: raw.time,
         title: raw.title,
         body: raw.body,
         likes: raw.likes,
-        profileBio: user.bio,
-        
       );
       posts.add(post);
       if (index != null) {
@@ -113,7 +103,7 @@ class FeedBuilderController extends ChangeNotifier {
       refreshFunction!();
     }
     // end = false;
-    print('refresh');
+
     notifyListeners();
   }
 }

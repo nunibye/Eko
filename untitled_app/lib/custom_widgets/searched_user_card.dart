@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../models/search_model.dart' show SearchedItem;
+import 'package:untitled_app/models/users.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'profile_picture_loading.dart';
 import 'package:provider/provider.dart';
 import 'controllers/searched_user_controller.dart';
 
 class UserCard extends StatelessWidget {
-  final SearchedItem user;
+  final AppUser user;
   const UserCard({super.key, required this.user});
 
   @override
@@ -39,7 +39,7 @@ class UserCard extends StatelessWidget {
                   Column(
                     children: [
                       Text(user.username),
-                      Text("${user.firstName} ${user.lastName}")
+                      Text(user.name)
                     ],
                   )
                 ],
