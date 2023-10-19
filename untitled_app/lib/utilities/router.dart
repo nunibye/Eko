@@ -28,7 +28,6 @@ final goRouter = GoRouter(
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
   initialLocation: '/login',
-  
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -38,12 +37,22 @@ final goRouter = GoRouter(
     //     return const RootPage();
     //   },
     // ),
+    
     GoRoute(
       path: '/post',
       name: 'post_screen',
       builder: (context, state) {
         Post? post = state.extra as Post?;
         return ViewPostPage(post: post);
+      },
+    ),
+
+    GoRoute(
+      path: '/sub_profile',
+      name: 'sub_profile',
+      builder: (context, state) {
+        Post? post = state.extra as Post?;
+        return OtherProfile(post: post);
       },
     ),
     GoRoute(
@@ -72,16 +81,6 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: FeedPage(),
               ),
-              routes: [
-                GoRoute(
-                  path: 'profile',
-                  name: 'sub_profile',
-                  builder: (context, state) {
-                    Post? post = state.extra as Post?;
-                    return OtherProfile(post: post);
-                  },
-                ),
-              ],
             ),
           ],
         ),
