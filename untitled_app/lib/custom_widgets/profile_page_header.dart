@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:intl/intl.dart';
 
@@ -6,6 +7,8 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'profile_picture_loading.dart';
 
+import '../controllers/bottom_nav_bar_controller.dart';
+import '../utilities/locator.dart';
 class ProfileHeader extends StatelessWidget {
   final String username;
   final String profilePic;
@@ -40,19 +43,26 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.24,
-                      height: MediaQuery.of(context).size.width * 0.24,
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: profilePic,
-                          placeholder: (context, url) =>
-                              const LoadingProfileImage(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                    Hero(tag:'profileImage',child:IconButton(
+                      onPressed: () {
+                        context.pushNamed("profile_picture_detail",
+                            extra: profilePic);
+                            locator<NavBarController>().disable();
+                      },
+                      icon: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.24,
+                        height: MediaQuery.of(context).size.width * 0.24,
+                        child: ClipOval(
+                          child: CachedNetworkImage(
+                            imageUrl: profilePic,
+                            placeholder: (context, url) =>
+                                const LoadingProfileImage(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
                         ),
                       ),
-                    ),
+                    ),),
                     Flexible(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10),

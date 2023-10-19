@@ -15,6 +15,7 @@ import '../views/navigation_bar.dart';
 import '../models/post_handler.dart';
 import '../views/other_profile.dart';
 import '../views/view_post_page.dart';
+import '../views/profile_picture_detail.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -38,7 +39,7 @@ final goRouter = GoRouter(
     //     return const RootPage();
     //   },
     // ),
-    
+
     GoRoute(
       path: '/post',
       name: 'post_screen',
@@ -47,7 +48,14 @@ final goRouter = GoRouter(
         return ViewPostPage(post: post);
       },
     ),
-
+    GoRoute(
+      path: '/profile_picture_detail',
+      name: 'profile_picture_detail',
+      builder: (context, state) {
+        String url = state.extra as String;
+        return ProfilePictureDetail(imageURL: url);
+      },
+    ),
     GoRoute(
       path: '/sub_profile',
       name: 'sub_profile',
