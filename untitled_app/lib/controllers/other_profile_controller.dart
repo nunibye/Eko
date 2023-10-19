@@ -11,11 +11,10 @@ class OtherProfileController extends ChangeNotifier {
   List<dynamic> following = const [];
   String username = "";
   String profileImage = "";
-  String firstName = "";
-  String lastName = "";
+
   String uid = "";
   String profileBio = "";
-  String bioName = "";
+  String name = "";
   late bool isFollowing;
 
   OtherProfileController({required this.context, required this.post}) {
@@ -24,15 +23,15 @@ class OtherProfileController extends ChangeNotifier {
   void _init() {
     if (post != null) {
       uid = post!.uid;
-      firstName = post!.firstName;
-      lastName = post!.lastName;
+      name = post!.name;
+      
       likes = post!.userLikes;
       followers = post!.followers;
       following = post!.following;
       username = post!.username;
       profileImage = post!.profilePic;
       profileBio = post!.profileBio;
-      bioName = post!.bioName;
+      
     }
     isFollowing = locator<CurrentUser>().checkIsFollowing(uid);
 

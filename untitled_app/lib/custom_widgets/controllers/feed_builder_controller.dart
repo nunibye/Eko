@@ -82,15 +82,15 @@ class FeedBuilderController extends ChangeNotifier {
         userLikes: user.likes,
         username: user.username,
         profilePic: user.profileImage,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        name: user.name,
+        
         uid: raw.author,
         time: raw.time,
         title: raw.title,
         body: raw.body,
         likes: raw.likes,
         profileBio: user.bio,
-        bioName: user.bioName,
+        
       );
       posts.add(post);
       if (index != null) {

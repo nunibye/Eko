@@ -12,10 +12,10 @@ class ProfileController extends ChangeNotifier {
   List<dynamic> following = locator<CurrentUser>().following;
   String username = locator<CurrentUser>().username;
   String profileImage = locator<CurrentUser>().profileImage;
-  String firstName = locator<CurrentUser>().firstName;
-  String lastName = locator<CurrentUser>().lastName;
+  String name = locator<CurrentUser>().name;
+
   String profileBio = locator<CurrentUser>().bio;
-  String bioName = locator<CurrentUser>().bioName;
+
   final BuildContext context;
   late AppUser user;
 
@@ -32,12 +32,12 @@ class ProfileController extends ChangeNotifier {
   initUser() {
     user = AppUser(
       uid: getUID(),
-      firstName: firstName,
-      lastName: lastName,
+      name: name,
+      
       username: username,
       profileImage: profileImage,
       bio: profileBio,
-      bioName: bioName,
+      
     );
   }
 
@@ -48,10 +48,10 @@ class ProfileController extends ChangeNotifier {
     locator<NavBarController>().enable();
     profileImage = locator<CurrentUser>().profileImage;
     profileBio = locator<CurrentUser>().bio;
-    bioName = locator<CurrentUser>().bioName;
+    name = locator<CurrentUser>().name;
     user.profileImage = profileImage;
     user.bio = profileBio;
-    user.bioName = bioName;
+    user.name = name;
     notifyListeners();
   }
 

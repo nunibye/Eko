@@ -9,24 +9,24 @@ import 'package:collection/collection.dart';
 class Post {
   final String postId;
   final String username;
-  final String firstName;
-  final String lastName;
+  final String name;
+ 
   final String uid;
   final String profilePic;
   final String time;
   final String title;
   final String body;
   final String profileBio;
-  final String bioName;
+
   int likes;
   final List<dynamic> followers;
   final List<dynamic> following;
   final int userLikes;
   Post({
     required this.username,
-    required this.firstName,
+   
     required this.postId,
-    required this.lastName,
+    required this.name,
     required this.profilePic,
     required this.time,
     required this.title,
@@ -37,7 +37,7 @@ class Post {
     required this.following,
     required this.userLikes,
     required this.profileBio,
-    required this.bioName,
+
   });
 }
 

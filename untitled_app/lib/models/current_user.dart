@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
@@ -295,13 +295,9 @@ class CurrentUser extends AppUser {
       'uid': user,
       'email': email,
       'username': username,
-      'name': {
-        'firstName': firstName,
-        'lastName': lastName,
-      },
+      'name': name,
       'profileData': {
         'bio': '',
-        'bioName': '$firstName $lastName',
         'followers': [],
         'following': [],
         'likes': 0,
@@ -322,11 +318,9 @@ class CurrentUser extends AppUser {
   signOut() {
     locator<FeedPostCache>().clearCache();
     uid = '';
-    firstName = '';
-    lastName = '';
+    name = '';
     likes = 0;
     bio = '';
-    bioName = '';
     followers = const [];
     following = const [];
     username = '';

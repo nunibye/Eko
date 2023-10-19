@@ -12,8 +12,8 @@ class PostPageController extends ChangeNotifier {
   String title = "";
   String body = "";
   String profilePic = "";
-  String firstName = "";
-  String lastName = "";
+  String name = "";
+
   String username = "";
   TextEditingController commentFeild = TextEditingController();
   FocusNode commentFeildFocus = FocusNode();
@@ -27,8 +27,7 @@ class PostPageController extends ChangeNotifier {
       title = post!.title;
       body = post!.body;
       profilePic = post!.profilePic;
-      firstName = post!.firstName;
-      lastName = post!.lastName;
+      name = post!.name;
       username = post!.username;
     }
   }

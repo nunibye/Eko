@@ -10,7 +10,7 @@ class ProfileHeader extends StatelessWidget {
   final String username;
   final String profilePic;
   final String profileBio;
-  final String bioName;
+  final String name;
   final int likes;
   final int following;
   final int followers;
@@ -23,7 +23,7 @@ class ProfileHeader extends StatelessWidget {
     required this.following,
     required this.followers,
     required this.profileBio,
-    required this.bioName,
+    required this.name,
   });
 
   @override
@@ -89,7 +89,7 @@ class ProfileHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      bioName,
+                      name,
                       style: TextStyle(
                         fontSize: 16,
                         letterSpacing: 1,

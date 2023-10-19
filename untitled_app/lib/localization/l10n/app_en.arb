@@ -51,8 +51,8 @@
     "followers":"Followers",
     "following":"Following",
     "editProfile":"Edit Profile",
-    "firstName":"First Name",
-    "lastName":"Last Name",
+    "name":"Name",
+    
     "userName":"Username",
     "previous":"Previous",
     "followingTab":"Following",

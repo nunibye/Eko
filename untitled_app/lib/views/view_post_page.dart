@@ -147,7 +147,7 @@ class _Header extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "${Provider.of<PostPageController>(context, listen: false).firstName} ${Provider.of<PostPageController>(context, listen: false).lastName}",
+                        Provider.of<PostPageController>(context, listen: false).name,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

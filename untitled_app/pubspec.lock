@@ -9,54 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.7"
-  algolia_client_core:
-    dependency: transitive
-    description:
-      name: algolia_client_core
-      sha256: "89f4253c7d5836a34209d0a0bff6bd9197ea37df1f7b8ecbc114fb2a47594c25"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
-  algolia_client_insights:
-    dependency: transitive
-    description:
-      name: algolia_client_insights
-      sha256: "826d4edb87fb90f8af0b0ff77d33dd411bf6b0568a23dc7136ecb692abe313a9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
-  algolia_client_search:
-    dependency: transitive
-    description:
-      name: algolia_client_search
-      sha256: c86b4c51ff551941d781a538837675b33f987cee76fb4061b837649370854e06
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
-  algolia_helper_flutter:
-    dependency: "direct main"
-    description:
-      name: algolia_helper_flutter
-      sha256: bca6815034e1ed7a722ce69ad1960a0a78121bfb59d5f15e29326fd82ef38208
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.0"
-  algolia_insights:
-    dependency: transitive
-    description:
-      name: algolia_insights
-      sha256: e8e82b437ef3d4c881e133d3148e8d5d32fd5158acaaccbabad8356995e70310
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.2"
-  algoliasearch:
-    dependency: transitive
-    description:
-      name: algoliasearch
-      sha256: a5f2cddb577806e23eaa08b4262d2db724e1d85d1fc3827fab80b9e00e1e457b
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
   async:
     dependency: transitive
     description:
@@ -758,18 +710,18 @@ packages:
     dependency: transitive
     description:
       name: stack_trace
-      sha256: "73713990125a6d93122541237550ee3352a2d84baad52d375a4cad2eb9b7ce0b"
+      sha256: c3c7d8edb15bee7f0f74debd4b9c5f3c2ea86766fe4178eb2a18eb30a0bdaed5
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.1"
+    version: "1.11.0"
   stream_channel:
     dependency: transitive
     description:
       name: stream_channel
-      sha256: ba2aa5d8cc609d96bbb2899c28934f9e1af5cddbd60a827822ea467161eb54e7
+      sha256: "83615bee9045c1d322bbbd1ba209b7a749c2cbcdcb3fdd1df8eb488b3279c1c8"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.1"
   string_scanner:
     dependency: transitive
     description:
@@ -798,10 +750,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "5c2f730018264d276c20e4f1503fd1308dfbbae39ec8ee63c5236311ac06954b"
+      sha256: "75760ffd7786fffdfb9597c35c5b27eaeec82be8edfb6d71d32651128ed7aab8"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1"
+    version: "0.6.0"
   typed_data:
     dependency: transitive
     description:

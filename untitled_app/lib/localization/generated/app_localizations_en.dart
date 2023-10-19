@@ -125,10 +125,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editProfile => 'Edit Profile';
 
   @override
-  String get firstName => 'First Name';
-
-  @override
-  String get lastName => 'Last Name';
+  String get name => 'Name';
 
   @override
   String get userName => 'Username';

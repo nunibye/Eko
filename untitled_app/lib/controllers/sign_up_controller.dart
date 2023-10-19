@@ -202,8 +202,8 @@ class SignUpController extends ChangeNotifier {
   _getPageData(int page) {
     switch (page) {
       case 0:
-        locator<CurrentUser>().firstName = controller1.text;
-        locator<CurrentUser>().lastName = controller2.text;
+        locator<CurrentUser>().name = controller1.text;
+        
         break;
       case 1:
         locator<CurrentUser>().username = controller1.text;
@@ -219,8 +219,8 @@ class SignUpController extends ChangeNotifier {
       case 0:
         firstPage = true;
 
-        controller1.text = locator<CurrentUser>().firstName;
-        controller2.text = locator<CurrentUser>().lastName;
+        controller1.text = locator<CurrentUser>().name;
+
         notifyListeners();
         break;
       case 1:

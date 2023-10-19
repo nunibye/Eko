@@ -120,25 +120,24 @@ class EditProfile extends StatelessWidget {
                 //         .updateCountsBioName(s),
                 onTap: () {
                   Provider.of<EditProfileController>(context, listen: false)
-                      .showCountsBioName(true);
+                      .showCountsName(true);
                 },
                 onEditingComplete: () => {
                   Provider.of<EditProfileController>(context, listen: false)
-                      .showCountsBioName(false),
+                      .showCountsName(false),
                   Provider.of<EditProfileController>(context, listen: false)
-                      .saveBioNameData(Provider.of<EditProfileController>(
-                              context,
+                      .saveNameData(Provider.of<EditProfileController>(context,
                               listen: false)
-                          .bioNameController
+                          .nameController
                           .text)
                 },
                 focus:
                     Provider.of<EditProfileController>(context, listen: false)
-                        .bioNameFocus,
+                        .nameFocus,
                 label: AppLocalizations.of(context)!.bioTitle,
                 controller:
                     Provider.of<EditProfileController>(context, listen: false)
-                        .bioNameController,
+                        .nameController,
                 maxLength: c.maxBioNameChars,
               ),
               // if (Provider.of<EditProfileController>(context, listen: false)

@@ -47,12 +47,9 @@ class OtherProfile extends StatelessWidget {
                   username:
                       Provider.of<OtherProfileController>(context, listen: true)
                           .username,
-                  firstName:
+                  name:
                       Provider.of<OtherProfileController>(context, listen: true)
-                          .firstName,
-                  lastName:
-                      Provider.of<OtherProfileController>(context, listen: true)
-                          .lastName,
+                          .name,
                   profileImage:
                       Provider.of<OtherProfileController>(context, listen: true)
                           .profileImage,
@@ -94,7 +91,7 @@ class _Header extends StatelessWidget {
             following: otherProfileController.following.length,
             followers: otherProfileController.followers.length,
             profileBio: otherProfileController.profileBio,
-            bioName: otherProfileController.bioName,
+            name: otherProfileController.name,
           ),
         ),
         //TODO style

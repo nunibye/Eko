@@ -11,9 +11,9 @@ class EditProfileController extends ChangeNotifier {
   // int bioNewLines = '\n'.allMatches(locator<CurrentUser>().bio).length;
   // int bioBodyChars = locator<CurrentUser>().bio.length;
 
-  final bioNameController =
-      TextEditingController(text: locator<CurrentUser>().bioName);
-  final bioNameFocus = FocusNode();
+  final nameController =
+      TextEditingController(text: locator<CurrentUser>().name);
+  final nameFocus = FocusNode();
   // int bioNameBodyChars = locator<CurrentUser>().bioName.length;
 
   int titleChars = 0;
@@ -48,10 +48,10 @@ class EditProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  showCountsBioName(bool show) {
+  showCountsName(bool show) {
     showBioNameCounts = show;
     if (!show) {
-      bioNameFocus.unfocus();
+      nameFocus.unfocus();
     }
     notifyListeners();
   }
@@ -65,10 +65,10 @@ class EditProfileController extends ChangeNotifier {
     } else {}
   }
 
-  saveBioNameData(String bioName) async {
+  saveNameData(String bioName) async {
     if (await locator<CurrentUser>().uploadProfileBioName(bioName) ==
         "success") {
-      locator<CurrentUser>().bioName = bioName;
+      locator<CurrentUser>().name = bioName;
       notifyListeners();
     } else {}
   }

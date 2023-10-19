@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'controllers/login_text_feild_controller.dart';
+
 
 class ProfileInputFeild extends StatelessWidget {
   final String label;

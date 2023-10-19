@@ -333,17 +333,11 @@ abstract class AppLocalizations {
   /// **'Edit Profile'**
   String get editProfile;
 
-  /// No description provided for @firstName.
+  /// No description provided for @name.
   ///
   /// In en, this message translates to:
-  /// **'First Name'**
-  String get firstName;
-
-  /// No description provided for @lastName.
-  ///
-  /// In en, this message translates to:
-  /// **'Last Name'**
-  String get lastName;
+  /// **'Name'**
+  String get name;
 
   /// No description provided for @userName.
   ///

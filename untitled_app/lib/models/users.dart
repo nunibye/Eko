@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
-  String firstName;
-  String lastName;
+  String name;
   String username;
   String profileImage;
   String bio;
-  String bioName;
   int likes;
   List<dynamic> followers;
   List<dynamic> following;
@@ -14,11 +12,9 @@ class AppUser {
 
   AppUser({
     this.uid = '',
-    this.firstName = '',
-    this.lastName = '',
+    this.name = '',
     this.likes = 0,
     this.bio = '',
-    this.bioName = '',
     this.followers = const [],
     this.following = const [],
     this.username = '',
@@ -37,10 +33,8 @@ class AppUser {
         following = user.following;
         likes = user.likes;
         username = user.username;
-        firstName = user.firstName;
-        lastName = user.lastName;
+        name = user.name;
         bio = user.bio;
-        bioName = user.bioName;
 
         return null;
       }
@@ -55,12 +49,9 @@ class AppUser {
       following = userData['profileData']['following'];
       likes = userData['profileData']['likes'];
       username = userData['username'];
-      firstName = userData['name']['firstName'];
-      lastName = userData['name']['lastName'];
+      name = userData['name'];
+      
       bio = userData['profileData']['bio'] ?? '';
-      bioName = userData['profileData']['bioName']?.isEmpty == true
-          ? '$firstName $lastName'
-          : userData['profileData']['bioName'] ?? '$firstName $lastName';
     }
     //print(username);
     return userData;

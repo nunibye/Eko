@@ -68,7 +68,7 @@ class PostCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "${post.firstName} ${post.lastName}",
+                                  post.name,
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,

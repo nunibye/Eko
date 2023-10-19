@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/controllers/feed_controller.dart';
-import 'package:untitled_app/utilities/constants.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 import 'package:provider/provider.dart';

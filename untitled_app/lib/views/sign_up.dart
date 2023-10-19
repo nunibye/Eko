@@ -68,7 +68,7 @@ class SignUp extends StatelessWidget {
               controller: Provider.of<SignUpController>(context, listen: false)
                   .pageController,
               children: const <Widget>[
-                GetLegalName(),
+                GetName(),
                 GetUserName(),
                 GetEmail(),
                 Placeholder(), //FIXME for some reson this stops everything from breaking
@@ -81,8 +81,8 @@ class SignUp extends StatelessWidget {
   }
 }
 
-class GetLegalName extends StatelessWidget {
-  const GetLegalName({super.key});
+class GetName extends StatelessWidget {
+  const GetName({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,25 +93,14 @@ class GetLegalName extends StatelessWidget {
             CustomInputFeild(
               focus: Provider.of<SignUpController>(context, listen: false)
                   .focus1,
-              label: AppLocalizations.of(context)!.firstName,
+              label: AppLocalizations.of(context)!.name,
               controller: Provider.of<SignUpController>(context, listen: false)
                   .controller1,
               inputType: TextInputType.text,
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
-            CustomInputFeild(
-              textInputAction: TextInputAction.go,
-              focus: Provider.of<SignUpController>(context, listen: false)
-                  .focus2,
-              onEditingComplete: () =>
-                  Provider.of<SignUpController>(context, listen: false)
-                      .keyboardGoToNextPage(),
-              label: AppLocalizations.of(context)!.lastName,
-              controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller2,
-              inputType: TextInputType.text,
-            ),
+            
           ],
         ),
       ),
