@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../controllers/compose_controller.dart';
 import '../utilities/constants.dart' as c;
+import 'package:giphy_get/giphy_get.dart';
 
 class ComposePage extends StatelessWidget {
   const ComposePage({super.key});
@@ -21,6 +22,16 @@ class ComposePage extends StatelessWidget {
                 horizontal: MediaQuery.of(context).size.height * 0.02),
             child: ListView(
               children: [
+                IconButton(onPressed: ()async {
+                  GiphyGif? gif = await GiphyGet.getGif(
+  context: context, //Required
+  apiKey: "SH2VZsffU75pLZDVETpR8wlC2Vv2t5J8", //Required.
+  lang: GiphyLanguage.english, //Optional - Language for query.
+  //randomID: "abcd", // Optional - An ID/proxy for a specific user.
+  tabColor:Colors.teal, // Optional- default accent color.
+  debounceTimeInMilliseconds: 350, // Optional- time to pause between search keystrokes
+);
+                }, icon: Icon(Icons.add)),
                 CustomInputFeild(
                     onChanged: (s) =>
                         Provider.of<ComposeController>(context, listen: false)
