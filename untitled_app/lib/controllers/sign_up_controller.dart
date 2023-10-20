@@ -183,10 +183,10 @@ class SignUpController extends ChangeNotifier {
       focus1.requestFocus();
       return "done";
     }
-    if (controller2.text == "" && page == 0) {
-      focus2.requestFocus();
-      return "done";
-    }
+    // if (controller2.text == "" && page == 0) {
+    //   focus2.requestFocus();
+    //   return "done";
+    // }
     if (page <= 1) {
       _getPageData(page);
       _setPageData(page + 1);
