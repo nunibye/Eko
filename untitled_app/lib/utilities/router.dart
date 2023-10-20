@@ -16,6 +16,7 @@ import '../models/post_handler.dart';
 import '../views/other_profile.dart';
 import '../views/view_post_page.dart';
 import '../views/profile_picture_detail.dart';
+import '../views/welcome.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -29,7 +30,7 @@ final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
-  initialLocation: '/login',
+  initialLocation: '/welcome',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -68,6 +69,12 @@ final goRouter = GoRouter(
       path: '/login',
       builder: (context, state) {
         return const LoginPage();
+      },
+    ),
+    GoRoute(
+      path: '/welcome',
+      builder: (context, state) {
+        return const WelcomePage();
       },
     ),
     GoRoute(
