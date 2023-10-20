@@ -23,8 +23,12 @@ class SettingsController extends ChangeNotifier {
   }
 
   signOut() {
-    
     locator<CurrentUser>().signOut();
+    locator<NavBarController>().enable();
+  }
+
+  deleteAccount() {
+    locator<CurrentUser>().deleteAccount();
     locator<NavBarController>().enable();
   }
 }

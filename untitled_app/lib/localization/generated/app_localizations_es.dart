@@ -176,6 +176,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logOut => 'Log Out';
 
   @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
   String get darkMode => 'Dark Mode';
 
   @override

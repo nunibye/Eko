@@ -435,6 +435,12 @@ abstract class AppLocalizations {
   /// **'Log Out'**
   String get logOut;
 
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
   /// No description provided for @darkMode.
   ///
   /// In en, this message translates to:
