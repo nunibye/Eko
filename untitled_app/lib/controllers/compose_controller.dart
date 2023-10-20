@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../utilities/constants.dart' as c;
 import '../custom_widgets/error_snack_bar.dart';
-
+import 'package:giphy_get/giphy_get.dart';
 import '../utilities/locator.dart';
 import '../models/post_handler.dart';
 
@@ -24,6 +24,7 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
+
   updateCountsTitle(String str) {
     titleChars = str.length;
     notifyListeners();
@@ -31,6 +32,8 @@ class ComposeController extends ChangeNotifier {
   void hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
+
+  
 
 //TODO add more content like a preview of a post.
   postPressed() {
