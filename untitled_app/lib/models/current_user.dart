@@ -314,9 +314,7 @@ class CurrentUser extends AppUser {
         .set({"likes": []});
   }
 
-  // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
-  signOut() {
-    locator<FeedPostCache>().clearCache();
+  clearVariables() {
     uid = '';
     name = '';
     likes = 0;
@@ -328,6 +326,17 @@ class CurrentUser extends AppUser {
     likedPosts = const [];
     profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c";
+  }
+
+  // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
+  signOut() {
+    locator<FeedPostCache>().clearCache();
+    clearVariables();
     FirebaseAuth.instance.signOut();
+  }
+
+  deleteAccount() {
+    FirebaseAuth.instance.currentUser?.delete();
+    clearVariables();
   }
 }

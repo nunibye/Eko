@@ -6,9 +6,7 @@ import '../controllers/settings_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
-
 //import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
@@ -47,11 +45,17 @@ class UserSettings extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  
                   Provider.of<SettingsController>(context, listen: false)
                       .signOut();
                 },
                 child: Text(AppLocalizations.of(context)!.logOut),
+              ),
+              TextButton(
+                onPressed: () {
+                  Provider.of<SettingsController>(context, listen: false)
+                      .deleteAccount();
+                },
+                child: Text(AppLocalizations.of(context)!.deleteAccount),
               ),
             ],
           ),

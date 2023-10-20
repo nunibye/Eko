@@ -74,6 +74,7 @@
     "bioTitle":"Bio",
 
     "logOut":"Log Out",
+    "deleteAccount":"Delete Account",
     "darkMode":"Dark Mode",
     "addComment":"Add a comment"
 }
