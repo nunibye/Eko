@@ -6,29 +6,18 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/post_handler.dart';
 
 class PostPageController extends ChangeNotifier {
-  final Post? post;
+  final Post? passedPost;
+  late Post post;
   final BuildContext context;
-  String postId = "";
-  String title = "";
-  String body = "";
-  String profilePic = "";
-  String name = "";
-
-  String username = "";
-  TextEditingController commentFeild = TextEditingController();
+  final TextEditingController commentFeild = TextEditingController();
   FocusNode commentFeildFocus = FocusNode();
   int chars = 0;
-  PostPageController({required this.post, required this.context}) {
+  PostPageController({required this.passedPost, required this.context}) {
     _init();
   }
   void _init() {
-    if (post != null) {
-      postId = post!.postId;
-      title = post!.title;
-      body = post!.body;
-      profilePic = post!.author.profilePicture;
-      name = post!.author.name;
-      username = post!.author.username;
+    if (passedPost != null) {
+      post = passedPost!;
     }
   }
 
@@ -55,7 +44,8 @@ class PostPageController extends ChangeNotifier {
           text: AppLocalizations.of(context)!.emptyFieldError,
           context: context);
     } else {
-      locator<PostsHandling>().createComment({"body": commentFeild.text,"title":""}, postId);
+      locator<PostsHandling>()
+          .createComment({"body": commentFeild.text}, post.postId);
       commentFeild.text = "";
     }
   }

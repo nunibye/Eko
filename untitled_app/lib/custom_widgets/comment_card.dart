@@ -79,8 +79,8 @@ class CommentCard extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 8.0),
-                          Text(
-                            post.body,
+                          if(post.body!=null)Text(
+                            post.body!,
                             style: TextStyle(
                               fontSize: 14,
                               color: Theme.of(context).colorScheme.primary,

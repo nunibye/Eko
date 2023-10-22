@@ -11,36 +11,39 @@ class Post {
   final String postId;
 
   final AppUser author;
-
+  final String? gifURL;
+  final String? gifSource;
   final String time;
-  final String title;
-  final String body;
-
+  final String? title;
+  final String? body;
 
   int likes;
 
   Post({
-
+    required this.gifSource,
+    required this.gifURL,
     required this.postId,
-
     required this.time,
     required this.title,
     required this.author,
     required this.body,
     required this.likes,
-
   });
 }
 
 class RawPostObject {
   final String postID;
   final String author;
-  final String title;
-  final String body;
+  final String? title;
+  final String? body;
   final String time;
+  final String? gifUrl;
+  final String? gifSource;
   final int likes;
 
   RawPostObject({
+    required this.gifSource,
+    required this.gifUrl,
     required this.postID,
     required this.author,
     required this.title,
@@ -94,15 +97,19 @@ class PostsHandling {
       } else {
         snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
       }
-      return snapshot.docs
-          .map<RawPostObject>((data) => RawPostObject(
-              postID: data.id,
-              author: data["author"] ?? "",
-              title: data["title"] ?? "",
-              body: data["body"] ?? "",
-              time: data["time"] ?? "",
-              likes: data["likes"] ?? 0))
-          .toList();
+      return snapshot.docs.map<RawPostObject>((doc) {
+        var data = doc.data();
+
+        return RawPostObject(
+            postID: doc.id,
+            author: data["author"] ?? "",
+            title: data["title"],
+            body: data["body"],
+            gifSource: data["gifSource"],
+            gifUrl: data["gifUrl"],
+            time: data["time"] ?? "",
+            likes: data["likes"] ?? 0);
+      }).toList();
 
       //Following
     } else {
@@ -128,14 +135,16 @@ class PostsHandling {
           if (snapshot.docs.isEmpty) {
             return postsToPassBack;
           }
-          final data = snapshot.docs.first;
+          final data = snapshot.docs.first.data();
           feedChunks.add(FeedChunk(
               uids: slice,
               oldestPost: RawPostObject(
-                  postID: data.id,
+                  postID: snapshot.docs.first.id,
                   author: data["author"] ?? "",
-                  title: data["title"] ?? "",
-                  body: data["body"] ?? "",
+                  title: data["title"],
+                  body: data["body"],
+                  gifSource: data["gif"]["source"],
+                  gifUrl: data["gif"]["url"],
                   time: data["time"] ?? "",
                   likes: data["likes"] ?? 0)));
         }
@@ -154,12 +163,14 @@ class PostsHandling {
             .limit(1)
             .get();
         if (snapshot.docs.isNotEmpty) {
-          final data = snapshot.docs.first;
+          final data = snapshot.docs.first.data();
           feedChunks.first.oldestPost = RawPostObject(
-              postID: data.id,
+              postID: snapshot.docs.first.id,
               author: data["author"] ?? "",
-              title: data["title"] ?? "",
-              body: data["body"] ?? "",
+              title: data["title"],
+              body: data["body"],
+              gifSource: data["gif"]["source"],
+              gifUrl: data["gif"]["url"],
               time: data["time"] ?? "",
               likes: data["likes"] ?? 0);
           postsToPassBack.add(feedChunks.first.oldestPost);

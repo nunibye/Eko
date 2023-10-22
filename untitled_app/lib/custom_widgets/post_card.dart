@@ -89,13 +89,34 @@ class PostCard extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 8.0),
-                            Text(
-                              post.body,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.primary,
+                            if (post.title != null)
+                              Text(
+                                post.title!,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
-                            ),
+                            if (post.gifURL != null)
+                              FittedBox(
+                                fit: BoxFit
+                                    .scaleDown, // This helps in shrinking the ClipRRect to the size of the Image
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    post.gifURL!,
+                                  ),
+                                ),
+                              ),
+                            if (post.body != null)
+                              Text(
+                                post.body!,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
                           ],
                         ),
                       ),

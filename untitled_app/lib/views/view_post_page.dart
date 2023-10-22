@@ -18,7 +18,8 @@ class ViewPostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => PostPageController(post: post, context: context),
+      create: (context) =>
+          PostPageController(passedPost: post, context: context),
       builder: (context, child) {
         return GestureDetector(
           onTap: () => Provider.of<PostPageController>(context, listen: false)
@@ -32,7 +33,14 @@ class ViewPostPage extends StatelessWidget {
               ),
               backgroundColor: Theme.of(context).colorScheme.onBackground,
               title: Text(
-                Provider.of<PostPageController>(context, listen: false).title,
+                Provider.of<PostPageController>(context, listen: false)
+                            .post
+                            .title !=
+                        null
+                    ? Provider.of<PostPageController>(context, listen: false)
+                        .post
+                        .title!
+                    : "post", //FIXME localize
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Lato',
@@ -44,12 +52,12 @@ class ViewPostPage extends StatelessWidget {
               children: [
                 Expanded(
                     child: FeedBuilder(
-                      isComment: true,
+                        isComment: true,
                         firestoreQuery: FirebaseFirestore.instance
                             .collection('posts')
                             .doc(Provider.of<PostPageController>(context,
-                                    listen: false)
-                                .postId)
+                                    listen: false).
+                                post.postId)
                             .collection("comments")
                             .orderBy('time', descending: true),
                         header: const _Header())),
@@ -130,8 +138,8 @@ class _Header extends StatelessWidget {
                 child: ClipOval(
                   child: CachedNetworkImage(
                     imageUrl:
-                        Provider.of<PostPageController>(context, listen: false)
-                            .profilePic, //FIXME
+                        Provider.of<PostPageController>(context, listen: false).post
+                            .author.profilePicture, //FIXME
                     placeholder: (context, url) => const LoadingProfileImage(),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
@@ -147,7 +155,8 @@ class _Header extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        Provider.of<PostPageController>(context, listen: false).name,
+                        Provider.of<PostPageController>(context, listen: false).post.author
+                            .name,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -156,7 +165,7 @@ class _Header extends StatelessWidget {
                       ),
                       const SizedBox(width: 8.0),
                       Text(
-                        "@${Provider.of<PostPageController>(context, listen: false).username}",
+                        "@${Provider.of<PostPageController>(context, listen: false).post.author.username}",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
@@ -166,9 +175,10 @@ class _Header extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 8.0),
-                  Text(
-                    Provider.of<PostPageController>(context, listen: false)
-                        .body,
+                  if(Provider.of<PostPageController>(context, listen: false).post
+                        .body != null)Text(
+                    Provider.of<PostPageController>(context, listen: false).post
+                        .body!,
                     style: TextStyle(
                       fontSize: 14,
                       color: Theme.of(context).colorScheme.primary,

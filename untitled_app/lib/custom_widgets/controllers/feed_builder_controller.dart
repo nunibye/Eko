@@ -75,6 +75,8 @@ class FeedBuilderController extends ChangeNotifier {
       AppUser user = AppUser();
       await user.readUserData(raw.author, user: passedUser);
       final post = Post(
+        gifSource: raw.gifSource,
+        gifURL: raw.gifUrl,
         postId: raw.postID,
         author: user,
         time: raw.time,

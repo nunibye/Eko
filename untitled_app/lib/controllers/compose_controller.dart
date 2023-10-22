@@ -6,6 +6,7 @@ import 'package:giphy_get/giphy_get.dart';
 import '../utilities/locator.dart';
 import '../models/post_handler.dart';
 import '../secrets/secrets.dart' as secrets;
+import 'bottom_nav_bar_controller.dart';
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -16,6 +17,7 @@ class ComposeController extends ChangeNotifier {
   int newLines = 0;
   int bodyChars = 0;
   int titleChars = 0;
+  GiphyGif? gif;
 
   ComposeController({required this.context});
 
@@ -34,16 +36,27 @@ class ComposeController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  removeGifPressed() {
+    gif = null;
+    notifyListeners();
+  }
+
   addGifPressed() async {
-    GiphyGif? gif = await GiphyGet.getGif(
-      context: context, 
+    locator<NavBarController>().disable();
+    GiphyGif? newGif = await GiphyGet.getGif(
+      context: context,
       apiKey: secrets.Secrets.GIPHY_API_KEY,
-      lang: GiphyLanguage.english, 
+      lang: GiphyLanguage.english,
       //randomID: "abcd", // Optional - An ID/proxy for a specific user.
       tabColor: Colors.teal,
-      debounceTimeInMilliseconds:
-          350, 
+      debounceTimeInMilliseconds: 350,
     );
+    //only update gif a gif was selected
+    if (newGif != null) {
+      gif = newGif;
+    }
+    notifyListeners();
+    locator<NavBarController>().enable();
   }
 
 //TODO add more content like a preview of a post.
@@ -61,21 +74,30 @@ class ComposeController extends ChangeNotifier {
     } else if (bodyChars > c.maxPostChars) {
       showSnackBar(
           text: AppLocalizations.of(context)!.tooManyChar, context: context);
-    } else if (titleController.text == "") {
+    } else if (titleController.text == "" &&
+        bodyController.text == "" &&
+        gif == null) {
       titleFocus.requestFocus();
       showSnackBar(
           text: AppLocalizations.of(context)!.emptyFieldError,
           context: context);
-    } else if (bodyController.text == "") {
-      bodyFocus.requestFocus();
-      showSnackBar(
-          text: AppLocalizations.of(context)!.emptyFieldError,
-          context: context);
     } else {
-      locator<PostsHandling>().createPost(
-          {"title": titleController.text, "body": bodyController.text});
+      Map<String, dynamic> post = {};
+      if (titleController.text != '') {
+        post["title"] = titleController.text;
+      }
+      if (bodyController.text != '') {
+        post["body"] = bodyController.text;
+      }
+      if (gif != null) {
+        post["gifUrl"] = gif!.images!.fixedWidth.url;
+        post["gifSource"] = gif!.url;
+      }
+
+      locator<PostsHandling>().createPost(post);
       titleController.text = "";
       bodyController.text = "";
+      gif = null;
     }
   }
 }

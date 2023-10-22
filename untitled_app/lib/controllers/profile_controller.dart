@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/users.dart' show AppUser;
 import '../models/current_user.dart';
 import 'bottom_nav_bar_controller.dart';
-//import '../views/edit_profile.dart';
 import '../utilities/locator.dart';
 
 class ProfileController extends ChangeNotifier {

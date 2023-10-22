@@ -26,6 +26,11 @@ class ComposePage extends StatelessWidget {
                           Provider.of<ComposeController>(context, listen: false)
                               .addGifPressed(),
                       icon: Icon(Icons.add)),
+                      IconButton(
+                      onPressed: () =>
+                          Provider.of<ComposeController>(context, listen: false)
+                              .removeGifPressed(),
+                      icon: Icon(Icons.remove)),
                   CustomInputFeild(
                       onChanged: (s) =>
                           Provider.of<ComposeController>(context, listen: false)
@@ -91,6 +96,15 @@ class ComposePage extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (Provider.of<ComposeController>(context, listen: true)
+                          .gif !=
+                      null)
+                    Image.network(
+                        Provider.of<ComposeController>(context, listen: true)
+                            .gif!
+                            .images!
+                            .fixedWidth
+                            .url),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
