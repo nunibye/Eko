@@ -99,16 +99,17 @@ class PostCard extends StatelessWidget {
                                 ),
                               ),
                             if (post.gifURL != null)
-                              FittedBox(
-                                fit: BoxFit
-                                    .scaleDown, // This helps in shrinking the ClipRRect to the size of the Image
-                                child: ClipRRect(
+                              // FittedBox(
+                              //   fit: BoxFit
+                              //       .scaleDown, // This helps in shrinking the ClipRRect to the size of the Image
+                              //   child: 
+                                ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
                                     post.gifURL!,
                                   ),
                                 ),
-                              ),
+                              // ),
                             if (post.body != null)
                               Text(
                                 post.body!,
