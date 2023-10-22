@@ -38,6 +38,11 @@ class LoginController extends ChangeNotifier {
     context.go("/signup");
   }
 
+  void previousPressed() {
+    hideKeyboard();
+    context.go("/welcome");
+  }
+
   forgotPasswordPressed(countryCode) async {
     hideKeyboard();
     locator<CurrentUser>().email = emailController.text;

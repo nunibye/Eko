@@ -3,7 +3,7 @@
     "email":"Email",
     "password":"Password",
     "confirmPassword":"Confirm Password",
-    "logIn":"Log In",
+    "logIn":"Login",
 
     "invalidEmailTittle":"Invalid Email Formating",
     "invalidEmailBody":"Please check your email and try again.",
@@ -76,5 +76,9 @@
     "logOut":"Log Out",
     "deleteAccount":"Delete Account",
     "darkMode":"Dark Mode",
-    "addComment":"Add a comment"
+    "addComment":"Add a comment",
+
+    "welcomeTo":"Welcome to",
+    "welcomeBack":"Welcome Back",
+    "createAccount":"Create Account"
 }

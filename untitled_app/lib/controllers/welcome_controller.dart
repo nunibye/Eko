@@ -6,19 +6,11 @@ class WelcomeController extends ChangeNotifier {
 
   WelcomeController({required this.context});
 
-  void onLoginButtonPressed() {
-    goToLogin();
-  }
-
-  void onCreateAccountButtonPressed() {
-    goToSignUp();
-  }
-
   void goToLogin() {
-    GoRouter.of(context).go('/login');
+    (context).go('/login');
   }
 
   void goToSignUp() {
-    GoRouter.of(context).go('/signup');
+    (context).go('/signup');
   }
 }

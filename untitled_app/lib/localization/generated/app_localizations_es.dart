@@ -17,7 +17,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get confirmPassword => 'Confirm Password';
 
   @override
-  String get logIn => 'Log In';
+  String get logIn => 'Login';
 
   @override
   String get invalidEmailTittle => 'Invalid Email Formating';
@@ -183,4 +183,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get addComment => 'Add a comment';
+
+  @override
+  String get welcomeTo => 'Welcome to';
+
+  @override
+  String get welcomeBack => 'Welcome Back';
+
+  @override
+  String get createAccount => 'Create Account';
 }

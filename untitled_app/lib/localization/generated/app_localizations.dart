@@ -120,7 +120,7 @@ abstract class AppLocalizations {
   /// No description provided for @logIn.
   ///
   /// In en, this message translates to:
-  /// **'Log In'**
+  /// **'Login'**
   String get logIn;
 
   /// No description provided for @invalidEmailTittle.
@@ -452,6 +452,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add a comment'**
   String get addComment;
+
+  /// No description provided for @welcomeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to'**
+  String get welcomeTo;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeBack;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

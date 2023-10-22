@@ -10,6 +10,9 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return ChangeNotifierProvider(
       create: (context) => LoginController(context: context),
       builder: (context, child) {
@@ -18,32 +21,44 @@ class LoginPage extends StatelessWidget {
               .hideKeyboard(),
           child: Scaffold(
             extendBodyBehindAppBar: true,
-            // appBar: AppBar(
-            //   backgroundColor: Theme.of(context).colorScheme.background,
-            // ),
+            appBar: AppBar(
+              leading: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: Theme.of(context).colorScheme.primary),
+                    onPressed: () {
+                      Provider.of<LoginController>(context, listen: false)
+                          .previousPressed();
+                    },
+                  ),
+                ],
+              ),
+              backgroundColor: Theme.of(context).colorScheme.background,
+            ),
             body: ListView(
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                // SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: c.logoPaddingVert,
-                            horizontal: c.logoPaddingHoriz),
-                        child: Container(
-                          //logo
-                          height: MediaQuery.of(context).size.width * 0.2,
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          decoration: const BoxDecoration(
-                            color: Colors.cyan,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                        ),
+                      SizedBox(
+                          height: height * .1,
+                          child: Align(
+                            child: Text(
+                                AppLocalizations.of(context)!.welcomeBack,
+                                style: TextStyle(
+                                    fontSize: 45,
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
+                          )),
+                      Divider(
+                        color: Theme.of(context).colorScheme.primary,
+                        height: height * 0.01,
+                        thickness: height * 0.001,
+                        indent: width * 0.05,
+                        endIndent: width * 0.05,
                       ),
                       CustomInputFeild(
                         focus:
