@@ -5,6 +5,7 @@ import '../custom_widgets/error_snack_bar.dart';
 import 'package:giphy_get/giphy_get.dart';
 import '../utilities/locator.dart';
 import '../models/post_handler.dart';
+import '../secrets/secrets.dart' as secrets;
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -24,16 +25,26 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
-
   updateCountsTitle(String str) {
     titleChars = str.length;
     notifyListeners();
   }
+
   void hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  
+  addGifPressed() async {
+    GiphyGif? gif = await GiphyGet.getGif(
+      context: context, 
+      apiKey: secrets.Secrets.GIPHY_API_KEY,
+      lang: GiphyLanguage.english, 
+      //randomID: "abcd", // Optional - An ID/proxy for a specific user.
+      tabColor: Colors.teal,
+      debounceTimeInMilliseconds:
+          350, 
+    );
+  }
 
 //TODO add more content like a preview of a post.
   postPressed() {
@@ -45,7 +56,6 @@ class ComposeController extends ChangeNotifier {
       showSnackBar(
           text: AppLocalizations.of(context)!.tooManyChar, context: context);
     } else if (newLines > c.maxPostLines) {
-      
       showSnackBar(
           text: AppLocalizations.of(context)!.tooManyLine, context: context);
     } else if (bodyChars > c.maxPostChars) {
