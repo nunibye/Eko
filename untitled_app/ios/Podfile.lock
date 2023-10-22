@@ -1,5 +1,5 @@
 PODS:
-  - cloud_firestore (4.9.3):
+  - cloud_firestore (4.11.0):
     - Firebase/Firestore (= 10.15.0)
     - firebase_core
     - Flutter
@@ -17,21 +17,28 @@ PODS:
   - Firebase/Firestore (10.15.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 10.15.0)
+  - Firebase/Messaging (10.15.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.15.0)
   - Firebase/Storage (10.15.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.15.0)
-  - firebase_analytics (10.5.1):
+  - firebase_analytics (10.6.1):
     - Firebase/Analytics (= 10.15.0)
     - firebase_core
     - Flutter
-  - firebase_auth (4.10.1):
+  - firebase_auth (4.11.1):
     - Firebase/Auth (= 10.15.0)
     - firebase_core
     - Flutter
-  - firebase_core (2.17.0):
+  - firebase_core (2.19.0):
     - Firebase/CoreOnly (= 10.15.0)
     - Flutter
-  - firebase_storage (11.2.8):
+  - firebase_messaging (14.7.1):
+    - Firebase/Messaging (= 10.15.0)
+    - firebase_core
+    - Flutter
+  - firebase_storage (11.3.1):
     - Firebase/Storage (= 10.15.0)
     - firebase_core
     - Flutter
@@ -83,6 +90,15 @@ PODS:
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (10.15.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Reachability (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - FirebaseStorage (10.15.0):
     - FirebaseAppCheckInterop (~> 10.0)
     - FirebaseAuthInterop (~> 10.0)
@@ -113,6 +129,10 @@ PODS:
     - GoogleUtilities/Network (~> 7.11)
     - "GoogleUtilities/NSData+zlib (~> 7.11)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleDataTransport (9.2.5):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/AppDelegateSwizzler (7.11.5):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -155,12 +175,15 @@ PODS:
     - Flutter
     - FMDB (>= 2.7.5)
   - TOCropViewController (2.6.1)
+  - url_launcher_ios (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.15.0`)
   - Flutter (from `Flutter`)
@@ -169,6 +192,7 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -181,9 +205,11 @@ SPEC REPOS:
     - FirebaseCoreExtension
     - FirebaseCoreInternal
     - FirebaseInstallations
+    - FirebaseMessaging
     - FirebaseStorage
     - FMDB
     - GoogleAppMeasurement
+    - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
     - nanopb
@@ -200,6 +226,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   FirebaseFirestore:
@@ -217,6 +245,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
@@ -224,12 +254,13 @@ CHECKOUT OPTIONS:
     :tag: 10.15.0
 
 SPEC CHECKSUMS:
-  cloud_firestore: 9c9fb3500360c9b338e9eb2fec40b38e7a004cac
+  cloud_firestore: 0b05c34e8b36cde7026bed89616962c4e03aa307
   Firebase: 66043bd4579e5b73811f96829c694c7af8d67435
-  firebase_analytics: f153c564d6a7675e56e4f171454b9f1b3e7b6601
-  firebase_auth: b62e99e6ece589afe88ebe8919eb9563b52c384c
-  firebase_core: 28e84c2a4fcf6a50ef83f47b145ded8c1fa331e4
-  firebase_storage: 5aa5cd1cfc03814e3417b6718d805e5d1804f990
+  firebase_analytics: 8b63b894ac3be5ced6a9a4614174754b03377c2f
+  firebase_auth: a2eb49575626e0c8ee369d5983e67d793e272515
+  firebase_core: fd674fcc642742ef7289acea60bd21a1a021bd98
+  firebase_messaging: 4f6c9f2920785b409108c8b5f1f8cdaf89d8def2
+  firebase_storage: d3dc64db1b536de4c1fe422bb5351e45e86187c3
   FirebaseAnalytics: 47cef43728f81a839cf1306576bdd77ffa2eac7e
   FirebaseAppCheckInterop: 82358cff9f33452dd44259e88eea5e562500b1cb
   FirebaseAuth: a55ec5f7f8a5b1c2dd750235c1bb419bfb642445
@@ -239,10 +270,12 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: 26233f705cc4531236818a07ac84d20c333e505a
   FirebaseFirestore: 9a14eef134fd586d8200f4dfa0ee3cb093a05d8f
   FirebaseInstallations: b822f91a61f7d1ba763e5ccc9d4f2e6f2ed3b3ee
+  FirebaseMessaging: 0c0ae1eb722ef0c07f7801e5ded8dccd1357d6d4
   FirebaseStorage: 1d4be239ea32fb3c0f3680a6f2b706d6cabe37f2
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleAppMeasurement: 722db6550d1e6d552b08398b69a975ac61039338
+  GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
@@ -254,6 +287,7 @@ SPEC CHECKSUMS:
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
 PODFILE CHECKSUM: 8028ae4c15f25b80f6db86dc8c30aa4cd9787fcb
 
