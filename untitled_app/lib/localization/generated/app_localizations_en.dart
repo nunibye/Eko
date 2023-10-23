@@ -68,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPasswordBody => 'Check your email for a password reset link.';
 
   @override
-  String get exitCreateAccountTitle => 'Return to login';
+  String get exitCreateAccountTitle => 'Return to welcome page';
 
   @override
   String get exitCreateAccountBody => 'Are you sure you want to go back? your information will be deleted.';
@@ -206,5 +206,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dateOfBirth => 'Date of Birth';
 
   @override
-  String get usernameAndPassword => 'Username and Password';
+  String get createAPassword => 'Create a Password';
 }

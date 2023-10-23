@@ -29,7 +29,7 @@
     "forgotPasswordTittle":"You've Got Mail!",
     "forgotPasswordBody":"Check your email for a password reset link.",
 
-    "exitCreateAccountTitle":"Return to login",
+    "exitCreateAccountTitle":"Return to welcome page",
     "exitCreateAccountBody":"Are you sure you want to go back? your information will be deleted.",
 
     "stay":"Stay",
@@ -85,5 +85,5 @@
     "createAnAccount":"Create an Account",
     "cont":"Continue",
     "dateOfBirth":"Date of Birth",
-    "usernameAndPassword":"Username and Password"
+    "createAPassword":"Create a Password"
 }
