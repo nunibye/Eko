@@ -237,11 +237,11 @@ abstract class AppLocalizations {
   /// **'Stay'**
   String get stay;
 
-  /// No description provided for @go.
+  /// No description provided for @goBack.
   ///
   /// In en, this message translates to:
   /// **'Go Back'**
-  String get go;
+  String get goBack;
 
   /// No description provided for @tryAgain.
   ///
@@ -498,8 +498,31 @@ abstract class AppLocalizations {
   /// No description provided for @createAPassword.
   ///
   /// In en, this message translates to:
+<<<<<<< HEAD
   /// **'Create a Password'**
   String get createAPassword;
+=======
+  /// **'Username and Password'**
+  String get usernameAndPassword;
+
+  /// No description provided for @deleteAcountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account?'**
+  String get deleteAcountTitle;
+
+  /// No description provided for @deleteAcountBody.
+  ///
+  /// In en, this message translates to:
+  /// **'All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel'**
+  String get deleteAcountBody;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+>>>>>>> 60d74d3eff540197365f00b6c48681a541d05e61
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -3,7 +3,7 @@ import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
 import '../models/current_user.dart';
 
-import '../custom_widgets/login_dialog.dart';
+import '../custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import "package:go_router/go_router.dart";
 
@@ -74,7 +74,7 @@ class SignUpController extends ChangeNotifier {
   }
 
   void _pop() {
-    Navigator.of(context).pop();
+    context.pop();
   }
 
   void _returnToWelcome() {
@@ -171,7 +171,7 @@ class SignUpController extends ChangeNotifier {
           AppLocalizations.of(context)!.exitCreateAccountTitle,
           AppLocalizations.of(context)!.exitCreateAccountBody,
           [
-            AppLocalizations.of(context)!.go,
+            AppLocalizations.of(context)!.goBack,
             AppLocalizations.of(context)!.stay
           ],
           [_returnToWelcome, _pop],

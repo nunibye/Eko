@@ -4,7 +4,6 @@ import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'profile_picture_loading.dart';
 
 class PostCard extends StatelessWidget {

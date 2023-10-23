@@ -77,7 +77,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get stay => 'Stay';
 
   @override
-  String get go => 'Go Back';
+  String get goBack => 'Go Back';
 
   @override
   String get tryAgain => 'Try Again';
@@ -206,5 +206,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dateOfBirth => 'Date of Birth';
 
   @override
+<<<<<<< HEAD
   String get createAPassword => 'Create a Password';
+=======
+  String get usernameAndPassword => 'Username and Password';
+
+  @override
+  String get deleteAcountTitle => 'Are you sure you want to delete your account?';
+
+  @override
+  String get deleteAcountBody => 'All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel';
+
+  @override
+  String get delete => 'Delete';
+>>>>>>> 60d74d3eff540197365f00b6c48681a541d05e61
 }

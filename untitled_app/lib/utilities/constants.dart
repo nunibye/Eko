@@ -63,7 +63,7 @@ const int maxTittleChars = 60;
 const int maxBioChars = 20;
 const int maxBioLines = 3;
 const int maxBioNameChars = 20;
-
+const int searchPageDebounce = 1500;
 const int postsOnRefresh = 10;
 
 const double postIconSize = 17;
