@@ -23,14 +23,14 @@ class RouterNotifier extends ChangeNotifier {
     final onLoginPage = state.fullPath == '/login';
     final onSignUpPage = state.fullPath == '/signup';
     final onWelcomePage = state.fullPath == '/welcome';
-    print('redirect $loggedIn');
+    //print('redirect $loggedIn');
     if (!loggedIn && !(onSignUpPage || onLoginPage || onWelcomePage)) {
       return '/welcome';
     }
     else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
       await locator<CurrentUser>().readCurrentUserData();
       
-      return '/profile';
+      return '/feed';
     }
 
     return null;

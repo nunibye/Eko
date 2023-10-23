@@ -4,6 +4,7 @@ import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'profile_picture_loading.dart';
 
 class PostCard extends StatelessWidget {
@@ -99,17 +100,50 @@ class PostCard extends StatelessWidget {
                                 ),
                               ),
                             if (post.gifURL != null)
-                              // FittedBox(
-                              //   fit: BoxFit
-                              //       .scaleDown, // This helps in shrinking the ClipRRect to the size of the Image
-                              //   child: 
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    post.gifURL!,
-                                  ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  post.gifURL!,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder: (BuildContext context,
+                                      Widget child,
+                                      ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return
+                                        // ClipRRect(
+                                        //   borderRadius: BorderRadius.circular(10),
+                                        //   child: Shimmer.fromColors(
+                                        //     baseColor: const Color.fromARGB(
+                                        //         100, 130, 131, 130),
+                                        //     highlightColor: Colors.white,
+                                        //     child: Container(
+                                        //       width: 200,
+                                        //       height: 150,
+                                        //       color: Colors.amber,
+                                        //     ),
+                                        //   ),
+                                        // );
+                                        Container(
+                                      alignment: Alignment.center,
+                                      width: 200,
+                                      height: 150,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
                                 ),
-                              // ),
+                              ),
                             if (post.body != null)
                               Text(
                                 post.body!,
