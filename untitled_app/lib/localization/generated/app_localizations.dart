@@ -453,6 +453,12 @@ abstract class AppLocalizations {
   /// **'Add a comment'**
   String get addComment;
 
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get welcome;
+
   /// No description provided for @welcomeTo.
   ///
   /// In en, this message translates to:
@@ -471,11 +477,29 @@ abstract class AppLocalizations {
   /// **'Create Account'**
   String get createAccount;
 
+  /// No description provided for @createAnAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an Account'**
+  String get createAnAccount;
+
   /// No description provided for @cont.
   ///
   /// In en, this message translates to:
   /// **'Continue'**
   String get cont;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dateOfBirth;
+
+  /// No description provided for @usernameAndPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Username and Password'**
+  String get usernameAndPassword;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

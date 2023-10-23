@@ -8,7 +8,6 @@ import '../utilities/constants.dart' as c;
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -29,7 +28,7 @@ class SignUp extends StatelessWidget {
                     Consumer<SignUpController>(
                       builder: (context, signUpController, _) => Text(
                         signUpController.firstPage
-                            ? AppLocalizations.of(context)!.logIn
+                            ? AppLocalizations.of(context)!.welcome
                             : AppLocalizations.of(context)!.previous,
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
@@ -43,34 +42,15 @@ class SignUp extends StatelessWidget {
                     Provider.of<SignUpController>(context, listen: false)
                         .backPressed(),
               ),
-              actions: [
-                if (!Provider.of<SignUpController>(context, listen: true)
-                    .lastPage)
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward_ios_rounded,
-                        color: Theme.of(context).colorScheme.primary),
-                    onPressed: () =>
-                        Provider.of<SignUpController>(context, listen: false)
-                            .forwardPressed(),
-                  )
-              ],
               backgroundColor: Theme.of(context).colorScheme.background,
-              title: Text(
-                AppLocalizations.of(context)!.signUp,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
             ),
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: Provider.of<SignUpController>(context, listen: false)
                   .pageController,
               children: const <Widget>[
-                GetName(),
-                GetUserName(),
-                GetEmail(),
+                GetInfo(),
+                GetPassword(),
                 Placeholder(), //FIXME for some reson this stops everything from breaking
               ],
             ),
@@ -81,18 +61,45 @@ class SignUp extends StatelessWidget {
   }
 }
 
-class GetName extends StatelessWidget {
-  const GetName({super.key});
+class GetInfo extends StatelessWidget {
+  const GetInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      body: Center(
+        body: Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05),
+      child: Center(
         child: Column(
           children: [
+            SizedBox(
+              height: height * 0.02,
+            ),
+            SizedBox(
+                height: height * .1,
+                child: Align(
+                  child: Text(AppLocalizations.of(context)!.createAnAccount,
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: Theme.of(context).colorScheme.primary)),
+                )),
+            Divider(
+              height: 0,
+              thickness: height * 0.002,
+              indent: width * 0.07,
+              endIndent: width * 0.07,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            SizedBox(
+              height: height * 0.06,
+            ),
             CustomInputFeild(
-              focus: Provider.of<SignUpController>(context, listen: false)
-                  .focus1,
+              focus:
+                  Provider.of<SignUpController>(context, listen: false).focus1,
               label: AppLocalizations.of(context)!.name,
               controller: Provider.of<SignUpController>(context, listen: false)
                   .controller1,
@@ -100,51 +107,92 @@ class GetName extends StatelessWidget {
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
-            
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class GetUserName extends StatelessWidget {
-  const GetUserName({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
             CustomInputFeild(
               focus:
-                  Provider.of<SignUpController>(context, listen: false).focus1,
-              textInputAction: TextInputAction.go,
+                  Provider.of<SignUpController>(context, listen: false).focus2,
+              label: AppLocalizations.of(context)!.userName,
+              controller: Provider.of<SignUpController>(context, listen: false)
+                  .controller2,
+              inputType: TextInputType.text,
+            ),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * c.loginPadding),
+            CustomInputFeild(
+              focus:
+                  Provider.of<SignUpController>(context, listen: false).focus3,
               onEditingComplete: () =>
                   Provider.of<SignUpController>(context, listen: false)
                       .keyboardGoToNextPage(),
-              label: AppLocalizations.of(context)!.userName,
+              label: AppLocalizations.of(context)!.dateOfBirth,
               controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller1,
+                  .controller3,
               inputType: TextInputType.text,
+            ),
+            SizedBox(
+              height: height * 0.15,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.width * 0.15,
+              child: TextButton(
+                onPressed: () =>
+                    Provider.of<SignUpController>(context, listen: false)
+                        .forwardPressed(),
+                style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(.55)),
+                child: Text(
+                  AppLocalizations.of(context)!.cont,
+                  style: TextStyle(
+                    fontSize: 18,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.normal,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
-class GetEmail extends StatelessWidget {
-  const GetEmail({super.key});
+class GetPassword extends StatelessWidget {
+  const GetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Padding(padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),child: Center(
+        body: Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05),
+      child: Center(
         child: ListView(
           children: [
+            SizedBox(
+                height: height * .1,
+                child: Align(
+                  child: Text(AppLocalizations.of(context)!.createAnAccount,
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: Theme.of(context).colorScheme.primary)),
+                )),
+            Divider(
+              height: 0,
+              thickness: height * 0.002,
+              indent: width * 0.07,
+              endIndent: width * 0.07,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            SizedBox(
+              height: height * 0.05,
+            ),
             CustomInputFeild(
               label: AppLocalizations.of(context)!.email,
               focus:
@@ -191,8 +239,8 @@ class GetEmail extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * c.loginPadding,
-                  ),
+                vertical: MediaQuery.of(context).size.height * c.loginPadding,
+              ),
               child: LinearProgressIndicator(
                 minHeight: 12,
                 value: Provider.of<SignUpController>(context, listen: true)
@@ -200,17 +248,24 @@ class GetEmail extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
-            Container(alignment: Alignment.centerLeft,child: Consumer<SignUpController>(
-              builder: (context, signUpController, _) => Text(
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Consumer<SignUpController>(
+                builder: (context, signUpController, _) => Text(
                   "${signUpController.passed[0]}${AppLocalizations.of(context)!.passwordLen}\n"
                   "${signUpController.passed[1]}${AppLocalizations.of(context)!.passwordLower}\n"
                   "${signUpController.passed[2]}${AppLocalizations.of(context)!.passwordUpper}\n"
                   "${signUpController.passed[3]}${AppLocalizations.of(context)!.passwordNumber}\n"
                   "${signUpController.passed[4]}${AppLocalizations.of(context)!.passwordSpecial}\n"
                   "${signUpController.passed[5]}${AppLocalizations.of(context)!.passwordMatch}\n",
-                  style: const  TextStyle(fontSize: 18),),
-            ),),
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
+            ),
             //const Spacer(),
+            SizedBox(
+              height: height * 0.05,
+            ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.width * 0.15,
@@ -224,7 +279,7 @@ class GetEmail extends StatelessWidget {
                         .loggingIn
                     ? const CircularProgressIndicator()
                     : Text(
-                        AppLocalizations.of(context)!.signUp,
+                        AppLocalizations.of(context)!.cont,
                         style: TextStyle(
                           fontSize: 18,
                           letterSpacing: 1,
@@ -237,7 +292,7 @@ class GetEmail extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           ],
         ),
-      ),)
-    );
+      ),
+    ));
   }
 }

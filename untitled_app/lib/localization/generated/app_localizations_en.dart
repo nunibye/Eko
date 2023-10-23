@@ -185,6 +185,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addComment => 'Add a comment';
 
   @override
+  String get welcome => 'Welcome';
+
+  @override
   String get welcomeTo => 'Welcome to';
 
   @override
@@ -194,5 +197,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createAccount => 'Create Account';
 
   @override
+  String get createAnAccount => 'Create an Account';
+
+  @override
   String get cont => 'Continue';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get usernameAndPassword => 'Username and Password';
 }

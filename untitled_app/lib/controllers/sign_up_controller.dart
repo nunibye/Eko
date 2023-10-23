@@ -6,10 +6,9 @@ import '../models/current_user.dart';
 import '../custom_widgets/login_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import "package:go_router/go_router.dart";
+
 // TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
-  
-
   final controller1 = TextEditingController();
   final controller2 = TextEditingController();
   final controller3 = TextEditingController();
@@ -71,9 +70,9 @@ class SignUpController extends ChangeNotifier {
     Navigator.of(context).pop();
   }
 
-  void _returnToLogin() {
+  void _returnToWelcome() {
     _pop();
-    context.go("/login");
+    context.go("/welcome");
   }
 
   void hideKeyboard() {
@@ -91,7 +90,6 @@ class SignUpController extends ChangeNotifier {
   void _handleError(String errorCode) {
     switch (errorCode) {
       case 'success':
-        
         break;
       case 'invalid-email':
         showMyDialog(
@@ -117,7 +115,7 @@ class SignUpController extends ChangeNotifier {
               AppLocalizations.of(context)!.logIn,
               AppLocalizations.of(context)!.tryAgain
             ],
-            [_returnToLogin, _pop],
+            [_returnToWelcome, _pop],
             context);
         break;
       default:
@@ -144,7 +142,6 @@ class SignUpController extends ChangeNotifier {
         locator<CurrentUser>().email = controller1.text;
         loggingIn = true;
         notifyListeners();
-
         _handleError(await locator<CurrentUser>().signUp(controller2.text));
         locator<CurrentUser>().addUserDataToFirestore();
         loggingIn = false;
@@ -171,7 +168,7 @@ class SignUpController extends ChangeNotifier {
             AppLocalizations.of(context)!.go,
             AppLocalizations.of(context)!.stay
           ],
-          [_returnToLogin, _pop],
+          [_returnToWelcome, _pop],
           context);
     }
   }
@@ -179,15 +176,21 @@ class SignUpController extends ChangeNotifier {
   forwardPressed() async {
     hideKeyboard();
     int page = pageController.page!.toInt();
-    if (controller1.text == "") {
-      focus1.requestFocus();
+    if (page == 0 &&
+        (controller1.text == "" ||
+            controller2.text == "" ||
+            controller3.text == "")) {
+      // Request focus for the empty field
+      if (controller1.text == "") {
+        focus1.requestFocus();
+      } else if (controller2.text == "") {
+        focus2.requestFocus();
+      } else {
+        focus3.requestFocus();
+      }
       return "done";
     }
-    // if (controller2.text == "" && page == 0) {
-    //   focus2.requestFocus();
-    //   return "done";
-    // }
-    if (page <= 1) {
+    if (page == 0) {
       _getPageData(page);
       _setPageData(page + 1);
       await pageController.nextPage(
@@ -203,12 +206,9 @@ class SignUpController extends ChangeNotifier {
     switch (page) {
       case 0:
         locator<CurrentUser>().name = controller1.text;
-        
+        locator<CurrentUser>().username = controller2.text;
         break;
       case 1:
-        locator<CurrentUser>().username = controller1.text;
-        break;
-      case 2:
         locator<CurrentUser>().email = controller1.text;
         break;
     }
@@ -218,24 +218,18 @@ class SignUpController extends ChangeNotifier {
     switch (page) {
       case 0:
         firstPage = true;
+        lastPage = false;
 
         controller1.text = locator<CurrentUser>().name;
+        controller2.text = locator<CurrentUser>().email;
 
         notifyListeners();
         break;
       case 1:
         firstPage = false;
-        lastPage = false;
-
-        controller1.text = locator<CurrentUser>().username;
-        controller2.text = "";
-        controller3.text = "";
-        notifyListeners();
-        break;
-      case 2:
         lastPage = true;
 
-        controller1.text = locator<CurrentUser>().email;
+        controller1.text = locator<CurrentUser>().username;
         controller2.text = "";
         controller3.text = "";
         notifyListeners();

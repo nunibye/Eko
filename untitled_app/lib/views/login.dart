@@ -23,17 +23,18 @@ class LoginPage extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.background,
             extendBodyBehindAppBar: true,
             appBar: AppBar(
-              leading: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back,
+              leading: IconButton(
+                onPressed: () {
+                  Provider.of<LoginController>(context, listen: false)
+                      .previousPressed();
+                },
+                icon: Row(
+                  children: [
+                    Icon(Icons.arrow_back_ios_rounded,
                         color: Theme.of(context).colorScheme.primary),
-                    onPressed: () {
-                      Provider.of<LoginController>(context, listen: false)
-                          .previousPressed();
-                    },
-                  ),
-                ],
+                    // Text(AppLocalizations.of(context)!.previous) 
+                  ],
+                ),
               ),
               backgroundColor: Theme.of(context).colorScheme.background,
             ),

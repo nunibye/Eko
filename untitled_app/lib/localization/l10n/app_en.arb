@@ -78,8 +78,12 @@
     "darkMode":"Dark Mode",
     "addComment":"Add a comment",
 
+    "welcome":"Welcome",
     "welcomeTo":"Welcome to",
     "welcomeBack":"Welcome Back",
     "createAccount":"Create Account",
-    "cont":"Continue"
+    "createAnAccount":"Create an Account",
+    "cont":"Continue",
+    "dateOfBirth":"Date of Birth",
+    "usernameAndPassword":"Username and Password"
 }
