@@ -2,7 +2,7 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 import '../models/current_user.dart';
 import 'package:flutter/material.dart';
-import '../custom_widgets/login_dialog.dart';
+import '../custom_widgets/warning_dialog.dart';
 import '../utilities/locator.dart';
 import "package:go_router/go_router.dart";
 

@@ -77,7 +77,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stay => 'Stay';
 
   @override
-  String get go => 'Go Back';
+  String get goBack => 'Go Back';
 
   @override
   String get tryAgain => 'Try Again';
@@ -207,4 +207,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get usernameAndPassword => 'Username and Password';
+
+  @override
+  String get deleteAcountTitle => 'Are you sure you want to delete your account?';
+
+  @override
+  String get deleteAcountBody => 'All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel';
+
+  @override
+  String get delete => 'Delete';
 }

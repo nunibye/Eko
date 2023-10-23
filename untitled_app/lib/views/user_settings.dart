@@ -51,10 +51,8 @@ class UserSettings extends StatelessWidget {
                 child: Text(AppLocalizations.of(context)!.logOut),
               ),
               TextButton(
-                onPressed: () {
-                  Provider.of<SettingsController>(context, listen: false)
-                      .deleteAccount();
-                },
+                
+                onPressed: () => Provider.of<SettingsController>(context, listen: false).deleteAccount(),
                 child: Text(AppLocalizations.of(context)!.deleteAccount),
               ),
             ],
