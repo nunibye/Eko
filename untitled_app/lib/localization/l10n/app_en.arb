@@ -80,5 +80,6 @@
 
     "welcomeTo":"Welcome to",
     "welcomeBack":"Welcome Back",
-    "createAccount":"Create Account"
+    "createAccount":"Create Account",
+    "cont":"Continue"
 }

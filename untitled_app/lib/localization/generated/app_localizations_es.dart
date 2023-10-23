@@ -192,4 +192,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get createAccount => 'Create Account';
+
+  @override
+  String get cont => 'Continue';
 }

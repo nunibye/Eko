@@ -20,6 +20,7 @@ class LoginPage extends StatelessWidget {
           onTap: () => Provider.of<LoginController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.background,
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               leading: Row(
@@ -38,27 +39,14 @@ class LoginPage extends StatelessWidget {
             ),
             body: ListView(
               children: [
-                // SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                          height: height * .1,
-                          child: Align(
-                            child: Text(
-                                AppLocalizations.of(context)!.welcomeBack,
-                                style: TextStyle(
-                                    fontSize: 45,
-                                    color:
-                                        Theme.of(context).colorScheme.primary)),
-                          )),
-                      Divider(
-                        color: Theme.of(context).colorScheme.primary,
-                        height: height * 0.01,
-                        thickness: height * 0.001,
-                        indent: width * 0.05,
-                        endIndent: width * 0.05,
+                        height: height * .35,
+                        width: width,
+                        child: Image.asset('images/echo.png'),
                       ),
                       CustomInputFeild(
                         focus:
@@ -88,26 +76,7 @@ class LoginPage extends StatelessWidget {
                         password: true,
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.width * 0.1,
-                        child: TextButton(
-                          onPressed: () => Provider.of<LoginController>(context,
-                                  listen: false)
-                              .forgotPasswordPressed(
-                                  AppLocalizations.of(context)!.localeName),
-                          child: Text(
-                            AppLocalizations.of(context)!.forgotPassword,
-                            style: TextStyle(
-                              fontSize: 16,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.normal,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.009),
+                          height: MediaQuery.of(context).size.height * 0.05),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: MediaQuery.of(context).size.width * 0.15,
@@ -117,8 +86,10 @@ class LoginPage extends StatelessWidget {
                                     listen: false)
                                 .logInPressed(),
                             style: TextButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary),
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondary
+                                    .withOpacity(.55)),
                             child: Consumer<LoginController>(
                               builder: (context, loginController, _) =>
                                   loginController.loggingIn
@@ -136,26 +107,18 @@ class LoginPage extends StatelessWidget {
                                         ),
                             )),
                       ),
-
-                      const Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Text(
-                              "---- or ----")), // TODO: placeholder, beautify later
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        height: MediaQuery.of(context).size.width * 0.10,
+                        height: MediaQuery.of(context).size.width * 0.1,
                         child: TextButton(
                           onPressed: () => Provider.of<LoginController>(context,
                                   listen: false)
-                              .signUp(),
-                          style: TextButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
-                          ),
+                              .forgotPasswordPressed(
+                                  AppLocalizations.of(context)!.localeName),
                           child: Text(
-                            "Create Account",
+                            AppLocalizations.of(context)!.forgotPassword,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 13,
                               letterSpacing: 1,
                               fontWeight: FontWeight.normal,
                               color: Theme.of(context).colorScheme.primary,

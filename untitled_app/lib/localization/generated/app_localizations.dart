@@ -470,6 +470,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Account'**
   String get createAccount;
+
+  /// No description provided for @cont.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get cont;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -83,7 +83,7 @@ class CustomInputFeild extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                fillColor: Theme.of(context).colorScheme.onBackground,
+                fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
