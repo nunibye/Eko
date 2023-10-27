@@ -17,7 +17,7 @@ class WelcomePage extends StatelessWidget {
           return Container(
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('images/welcome_backround.png'),
+                      image: AssetImage('images/fog1.gif'),
                       fit: BoxFit.cover)),
               child: Scaffold(
                   backgroundColor: Colors.transparent,

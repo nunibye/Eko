@@ -9,12 +9,19 @@ import "package:go_router/go_router.dart";
 
 // TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
-  final controller1 = TextEditingController();
-  final controller2 = TextEditingController();
-  final controller3 = TextEditingController();
-  final focus1 = FocusNode();
-  final focus2 = FocusNode();
-  final focus3 = FocusNode();
+  final nameController = TextEditingController();
+  final usernameController = TextEditingController();
+  final dobController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final passwordConfirmController = TextEditingController();
+  final nameFocus = FocusNode();
+  final usernameFocus = FocusNode();
+  final dobFocus = FocusNode();
+  final emailFocus = FocusNode();
+  final passwordFocus = FocusNode();
+  final passwordConfirmFocus = FocusNode();
+
   final pageController = PageController();
   final BuildContext context;
 
@@ -30,8 +37,8 @@ class SignUpController extends ChangeNotifier {
   passwordChanged() {
     passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
     int points = 0;
-    String pass1 = controller2.text;
-    String pass2 = controller3.text;
+    String pass1 = passwordController.text;
+    String pass2 = passwordConfirmController.text;
     if ((pass1).length >= 7 && (pass1).length <= 32) {
       points++;
       passed[0] = "✅";
@@ -82,7 +89,7 @@ class SignUpController extends ChangeNotifier {
   void keyboardGoToNextPage() async {
     await forwardPressed();
     Future.delayed(const Duration(milliseconds: 100),
-        () => focus1.requestFocus()); //waits for keyboard to close
+        () => nameFocus.requestFocus()); //waits for keyboard to close
 
     //focus1.requestFocus();
   }
@@ -132,17 +139,16 @@ class SignUpController extends ChangeNotifier {
   signUpPressed() async {
     hideKeyboard();
 
-    if (controller1.text == '') {
-      focus1.requestFocus();
-    } else if (controller2.text == '') {
-      focus2.requestFocus();
+    if (passwordController.text == '') {
+      passwordFocus.requestFocus();
     } else {
       //TODO delete || controller2.text == "password" before production
-      if (goodPassword || controller2.text == "password") {
-        locator<CurrentUser>().email = controller1.text;
+      if (goodPassword || passwordController.text == "password") {
+        locator<CurrentUser>().email = emailController.text;
         loggingIn = true;
         notifyListeners();
-        _handleError(await locator<CurrentUser>().signUp(controller2.text));
+        _handleError(
+            await locator<CurrentUser>().signUp(passwordController.text));
         locator<CurrentUser>().addUserDataToFirestore();
         loggingIn = false;
         notifyListeners();
@@ -177,16 +183,19 @@ class SignUpController extends ChangeNotifier {
     hideKeyboard();
     int page = pageController.page!.toInt();
     if (page == 0 &&
-        (controller1.text == "" ||
-            controller2.text == "" ||
-            controller3.text == "")) {
+        (nameController.text == "" ||
+            usernameController.text == "" ||
+            emailController.text == "" ||
+            dobController.text == "")) {
       // Request focus for the empty field
-      if (controller1.text == "") {
-        focus1.requestFocus();
-      } else if (controller2.text == "") {
-        focus2.requestFocus();
+      if (nameController.text == "") {
+        nameFocus.requestFocus();
+      } else if (usernameController.text == "") {
+        usernameFocus.requestFocus();
+      } else if (emailController.text == "") {
+        emailFocus.requestFocus();
       } else {
-        focus3.requestFocus();
+        dobFocus.requestFocus();
       }
       return "done";
     }
@@ -196,8 +205,6 @@ class SignUpController extends ChangeNotifier {
       await pageController.nextPage(
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
-
-      // _setPageData(page);
     }
     return "done";
   }
@@ -205,11 +212,11 @@ class SignUpController extends ChangeNotifier {
   _getPageData(int page) {
     switch (page) {
       case 0:
-        locator<CurrentUser>().name = controller1.text;
-        locator<CurrentUser>().username = controller2.text;
+        locator<CurrentUser>().name = nameController.text;
+        locator<CurrentUser>().username = usernameController.text;
+        locator<CurrentUser>().email = emailController.text;
         break;
       case 1:
-        locator<CurrentUser>().email = controller1.text;
         break;
     }
   }
@@ -220,8 +227,9 @@ class SignUpController extends ChangeNotifier {
         firstPage = true;
         lastPage = false;
 
-        controller1.text = locator<CurrentUser>().name;
-        controller2.text = locator<CurrentUser>().email;
+        nameController.text = locator<CurrentUser>().name;
+        usernameController.text = locator<CurrentUser>().username;
+        emailController.text = locator<CurrentUser>().email;
 
         notifyListeners();
         break;
@@ -229,9 +237,8 @@ class SignUpController extends ChangeNotifier {
         firstPage = false;
         lastPage = true;
 
-        controller1.text = locator<CurrentUser>().username;
-        controller2.text = "";
-        controller3.text = "";
+        passwordController.text = "";
+        passwordConfirmController.text = "";
         notifyListeners();
         break;
     }

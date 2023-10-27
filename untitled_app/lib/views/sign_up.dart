@@ -27,9 +27,7 @@ class SignUp extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary),
                     Consumer<SignUpController>(
                       builder: (context, signUpController, _) => Text(
-                        signUpController.firstPage
-                            ? AppLocalizations.of(context)!.welcome
-                            : AppLocalizations.of(context)!.previous,
+                        AppLocalizations.of(context)!.previous,
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context).colorScheme.primary,
@@ -74,7 +72,7 @@ class GetInfo extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * 0.05),
       child: Center(
-        child: Column(
+        child: ListView(
           children: [
             SizedBox(
               height: height * 0.02,
@@ -98,38 +96,46 @@ class GetInfo extends StatelessWidget {
               height: height * 0.06,
             ),
             CustomInputFeild(
-              focus:
-                  Provider.of<SignUpController>(context, listen: false).focus1,
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .nameFocus,
               label: AppLocalizations.of(context)!.name,
               controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller1,
+                  .nameController,
               inputType: TextInputType.text,
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
-              focus:
-                  Provider.of<SignUpController>(context, listen: false).focus2,
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .usernameFocus,
               label: AppLocalizations.of(context)!.userName,
               controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller2,
+                  .usernameController,
               inputType: TextInputType.text,
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
-              focus:
-                  Provider.of<SignUpController>(context, listen: false).focus3,
+              label: AppLocalizations.of(context)!.email,
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .emailFocus,
+              controller: Provider.of<SignUpController>(context, listen: false)
+                  .emailController,
+              inputType: TextInputType.emailAddress,
+            ),
+            CustomInputFeild(
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .dobFocus,
               onEditingComplete: () =>
                   Provider.of<SignUpController>(context, listen: false)
                       .keyboardGoToNextPage(),
               label: AppLocalizations.of(context)!.dateOfBirth,
               controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller3,
-              inputType: TextInputType.text,
+                  .dobController,
+              inputType: TextInputType.datetime,
             ),
             SizedBox(
-              height: height * 0.15,
+              height: height * 0.1,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -178,7 +184,7 @@ class GetPassword extends StatelessWidget {
             SizedBox(
                 height: height * .1,
                 child: Align(
-                  child: Text(AppLocalizations.of(context)!.createAnAccount,
+                  child: Text(AppLocalizations.of(context)!.createAPassword,
                       style: TextStyle(
                           fontSize: 35,
                           color: Theme.of(context).colorScheme.primary)),
@@ -193,14 +199,7 @@ class GetPassword extends StatelessWidget {
             SizedBox(
               height: height * 0.05,
             ),
-            CustomInputFeild(
-              label: AppLocalizations.of(context)!.email,
-              focus:
-                  Provider.of<SignUpController>(context, listen: false).focus1,
-              controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller1,
-              inputType: TextInputType.emailAddress,
-            ),
+
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
@@ -209,13 +208,13 @@ class GetPassword extends StatelessWidget {
                       .passwordChanged(),
               onEditingComplete: () =>
                   Provider.of<SignUpController>(context, listen: false)
-                      .focus3
+                      .passwordConfirmFocus
                       .requestFocus(),
               label: AppLocalizations.of(context)!.password,
-              focus:
-                  Provider.of<SignUpController>(context, listen: false).focus2,
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .passwordFocus,
               controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller2,
+                  .passwordController,
               inputType: TextInputType.visiblePassword,
               password: true,
             ),
@@ -230,10 +229,10 @@ class GetPassword extends StatelessWidget {
                       .signUpPressed(),
               textInputAction: TextInputAction.done,
               label: AppLocalizations.of(context)!.confirmPassword,
-              focus:
-                  Provider.of<SignUpController>(context, listen: false).focus3,
+              focus: Provider.of<SignUpController>(context, listen: false)
+                  .passwordConfirmFocus,
               controller: Provider.of<SignUpController>(context, listen: false)
-                  .controller3,
+                  .passwordConfirmController,
               inputType: TextInputType.visiblePassword,
               password: true,
             ),
@@ -258,7 +257,7 @@ class GetPassword extends StatelessWidget {
                   "${signUpController.passed[3]}${AppLocalizations.of(context)!.passwordNumber}\n"
                   "${signUpController.passed[4]}${AppLocalizations.of(context)!.passwordSpecial}\n"
                   "${signUpController.passed[5]}${AppLocalizations.of(context)!.passwordMatch}\n",
-                  style: const TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),

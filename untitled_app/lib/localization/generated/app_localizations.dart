@@ -222,7 +222,7 @@ abstract class AppLocalizations {
   /// No description provided for @exitCreateAccountTitle.
   ///
   /// In en, this message translates to:
-  /// **'Return to login'**
+  /// **'Return to welcome page'**
   String get exitCreateAccountTitle;
 
   /// No description provided for @exitCreateAccountBody.
@@ -495,9 +495,13 @@ abstract class AppLocalizations {
   /// **'Date of Birth'**
   String get dateOfBirth;
 
-  /// No description provided for @usernameAndPassword.
+  /// No description provided for @createAPassword.
   ///
   /// In en, this message translates to:
+<<<<<<< HEAD
+  /// **'Create a Password'**
+  String get createAPassword;
+=======
   /// **'Username and Password'**
   String get usernameAndPassword;
 
@@ -518,6 +522,7 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+>>>>>>> 60d74d3eff540197365f00b6c48681a541d05e61
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
