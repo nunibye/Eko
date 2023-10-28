@@ -39,6 +39,9 @@ class EditProfileController extends ChangeNotifier {
   //   bioNameBodyChars = str.length;
   //   notifyListeners();
   // }
+  void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
   showCountsBio(bool show) {
     showBioCounts = show;

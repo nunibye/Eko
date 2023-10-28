@@ -54,7 +54,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
+                        color: Theme.of(context).colorScheme.shadow.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
                         offset:
@@ -71,9 +71,9 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                     showUnselectedLabels: false,
                     showSelectedLabels: false,
                     unselectedItemColor:
-                        Theme.of(context).colorScheme.onPrimary,
-                    selectedItemColor: Theme.of(context).colorScheme.secondary,
-                    backgroundColor: Theme.of(context).colorScheme.onBackground,
+                        Theme.of(context).colorScheme.onSurface,
+                    selectedItemColor: Theme.of(context).colorScheme.primary,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     items: const [
                       BottomNavigationBarItem(
                           icon: Icon(Icons.home), label: 'home'),

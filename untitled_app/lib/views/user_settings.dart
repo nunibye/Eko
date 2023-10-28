@@ -20,7 +20,7 @@ class UserSettings extends StatelessWidget {
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded,
-                  color: Theme.of(context).colorScheme.primary),
+                  color: Theme.of(context).colorScheme.onBackground),
               onPressed: () => context.pop("poped"),
             ),
             backgroundColor: Theme.of(context).colorScheme.background,
@@ -29,7 +29,7 @@ class UserSettings extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontFamily: 'Lato',
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),
@@ -42,18 +42,28 @@ class UserSettings extends StatelessWidget {
                 onChanged: (value) =>
                     Provider.of<SettingsController>(context, listen: false)
                         .changeValue(value),
+                activeColor: Theme.of(context).colorScheme.primary,
               ),
               TextButton(
                 onPressed: () {
                   Provider.of<SettingsController>(context, listen: false)
                       .signOut();
                 },
-                child: Text(AppLocalizations.of(context)!.logOut),
+                child: Text(
+                  AppLocalizations.of(context)!.logOut,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground),
+                ),
               ),
               TextButton(
-                
-                onPressed: () => Provider.of<SettingsController>(context, listen: false).deleteAccount(),
-                child: Text(AppLocalizations.of(context)!.deleteAccount),
+                onPressed: () =>
+                    Provider.of<SettingsController>(context, listen: false)
+                        .deleteAccount(),
+                child: Text(
+                  AppLocalizations.of(context)!.deleteAccount,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground),
+                ),
               ),
             ],
           ),

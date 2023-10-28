@@ -498,12 +498,8 @@ abstract class AppLocalizations {
   /// No description provided for @createAPassword.
   ///
   /// In en, this message translates to:
-<<<<<<< HEAD
   /// **'Create a Password'**
   String get createAPassword;
-=======
-  /// **'Username and Password'**
-  String get usernameAndPassword;
 
   /// No description provided for @deleteAcountTitle.
   ///
@@ -522,7 +518,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
->>>>>>> 60d74d3eff540197365f00b6c48681a541d05e61
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

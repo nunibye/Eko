@@ -24,13 +24,13 @@ class SignUp extends StatelessWidget {
                 icon: Row(
                   children: [
                     Icon(Icons.arrow_back_ios_rounded,
-                        color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.onBackground),
                     Consumer<SignUpController>(
                       builder: (context, signUpController, _) => Text(
                         AppLocalizations.of(context)!.previous,
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     )
@@ -83,14 +83,14 @@ class GetInfo extends StatelessWidget {
                   child: Text(AppLocalizations.of(context)!.createAnAccount,
                       style: TextStyle(
                           fontSize: 35,
-                          color: Theme.of(context).colorScheme.primary)),
+                          color: Theme.of(context).colorScheme.onBackground)),
                 )),
             Divider(
               height: 0,
               thickness: height * 0.002,
               indent: width * 0.07,
               endIndent: width * 0.07,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
             SizedBox(
               height: height * 0.06,
@@ -147,7 +147,7 @@ class GetInfo extends StatelessWidget {
                 style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context)
                         .colorScheme
-                        .secondary
+                        .primary
                         .withOpacity(.55)),
                 child: Text(
                   AppLocalizations.of(context)!.cont,
@@ -155,7 +155,7 @@ class GetInfo extends StatelessWidget {
                     fontSize: 18,
                     letterSpacing: 1,
                     fontWeight: FontWeight.normal,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
               ),
@@ -187,14 +187,14 @@ class GetPassword extends StatelessWidget {
                   child: Text(AppLocalizations.of(context)!.createAPassword,
                       style: TextStyle(
                           fontSize: 35,
-                          color: Theme.of(context).colorScheme.primary)),
+                          color: Theme.of(context).colorScheme.onBackground)),
                 )),
             Divider(
               height: 0,
               thickness: height * 0.002,
               indent: width * 0.07,
               endIndent: width * 0.07,
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onBackground,
             ),
             SizedBox(
               height: height * 0.05,
@@ -244,7 +244,7 @@ class GetPassword extends StatelessWidget {
                 minHeight: 12,
                 value: Provider.of<SignUpController>(context, listen: true)
                     .passwordPercent,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
             Container(
@@ -273,7 +273,7 @@ class GetPassword extends StatelessWidget {
                     Provider.of<SignUpController>(context, listen: false)
                         .signUpPressed(),
                 style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.secondary),
+                    backgroundColor: Theme.of(context).colorScheme.primary),
                 child: Provider.of<SignUpController>(context, listen: true)
                         .loggingIn
                     ? const CircularProgressIndicator()
@@ -283,7 +283,7 @@ class GetPassword extends StatelessWidget {
                           fontSize: 18,
                           letterSpacing: 1,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
               ),

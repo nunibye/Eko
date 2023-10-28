@@ -28,10 +28,10 @@ class ViewPostPage extends StatelessWidget {
             appBar: AppBar(
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_rounded,
-                    color: Theme.of(context).colorScheme.primary),
+                    color: Theme.of(context).colorScheme.onSecondary),
                 onPressed: () => context.pop(),
               ),
-              backgroundColor: Theme.of(context).colorScheme.onBackground,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               title: Text(
                 Provider.of<PostPageController>(context, listen: false)
                             .post
@@ -44,7 +44,7 @@ class ViewPostPage extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   fontFamily: 'Lato',
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ),
@@ -82,7 +82,7 @@ class ViewPostPage extends StatelessWidget {
                     TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
+                              Theme.of(context).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 20), // Adjust the value for the desired roundness
@@ -100,7 +100,7 @@ class ViewPostPage extends StatelessWidget {
                           child: Text(
                             AppLocalizations.of(context)!.post,
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary),
+                                color: Theme.of(context).colorScheme.onPrimary),
                           ),
                         ))
                   ],
@@ -160,7 +160,7 @@ class _Header extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                       const SizedBox(width: 8.0),
@@ -169,7 +169,7 @@ class _Header extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     ],
@@ -181,7 +181,7 @@ class _Header extends StatelessWidget {
                         .body!,
                     style: TextStyle(
                       fontSize: 14,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 ],
@@ -190,10 +190,10 @@ class _Header extends StatelessWidget {
           ],
         ),
       ),
-      const Padding(
-        padding: EdgeInsets.only(bottom: 3),
+       Padding(
+        padding: const EdgeInsets.only(bottom: 3),
         child: Divider(
-          color: Color.fromARGB(255, 112, 112, 112),
+          color: Theme.of(context).colorScheme.onBackground,
           height: 1,
         ),
       )

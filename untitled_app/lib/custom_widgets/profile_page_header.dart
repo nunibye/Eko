@@ -104,7 +104,7 @@ class ProfileHeader extends StatelessWidget {
                         fontSize: 16,
                         letterSpacing: 1,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                     Text(
@@ -136,7 +136,7 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
         text: TextSpan(
           text: NumberFormat.compact().format(number),
           style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.onBackground,
               fontWeight: FontWeight.bold,
               fontSize: 17),
           children: [

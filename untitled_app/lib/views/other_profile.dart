@@ -22,7 +22,7 @@ class OtherProfile extends StatelessWidget {
               centerTitle: true,
               leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios_rounded,
-                      color: Theme.of(context).colorScheme.primary),
+                      color: Theme.of(context).colorScheme.onBackground),
                   onPressed: () => context.pop("popped")),
               backgroundColor: Theme.of(context).colorScheme.background,
               title: Text(
@@ -30,7 +30,7 @@ class OtherProfile extends StatelessWidget {
                     .username,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
               actions: [
@@ -105,7 +105,7 @@ class _Header extends StatelessWidget {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     side: BorderSide(
-                        width: 2, color: Theme.of(context).colorScheme.primary),
+                        width: 2, color: Theme.of(context).colorScheme.onBackground),
                   ),
                   onPressed: () => Provider.of<OtherProfileController>(context,
                           listen: false)
@@ -119,7 +119,7 @@ class _Header extends StatelessWidget {
                       fontSize: 16,
                       letterSpacing: 1,
                       fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 ),

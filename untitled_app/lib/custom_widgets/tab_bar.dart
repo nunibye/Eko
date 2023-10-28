@@ -46,14 +46,14 @@ class _Button extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? Theme.of(context).colorScheme.onBackground
+              ? Theme.of(context).colorScheme.secondary
               : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
           text,
           style: TextStyle(
-            color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+            color: isActive ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.onBackground,
             fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
           ),
         ),

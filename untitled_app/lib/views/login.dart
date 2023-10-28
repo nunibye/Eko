@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../controllers/login_controller.dart';
-import '../utilities/constants.dart' as c;
 import '../custom_widgets/login_text_feild.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +30,7 @@ class LoginPage extends StatelessWidget {
                 icon: Row(
                   children: [
                     Icon(Icons.arrow_back_ios_rounded,
-                        color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.onBackground),
                     // Text(AppLocalizations.of(context)!.previous) 
                   ],
                 ),
@@ -89,7 +88,7 @@ class LoginPage extends StatelessWidget {
                             style: TextButton.styleFrom(
                                 backgroundColor: Theme.of(context)
                                     .colorScheme
-                                    .secondary
+                                    .primary
                                     .withOpacity(.55)),
                             child: Consumer<LoginController>(
                               builder: (context, loginController, _) =>
@@ -103,7 +102,7 @@ class LoginPage extends StatelessWidget {
                                             fontWeight: FontWeight.normal,
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .primary,
+                                                .onPrimary,
                                           ),
                                         ),
                             )),
@@ -122,7 +121,7 @@ class LoginPage extends StatelessWidget {
                               fontSize: 13,
                               letterSpacing: 1,
                               fontWeight: FontWeight.normal,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: Theme.of(context).colorScheme.onBackground,
                             ),
                           ),
                         ),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../controllers/profile_picture_detail_controller.dart';
 import '../custom_widgets/profile_picture_loading.dart';
 
+
 class ProfilePictureDetail extends StatelessWidget {
   final String imageURL;
 
@@ -22,7 +23,7 @@ class ProfilePictureDetail extends StatelessWidget {
               alignment: Alignment.center,
               width: double.infinity,
               height: double.infinity,
-              decoration: const BoxDecoration(color: Colors.black),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.shadow),
               child: Hero(
                 tag: 'profileImage',
                 child: IconButton(

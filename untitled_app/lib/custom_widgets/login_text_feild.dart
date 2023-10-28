@@ -54,6 +54,7 @@ class CustomInputFeild extends StatelessWidget {
             width: feildWidth,
             height: height,
             child: TextFormField(
+              cursorColor: Theme.of(context).colorScheme.onBackground,
               obscureText:
                   Provider.of<LoginFieldController>(context, listen: true)
                       .hidden,
@@ -74,26 +75,26 @@ class CustomInputFeild extends StatelessWidget {
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.tertiary),
+                  color: Theme.of(context).colorScheme.onBackground),
               decoration: InputDecoration(
                 labelText: label,
                 labelStyle: TextStyle(
                   fontSize: 18,
                   letterSpacing: 1,
                   fontWeight: FontWeight.normal,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
-                fillColor: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+                fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.onPrimary),
+                      color: Theme.of(context).colorScheme.background),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.primary)),
+                        color: Theme.of(context).colorScheme.onBackground)),
                 suffixIcon: password
                     ? IconButton(
                         icon: Icon(Provider.of<LoginFieldController>(context,

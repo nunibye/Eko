@@ -206,10 +206,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dateOfBirth => 'Date of Birth';
 
   @override
-<<<<<<< HEAD
   String get createAPassword => 'Create a Password';
-=======
-  String get usernameAndPassword => 'Username and Password';
 
   @override
   String get deleteAcountTitle => 'Are you sure you want to delete your account?';
@@ -219,5 +216,4 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
->>>>>>> 60d74d3eff540197365f00b6c48681a541d05e61
 }

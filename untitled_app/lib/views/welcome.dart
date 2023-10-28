@@ -38,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                                       fontSize: 45,
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .primary)),
+                                          .onBackground)),
                             )),
                         SizedBox(
                           height: height * .35,
@@ -56,7 +56,7 @@ class WelcomePage extends StatelessWidget {
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
+                                color: Theme.of(context).colorScheme.onBackground),
                             backgroundColor: Colors.transparent,
                             minimumSize: Size(width * .8, height * .07),
                           ),
@@ -64,7 +64,7 @@ class WelcomePage extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 22,
                                   color:
-                                      Theme.of(context).colorScheme.primary)),
+                                      Theme.of(context).colorScheme.onBackground)),
                         ),
                         SizedBox(
                           height: height * .03,
@@ -77,7 +77,7 @@ class WelcomePage extends StatelessWidget {
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                                color: Theme.of(context).colorScheme.primary),
+                                color: Theme.of(context).colorScheme.onBackground),
                             backgroundColor: Colors.transparent,
                             minimumSize: Size(width * .8, height * .07),
                           ),
@@ -86,7 +86,7 @@ class WelcomePage extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 22,
                                   color:
-                                      Theme.of(context).colorScheme.primary)),
+                                      Theme.of(context).colorScheme.onBackground)),
                         ),
                       ],
                     ),

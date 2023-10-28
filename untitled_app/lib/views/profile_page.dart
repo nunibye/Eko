@@ -59,7 +59,7 @@ class Header extends StatelessWidget {
                     Text(
                       "@${profileController.username}",
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onBackground,
                           fontWeight: FontWeight.bold,
                           fontSize: 22),
                     ),
@@ -100,7 +100,7 @@ class Header extends StatelessWidget {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     side: BorderSide(
-                        width: 2, color: Theme.of(context).colorScheme.primary),
+                        width: 2, color: Theme.of(context).colorScheme.onBackground),
                   ),
                   onPressed: () =>
                       Provider.of<ProfileController>(context, listen: false)
@@ -111,7 +111,7 @@ class Header extends StatelessWidget {
                       fontSize: 16,
                       letterSpacing: 1,
                       fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 ),

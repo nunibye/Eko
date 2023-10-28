@@ -51,6 +51,7 @@ class ComposePage extends StatelessWidget {
                     constraints: BoxConstraints(
                         maxHeight: MediaQuery.of(context).size.height * 0.5),
                     child: TextField(
+                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .bodyFocus,
@@ -69,19 +70,19 @@ class ComposePage extends StatelessWidget {
                           fontSize: 18,
                           letterSpacing: 1,
                           fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
-                        fillColor: Theme.of(context).colorScheme.onBackground,
+                        fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onPrimary),
+                              color: Theme.of(context).colorScheme.onBackground),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary)),
+                                color: Theme.of(context).colorScheme.background)),
                       ),
                     ),
                   ),
