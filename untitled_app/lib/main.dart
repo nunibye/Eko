@@ -65,17 +65,18 @@ class MyApp extends StatelessWidget {
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
         return ChangeNotifierProvider(
-            // is this okay that i changed it so that it can rebuild it? or should it be changed
+          // is this okay that i changed it so that it can rebuild it? or should it be changed
 
-            create: (_) => DarkThemeProvider(),
-            builder: (context, child) {
-              final themeChangeProvider =
-                  Provider.of<DarkThemeProvider>(context);
-              return MaterialApp.router(
+          create: (_) => DarkThemeProvider(),
+          builder: (context, child) {
+            final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
+            return SafeArea(
+              child: MaterialApp.router(
                 title: 'Untitled',
                 debugShowCheckedModeBanner: false,
                 theme: Styles.themeData(themeChangeProvider.darkTheme, context),
                 themeMode: ThemeMode.dark,
+                
                 localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,
@@ -87,8 +88,10 @@ class MyApp extends StatelessWidget {
                   Locale('es'), // Spanish
                 ],
                 routerConfig: goRouter,
-              );
-            });
+              ),
+            );
+          },
+        );
       },
     );
   }

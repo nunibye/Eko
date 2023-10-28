@@ -30,7 +30,7 @@ final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
-  initialLocation: '/welcome',
+  initialLocation: '/',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -65,24 +65,27 @@ final goRouter = GoRouter(
         return OtherProfile(user: user);
       },
     ),
+
     GoRoute(
-      path: '/login',
-      builder: (context, state) {
-        return const LoginPage();
-      },
-    ),
-    GoRoute(
-      path: '/welcome',
-      builder: (context, state) {
-        return const WelcomePage();
-      },
-    ),
-    GoRoute(
-      path: '/signup',
-      builder: (context, state) {
-        return const SignUp();
-      },
-    ),
+        path: '/',
+        builder: (context, state) {
+          return const WelcomePage();
+        },
+        routes: [
+          GoRoute(
+            path: 'signup',
+            builder: (context, state) {
+              return const SignUp();
+            },
+          ),
+          GoRoute(
+            path: 'login',
+            builder: (context, state) {
+              return const LoginPage();
+            },
+          ),
+        ]),
+
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);

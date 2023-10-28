@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-
+import 'package:flutter/services.dart';
 import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
 import '../custom_widgets/feed_builder.dart';
@@ -16,26 +16,28 @@ class ProfilePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return Scaffold(
-          body: Consumer<ProfileController>(
-            builder: (context, profileController, _) => FeedBuilder(
-              //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
-              firestoreQuery: FirebaseFirestore.instance
-                  .collection('posts')
-                  .where("author",
-                      isEqualTo:
-                          Provider.of<ProfileController>(context, listen: false)
-                              .getUID())
-                  .orderBy('time', descending: true),
-              //This widget will be first in the list. use Column for this not ListView
-              header: const Header(),
-              user: Provider.of<ProfileController>(context, listen: true).user,
-              //Optional funtion to call on refresh.
-              refreshFunction:
-                  Provider.of<ProfileController>(context, listen: false)
-                      .onPageRefresh,
+        return  Scaffold(
+            body: Consumer<ProfileController>(
+              builder: (context, profileController, _) => FeedBuilder(
+                //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
+                firestoreQuery: FirebaseFirestore.instance
+                    .collection('posts')
+                    .where("author",
+                        isEqualTo: Provider.of<ProfileController>(context,
+                                listen: false)
+                            .getUID())
+                    .orderBy('time', descending: true),
+                //This widget will be first in the list. use Column for this not ListView
+                header: const Header(),
+                user:
+                    Provider.of<ProfileController>(context, listen: true).user,
+                //Optional funtion to call on refresh.
+                refreshFunction:
+                    Provider.of<ProfileController>(context, listen: false)
+                        .onPageRefresh,
+              ),
             ),
-          ),
+          
         );
       },
     );
@@ -100,7 +102,8 @@ class Header extends StatelessWidget {
                 child: TextButton(
                   style: TextButton.styleFrom(
                     side: BorderSide(
-                        width: 2, color: Theme.of(context).colorScheme.onBackground),
+                        width: 2,
+                        color: Theme.of(context).colorScheme.onBackground),
                   ),
                   onPressed: () =>
                       Provider.of<ProfileController>(context, listen: false)

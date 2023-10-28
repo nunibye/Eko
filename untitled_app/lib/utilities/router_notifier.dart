@@ -22,10 +22,10 @@ class RouterNotifier extends ChangeNotifier {
   Future<String?> redirect(BuildContext context, GoRouterState state) async {
     final onLoginPage = state.fullPath == '/login';
     final onSignUpPage = state.fullPath == '/signup';
-    final onWelcomePage = state.fullPath == '/welcome';
+    final onWelcomePage = state.fullPath == '/';
     //print('redirect $loggedIn');
     if (!loggedIn && !(onSignUpPage || onLoginPage || onWelcomePage)) {
-      return '/welcome';
+      return '/';
     }
     else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
       await locator<CurrentUser>().readCurrentUserData();

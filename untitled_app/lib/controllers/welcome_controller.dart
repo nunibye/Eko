@@ -7,10 +7,10 @@ class WelcomeController extends ChangeNotifier {
   WelcomeController({required this.context});
 
   void goToLogin() {
-    (context).go('/login');
+    (context).push('/login');
   }
 
   void goToSignUp() {
-    (context).go('/signup');
+    (context).push('/signup');
   }
 }
