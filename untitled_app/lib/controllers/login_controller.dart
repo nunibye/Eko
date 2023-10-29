@@ -40,7 +40,7 @@ class LoginController extends ChangeNotifier {
 
   void previousPressed() {
     hideKeyboard();
-    context.go("/welcome");
+    context.go("/");
   }
 
   forgotPasswordPressed(countryCode) async {

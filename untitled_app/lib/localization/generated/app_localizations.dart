@@ -518,6 +518,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @searchUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Search username...'**
+  String get searchUsername;
+
+  /// No description provided for @noResultsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found.'**
+  String get noResultsFound;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

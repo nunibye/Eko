@@ -79,7 +79,7 @@ class SignUpController extends ChangeNotifier {
 
   void _returnToWelcome() {
     _pop();
-    context.go("/welcome");
+    context.go("/");
   }
 
   void hideKeyboard() {
@@ -94,10 +94,10 @@ class SignUpController extends ChangeNotifier {
     //focus1.requestFocus();
   }
 
-  void _handleError(String errorCode) {
+  bool _handleError(String errorCode) {
     switch (errorCode) {
       case 'success':
-        break;
+        return true;
       case 'invalid-email':
         showMyDialog(
             AppLocalizations.of(context)!.invalidEmailTittle,
@@ -134,6 +134,7 @@ class SignUpController extends ChangeNotifier {
             context);
         break;
     }
+    return false;
   }
 
   signUpPressed() async {
@@ -147,9 +148,11 @@ class SignUpController extends ChangeNotifier {
         locator<CurrentUser>().email = emailController.text;
         loggingIn = true;
         notifyListeners();
-        _handleError(
-            await locator<CurrentUser>().signUp(passwordController.text));
-        locator<CurrentUser>().addUserDataToFirestore();
+        if (_handleError(
+            await locator<CurrentUser>().signUp(passwordController.text))) {
+          locator<CurrentUser>().addUserDataToFirestore();
+        }
+
         loggingIn = false;
         notifyListeners();
       } else {

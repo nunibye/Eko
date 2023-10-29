@@ -5,22 +5,12 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/login_text_feild.dart';
 import '../utilities/constants.dart' as c;
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class _BackButton extends StatelessWidget {
+  const _BackButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SignUpController(context: context),
-      builder: (context, child) {
-        return GestureDetector(
-          onTap: () => Provider.of<SignUpController>(context, listen: false)
-              .hideKeyboard(),
-          child: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              leadingWidth: 150,
-              leading: IconButton(
+    return IconButton(
                 icon: Row(
                   children: [
                     Icon(Icons.arrow_back_ios_rounded,
@@ -39,9 +29,23 @@ class SignUp extends StatelessWidget {
                 onPressed: () =>
                     Provider.of<SignUpController>(context, listen: false)
                         .backPressed(),
-              ),
-              backgroundColor: Theme.of(context).colorScheme.background,
-            ),
+              );
+  }
+}
+
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => SignUpController(context: context),
+      builder: (context, child) {
+        return GestureDetector(
+          onTap: () => Provider.of<SignUpController>(context, listen: false)
+              .hideKeyboard(),
+          child: Scaffold(
+            
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: Provider.of<SignUpController>(context, listen: false)
@@ -74,6 +78,7 @@ class GetInfo extends StatelessWidget {
       child: Center(
         child: ListView(
           children: [
+            const _BackButton(),
             SizedBox(
               height: height * 0.02,
             ),
@@ -181,6 +186,7 @@ class GetPassword extends StatelessWidget {
       child: Center(
         child: ListView(
           children: [
+            const _BackButton(),
             SizedBox(
                 height: height * .1,
                 child: Align(

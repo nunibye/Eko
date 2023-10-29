@@ -30,7 +30,7 @@ final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
-  initialLocation: '/welcome',
+  initialLocation: '/',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -42,16 +42,8 @@ final goRouter = GoRouter(
     // ),
 
     GoRoute(
-      path: '/post',
-      name: 'post_screen',
-      builder: (context, state) {
-        Post? post = state.extra as Post?;
-        return ViewPostPage(post: post);
-      },
-    ),
-    GoRoute(
       path: '/profile_picture_detail',
-      name: 'profile_picture_detail',
+      //name: 'profile_picture_detail',
       builder: (context, state) {
         String url = state.extra as String;
         return ProfilePictureDetail(imageURL: url);
@@ -64,25 +56,39 @@ final goRouter = GoRouter(
         AppUser? user = state.extra as AppUser?;
         return OtherProfile(user: user);
       },
+      // routes: [
+      //   GoRoute(
+      //     path: 'post/:id',
+      //     name: 'post_screen',
+      //     builder: (context, state) {
+      //       Post? post = state.extra as Post?;
+      //       String id = state.pathParameters["id"]!;
+      //       return ViewPostPage(post: post, id: id);
+      //     },
+      //   ),
+      // ],
     ),
+
     GoRoute(
-      path: '/login',
-      builder: (context, state) {
-        return const LoginPage();
-      },
-    ),
-    GoRoute(
-      path: '/welcome',
-      builder: (context, state) {
-        return const WelcomePage();
-      },
-    ),
-    GoRoute(
-      path: '/signup',
-      builder: (context, state) {
-        return const SignUp();
-      },
-    ),
+        path: '/',
+        builder: (context, state) {
+          return const WelcomePage();
+        },
+        routes: [
+          GoRoute(
+            path: 'signup',
+            builder: (context, state) {
+              return const SignUp();
+            },
+          ),
+          GoRoute(
+            path: 'login',
+            builder: (context, state) {
+              return const LoginPage();
+            },
+          ),
+        ]),
+
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
@@ -97,6 +103,17 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: FeedPage(),
               ),
+              routes: [
+                GoRoute(
+                  path: 'post/:id',
+                  //name: 'post_screen',
+                  builder: (context, state) {
+                    Post? post = state.extra as Post?;
+                    String id = state.pathParameters["id"]!;
+                    return ViewPostPage(post: post, id: id);
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -126,7 +143,7 @@ final goRouter = GoRouter(
         StatefulShellBranch(
           navigatorKey: _shellNavigatorProfileKey,
           routes: [
-            // Shopping Cart
+            
             GoRoute(
               path: '/profile',
               name: 'profile',
@@ -134,6 +151,15 @@ final goRouter = GoRouter(
                 child: ProfilePage(),
               ),
               routes: [
+                // GoRoute(
+                //   path: 'post/:id',
+                //   //name: 'post_screen',
+                //   builder: (context, state) {
+                //     Post? post = state.extra as Post?;
+                //     String id = state.pathParameters["id"]!;
+                //     return ViewPostPage(post: post, id: id);
+                //   },
+                // ),
                 GoRoute(
                   path: 'edit_profile',
                   name: 'edit_profile',

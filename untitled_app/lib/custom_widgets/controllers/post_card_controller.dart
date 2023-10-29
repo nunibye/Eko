@@ -18,7 +18,9 @@ class PostCardController extends ChangeNotifier {
     notifyListeners();
   }
   postPressed() {
-    context.pushNamed("post_screen", extra: post);
+    context.push(
+      "/feed/post/${post.postId}",
+     extra: post); //, extra: post
   }
 
   avatarPressed() async {
