@@ -72,8 +72,9 @@ class PostCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                                 const SizedBox(width: 8.0),
@@ -82,8 +83,9 @@ class PostCard extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
-                                    color:
-                                        Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ],
@@ -95,7 +97,9 @@ class PostCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                               ),
                             if (post.gifURL != null)
@@ -148,7 +152,9 @@ class PostCard extends StatelessWidget {
                                 post.body!,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                               ),
                           ],
@@ -176,48 +182,12 @@ class PostCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '0',
+                              '${Provider.of<PostCardController>(context, listen: true).comments}',
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => {},
-                        icon: Row(
-                          children: [
-                            IconButton(
-                        onPressed: () => Provider.of<PostCardController>(
-                                context,
-                                listen: false)
-                            .sharePressed(),
-                        icon: Row(
-                          children: [
-                            Icon(
-                              Icons.share,
-                              color: Theme.of(context).colorScheme.onBackground,
-                              size: c.postIconSize,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              '${Provider.of<PostCardController>(context, listen: true).likes}',
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onBackground),
-                            ),
-                          ],
-                        ),
-                      ),
-                            
-                            const SizedBox(width: 5),
-                            // Text(
-                            //   '0',
-                            //   style: TextStyle(
-                            //       color:
-                            //           Theme.of(context).colorScheme.onBackground),
-                            // ),
                           ],
                         ),
                       ),
@@ -241,9 +211,37 @@ class PostCard extends StatelessWidget {
                             Text(
                               '${Provider.of<PostCardController>(context, listen: true).likes}',
                               style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onBackground),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
                             ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => {},
+                        icon: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => Provider.of<PostCardController>(
+                                      context,
+                                      listen: false)
+                                  .sharePressed(),
+                              icon: Icon(
+                                Icons.share,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                size: c.postIconSize,
+                              ),
+                            ),
+
+                            const SizedBox(width: 5),
+                            // Text(
+                            //   '0',
+                            //   style: TextStyle(
+                            //       color:
+                            //           Theme.of(context).colorScheme.onBackground),
+                            // ),
                           ],
                         ),
                       ),

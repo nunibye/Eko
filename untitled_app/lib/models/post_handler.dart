@@ -16,7 +16,7 @@ class Post {
   final String time;
   final String? title;
   final String? body;
-
+  int comments;
   int likes;
 
   Post({
@@ -28,6 +28,7 @@ class Post {
     required this.author,
     required this.body,
     required this.likes,
+    this.comments = 0
   });
 }
 
@@ -72,6 +73,16 @@ class PostsHandling {
     return "success";
   }
 
+  Future<int> countComments(String postId) {
+    return FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .count()
+        .get()
+        .then((value) => value.count, onError: (e) => 0);
+  }
+
   createComment(Map<String, dynamic> comment, String postID) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
@@ -86,33 +97,32 @@ class PostsHandling {
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }
-  
 
   Future<Post> getPostFromId(String id) async {
     final data =
         await FirebaseFirestore.instance.collection("posts").doc(id).get();
     final postData = data.data();
     final rawPostData = RawPostObject(
-            postID: data.id,
-            author: postData!["author"] ?? "",
-            title: postData["title"],
-            body: postData["body"],
-            gifSource: postData["gifSource"],
-            gifUrl: postData["gifUrl"],
-            time: postData["time"] ?? "",
-            likes: postData["likes"] ?? 0);
-            AppUser user = AppUser();
-      await user.readUserData(rawPostData.author);
-      return Post(
-        gifSource: rawPostData.gifSource,
-        gifURL: rawPostData.gifUrl,
-        postId: rawPostData.postID,
-        author: user,
-        time: rawPostData.time,
-        title: rawPostData.title,
-        body: rawPostData.body,
-        likes: rawPostData.likes,
-      );
+        postID: data.id,
+        author: postData!["author"] ?? "",
+        title: postData["title"],
+        body: postData["body"],
+        gifSource: postData["gifSource"],
+        gifUrl: postData["gifUrl"],
+        time: postData["time"] ?? "",
+        likes: postData["likes"] ?? 0);
+    AppUser user = AppUser();
+    await user.readUserData(rawPostData.author);
+    return Post(
+      gifSource: rawPostData.gifSource,
+      gifURL: rawPostData.gifUrl,
+      postId: rawPostData.postID,
+      author: user,
+      time: rawPostData.time,
+      title: rawPostData.title,
+      body: rawPostData.body,
+      likes: rawPostData.likes,
+    );
   }
 
   Future<List<RawPostObject>> getPosts(
@@ -172,8 +182,8 @@ class PostsHandling {
                   author: data["author"] ?? "",
                   title: data["title"],
                   body: data["body"],
-                  gifSource: data["gif"]["source"],
-                  gifUrl: data["gif"]["url"],
+                  gifSource: data["gifSource"],
+                  gifUrl: data["giUrl"],
                   time: data["time"] ?? "",
                   likes: data["likes"] ?? 0),
             ),
@@ -200,8 +210,8 @@ class PostsHandling {
               author: data["author"] ?? "",
               title: data["title"],
               body: data["body"],
-              gifSource: data["gif"]["source"],
-              gifUrl: data["gif"]["url"],
+              gifSource: data["gifSource"],
+              gifUrl: data["gifUrl"],
               time: data["time"] ?? "",
               likes: data["likes"] ?? 0);
           postsToPassBack.add(feedChunks.first.oldestPost);
