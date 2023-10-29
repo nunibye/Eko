@@ -87,6 +87,33 @@ class PostsHandling {
     return "success";
   }
 
+  Future<Post> getPostFromId(String id) async {
+    final data =
+        await FirebaseFirestore.instance.collection("posts").doc(id).get();
+    final postData = data.data();
+    final rawPostData = RawPostObject(
+            postID: data.id,
+            author: postData!["author"] ?? "",
+            title: postData["title"],
+            body: postData["body"],
+            gifSource: postData["gifSource"],
+            gifUrl: postData["gifUrl"],
+            time: postData["time"] ?? "",
+            likes: postData["likes"] ?? 0);
+            AppUser user = AppUser();
+      await user.readUserData(rawPostData.author);
+      return Post(
+        gifSource: rawPostData.gifSource,
+        gifURL: rawPostData.gifUrl,
+        postId: rawPostData.postID,
+        author: user,
+        time: rawPostData.time,
+        title: rawPostData.title,
+        body: rawPostData.body,
+        likes: rawPostData.likes,
+      );
+  }
+
   Future<List<RawPostObject>> getPosts(
       String? time, Query<Map<String, dynamic>>? query) async {
     late QuerySnapshot<Map<String, dynamic>>? snapshot;
@@ -136,7 +163,8 @@ class PostsHandling {
             return postsToPassBack;
           }
           final data = snapshot.docs.first.data();
-          feedChunks.add(FeedChunk(
+          feedChunks.add(
+            FeedChunk(
               uids: slice,
               oldestPost: RawPostObject(
                   postID: snapshot.docs.first.id,
@@ -146,7 +174,9 @@ class PostsHandling {
                   gifSource: data["gif"]["source"],
                   gifUrl: data["gif"]["url"],
                   time: data["time"] ?? "",
-                  likes: data["likes"] ?? 0)));
+                  likes: data["likes"] ?? 0),
+            ),
+          );
         }
 
         feedChunks
