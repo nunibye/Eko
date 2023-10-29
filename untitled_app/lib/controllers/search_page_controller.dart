@@ -13,6 +13,10 @@ class SearchPageController extends ChangeNotifier {
   List<AppUser> hits = [];
   Timer? _debounce;
 
+    void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
   // void onSearchTextChanged(String s) async {
   //   if (s != '') {
   //     isLoading = true;
