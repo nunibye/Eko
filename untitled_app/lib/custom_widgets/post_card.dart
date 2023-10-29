@@ -188,18 +188,36 @@ class PostCard extends StatelessWidget {
                         onPressed: () => {},
                         icon: Row(
                           children: [
+                            IconButton(
+                        onPressed: () => Provider.of<PostCardController>(
+                                context,
+                                listen: false)
+                            .sharePressed(),
+                        icon: Row(
+                          children: [
                             Icon(
-                              Icons.repeat,
+                              Icons.share,
                               color: Theme.of(context).colorScheme.onBackground,
                               size: c.postIconSize,
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              '0',
+                              '${Provider.of<PostCardController>(context, listen: true).likes}',
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.onBackground),
                             ),
+                          ],
+                        ),
+                      ),
+                            
+                            const SizedBox(width: 5),
+                            // Text(
+                            //   '0',
+                            //   style: TextStyle(
+                            //       color:
+                            //           Theme.of(context).colorScheme.onBackground),
+                            // ),
                           ],
                         ),
                       ),

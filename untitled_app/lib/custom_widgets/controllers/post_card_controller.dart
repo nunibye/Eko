@@ -4,6 +4,7 @@ import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart' show Post;
 import '../../models/feed_post_cache.dart' show FeedPostCache;
+import 'package:share_plus/share_plus.dart';
 
 class PostCardController extends ChangeNotifier {
   BuildContext context;
@@ -37,7 +38,9 @@ class PostCardController extends ChangeNotifier {
       context.go("/profile");
     }
   }
-
+  sharePressed(){
+    Share.share('Check out my post on Echo: https://untitled-2832f.web.app/feed/post/${post.postId}');
+  }
   likePressed() async {
     if (post.author.uid != locator<CurrentUser>().getUID()) {
       if (!liking) {

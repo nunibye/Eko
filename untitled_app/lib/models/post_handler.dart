@@ -86,6 +86,7 @@ class PostsHandling {
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }
+  
 
   Future<Post> getPostFromId(String id) async {
     final data =

@@ -45,6 +45,7 @@ dependencies:
     sdk: flutter
   intl: any
   cloud_firestore: ^4.8.3
+  share_plus: ^7.2.1
   image_picker: ^1.0.1
   image_cropper: ^5.0.0
   firebase_storage: ^11.2.5
