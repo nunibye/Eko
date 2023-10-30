@@ -58,8 +58,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<false/>
-
 </dict>
 </plist>
