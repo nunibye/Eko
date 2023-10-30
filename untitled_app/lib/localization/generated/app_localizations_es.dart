@@ -222,4 +222,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noResultsFound => 'No results found.';
+
+  @override
+  String get confirmation => 'Confirmation';
+
+  @override
+  String get cancel => 'Cancel';
 }

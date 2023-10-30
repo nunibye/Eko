@@ -530,6 +530,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No results found.'**
   String get noResultsFound;
+
+  /// No description provided for @confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation'**
+  String get confirmation;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

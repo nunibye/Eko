@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/current_user.dart';
 import '../utilities/constants.dart' as c;
 import '../custom_widgets/error_snack_bar.dart';
 import 'package:giphy_get/giphy_get.dart';
@@ -7,7 +8,8 @@ import '../utilities/locator.dart';
 import '../models/post_handler.dart';
 import '../secrets/secrets.dart' as secrets;
 import 'bottom_nav_bar_controller.dart';
-import '../custom_widgets/warning_dialog.dart';
+import '../custom_widgets/post_card.dart';
+import "package:go_router/go_router.dart";
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -61,7 +63,7 @@ class ComposeController extends ChangeNotifier {
   }
 
 //TODO add more content like a preview of a post.
-  postPressed() {
+  postPressed(BuildContext context) {
     bodyController.text = bodyController.text.trim();
     titleController.text = titleController.text.trim();
     updateCountsBody(bodyController.text);
@@ -95,37 +97,47 @@ class ComposeController extends ChangeNotifier {
         post["gifSource"] = gif!.url;
       }
 
-      locator<PostsHandling>().createPost(post);
-      titleController.text = "";
-      bodyController.text = "";
-      gif = null;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            title: Text(AppLocalizations.of(context)!.confirmation),
+            content: SingleChildScrollView(
+              child: PostCard(
+                  post: Post(
+                      gifSource: post["gifSource"],
+                      gifURL: post["gifUrl"],
+                      postId: "postId",
+                      time: DateTime.now().toUtc().toIso8601String(),
+                      title: post["title"],
+                      author: locator<CurrentUser>(),
+                      body: post["body"],
+                      likes: 0),
+                  isPreview: true),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(AppLocalizations.of(context)!.post),
+                onPressed: () {
+                  locator<PostsHandling>().createPost(post);
+                  titleController.text = "";
+                  bodyController.text = "";
+                  gif = null;
+                  Navigator.of(context).pop();
+                  context.go("/feed");
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
-  }
-
-  void showPostDialog(BuildContext context, Function postPressed) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text('Are you sure you want to post?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Yes'),
-              onPressed: () {
-                postPressed();
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
