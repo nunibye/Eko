@@ -7,6 +7,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled_app/models/firebase_helper.dart';
+import 'package:untitled_app/models/notification_service.dart';
 import 'utilities/themes/dark_theme_provider.dart';
 import 'utilities/themes/dark_theme_styles.dart';
 import 'utilities/firebase_options.dart';
@@ -18,25 +20,17 @@ import 'utilities/locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseHelper.setupFirebase();
+  // await NotificationService.initializeNotification();
+  // Handle foreground messages.
+ FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+ print('Message received: ${message.notification?.body}');
+ });
 
-await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+
   setupLocator();
   runApp(const MyApp());
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-  print('User granted permission: ${settings.authorizationStatus}');
+  
 }
 
 class MyApp extends StatelessWidget {
