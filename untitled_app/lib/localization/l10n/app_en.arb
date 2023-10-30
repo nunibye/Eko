@@ -92,5 +92,7 @@
     "delete":"Delete",
 
     "searchUsername":"Search username...",
-    "noResultsFound":"No results found."
+    "noResultsFound":"No results found.",
+    "confirmation":"Confirmation",
+    "cancel":"Cancel"
 }

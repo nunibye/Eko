@@ -144,7 +144,7 @@ class ComposePage extends StatelessWidget {
                             Theme.of(context).colorScheme.primaryContainer,
                         onPressed: () => Provider.of<ComposeController>(context,
                                 listen: false)
-                            .showPostDialog(context, Provider.of<ComposeController>(context, listen: false).postPressed),
+                            .postPressed(context),
                         child: Center(
                           child: Text(
                             AppLocalizations.of(context)!.postButton,
