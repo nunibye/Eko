@@ -9,6 +9,9 @@ class ComposePage extends StatelessWidget {
   const ComposePage({super.key});
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return ChangeNotifierProvider(
       create: (context) => ComposeController(context: context),
       builder: (context, child) {
@@ -17,20 +20,10 @@ class ComposePage extends StatelessWidget {
               .hideKeyboard(),
           child: Scaffold(
             body: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.height * 0.02),
+              padding: EdgeInsets.symmetric(horizontal: height * 0.02),
               child: ListView(
                 children: [
-                  IconButton(
-                      onPressed: () =>
-                          Provider.of<ComposeController>(context, listen: false)
-                              .addGifPressed(),
-                      icon: Icon(Icons.add)),
-                      IconButton(
-                      onPressed: () =>
-                          Provider.of<ComposeController>(context, listen: false)
-                              .removeGifPressed(),
-                      icon: Icon(Icons.remove)),
+                  SizedBox(height: height * 0.025),
                   CustomInputFeild(
                       onChanged: (s) =>
                           Provider.of<ComposeController>(context, listen: false)
@@ -46,10 +39,51 @@ class ComposePage extends StatelessWidget {
                     builder: (context, composeController, _) => Text(
                         "${composeController.titleChars}/${c.maxTittleChars} ${AppLocalizations.of(context)!.characters}"),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                  SizedBox(height: height * 0.01),
+                  SizedBox(
+                    height: height * 0.2,
+                    width: double.infinity,
+                    child: Provider.of<ComposeController>(context, listen: true)
+                                .gif !=
+                            null
+                        ? Image.network(
+                            Provider.of<ComposeController>(context,
+                                    listen: true)
+                                .gif!
+                                .images!
+                                .fixedWidth
+                                .url,
+                          )
+                        : FloatingActionButton.large(
+                            onPressed: () => Provider.of<ComposeController>(
+                                    context,
+                                    listen: false)
+                                .addGifPressed(),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            child: Icon(Icons.add,
+                                size: height * 0.075,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
+                          ),
+                  ),
+                  SizedBox(
+                      height: height * 0.05,
+                      child:
+                          Provider.of<ComposeController>(context, listen: true)
+                                      .gif !=
+                                  null
+                              ? IconButton(
+                                  onPressed: () =>
+                                      Provider.of<ComposeController>(context,
+                                              listen: false)
+                                          .removeGifPressed(),
+                                  icon: Icon(Icons.remove),
+                                )
+                              : null),
                   ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.5),
+                    constraints: BoxConstraints(maxHeight: height * 0.5),
                     child: TextField(
                       cursorColor: Theme.of(context).colorScheme.onBackground,
                       focusNode:
@@ -72,17 +106,22 @@ class ComposePage extends StatelessWidget {
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context).colorScheme.onBackground,
                         ),
-                        fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
+                        fillColor: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.2),
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onBackground),
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.background)),
+                                color:
+                                    Theme.of(context).colorScheme.background)),
                       ),
                     ),
                   ),
@@ -97,45 +136,29 @@ class ComposePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (Provider.of<ComposeController>(context, listen: true)
-                          .gif !=
-                      null)
-                    Image.network(
-                        Provider.of<ComposeController>(context, listen: true)
-                            .gif!
-                            .images!
-                            .fixedWidth
-                            .url),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
+                      FloatingActionButton.large(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primaryContainer,
                         onPressed: () => Provider.of<ComposeController>(context,
                                 listen: false)
                             .postPressed(),
-                        icon: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.035,
-                                ),
-                                Text(
-                                  AppLocalizations.of(context)!.postButton,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const Icon(Icons.arrow_right_sharp)
-                              ],
-                            ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context)!.postButton,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
                           ),
                         ),
                       ),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

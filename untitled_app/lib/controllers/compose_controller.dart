@@ -7,6 +7,7 @@ import '../utilities/locator.dart';
 import '../models/post_handler.dart';
 import '../secrets/secrets.dart' as secrets;
 import 'bottom_nav_bar_controller.dart';
+import '../custom_widgets/warning_dialog.dart';
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -99,5 +100,32 @@ class ComposeController extends ChangeNotifier {
       bodyController.text = "";
       gif = null;
     }
+  }
+
+  void showPostDialog(BuildContext context, Function postPressed) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmation'),
+          content: Text('Are you sure you want to post?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Yes'),
+              onPressed: () {
+                postPressed();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
