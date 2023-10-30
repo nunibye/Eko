@@ -62,7 +62,7 @@ class CommentCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context).colorScheme.onBackground,
                                 ),
                               ),
                               const SizedBox(width: 8.0),
@@ -72,20 +72,19 @@ class CommentCard extends StatelessWidget {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w300,
                                   color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                      Theme.of(context).colorScheme.onBackground,
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8.0),
-                          if (post.body != null)
-                            Text(
-                              post.body!,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                          if(post.body!=null)Text(
+                            post.body!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.onBackground,
                             ),
+                          ),
                         ],
                       ),
                     ),
@@ -102,14 +101,14 @@ class CommentCard extends StatelessWidget {
                                     .liked)
                                 ? Icons.favorite
                                 : Icons.favorite_border,
-                            color: Theme.of(context).colorScheme.onPrimary,
+                            color: Theme.of(context).colorScheme.onBackground,
                             size: c.postIconSize,
                           ),
                           const SizedBox(width: 5),
                           Text(
                             '${Provider.of<CommentCardController>(context, listen: true).likes}',
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary),
+                                color: Theme.of(context).colorScheme.onBackground),
                           ),
                         ],
                       ),
