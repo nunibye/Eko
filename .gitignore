@@ -1,4 +1,5 @@
 /untitled_app/lib/secrets
+/backend/NewPostNotification/secrets/
 
 # Miscellaneous
 *.class
