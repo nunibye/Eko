@@ -228,4 +228,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get sendResetLink => 'Send reset link';
+
+  @override
+  String get ok => 'Ok';
 }

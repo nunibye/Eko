@@ -94,5 +94,8 @@
     "searchUsername":"Search username...",
     "noResultsFound":"No results found.",
     "confirmation":"Confirmation",
-    "cancel":"Cancel"
+    "cancel":"Cancel",
+    "resetPassword":"Reset Password",
+    "sendResetLink":"Send reset link",
+    "ok":"Ok"
 }

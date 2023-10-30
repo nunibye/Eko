@@ -11,25 +11,24 @@ class _BackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-                icon: Row(
-                  children: [
-                    Icon(Icons.arrow_back_ios_rounded,
-                        color: Theme.of(context).colorScheme.onBackground),
-                    Consumer<SignUpController>(
-                      builder: (context, signUpController, _) => Text(
-                        AppLocalizations.of(context)!.previous,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                onPressed: () =>
-                    Provider.of<SignUpController>(context, listen: false)
-                        .backPressed(),
-              );
+      icon: Row(
+        children: [
+          Icon(Icons.arrow_back_ios_rounded,
+              color: Theme.of(context).colorScheme.onBackground),
+          Consumer<SignUpController>(
+            builder: (context, signUpController, _) => Text(
+              AppLocalizations.of(context)!.previous,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ),
+          )
+        ],
+      ),
+      onPressed: () =>
+          Provider.of<SignUpController>(context, listen: false).backPressed(),
+    );
   }
 }
 
@@ -45,7 +44,6 @@ class SignUp extends StatelessWidget {
           onTap: () => Provider.of<SignUpController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
-            
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: Provider.of<SignUpController>(context, listen: false)
@@ -150,10 +148,8 @@ class GetInfo extends StatelessWidget {
                     Provider.of<SignUpController>(context, listen: false)
                         .forwardPressed(),
                 style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withOpacity(.55)),
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(.55)),
                 child: Text(
                   AppLocalizations.of(context)!.cont,
                   style: TextStyle(

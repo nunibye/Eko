@@ -5,11 +5,11 @@ showSnackBar({String text = "", int time = 1500, required BuildContext context})
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: Theme.of(context).colorScheme.onBackground,
+      backgroundColor: Theme.of(context).colorScheme.errorContainer,
       content: Text(
         text,
         style: TextStyle(
-            fontSize: 18, color: Theme.of(context).colorScheme.primary),
+            fontSize: 18, color: Theme.of(context).colorScheme.onErrorContainer),
       ),
       duration: Duration(milliseconds: time),
       padding: const EdgeInsets.symmetric(

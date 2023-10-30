@@ -25,17 +25,24 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   IconButton(
-                    onPressed: () {
-                      Provider.of<LoginController>(context, listen: false)
-                          .previousPressed();
-                    },
                     icon: Row(
                       children: [
                         Icon(Icons.arrow_back_ios_rounded,
                             color: Theme.of(context).colorScheme.onBackground),
-                        // Text(AppLocalizations.of(context)!.previous)
+                        Consumer<LoginController>(
+                          builder: (context, signUpController, _) => Text(
+                            AppLocalizations.of(context)!.previous,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                          ),
+                        )
                       ],
                     ),
+                    onPressed: () =>
+                        Provider.of<LoginController>(context, listen: false)
+                            .previousPressed(),
                   ),
                   SizedBox(
                     height: height * .35,

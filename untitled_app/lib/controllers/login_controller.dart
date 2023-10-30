@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/login_text_feild.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 import '../models/current_user.dart';
@@ -14,8 +16,10 @@ class LoginController extends ChangeNotifier {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final resetEmailController = TextEditingController();
   final emailFocus = FocusNode();
   final passwordFocus = FocusNode();
+  final resetEmailFocus = FocusNode();
 
   final BuildContext context;
 
@@ -43,10 +47,59 @@ class LoginController extends ChangeNotifier {
     context.go("/");
   }
 
-  forgotPasswordPressed(countryCode) async {
+  void forgotPasswordPressed(countryCode) {
     hideKeyboard();
-    locator<CurrentUser>().email = emailController.text;
-    _handleError(await locator<CurrentUser>().forgotPassword(countryCode));
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(AppLocalizations.of(context)!.resetPassword),
+          content: SingleChildScrollView(
+            child: CustomInputFeild(
+              focus: resetEmailFocus,
+              label: AppLocalizations.of(context)!.email,
+              controller: resetEmailController,
+              inputType: TextInputType.emailAddress,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.cancel),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.sendResetLink),
+              onPressed: () {
+                resetPassword(countryCode);
+                _pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  resetPassword(countryCode) async {
+    hideKeyboard();
+    locator<CurrentUser>().email = resetEmailController.text;
+    if (_handleError(
+            await locator<CurrentUser>().forgotPassword(countryCode)) == 0) {
+              resetConfirmation();
+            }
+    
+  }
+
+  resetConfirmation() {
+    showMyDialog(
+        AppLocalizations.of(context)!.forgotPasswordTittle,
+        AppLocalizations.of(context)!.forgotPasswordBody,
+        [AppLocalizations.of(context)!.ok],
+        [_pop],
+        context);
   }
 
   logInPressed() async {
@@ -68,9 +121,11 @@ class LoginController extends ChangeNotifier {
     }
   }
 
-  void _handleError(String errorCode) {
+  int _handleError(String errorCode) {
+    int errorStatus;
     switch (errorCode) {
       case 'success':
+        errorStatus = 0;
         break;
       case 'invalid-email':
         showMyDialog(
@@ -79,6 +134,7 @@ class LoginController extends ChangeNotifier {
             [AppLocalizations.of(context)!.tryAgain],
             [_pop],
             context);
+        errorStatus = 1;
         break;
       case 'user-not-found':
         showMyDialog(
@@ -90,6 +146,7 @@ class LoginController extends ChangeNotifier {
             ],
             [_signUpFromAlert, _pop],
             context);
+        errorStatus = 2;
         break;
       case 'wrong-password':
         showMyDialog(
@@ -98,6 +155,7 @@ class LoginController extends ChangeNotifier {
             [AppLocalizations.of(context)!.tryAgain],
             [_pop],
             context);
+        errorStatus = 3;
         break;
       case 'user-disabled':
         showMyDialog(
@@ -106,6 +164,7 @@ class LoginController extends ChangeNotifier {
             [AppLocalizations.of(context)!.tryAgain],
             [_pop],
             context);
+        errorStatus = 4;
         break;
       default:
         showMyDialog(
@@ -114,7 +173,9 @@ class LoginController extends ChangeNotifier {
             [AppLocalizations.of(context)!.tryAgain],
             [_pop],
             context);
+        errorStatus = -1;
         break;
     }
+    return errorStatus;
   }
 }
