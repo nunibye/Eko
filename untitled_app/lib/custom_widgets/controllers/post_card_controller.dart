@@ -24,9 +24,17 @@ class PostCardController extends ChangeNotifier {
 
     notifyListeners();
   }
+
 //FIXME could be optomized
-  postPressed(){
-    context.push("/feed/post/${post.postId}", extra: post).then((v) async{
+  postPressed() {
+    context.push("/feed/post/${post.postId}", extra: post).then((v) async {
+      comments = await locator<PostsHandling>().countComments(post.postId);
+      notifyListeners();
+    });
+  }
+
+  commentPressed() {
+    context.push("/feed/post/${post.postId}", extra: post).then((v) async {
       comments = await locator<PostsHandling>().countComments(post.postId);
       notifyListeners();
     });
