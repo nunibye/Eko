@@ -185,6 +185,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addComment => 'Add a comment';
 
   @override
+  String get settings => 'Settings';
+
+  @override
   String get welcome => 'Welcome';
 
   @override

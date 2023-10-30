@@ -6,14 +6,14 @@ import 'bottom_nav_bar_controller.dart';
 import '../utilities/locator.dart';
 
 class ProfileController extends ChangeNotifier {
-  int likes = locator<CurrentUser>().likes;
-  List<dynamic> followers = locator<CurrentUser>().followers;
-  List<dynamic> following = locator<CurrentUser>().following;
-  String username = locator<CurrentUser>().username;
-  String profileImage = locator<CurrentUser>().profilePicture;
-  String name = locator<CurrentUser>().name;
+  //int likes = locator<CurrentUser>().likes;
+  //List<dynamic> followers = locator<CurrentUser>().followers;
+  //List<dynamic> following = locator<CurrentUser>().following;
+  //String username = locator<CurrentUser>().username;
+  //String profileImage = locator<CurrentUser>().profilePicture;
+  //String name = locator<CurrentUser>().name;
 
-  String profileBio = locator<CurrentUser>().bio;
+  //String profileBio = locator<CurrentUser>().bio;
 
   final BuildContext context;
   late AppUser user;
@@ -30,27 +30,26 @@ class ProfileController extends ChangeNotifier {
 //FIXME maybe move to a standard class format for more reusablity
   initUser() {
     user = AppUser(
-      uid: getUID(),
-      name: name,
-      username: username,
-      profilePicture: profileImage,
-      bio: profileBio,
+      uid: locator<CurrentUser>().uid,
+      name: locator<CurrentUser>().name,
+      username: locator<CurrentUser>().username,
+      profilePicture: locator<CurrentUser>().profilePicture,
+      bio: locator<CurrentUser>().bio,
+      likes: locator<CurrentUser>().likes,
+      followers: locator<CurrentUser>().followers,
+      following: locator<CurrentUser>().following,
     );
   }
+
 //FIXME doesn't update
   editProfilePressed() async {
     locator<NavBarController>().disable();
-    await context.push("/profile/edit_profile").then((value) {
-      notifyListeners();
-    });
+    await context.push("/profile/edit_profile");
 
     locator<NavBarController>().enable();
-    profileImage = locator<CurrentUser>().profilePicture;
-    profileBio = locator<CurrentUser>().bio;
-    name = locator<CurrentUser>().name;
-    user.profilePicture = profileImage;
-    user.bio = profileBio;
-    user.name = name;
+    user.profilePicture = locator<CurrentUser>().profilePicture;
+    user.bio = locator<CurrentUser>().bio;
+    user.name = locator<CurrentUser>().name;
     notifyListeners();
   }
 
@@ -66,12 +65,12 @@ class ProfileController extends ChangeNotifier {
 
   void loadUserData() async {
     await locator<CurrentUser>().readCurrentUserData();
-    likes = locator<CurrentUser>().likes;
-    followers = locator<CurrentUser>().followers;
-    following = locator<CurrentUser>().following;
-    username = locator<CurrentUser>().username;
-    profileImage = locator<CurrentUser>().profilePicture;
-    profileBio = locator<CurrentUser>().bio;
+    // likes = locator<CurrentUser>().likes;
+    // followers = locator<CurrentUser>().followers;
+    // following = locator<CurrentUser>().following;
+    // username = locator<CurrentUser>().username;
+    // profileImage = locator<CurrentUser>().profilePicture;
+    // profileBio = locator<CurrentUser>().bio;
     initUser();
     //print(username);
     notifyListeners();

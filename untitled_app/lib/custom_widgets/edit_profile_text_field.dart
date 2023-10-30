@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class ProfileInputFeild extends StatelessWidget {
   final String label;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? Function(String?)? validatorFunction;
   final AutovalidateMode validator;
   final TextInputType inputType;
@@ -22,7 +22,7 @@ class ProfileInputFeild extends StatelessWidget {
   final void Function()? onEditingComplete;
   const ProfileInputFeild(
       {required this.label,
-      required this.controller,
+       this.controller,
       this.onChanged,
       this.onTap,
       this.onTapOutside,

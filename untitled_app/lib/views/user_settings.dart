@@ -25,7 +25,7 @@ class UserSettings extends StatelessWidget {
             ),
             backgroundColor: Theme.of(context).colorScheme.background,
             title: Text(
-              AppLocalizations.of(context)!.editProfile,
+              AppLocalizations.of(context)!.settings,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontFamily: 'Lato',

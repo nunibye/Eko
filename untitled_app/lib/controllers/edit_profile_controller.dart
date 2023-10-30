@@ -5,16 +5,17 @@ import 'package:go_router/go_router.dart';
 
 class EditProfileController extends ChangeNotifier {
   String profileImage = locator<CurrentUser>().profilePicture;
-  String profileBio = locator<CurrentUser>().bio;
+  //String profileBio = locator<CurrentUser>().bio;
   final BuildContext context;
+  bool showSave = false;
   final bioController = TextEditingController(text: locator<CurrentUser>().bio);
-  final bioFocus = FocusNode();
+  // final bioFocus = FocusNode();
   // int bioNewLines = '\n'.allMatches(locator<CurrentUser>().bio).length;
   // int bioBodyChars = locator<CurrentUser>().bio.length;
 
   final nameController =
       TextEditingController(text: locator<CurrentUser>().name);
-  final nameFocus = FocusNode();
+  // final nameFocus = FocusNode();
   // int bioNameBodyChars = locator<CurrentUser>().bioName.length;
 
   int titleChars = 0;
@@ -27,35 +28,36 @@ class EditProfileController extends ChangeNotifier {
       profileImage = locator<CurrentUser>().profilePicture;
 
       notifyListeners();
-    } else {}
+    }
   }
 
-  // updateCountsBio(String str) {
-  //   bioBodyChars = str.length;
-  //   bioNewLines = '\n'.allMatches(str).length;
-  //   notifyListeners();
-  // }
-
-  // updateCountsBioName(String str) {
-  //   bioNameBodyChars = str.length;
-  //   notifyListeners();
-  // }
-  void hideKeyboard() {
+  hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  void checkChanges() {
+    if (locator<CurrentUser>().name != nameController.text ||
+        locator<CurrentUser>().bio != bioController.text) {
+      showSave = true;
+      notifyListeners();
+    }else{
+      showSave = false;
+      notifyListeners();
+    }
   }
 
   void exitPressed() {
     context.pop("poped");
   }
 
-  void savePressed() {
+  void savePressed() async {
     if (locator<CurrentUser>().name != nameController.text) {
-      saveNameData(nameController.text);
+      await _saveNameData(nameController.text);
     }
     if (locator<CurrentUser>().bio != bioController.text) {
-      saveBioData(bioController.text);
+      await _saveBioData(bioController.text);
     }
-    context.pop("poped");
+    exitPressed();
   }
 
   // showCountsBio(bool show) {
@@ -74,20 +76,17 @@ class EditProfileController extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  saveBioData(String bio) async {
+  Future<void> _saveBioData(String bio) async {
     // TODO: This will eventually need to upload all the data that changed as profile editing gets larger
     // Im thinking a 'save' and 'cancel' button pops up on the app bar is an edit is detected
     if (await locator<CurrentUser>().uploadProfileBio(bio) == "success") {
       locator<CurrentUser>().bio = bio;
-      
-      
-    } 
+    }
   }
 
-  saveNameData(String name) async {
+  Future<void> _saveNameData(String name) async {
     if (await locator<CurrentUser>().uploadProfileName(name) == "success") {
       locator<CurrentUser>().name = name;
-      
     }
   }
 }
