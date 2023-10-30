@@ -55,7 +55,7 @@ ColorScheme darkThemeColors(context) {
     errorContainer: Color(0xFF93000A),
     onError: Color(0xFF690005),
     onErrorContainer: Color(0xFFFFDAD6),
-    background: Color(0xFF191C1B),
+    background: Color(0xFF000000), //0xFF191C1B
     onBackground: Color(0xFFE0E3E1),
     surface: Color(0xFF191C1B),
     onSurface: Color(0xFFE0E3E1),
@@ -134,7 +134,7 @@ const int maxCommentChars = 160;
 const int maxTittleChars = 60;
 const int maxBioChars = 20;
 const int maxBioLines = 3;
-const int maxBioNameChars = 20;
+const int maxNameChars = 20;
 const int searchPageDebounce = 1500;
 const int postsOnRefresh = 10;
 

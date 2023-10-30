@@ -154,7 +154,7 @@ class CurrentUser extends AppUser {
               .collection("posts")
               .doc(postId)
               .update({"likes": FieldValue.increment(1)});
-              likedPosts.add(postId);
+          likedPosts.add(postId);
         } else {
           await firestore
               .collection("posts")
@@ -162,9 +162,9 @@ class CurrentUser extends AppUser {
               .collection('comments')
               .doc(commentId)
               .update({"likes": FieldValue.increment(1)});
-              likedPosts.add(commentId);
+          likedPosts.add(commentId);
         }
-        
+
         stateIsLiking = false;
         return true;
       } catch (e) {
@@ -195,7 +195,7 @@ class CurrentUser extends AppUser {
               .collection("posts")
               .doc(postId)
               .update({"likes": FieldValue.increment(-1)});
-              likedPosts.remove(postId);
+          likedPosts.remove(postId);
         } else {
           await firestore
               .collection("posts")
@@ -203,9 +203,9 @@ class CurrentUser extends AppUser {
               .collection('comments')
               .doc(commentId)
               .update({"likes": FieldValue.increment(-1)});
-              likedPosts.remove(commentId);
+          likedPosts.remove(commentId);
         }
-        
+
         stateIsLiking = false;
         return true;
       } catch (e) {
@@ -290,22 +290,20 @@ class CurrentUser extends AppUser {
           .update({"profileData.bio": bio});
       return "success";
     } catch (e) {
-      stateIsLiking = false;
       return "fail";
     }
   }
 
-  Future<String> uploadProfileBioName(String bioName) async {
+  Future<String> uploadProfileName(String name) async {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();
     try {
       await firestore
           .collection("users")
           .doc(user)
-          .update({"profileData.bioName": bioName});
+          .update({"name": name});
       return "success";
     } catch (e) {
-      stateIsLiking = false;
       return "fail";
     }
   }

@@ -440,10 +440,9 @@ packages:
   giphy_get:
     dependency: "direct main"
     description:
-      name: giphy_get
-      sha256: "8ec7e9c58c31c3aae18b35d7a02daf4994dc0cd39fcff70e949bea07af73660f"
-      url: "https://pub.dev"
-    source: hosted
+      path: giphy_get-custom
+      relative: true
+    source: path
     version: "3.5.0"
   go_router:
     dependency: "direct main"

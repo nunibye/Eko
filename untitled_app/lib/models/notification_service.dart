@@ -1,9 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
 
 class NotificationService {
   const NotificationService._();
+  
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -44,6 +46,9 @@ class NotificationService {
   }
 
   static void onMessage(RemoteMessage message) {
+    // Extract custom data from the FCM message
+    String? postId = message.data['postId'];
+    print(postId);
     RemoteNotification? notification = message.notification;
     AndroidNotification? androidNotification = message.notification?.android;
     AppleNotification? appleNotification = message.notification?.apple;
@@ -58,6 +63,14 @@ class NotificationService {
         _notificationDetails(),
       );
     }
+    // // Extract authorID from the notification data
+    // String? postID = message.data['postID'];
+
+    // // Navigate to the specific post using named routes
+
+    //   print("here");
+    //   context.push("/feed/post/$postID");
+
   }
 
   static void onMessageOpenedApp(BuildContext context, RemoteMessage message) {
@@ -83,5 +96,37 @@ class NotificationService {
         ),
       );
     }
+    
+    
   }
+  // static void onMessageOpenedApp(BuildContext? context, RemoteMessage message) async {
+  //   RemoteNotification? notification = message.notification;
+  //   AndroidNotification? androidNotification = message.notification?.android;
+  //   AppleNotification? appleNotification = message.notification?.apple;
+
+  //   if (notification == null) return;
+
+  //   if ((androidNotification != null || appleNotification != null) &&
+  //       context != null) {
+  //     // showDialog(
+  //     //   context: context,
+  //     //   builder: (_) => AlertDialog(
+  //     //     title: Text(notification.title ?? 'No Title'),
+  //     //     content: SingleChildScrollView(
+  //     //       child: Column(
+  //     //         crossAxisAlignment: CrossAxisAlignment.start,
+  //     //         children: [
+  //     //           Text(notification.body ?? 'No body'),
+  //     //         ],
+  //     //       ),
+  //     //     ),
+  //     //   ),
+  //     // );
+  //     // Extract postID from the notification data
+  //     String? postID = message.data['postID'];
+  //     print("here");
+  //     // Navigate to the specific post using named routes if context is not null
+  //     context.go("/feed/post/$postID");
+  //   }
+  // }
 }

@@ -22,6 +22,7 @@ class ComposePage extends StatelessWidget {
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: height * 0.02),
               child: ListView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   SizedBox(height: height * 0.025),
                   CustomInputFeild(
