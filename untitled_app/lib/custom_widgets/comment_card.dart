@@ -8,20 +8,19 @@ import 'profile_picture_loading.dart';
 
 class CommentCard extends StatelessWidget {
   final Post post;
-
-  const CommentCard({super.key, required this.post});
+  final String rootPostId;
+  const CommentCard({super.key, required this.post, required this.rootPostId});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: CommentCardController(post: post, context: context),
+      value: CommentCardController(post: post, context: context, rootPostId: rootPostId),
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: c.postPaddingHoriz,
@@ -89,7 +88,7 @@ class CommentCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                  IconButton(
+                    IconButton(
                       onPressed: () => Provider.of<CommentCardController>(
                               context,
                               listen: false)
@@ -113,7 +112,8 @@ class CommentCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),],
+                    ),
+                  ],
                 ),
               ),
               const Padding(
