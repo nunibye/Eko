@@ -22,7 +22,8 @@ class ComposePage extends StatelessWidget {
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: height * 0.02),
               child: ListView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 children: [
                   SizedBox(height: height * 0.025),
                   CustomInputFeild(
@@ -137,29 +138,30 @@ class ComposePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FloatingActionButton.large(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        onPressed: () => Provider.of<ComposeController>(context,
-                                listen: false)
-                            .postPressed(context),
-                        child: Center(
-                          child: Text(
-                            AppLocalizations.of(context)!.postButton,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer),
-                          ),
-                        ),
+                  SizedBox(height: height * 0.275),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.width * 0.15,
+                    child: TextButton(
+                      onPressed: () =>
+                          Provider.of<ComposeController>(context, listen: false)
+                              .postPressed(context),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(.55)),
+                      child: Text(
+                        AppLocalizations.of(context)!.postButton,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimary),
                       ),
-                    ],
-                  )
+                    ),
+                  ),
                 ],
               ),
             ),

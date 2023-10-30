@@ -5,12 +5,20 @@ import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
   final bool isPreview;
 
   const PostCard({super.key, required this.post, this.isPreview = false});
+
+  String formatTime(String time) {
+    DateTime parsedTime = DateTime.parse(time);
+    DateTime localTime = parsedTime.toLocal();
+    String formattedTime = DateFormat('hh:mm a').format(localTime);
+    return formattedTime;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +28,14 @@ class PostCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: InkWell(
-            onTap: () => isPreview ? null :Provider.of<PostCardController>(context, listen: false)
-                .postPressed(),
+            onTap: () => isPreview
+                ? null
+                : Provider.of<PostCardController>(context, listen: false)
+                    .postPressed(),
+            onDoubleTap: () => isPreview
+                ? null
+                : Provider.of<PostCardController>(context, listen: false)
+                    .likePressed(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,10 +57,11 @@ class PostCard extends StatelessWidget {
                     children: [
                       // Display the profile picture as a CircleAvatar
                       IconButton(
-                        onPressed: () => isPreview ? null : Provider.of<PostCardController>(
-                                context,
-                                listen: false)
-                            .avatarPressed(),
+                        onPressed: () => isPreview
+                            ? null
+                            : Provider.of<PostCardController>(context,
+                                    listen: false)
+                                .avatarPressed(),
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         icon: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.115,
@@ -67,9 +82,10 @@ class PostCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  post.author.name,
+                                  "@${post.author.username}",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -78,9 +94,8 @@ class PostCard extends StatelessWidget {
                                         .onBackground,
                                   ),
                                 ),
-                                const SizedBox(width: 8.0),
                                 Text(
-                                  "@${post.author.username}",
+                                  formatTime(post.time),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
@@ -173,7 +188,11 @@ class PostCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        onPressed: () => isPreview ? null : {},
+                        onPressed: () => isPreview
+                            ? null
+                            : Provider.of<PostCardController>(context,
+                                    listen: false)
+                                .commentPressed(),
                         icon: Row(
                           children: [
                             Icon(
@@ -193,10 +212,11 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () => isPreview ? null : Provider.of<PostCardController>(
-                                context,
-                                listen: false)
-                            .likePressed(),
+                        onPressed: () => isPreview
+                            ? null
+                            : Provider.of<PostCardController>(context,
+                                    listen: false)
+                                .likePressed(),
                         icon: Row(
                           children: [
                             Icon(
@@ -224,10 +244,11 @@ class PostCard extends StatelessWidget {
                         icon: Row(
                           children: [
                             IconButton(
-                              onPressed: () => isPreview ? null : Provider.of<PostCardController>(
-                                      context,
-                                      listen: false)
-                                  .sharePressed(),
+                              onPressed: () => isPreview
+                                  ? null
+                                  : Provider.of<PostCardController>(context,
+                                          listen: false)
+                                      .sharePressed(),
                               icon: Icon(
                                 Icons.share,
                                 color:
