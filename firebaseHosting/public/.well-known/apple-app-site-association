@@ -1,0 +1,11 @@
+{
+  "applinks": {
+      "apps": [],
+      "details": [
+      {
+        "appID": "7ZD8Y5HH26.com.example.untitledApp",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

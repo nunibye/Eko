@@ -59,7 +59,7 @@ class Header extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      "@${profileController.username}",
+                      "@${profileController.user.username}",
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onBackground,
                           fontWeight: FontWeight.bold,
@@ -80,13 +80,13 @@ class Header extends StatelessWidget {
                 ),
               ),
               ProfileHeader(
-                username: profileController.username,
-                profilePic: profileController.profileImage,
-                likes: profileController.likes,
-                following: profileController.following.length,
-                followers: profileController.followers.length,
-                profileBio: profileController.profileBio,
-                name: profileController.name,
+                username: profileController.user.username,
+                profilePic: profileController.user.profilePicture,
+                likes: profileController.user.likes,
+                following: profileController.user.following.length,
+                followers: profileController.user.followers.length,
+                profileBio: profileController.user.bio,
+                name: profileController.user.name,
               ),
             ],
           ),

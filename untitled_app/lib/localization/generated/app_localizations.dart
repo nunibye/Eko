@@ -453,6 +453,12 @@ abstract class AppLocalizations {
   /// **'Add a comment'**
   String get addComment;
 
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
