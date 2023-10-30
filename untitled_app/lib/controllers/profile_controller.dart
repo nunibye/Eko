@@ -37,10 +37,12 @@ class ProfileController extends ChangeNotifier {
       bio: profileBio,
     );
   }
-
+//FIXME doesn't update
   editProfilePressed() async {
     locator<NavBarController>().disable();
-    await context.push("/profile/edit_profile");
+    await context.push("/profile/edit_profile").then((value) {
+      notifyListeners();
+    });
 
     locator<NavBarController>().enable();
     profileImage = locator<CurrentUser>().profilePicture;

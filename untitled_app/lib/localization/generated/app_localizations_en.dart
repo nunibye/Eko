@@ -218,6 +218,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete => 'Delete';
 
   @override
+  String get save => 'Save';
+
+  @override
   String get searchUsername => 'Search username...';
 
   @override

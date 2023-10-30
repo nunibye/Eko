@@ -90,7 +90,7 @@
     "deleteAcountTitle":"Are you sure you want to delete your account?",
     "deleteAcountBody":"All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel",
     "delete":"Delete",
-
+    "save":"Save",
     "searchUsername":"Search username...",
     "noResultsFound":"No results found."
 }
