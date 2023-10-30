@@ -7,12 +7,17 @@ admin.initializeApp({
 });
 
 exports.sendNotification = functions.firestore.document('posts/{docId}').onCreate((snapshot, context) => {
-const payload = {
-notification: {
-title: 'New content available',
-body: 'Check out the latest update!'
-}
-};
+  const docId = context.params.docId; // Get the document ID from the context object
 
-return admin.messaging().sendToTopic('new_post', payload);
+  const payload = {
+    notification: {
+      title: 'New post from ' + snapshot.data().author || 'New post!',
+      body: snapshot.data().title || snapshot.data().body || 'Click to see post'
+    },
+    data: {
+      postId: docId // Pass the ID of the newly created post
+    }
+  };
+
+  return admin.messaging().sendToTopic('new_post', payload);
 });

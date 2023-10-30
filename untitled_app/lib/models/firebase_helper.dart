@@ -43,7 +43,9 @@ class FirebaseHelper {
       badge: false,
       sound: true,
     );
+    
     await messaging.subscribeToTopic('new_post');
+    
   }
 
   static Future<void> _onBackgroundMessage(RemoteMessage message) async {
@@ -52,5 +54,5 @@ class FirebaseHelper {
     );
     debugPrint('we have received a notification ${message.notification}');
   }
-//mommy
+
 }

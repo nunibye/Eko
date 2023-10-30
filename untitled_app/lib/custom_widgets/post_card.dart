@@ -8,8 +8,9 @@ import 'profile_picture_loading.dart';
 
 class PostCard extends StatelessWidget {
   final Post post;
+  final bool isPreview;
 
-  const PostCard({super.key, required this.post});
+  const PostCard({super.key, required this.post, this.isPreview = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class PostCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: InkWell(
-            onTap: () => Provider.of<PostCardController>(context, listen: false)
+            onTap: () => isPreview ? null :Provider.of<PostCardController>(context, listen: false)
                 .postPressed(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +43,7 @@ class PostCard extends StatelessWidget {
                     children: [
                       // Display the profile picture as a CircleAvatar
                       IconButton(
-                        onPressed: () => Provider.of<PostCardController>(
+                        onPressed: () => isPreview ? null : Provider.of<PostCardController>(
                                 context,
                                 listen: false)
                             .avatarPressed(),
@@ -172,7 +173,7 @@ class PostCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () => isPreview ? null : {},
                         icon: Row(
                           children: [
                             Icon(
@@ -192,7 +193,7 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () => Provider.of<PostCardController>(
+                        onPressed: () => isPreview ? null : Provider.of<PostCardController>(
                                 context,
                                 listen: false)
                             .likePressed(),
@@ -219,11 +220,11 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () => {},
+                        onPressed: () => isPreview ? null : {},
                         icon: Row(
                           children: [
                             IconButton(
-                              onPressed: () => Provider.of<PostCardController>(
+                              onPressed: () => isPreview ? null : Provider.of<PostCardController>(
                                       context,
                                       listen: false)
                                   .sharePressed(),
