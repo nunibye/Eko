@@ -56,6 +56,10 @@ class ViewPostPage extends StatelessWidget {
                     children: [
                       Expanded(
                           child: FeedBuilder(
+                            rootPostId: Provider.of<PostPageController>(context,
+                                          listen: false)
+                                      .post!
+                                      .postId,
                               isComment: true,
                               firestoreQuery: FirebaseFirestore.instance
                                   .collection('posts')

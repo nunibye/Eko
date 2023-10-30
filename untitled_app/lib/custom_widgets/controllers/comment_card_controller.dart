@@ -7,11 +7,13 @@ import '../../models/post_handler.dart' show Post;
 
 class CommentCardController extends ChangeNotifier {
   BuildContext context;
+  String rootPostId;
   Post post;
   late int likes;
   late bool liked;
   bool liking = false;
-  CommentCardController({required this.context, required this.post}) {
+  CommentCardController(
+      {required this.context, required this.post, required this.rootPostId}) {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
     likes = post.likes;
 
@@ -46,7 +48,8 @@ class CommentCardController extends ChangeNotifier {
           likes--;
           notifyListeners();
           //undo if it fails. maybe remove this
-          if (!await locator<CurrentUser>().removeLike(post.postId)) {
+          if (!await locator<CurrentUser>()
+              .removeLike(rootPostId, post.postId)) {
             liked = true;
             //locator<FeedPostCache>().updateLikes(post.postId, 1);
             likes++;
@@ -58,7 +61,7 @@ class CommentCardController extends ChangeNotifier {
           likes++;
           notifyListeners();
           //undo if it fails
-          if (!await locator<CurrentUser>().addLike(post.postId)) {
+          if (!await locator<CurrentUser>().addLike(rootPostId, post.postId)) {
             liked = false;
             //locator<FeedPostCache>().updateLikes(post.postId, -1);
             likes--;

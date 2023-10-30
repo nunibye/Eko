@@ -69,7 +69,7 @@ class PostCardController extends ChangeNotifier {
           likes--;
           notifyListeners();
           //undo if it fails. maybe remove this
-          if (!await locator<CurrentUser>().removeLike(post.postId)) {
+          if (!await locator<CurrentUser>().removeLike(post.postId, null)) {
             liked = true;
             locator<FeedPostCache>().updateLikes(post.postId, 1);
             likes++;
@@ -81,7 +81,7 @@ class PostCardController extends ChangeNotifier {
           likes++;
           notifyListeners();
           //undo if it fails
-          if (!await locator<CurrentUser>().addLike(post.postId)) {
+          if (!await locator<CurrentUser>().addLike(post.postId, null)) {
             liked = false;
             locator<FeedPostCache>().updateLikes(post.postId, -1);
             likes--;

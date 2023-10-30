@@ -135,7 +135,7 @@ class CurrentUser extends AppUser {
     return likedPosts.contains(postID);
   }
 
-  Future<bool> addLike(String postId) async {
+  Future<bool> addLike(String postId, String? commentId) async {
     if (!stateIsLiking) {
       stateIsLiking = true;
       try {
@@ -149,11 +149,22 @@ class CurrentUser extends AppUser {
             .update({
           "likes": FieldValue.arrayUnion([postId])
         });
-        await firestore
-            .collection("posts")
-            .doc(postId)
-            .update({"likes": FieldValue.increment(1)});
-        likedPosts.add(postId);
+        if (commentId == null) {
+          await firestore
+              .collection("posts")
+              .doc(postId)
+              .update({"likes": FieldValue.increment(1)});
+              likedPosts.add(postId);
+        } else {
+          await firestore
+              .collection("posts")
+              .doc(postId)
+              .collection('comments')
+              .doc(commentId)
+              .update({"likes": FieldValue.increment(1)});
+              likedPosts.add(commentId);
+        }
+        
         stateIsLiking = false;
         return true;
       } catch (e) {
@@ -165,7 +176,7 @@ class CurrentUser extends AppUser {
     }
   }
 
-  Future<bool> removeLike(String postId) async {
+  Future<bool> removeLike(String postId, String? commentId) async {
     if (!stateIsLiking) {
       stateIsLiking = true;
       try {
@@ -179,11 +190,22 @@ class CurrentUser extends AppUser {
             .update({
           "likes": FieldValue.arrayRemove([postId])
         });
-        await firestore
-            .collection("posts")
-            .doc(postId)
-            .update({"likes": FieldValue.increment(-1)});
-        likedPosts.remove(postId);
+        if (commentId == null) {
+          await firestore
+              .collection("posts")
+              .doc(postId)
+              .update({"likes": FieldValue.increment(-1)});
+              likedPosts.remove(postId);
+        } else {
+          await firestore
+              .collection("posts")
+              .doc(postId)
+              .collection('comments')
+              .doc(commentId)
+              .update({"likes": FieldValue.increment(-1)});
+              likedPosts.remove(commentId);
+        }
+        
         stateIsLiking = false;
         return true;
       } catch (e) {
