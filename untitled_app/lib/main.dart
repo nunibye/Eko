@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,20 +18,14 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';
 import 'utilities/locator.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
-  // await NotificationService.initializeNotification();
+  await NotificationService.initializeNotification();
   // Handle foreground messages.
- FirebaseMessaging.onMessage.listen((RemoteMessage message) {
- print('Message received: ${message.notification?.body}');
- });
-
 
   setupLocator();
-  runApp(const MyApp());
-  
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,13 +38,15 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
+//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//  print('Message received: ${message.notification?.body}');
+//  NotificationService.onMessageOpenedApp(context, message);
+//  });
+    
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
         return ChangeNotifierProvider(
-          // is this okay that i changed it so that it can rebuild it? or should it be changed
-
           create: (_) => DarkThemeProvider(),
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
@@ -59,7 +56,6 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 theme: Styles.themeData(themeChangeProvider.darkTheme, context),
                 themeMode: ThemeMode.dark,
-                
                 localizationsDelegates: const [
                   AppLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,

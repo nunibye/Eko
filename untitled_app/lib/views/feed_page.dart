@@ -10,7 +10,7 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => FeedController(),
+      create: (context) => FeedController(context: context),
       builder: (context, child) {
         return Scaffold(
           
