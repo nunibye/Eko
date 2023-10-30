@@ -21,11 +21,15 @@ class PostCardController extends ChangeNotifier {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
     likes = post.likes;
     comments = await locator<PostsHandling>().countComments(post.postId);
+
     notifyListeners();
   }
-
-  postPressed() {
-    context.push("/feed/post/${post.postId}", extra: post); //, extra: post
+//FIXME could be optomized
+  postPressed(){
+    context.push("/feed/post/${post.postId}", extra: post).then((v) async{
+      comments = await locator<PostsHandling>().countComments(post.postId);
+      notifyListeners();
+    });
   }
 
   avatarPressed() async {

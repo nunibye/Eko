@@ -16,7 +16,6 @@ class Post {
   final String time;
   final String? title;
   final String? body;
-  int comments;
   int likes;
 
   Post({
@@ -28,7 +27,6 @@ class Post {
     required this.author,
     required this.body,
     required this.likes,
-    this.comments = 0
   });
 }
 

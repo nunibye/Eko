@@ -5,6 +5,7 @@ import '../utilities/locator.dart';
 import '../custom_widgets/error_snack_bar.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/post_handler.dart';
+import '../models/feed_post_cache.dart';
 
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
@@ -36,7 +37,7 @@ class PostPageController extends ChangeNotifier {
 
   updateCount(String str) {
     chars = str.length;
-    notifyListeners();
+    //notifyListeners();
   }
 
   //TODO add more content like a preview of a post.
@@ -55,7 +56,10 @@ class PostPageController extends ChangeNotifier {
     } else {
       locator<PostsHandling>()
           .createComment({"body": commentFeild.text}, post!.postId);
+      // locator<FeedPostCache>().updateComments(post!.postId, 1);
+      // notifyListeners();
       commentFeild.text = "";
+      notifyListeners();
     }
   }
 }

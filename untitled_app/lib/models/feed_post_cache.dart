@@ -25,4 +25,14 @@ class FeedPostCache {
       }
     }
   }
+  // updateComments(String id, int offset) {
+  //   for (Cache element in postsList) {
+  //     for (Post post in element.posts) {
+  //       if (post.postId == id) {
+  //         post.comments += offset;
+  //         break; //assumes each post is only in each list one time
+  //       }
+  //     }
+  //   }
+  // }
 }
