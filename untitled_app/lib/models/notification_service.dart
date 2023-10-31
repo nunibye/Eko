@@ -96,10 +96,11 @@ class NotificationService extends ChangeNotifier {
     }
   }
 
-  Future<void> postNotification(BuildContext context, RemoteMessage message) async {
+  Future<void> postNotification(
+      BuildContext context, RemoteMessage message) async {
     String postID = message.data['postId'];
-    // await locator<FeedBuilderController>().onRefresh(); // This needs to be fixed. Bad state element in "feedChunks.first.oldestPost" in post_handler
-    
+    await locator<FeedBuilderController>().onRefresh(); // not refreshing
+
     context.push("/feed/post/$postID");
   }
 }
