@@ -74,6 +74,7 @@ class EditProfileController extends ChangeNotifier {
   }
 
   void exitPressed() {
+    if(showSave){
     showMyDialog(
         AppLocalizations.of(context)!.exitEditProfileTitle,
         AppLocalizations.of(context)!.exitEditProfileBody,
@@ -82,7 +83,9 @@ class EditProfileController extends ChangeNotifier {
           AppLocalizations.of(context)!.stay
         ],
         [_popTwice, _pop],
-        context);
+        context);}else{
+          _pop();
+        }
   }
 
   void savePressed() async {
