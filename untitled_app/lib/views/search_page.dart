@@ -16,6 +16,8 @@ class SearchPage extends StatelessWidget {
       create: (context) => SearchPageController(),
       builder: (context, child) {
         return GestureDetector(
+          onPanDown: (details) => Provider.of<SearchPageController>(context, listen: false)
+                    .hideKeyboard(),
             onTap: () =>
                 Provider.of<SearchPageController>(context, listen: false)
                     .hideKeyboard(),
@@ -79,7 +81,8 @@ class SearchPage extends StatelessWidget {
                                   ),
                                 )
                               : ListView.builder(
-                                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                                
+                                  //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                                   itemCount: Provider.of<SearchPageController>(
                                           context,
                                           listen: true)
