@@ -61,7 +61,7 @@ ColorScheme darkThemeColors(context) {
     onSurface: Color(0xFFE0E3E1),
     surfaceVariant: Color(0xFF3F4946),
     onSurfaceVariant: Color(0xFFBEC9C5),
-    outline: Color(0xFF899390),
+    outline: Color.fromARGB(255, 112, 112, 112),
     onInverseSurface: Color(0xFF191C1B),
     inverseSurface: Color(0xFFE0E3E1),
     inversePrimary: Color(0xFF006B5E),

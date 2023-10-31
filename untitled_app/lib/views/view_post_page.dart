@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/post_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import '../models/post_handler.dart' show Post;
@@ -26,50 +27,43 @@ class ViewPostPage extends StatelessWidget {
           onTap: () => Provider.of<PostPageController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded,
-                    color: Theme.of(context).colorScheme.onSecondary),
-                onPressed: () => context.pop(),
-              ),
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              // title: Text(
-              //   Provider.of<PostPageController>(context, listen: false)
-              //               .post
-              //               .title !=
-              //           null
-              //       ? Provider.of<PostPageController>(context, listen: false)
-              //           .post!
-              //           .title!
-              //       : "post", //FIXME localize
-              //   style: TextStyle(
-              //     fontWeight: FontWeight.normal,
-              //     fontFamily: 'Lato',
-              //     color: Theme.of(context).colorScheme.onSecondary,
-              //   ),
-              // ),
-            ),
             body: Provider.of<PostPageController>(context, listen: true).post ==
                     null
                 ? const CircularProgressIndicator()
                 : Column(
                     children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back_ios_rounded,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                            onPressed: () => context.pop(),
+                          ),
+                        ],
+                      ),
                       Expanded(
-                          child: FeedBuilder(
-                            rootPostId: Provider.of<PostPageController>(context,
-                                          listen: false)
-                                      .post!
-                                      .postId,
-                              isComment: true,
-                              firestoreQuery: FirebaseFirestore.instance
-                                  .collection('posts')
-                                  .doc(Provider.of<PostPageController>(context,
-                                          listen: false)
-                                      .post!
-                                      .postId)
-                                  .collection("comments")
-                                  .orderBy('time', descending: true),
-                              header: const _Header())),
+                        child: FeedBuilder(
+                          rootPostId: Provider.of<PostPageController>(context,
+                                  listen: false)
+                              .post!
+                              .postId,
+                          isComment: true,
+                          firestoreQuery: FirebaseFirestore.instance
+                              .collection('posts')
+                              .doc(Provider.of<PostPageController>(context,
+                                      listen: false)
+                                  .post!
+                                  .postId)
+                              .collection("comments")
+                              .orderBy('time', descending: true),
+                          header: PostCard(
+                            post: Provider.of<PostPageController>(context,
+                                    listen: false)
+                                .post!,
+                          ),
+                        ),
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -28,10 +28,6 @@ class PostCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: InkWell(
-            onTap: () => isPreview
-                ? null
-                : Provider.of<PostCardController>(context, listen: false)
-                    .postPressed(),
             onDoubleTap: () => isPreview
                 ? null
                 : Provider.of<PostCardController>(context, listen: false)
@@ -39,10 +35,10 @@ class PostCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 3),
+                 Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
                   child: Divider(
-                    color: Color.fromARGB(255, 112, 112, 112),
+                    color: Theme.of(context).colorScheme.outline,
                     height: 1,
                   ),
                 ),

@@ -39,6 +39,7 @@ class FeedBuilder extends StatelessWidget {
         return RefreshIndicator(
           child: Consumer<FeedBuilderController>(
             builder: (context, feedController, child) => ListView.builder(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               physics: const AlwaysScrollableScrollPhysics(),
               controller:
                   Provider.of<FeedBuilderController>(context, listen: false)
