@@ -24,8 +24,8 @@ Future<void> main() async {
   await NotificationService.initializeNotification();
   // Handle foreground messages.
 
-  setupLocator();
-  runApp(MyApp());
+  // setupLocator();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -38,11 +38,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//  print('Message received: ${message.notification?.body}');
-//  NotificationService.onMessageOpenedApp(context, message);
-//  });
-    
+    setupLocator(context);
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {

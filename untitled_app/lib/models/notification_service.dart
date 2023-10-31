@@ -2,10 +2,16 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/controllers/feed_builder_controller.dart';
+import 'package:untitled_app/utilities/locator.dart';
 
-class NotificationService {
-  const NotificationService._();
-  
+class NotificationService extends ChangeNotifier {
+  NotificationService() {
+    initializeNotification();
+  }
+// class NotificationService {
+//   const NotificationService._();
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -63,14 +69,6 @@ class NotificationService {
         _notificationDetails(),
       );
     }
-    // // Extract authorID from the notification data
-    // String? postID = message.data['postID'];
-
-    // // Navigate to the specific post using named routes
-
-    //   print("here");
-    //   context.push("/feed/post/$postID");
-
   }
 
   static void onMessageOpenedApp(BuildContext context, RemoteMessage message) {
@@ -96,37 +94,12 @@ class NotificationService {
         ),
       );
     }
-    
-    
   }
-  // static void onMessageOpenedApp(BuildContext? context, RemoteMessage message) async {
-  //   RemoteNotification? notification = message.notification;
-  //   AndroidNotification? androidNotification = message.notification?.android;
-  //   AppleNotification? appleNotification = message.notification?.apple;
 
-  //   if (notification == null) return;
-
-  //   if ((androidNotification != null || appleNotification != null) &&
-  //       context != null) {
-  //     // showDialog(
-  //     //   context: context,
-  //     //   builder: (_) => AlertDialog(
-  //     //     title: Text(notification.title ?? 'No Title'),
-  //     //     content: SingleChildScrollView(
-  //     //       child: Column(
-  //     //         crossAxisAlignment: CrossAxisAlignment.start,
-  //     //         children: [
-  //     //           Text(notification.body ?? 'No body'),
-  //     //         ],
-  //     //       ),
-  //     //     ),
-  //     //   ),
-  //     // );
-  //     // Extract postID from the notification data
-  //     String? postID = message.data['postID'];
-  //     print("here");
-  //     // Navigate to the specific post using named routes if context is not null
-  //     context.go("/feed/post/$postID");
-  //   }
-  // }
+  Future<void> postNotification(BuildContext context, RemoteMessage message) async {
+    String postID = message.data['postId'];
+    // await locator<FeedBuilderController>().onRefresh(); // This needs to be fixed. Bad state element in "feedChunks.first.oldestPost" in post_handler
+    
+    context.push("/feed/post/$postID");
+  }
 }
