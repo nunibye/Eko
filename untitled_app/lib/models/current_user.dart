@@ -217,7 +217,7 @@ class CurrentUser extends AppUser {
     }
   }
 
-  Future<String> setProfileImage(
+  Future<File?> setPreviewProfileImage(
       {ImageSource source = ImageSource.gallery,
       int imageQuality = 100,
       imageHeight = 300.0}) async {
@@ -229,7 +229,7 @@ class CurrentUser extends AppUser {
       source: source,
     ); //maxHeight: imageHeight,imageQuality: imageQuality
     if (pickedFile == null) {
-      return "fail";
+      return null;
     }
 
     cropedFile = await imageCropper.cropImage(
@@ -246,15 +246,15 @@ class CurrentUser extends AppUser {
           IOSUiSettings() //TODO make this look good
         ]);
     if (cropedFile == null) {
-      return "fail";
+      return null;
     }
-    if (await _uploadProfilePicture(File(cropedFile.path)) == "success") {
-      return "success";
-    }
-    return "fail";
+    // if (await _uploadProfilePicture(File(cropedFile.path)) == "success") {
+    //   return "success";
+    // }
+    return File(cropedFile.path);
   }
 
-  Future<String> _uploadProfilePicture(File profile) async {
+  Future<String> uploadProfilePicture(File profile) async {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();
     await FirebaseStorage.instance
@@ -298,10 +298,7 @@ class CurrentUser extends AppUser {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();
     try {
-      await firestore
-          .collection("users")
-          .doc(user)
-          .update({"name": name});
+      await firestore.collection("users").doc(user).update({"name": name});
       return "success";
     } catch (e) {
       return "fail";

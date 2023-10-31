@@ -32,7 +32,10 @@
     "exitCreateAccountTitle":"Return to welcome page",
     "exitCreateAccountBody":"Are you sure you want to go back? your information will be deleted.",
 
+    "exitEditProfileTitle":"Are you sure you want to exit?",
+    "exitEditProfileBody":"All changes will be lost.",
     "stay":"Stay",
+    "exit":"Exit",
     "goBack":"Go Back",
     "tryAgain":"Try Again",
     "signUp":"Sign Up",

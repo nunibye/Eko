@@ -74,7 +74,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exitCreateAccountBody => 'Are you sure you want to go back? your information will be deleted.';
 
   @override
+  String get exitEditProfileTitle => 'Are you sure you want to exit?';
+
+  @override
+  String get exitEditProfileBody => 'All changes will be lost.';
+
+  @override
   String get stay => 'Stay';
+
+  @override
+  String get exit => 'Exit';
 
   @override
   String get goBack => 'Go Back';
