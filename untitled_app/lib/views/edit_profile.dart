@@ -17,7 +17,13 @@ class EditProfile extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EditProfileController(context: context),
       builder: (context, child) {
-        return GestureDetector(
+        return WillPopScope(
+          onWillPop: () async {
+            Provider.of<EditProfileController>(context, listen: false)
+                .exitPressed();
+            return false;
+          },
+          child: GestureDetector(
             onTap: () =>
                 Provider.of<EditProfileController>(context, listen: false)
                     .hideKeyboard(),
@@ -50,23 +56,24 @@ class EditProfile extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      if(Provider.of<EditProfileController>(
-                                    context,
-                                    listen: true).showSave)TextButton(
-                        child: Text(
-                          AppLocalizations.of(context)!.save,
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Lato',
-                            color: Theme.of(context).colorScheme.onBackground,
+                      if (Provider.of<EditProfileController>(context,
+                              listen: true)
+                          .showSave)
+                        TextButton(
+                          child: Text(
+                            AppLocalizations.of(context)!.save,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Lato',
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
                           ),
+                          onPressed: () => Provider.of<EditProfileController>(
+                                  context,
+                                  listen: false)
+                              .savePressed(),
                         ),
-                        onPressed: () => Provider.of<EditProfileController>(
-                                context,
-                                listen: false)
-                            .savePressed(),
-                      ),
 
                       //const Spacer(),
                     ],
@@ -76,40 +83,58 @@ class EditProfile extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).width * 0.26,
-                          width: MediaQuery.sizeOf(context).width * 0.26,
-                          child: IconButton(
-                            onPressed: () => Provider.of<EditProfileController>(
-                                    context,
-                                    listen: false)
-                                .editProfileImagePressed(),
-                            icon: ClipOval(
-                                child: Stack(
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: Provider.of<EditProfileController>(
-                                          context,
-                                          listen: true)
-                                      .profileImage,
-                                  placeholder: (context, url) =>
-                                      const LoadingProfileImage(),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                                const Image(
-                                  image: AssetImage('images/edit.png'),
-                                )
-                              ],
-                            )),
-                          ),
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.sizeOf(context).width * 0.4,
+                              width: MediaQuery.sizeOf(context).width * 0.4,
+                              child: ClipOval(
+                                child: Provider.of<EditProfileController>(
+                                                context,
+                                                listen: true)
+                                            .newProfileImage !=
+                                        null
+                                    ? Image.file(
+                                        Provider.of<EditProfileController>(
+                                                context,
+                                                listen: true)
+                                            .newProfileImage!)
+                                    : CachedNetworkImage(
+                                        imageUrl:
+                                            Provider.of<EditProfileController>(
+                                                    context,
+                                                    listen: true)
+                                                .profileImage,
+                                        placeholder: (context, url) =>
+                                            const LoadingProfileImage(),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      ),
+                              ),
+                            ),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    padding: const EdgeInsets.all(20)),
+                                onPressed: () =>
+                                    Provider.of<EditProfileController>(context,
+                                            listen: false)
+                                        .editProfileImagePressed(),
+                                child: const Icon(
+                                  Icons.mode,
+                                  size: 25,
+                                ))
+                            // const Image(
+                            //   image: AssetImage('images/edit.png'),
+                            // )
+                          ],
                         ),
                       ],
                     ),
                   ),
                   ProfileInputFeild(
-                    controller: Provider.of<EditProfileController>(
-                            context,
+                    controller: Provider.of<EditProfileController>(context,
                             listen: false)
                         .nameController,
                     onChanged: (s) => Provider.of<EditProfileController>(
@@ -120,8 +145,7 @@ class EditProfile extends StatelessWidget {
                     maxLength: c.maxNameChars,
                   ),
                   ProfileInputFeild(
-                    controller: Provider.of<EditProfileController>(
-                            context,
+                    controller: Provider.of<EditProfileController>(context,
                             listen: false)
                         .bioController,
                     onChanged: (s) => Provider.of<EditProfileController>(
@@ -133,7 +157,9 @@ class EditProfile extends StatelessWidget {
                   ),
                 ],
               ),
-            ));
+            ),
+          ),
+        );
       },
     );
   }

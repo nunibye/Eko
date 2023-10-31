@@ -231,11 +231,29 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to go back? your information will be deleted.'**
   String get exitCreateAccountBody;
 
+  /// No description provided for @exitEditProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to exit?'**
+  String get exitEditProfileTitle;
+
+  /// No description provided for @exitEditProfileBody.
+  ///
+  /// In en, this message translates to:
+  /// **'All changes will be lost.'**
+  String get exitEditProfileBody;
+
   /// No description provided for @stay.
   ///
   /// In en, this message translates to:
   /// **'Stay'**
   String get stay;
+
+  /// No description provided for @exit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit'**
+  String get exit;
 
   /// No description provided for @goBack.
   ///
