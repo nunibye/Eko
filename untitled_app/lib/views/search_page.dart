@@ -79,6 +79,7 @@ class SearchPage extends StatelessWidget {
                                   ),
                                 )
                               : ListView.builder(
+                                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                                   itemCount: Provider.of<SearchPageController>(
                                           context,
                                           listen: true)
