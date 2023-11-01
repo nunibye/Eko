@@ -5,16 +5,15 @@ import '../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
 
 class FeedPage extends StatelessWidget {
-  const FeedPage({super.key});
+  final bool rebuild;
+  const FeedPage({super.key, this.rebuild = false});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => FeedController(context: context),
+      create: (context) => FeedController(context: context, rebuild: rebuild),
       builder: (context, child) {
         return Scaffold(
-          
-          
           body: FeedBuilder(
             firestoreQuery:
                 Provider.of<FeedController>(context, listen: true).query,
@@ -38,8 +37,8 @@ class _Header extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-    CustomTabBar(),
-    ],
+        CustomTabBar(),
+      ],
     );
   }
 }

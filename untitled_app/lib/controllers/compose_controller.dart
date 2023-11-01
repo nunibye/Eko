@@ -10,6 +10,7 @@ import '../secrets/secrets.dart' as secrets;
 import 'bottom_nav_bar_controller.dart';
 import '../custom_widgets/post_card.dart';
 import "package:go_router/go_router.dart";
+import 'package:untitled_app/models/feed_post_cache.dart';
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -97,7 +98,7 @@ class ComposeController extends ChangeNotifier {
         post["gifSource"] = gif!.url;
       }
 
-      showDialog(
+      showDialog (
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -125,13 +126,27 @@ class ComposeController extends ChangeNotifier {
               ),
               TextButton(
                 child: Text(AppLocalizations.of(context)!.post),
-                onPressed: () {
+                onPressed: (){
                   locator<PostsHandling>().createPost(post);
+                  locator<FeedPostCache>().addPost(
+                      2,
+                      Post(
+                          gifSource: post["gifSource"],
+                          gifURL: post["gifUrl"],
+                          postId: "postId",
+                          time: DateTime.now().toUtc().toIso8601String(),
+                          title: post["title"],
+                          author: locator<CurrentUser>(),
+                          body: post["body"],
+                          likes: 0));
+
                   titleController.text = "";
                   bodyController.text = "";
-                  removeGifPressed();
+                  gif = null;
+
                   Navigator.of(context).pop();
-                  context.go("/feed");
+                   context.go("/feed", extra: true);
+                  notifyListeners();
                 },
               ),
             ],

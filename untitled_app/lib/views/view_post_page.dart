@@ -57,11 +57,7 @@ class ViewPostPage extends StatelessWidget {
                                   .postId)
                               .collection("comments")
                               .orderBy('time', descending: true),
-                          header: PostCard(
-                            post: Provider.of<PostPageController>(context,
-                                    listen: false)
-                                .post!,
-                          ),
+                          header: const _Header(),
                         ),
                       ),
                       Row(
@@ -126,91 +122,14 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: c.postPaddingHoriz,
-          vertical: c.postPaddingVert,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Display the profile picture as a CircleAvatar
-            IconButton(
-              onPressed: () {},
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              icon: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.115,
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        Provider.of<PostPageController>(context, listen: false)
-                            .post!
-                            .author
-                            .profilePicture, //FIXME
-                    placeholder: (context, url) => const LoadingProfileImage(),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 5),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        Provider.of<PostPageController>(context, listen: false)
-                            .post!
-                            .author
-                            .name,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        "@${Provider.of<PostPageController>(context, listen: false).post!.author.username}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8.0),
-                  if (Provider.of<PostPageController>(context, listen: false)
-                          .post!
-                          .body !=
-                      null)
-                    Text(
-                      Provider.of<PostPageController>(context, listen: false)
-                          .post!
-                          .body!,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      PostCard(
+        post: Provider.of<PostPageController>(context, listen: false).post!,
+        isPostPage: true,
       ),
-      Padding(
-        padding: const EdgeInsets.only(bottom: 3),
-        child: Divider(
-          color: Theme.of(context).colorScheme.onBackground,
-          height: 1,
-        ),
-      )
+      Divider(
+        color: Theme.of(context).colorScheme.outline,
+        height: 1,
+      ),
     ]);
   }
 }

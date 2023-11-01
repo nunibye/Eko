@@ -138,7 +138,7 @@ class ComposePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: height * 0.275),
+                  SizedBox(height: height * 0.25),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.width * 0.15,

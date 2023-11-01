@@ -227,40 +227,39 @@ class PostsHandling {
       // return postsToPassBack;
 
       RawPostObject? newOldestPost;
-  while (postsToPassBack.length < c.postsOnRefresh) {
-    snapshot = await firestore
-        .collection('posts')
-        .where("author", whereIn: feedChunks.first.uids)
-        .orderBy('time', descending: true)
-        .startAfter([feedChunks.first.oldestPost.time])
-        .limit(1)
-        .get();
-    if (snapshot.docs.isNotEmpty) {
-      final data = snapshot.docs.first.data();
-      newOldestPost = RawPostObject(
-        postID: snapshot.docs.first.id,
-        author: data["author"] ?? "",
-        title: data["title"],
-        body: data["body"],
-        gifSource: data["gifSource"],
-        gifUrl: data["gifUrl"],
-        time: data["time"] ?? "",
-        likes: data["likes"] ?? 0,
-      );
-      postsToPassBack.add(newOldestPost);
-    } else {
-      feedChunks.removeAt(0);
-      if (feedChunks.isEmpty) {
-        return postsToPassBack;
+      while (postsToPassBack.length < c.postsOnRefresh) {
+        snapshot = await firestore
+            .collection('posts')
+            .where("author", whereIn: feedChunks.first.uids)
+            .orderBy('time', descending: true)
+            .startAfter([feedChunks.first.oldestPost.time])
+            .limit(1)
+            .get();
+        if (snapshot.docs.isNotEmpty) {
+          final data = snapshot.docs.first.data();
+          newOldestPost = RawPostObject(
+            postID: snapshot.docs.first.id,
+            author: data["author"] ?? "",
+            title: data["title"],
+            body: data["body"],
+            gifSource: data["gifSource"],
+            gifUrl: data["gifUrl"],
+            time: data["time"] ?? "",
+            likes: data["likes"] ?? 0,
+          );
+          postsToPassBack.add(newOldestPost);
+        } else {
+          feedChunks.removeAt(0);
+          if (feedChunks.isEmpty) {
+            return postsToPassBack;
+          }
+        }
       }
-    }
-  }
 
-  // Update the oldest post after all asynchronous operations are complete
-  feedChunks.first.oldestPost = newOldestPost!;
+      // Update the oldest post after all asynchronous operations are complete
+      feedChunks.first.oldestPost = newOldestPost!;
 
-  return postsToPassBack;
-
+      return postsToPassBack;
     }
   }
 }

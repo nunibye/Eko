@@ -9,12 +9,16 @@ import 'package:untitled_app/models/notification_service.dart';
 
 class FeedController extends ChangeNotifier {
   int index = 2;
+  bool rebuild;
   Query<Map<String, dynamic>>? query = FirebaseFirestore.instance
       .collection("posts")
       .orderBy('time', descending: true);
   final BuildContext context;
 
-  FeedController({required this.context}) {
+  FeedController({required this.context, required this.rebuild}) {
+    if(rebuild){
+      notifyListeners();
+    }
     NotificationService notificationService = NotificationService();
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
