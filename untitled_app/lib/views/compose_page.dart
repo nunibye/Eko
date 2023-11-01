@@ -48,13 +48,16 @@ class ComposePage extends StatelessWidget {
                     child: Provider.of<ComposeController>(context, listen: true)
                                 .gif !=
                             null
-                        ? Image.network(
-                            Provider.of<ComposeController>(context,
-                                    listen: true)
-                                .gif!
-                                .images!
-                                .fixedWidth
-                                .url,
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              Provider.of<ComposeController>(context,
+                                      listen: true)
+                                  .gif!
+                                  .images!
+                                  .fixedWidth
+                                  .url,
+                            ),
                           )
                         : FloatingActionButton.large(
                             onPressed: () => Provider.of<ComposeController>(
@@ -156,9 +159,7 @@ class ComposePage extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 24,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimary),
+                            color: Theme.of(context).colorScheme.onPrimary),
                       ),
                     ),
                   ),

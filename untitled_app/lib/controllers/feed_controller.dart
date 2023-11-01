@@ -16,18 +16,22 @@ class FeedController extends ChangeNotifier {
   final BuildContext context;
 
   FeedController({required this.context, required this.rebuild}) {
-    if(rebuild){
-      notifyListeners();
+    if (rebuild) {
+      rebuildFunction();
     }
     NotificationService notificationService = NotificationService();
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       notificationService.postNotification(context, message);
+      rebuildFunction();
       // String postID = message.data['postId'];
       // Access the postId from the data payload
       // Navigate to the specific post using the retrieved postID
       // context.go("/feed/post/$postID");
     });
+  }
+  void rebuildFunction() {
+    notifyListeners();
   }
 
   void onTabPressed(int newIndex) {
