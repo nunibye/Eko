@@ -181,7 +181,7 @@ class PostsHandling {
                   title: data["title"],
                   body: data["body"],
                   gifSource: data["gifSource"],
-                  gifUrl: data["giUrl"],
+                  gifUrl: data["gifUrl"],
                   time: data["time"] ?? "",
                   likes: data["likes"] ?? 0),
             ),
