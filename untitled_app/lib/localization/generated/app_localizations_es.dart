@@ -20,6 +20,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logIn => 'Login';
 
   @override
+  String get invalidUserName => 'Username does not meet requirements';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get usernameInUse => 'Username Unavilable';
+
+  @override
+  String get usernameTakenTitle => 'This Username has been taken.';
+
+  @override
+  String get usernameTakenBody => 'Please go back and choose a diffrent username.';
+
+  @override
   String get invalidEmailTittle => 'Invalid Email Formating';
 
   @override

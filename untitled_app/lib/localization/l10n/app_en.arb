@@ -5,6 +5,13 @@
     "confirmPassword":"Confirm Password",
     "logIn":"Login",
 
+    "invalidUserName":"Username does not meet requirements",
+    "available":"Available",
+    "usernameInUse":"Username Unavilable",
+
+    "usernameTakenTitle":"This Username has been taken.",
+    "usernameTakenBody":"Please go back and choose a diffrent username.",
+
     "invalidEmailTittle":"Invalid Email Formating",
     "invalidEmailBody":"Please check your email and try again.",
 

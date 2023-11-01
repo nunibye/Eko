@@ -75,6 +75,7 @@ class GetInfo extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.width * 0.05),
       child: Center(
         child: ListView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             const _BackButton(),
             SizedBox(
@@ -109,6 +110,9 @@ class GetInfo extends StatelessWidget {
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
+              onChanged: (s) =>
+                  Provider.of<SignUpController>(context, listen: false)
+                      .onUsernameChanged(s),
               focus: Provider.of<SignUpController>(context, listen: false)
                   .usernameFocus,
               label: AppLocalizations.of(context)!.userName,
@@ -116,8 +120,45 @@ class GetInfo extends StatelessWidget {
                   .usernameController,
               inputType: TextInputType.text,
             ),
-            ElevatedButton(onPressed:()=> Provider.of<SignUpController>(context, listen: false)
-                  .isUsernameAvailable(), child: Text("check")),
+            if (Provider.of<SignUpController>(context, listen: true)
+                    .usernameController
+                    .text !=
+                '')
+              Row(
+                children: [
+                  const SizedBox(width: 5),
+                  Consumer<SignUpController>(
+                    builder: (context, signUpController, _) => signUpController
+                            .validUsername
+                        ? (signUpController.isChecking
+                            ? Container(
+                                alignment: Alignment.centerRight,
+                                width: width * 0.05,
+                                height: width * 0.05,
+                                child: const CircularProgressIndicator())
+                            : signUpController.availableUsername
+                                ? Text(
+                                    AppLocalizations.of(context)!.available,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context)!.usernameInUse,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .error)))
+                        : Text(AppLocalizations.of(context)!.invalidUserName,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.error)),
+                  )
+                ],
+              ),
+
+            // ElevatedButton(onPressed:()=> Provider.of<SignUpController>(context, listen: false)
+            //       .isUsernameAvailable(), child: Text("check")),
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(
@@ -137,6 +178,7 @@ class GetInfo extends StatelessWidget {
               label: AppLocalizations.of(context)!.dateOfBirth,
               controller: Provider.of<SignUpController>(context, listen: false)
                   .dobController,
+              textInputAction: TextInputAction.send,
               inputType: TextInputType.datetime,
             ),
             SizedBox(
@@ -151,7 +193,7 @@ class GetInfo extends StatelessWidget {
                         .forwardPressed(),
                 style: TextButton.styleFrom(
                     backgroundColor:
-                        Theme.of(context).colorScheme.primary.withOpacity(.55)),
+                        Theme.of(context).colorScheme.primary),
                 child: Text(
                   AppLocalizations.of(context)!.cont,
                   style: TextStyle(
@@ -183,6 +225,7 @@ class GetPassword extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.width * 0.05),
       child: Center(
         child: ListView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             const _BackButton(),
             SizedBox(
@@ -280,7 +323,7 @@ class GetPassword extends StatelessWidget {
                     backgroundColor: Theme.of(context).colorScheme.primary),
                 child: Provider.of<SignUpController>(context, listen: true)
                         .loggingIn
-                    ? const CircularProgressIndicator()
+                    ?  CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,)
                     : Text(
                         AppLocalizations.of(context)!.cont,
                         style: TextStyle(

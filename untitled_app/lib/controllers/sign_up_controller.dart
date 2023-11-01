@@ -6,6 +6,7 @@ import '../models/current_user.dart';
 import '../custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import "package:go_router/go_router.dart";
+import 'dart:async';
 
 // TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
@@ -25,11 +26,15 @@ class SignUpController extends ChangeNotifier {
   final pageController = PageController();
   final BuildContext context;
 
+  bool availableUsername = false;
+  bool validUsername = false;
+  bool isChecking = false;
   bool firstPage = true;
   bool lastPage = false;
   bool loggingIn = false;
   bool goodPassword = false;
   double passwordPercent = 0;
+  Timer? _debounce;
   List<String> passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
 
   SignUpController({required this.context});
@@ -89,20 +94,29 @@ class SignUpController extends ChangeNotifier {
   void keyboardGoToNextPage() async {
     await forwardPressed();
     Future.delayed(const Duration(milliseconds: 100),
-        () => nameFocus.requestFocus()); //waits for keyboard to close
+        () => passwordFocus.requestFocus()); //waits for keyboard to close
 
     //focus1.requestFocus();
   }
 
-  void isUsernameAvailable() async {
-    print(await locator<CurrentUser>()
-        .isUsernameAvailable(usernameController.text));
+  void _popAndGoBack() {
+    _pop();
+    backPressed();
+    usernameFocus.requestFocus();
   }
 
   bool _handleError(String errorCode) {
     switch (errorCode) {
       case 'success':
         return true;
+      case 'username-taken':
+        showMyDialog(
+            AppLocalizations.of(context)!.usernameTakenTitle,
+            AppLocalizations.of(context)!.usernameTakenBody,
+            [AppLocalizations.of(context)!.goBack],
+            [_popAndGoBack],
+            context);
+        break;
       case 'invalid-email':
         showMyDialog(
             AppLocalizations.of(context)!.invalidEmailTittle,
@@ -142,6 +156,28 @@ class SignUpController extends ChangeNotifier {
     return false;
   }
 
+  void onUsernameChanged(String s) {
+    if (!s.trim().contains(RegExp(r'^[a-zA-Z0-9._]{3,12}$'))) {
+      validUsername = false;
+      notifyListeners();
+    } else {
+      validUsername = true;
+      isChecking = true;
+      notifyListeners();
+    }
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce =
+        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
+      if (s != '') {
+        availableUsername = await locator<CurrentUser>()
+            .isUsernameAvailable(usernameController.text.trim());
+
+        isChecking = false;
+        notifyListeners();
+      }
+    });
+  }
+
   signUpPressed() async {
     hideKeyboard();
 
@@ -150,12 +186,21 @@ class SignUpController extends ChangeNotifier {
     } else {
       //TODO delete || controller2.text == "password" before production
       if (goodPassword || passwordController.text == "password") {
-        locator<CurrentUser>().email = emailController.text;
         loggingIn = true;
         notifyListeners();
-        if (_handleError(
-            await locator<CurrentUser>().signUp(passwordController.text))) {
-          locator<CurrentUser>().addUserDataToFirestore();
+        locator<CurrentUser>().email = emailController.text.trim();
+        locator<CurrentUser>().username = usernameController.text.trim();
+        locator<CurrentUser>().name = nameController.text.trim();
+
+
+        if (await locator<CurrentUser>()
+            .isUsernameAvailable(usernameController.text.trim())) {
+          if (_handleError(
+              await locator<CurrentUser>().signUp(passwordController.text))) {
+            locator<CurrentUser>().addUserDataToFirestore();
+          }
+        } else {
+          _handleError("username-taken");
         }
 
         loggingIn = false;
@@ -169,11 +214,9 @@ class SignUpController extends ChangeNotifier {
   void backPressed() async {
     hideKeyboard();
     if (pageController.page != 0.0) {
-      _getPageData(pageController.page!.toInt());
       await pageController.previousPage(
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
-      _setPageData(pageController.page!.toInt());
     } else {
       showMyDialog(
           AppLocalizations.of(context)!.exitCreateAccountTitle,
@@ -192,13 +235,15 @@ class SignUpController extends ChangeNotifier {
     int page = pageController.page!.toInt();
     if (page == 0 &&
         (nameController.text == "" ||
-            usernameController.text == "" ||
+            !validUsername ||
+            isChecking ||
+            !availableUsername ||
             emailController.text == "" ||
             dobController.text == "")) {
       // Request focus for the empty field
       if (nameController.text == "") {
         nameFocus.requestFocus();
-      } else if (usernameController.text == "") {
+      } else if (!validUsername || isChecking || !availableUsername) {
         usernameFocus.requestFocus();
       } else if (emailController.text == "") {
         emailFocus.requestFocus();
@@ -208,47 +253,12 @@ class SignUpController extends ChangeNotifier {
       return "done";
     }
     if (page == 0) {
-      _getPageData(page);
-      _setPageData(page + 1);
+      //_getPageData(page);
+      //_setPageData(page + 1);
       await pageController.nextPage(
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
     }
     return "done";
-  }
-
-  _getPageData(int page) {
-    switch (page) {
-      case 0:
-        locator<CurrentUser>().name = nameController.text;
-        locator<CurrentUser>().username = usernameController.text;
-        locator<CurrentUser>().email = emailController.text;
-        break;
-      case 1:
-        break;
-    }
-  }
-
-  _setPageData(int page) {
-    switch (page) {
-      case 0:
-        firstPage = true;
-        lastPage = false;
-
-        nameController.text = locator<CurrentUser>().name;
-        usernameController.text = locator<CurrentUser>().username;
-        emailController.text = locator<CurrentUser>().email;
-
-        notifyListeners();
-        break;
-      case 1:
-        firstPage = false;
-        lastPage = true;
-
-        passwordController.text = "";
-        passwordConfirmController.text = "";
-        notifyListeners();
-        break;
-    }
   }
 }

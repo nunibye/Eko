@@ -123,6 +123,36 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get logIn;
 
+  /// No description provided for @invalidUserName.
+  ///
+  /// In en, this message translates to:
+  /// **'Username does not meet requirements'**
+  String get invalidUserName;
+
+  /// No description provided for @available.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// No description provided for @usernameInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Username Unavilable'**
+  String get usernameInUse;
+
+  /// No description provided for @usernameTakenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This Username has been taken.'**
+  String get usernameTakenTitle;
+
+  /// No description provided for @usernameTakenBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please go back and choose a diffrent username.'**
+  String get usernameTakenBody;
+
   /// No description provided for @invalidEmailTittle.
   ///
   /// In en, this message translates to:
