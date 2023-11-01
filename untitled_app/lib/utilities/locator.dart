@@ -10,19 +10,19 @@ import '../controllers/bottom_nav_bar_controller.dart';
 import '../models/feed_post_cache.dart';
 
 final locator = GetIt.instance;
-void setupLocator(BuildContext context) {
+void setupLocator() {
   // void setupLocator() {
-  locator.registerSingleton<CurrentUser>(CurrentUser());
+  locator.registerLazySingleton<CurrentUser>(() => CurrentUser());
   locator.registerLazySingleton<PostsHandling>(() => PostsHandling());
   locator.registerSingleton<NavBarController>(NavBarController());
   locator.registerLazySingleton<FeedPostCache>(() => FeedPostCache());
   locator.registerSingleton<RouterNotifier>(RouterNotifier());
   locator.registerSingleton<NotificationService>(NotificationService());
-  locator.registerLazySingleton<FeedBuilderController>(() => FeedBuilderController(
-    firestoreQuery: null,  // Provide the appropriate query here if needed
-    refreshFunction: null, // Provide the appropriate refresh function here if needed
-    context: context,         // Provide the appropriate context here if needed
-    passedUser: null,       // Provide the appropriate user object here if needed
-    index: null,            // Provide the appropriate index here if needed
-  ));
+  // locator.registerLazySingleton<FeedBuilderController>(() => FeedBuilderController(
+  //   firestoreQuery: null,  // Provide the appropriate query here if needed
+  //   refreshFunction: null, // Provide the appropriate refresh function here if needed
+  //   context: context,         // Provide the appropriate context here if needed
+  //   passedUser: null,       // Provide the appropriate user object here if needed
+  //   index: null,            // Provide the appropriate index here if needed
+  // ));
 }

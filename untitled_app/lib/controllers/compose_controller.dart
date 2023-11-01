@@ -129,7 +129,7 @@ class ComposeController extends ChangeNotifier {
                   locator<PostsHandling>().createPost(post);
                   titleController.text = "";
                   bodyController.text = "";
-                  gif = null;
+                  removeGifPressed();
                   Navigator.of(context).pop();
                   context.go("/feed");
                 },

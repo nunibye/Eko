@@ -24,7 +24,7 @@ Future<void> main() async {
   await NotificationService.initializeNotification();
   // Handle foreground messages.
 
-  // setupLocator();
+  setupLocator();
   runApp(const MyApp());
 }
 
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    setupLocator(context);
+    // setupLocator(context);
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
