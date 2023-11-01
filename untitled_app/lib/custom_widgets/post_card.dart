@@ -10,8 +10,9 @@ import 'package:intl/intl.dart';
 class PostCard extends StatelessWidget {
   final Post post;
   final bool isPreview;
+  final bool isPostPage;
 
-  const PostCard({super.key, required this.post, this.isPreview = false});
+  const PostCard({super.key, required this.post, this.isPreview = false, this.isPostPage = false});
 
   String formatTime(String time) {
     DateTime parsedTime = DateTime.parse(time);
@@ -184,11 +185,12 @@ class PostCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        onPressed: () => isPreview
-                            ? null
-                            : Provider.of<PostCardController>(context,
+                        onPressed: () {
+                          if (!isPreview && !isPostPage) { Provider.of<PostCardController>(context,
                                     listen: false)
-                                .commentPressed(),
+                                .commentPressed();
+                          }
+                        },
                         icon: Row(
                           children: [
                             Icon(

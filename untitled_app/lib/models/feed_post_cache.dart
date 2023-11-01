@@ -10,6 +10,10 @@ class FeedPostCache {
   List<Cache> postsList =
       List.generate(4, (index) => Cache(posts: [], end: false));
 
+  addPost(int index, Post post) {
+    postsList[index].posts.insert(0, post);
+  }
+
   clearCache() {
     postsList = List.generate(4, (index) => Cache(posts: [], end: false));
   }

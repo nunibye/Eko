@@ -100,9 +100,16 @@ final goRouter = GoRouter(
             GoRoute(
               path: '/feed',
               name: 'feed',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: FeedPage(),
-              ),
+              pageBuilder: (context, state) {
+                bool? reload = state.extra as bool?;
+                return NoTransitionPage(
+                  child: reload == null
+                      ? const FeedPage()
+                      : FeedPage(
+                          rebuild: reload,
+                        ),
+                );
+              },
               routes: [
                 GoRoute(
                   path: 'post/:id',
@@ -143,7 +150,6 @@ final goRouter = GoRouter(
         StatefulShellBranch(
           navigatorKey: _shellNavigatorProfileKey,
           routes: [
-            
             GoRoute(
               path: '/profile',
               name: 'profile',
