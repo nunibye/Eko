@@ -92,6 +92,7 @@ class FeedBuilderController extends ChangeNotifier {
   }
 
   Future<void> onRefresh() async {
+    print('Refreshing data...');
     end = false;
     posts = [];
     if (index != null) {
@@ -105,7 +106,7 @@ class FeedBuilderController extends ChangeNotifier {
       refreshFunction!();
     }
     // end = false;
-
+    print('Data refreshed.');
     notifyListeners();
   }
 }
