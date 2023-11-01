@@ -116,6 +116,8 @@ class GetInfo extends StatelessWidget {
                   .usernameController,
               inputType: TextInputType.text,
             ),
+            ElevatedButton(onPressed:()=> Provider.of<SignUpController>(context, listen: false)
+                  .isUsernameAvailable(), child: Text("check")),
             SizedBox(
                 height: MediaQuery.of(context).size.height * c.loginPadding),
             CustomInputFeild(

@@ -294,6 +294,19 @@ class CurrentUser extends AppUser {
     }
   }
 
+  Future<bool> isUsernameAvailable(String username) async {
+     final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<String> uploadProfileName(String name) async {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();

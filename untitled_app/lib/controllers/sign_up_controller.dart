@@ -94,6 +94,11 @@ class SignUpController extends ChangeNotifier {
     //focus1.requestFocus();
   }
 
+  void isUsernameAvailable() async {
+    print(await locator<CurrentUser>()
+        .isUsernameAvailable(usernameController.text));
+  }
+
   bool _handleError(String errorCode) {
     switch (errorCode) {
       case 'success':
