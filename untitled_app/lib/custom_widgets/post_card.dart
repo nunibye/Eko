@@ -12,7 +12,11 @@ class PostCard extends StatelessWidget {
   final bool isPreview;
   final bool isPostPage;
 
-  const PostCard({super.key, required this.post, this.isPreview = false, this.isPostPage = false});
+  const PostCard(
+      {super.key,
+      required this.post,
+      this.isPreview = false,
+      this.isPostPage = false});
 
   String formatTime(String time) {
     DateTime parsedTime = DateTime.parse(time);
@@ -36,7 +40,7 @@ class PostCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.only(bottom: 3),
                   child: Divider(
                     color: Theme.of(context).colorScheme.outline,
@@ -81,14 +85,27 @@ class PostCard extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "@${post.author.username}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
+                                TextButton(
+                                  onPressed: () => isPreview
+                                      ? null
+                                      : Provider.of<PostCardController>(context,
+                                              listen: false)
+                                          .avatarPressed(),
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(0, 0),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: Text(
+                                    "@${post.author.username}",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
                                   ),
                                 ),
                                 Text(
@@ -186,7 +203,8 @@ class PostCard extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (!isPreview && !isPostPage) { Provider.of<PostCardController>(context,
+                          if (!isPreview && !isPostPage) {
+                            Provider.of<PostCardController>(context,
                                     listen: false)
                                 .commentPressed();
                           }

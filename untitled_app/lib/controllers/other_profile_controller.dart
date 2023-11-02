@@ -6,46 +6,32 @@ import '../utilities/locator.dart';
 class OtherProfileController extends ChangeNotifier {
   final BuildContext context;
   final AppUser? user;
-  int likes = 0;
-  List<dynamic> followers = const [];
-  List<dynamic> following = const [];
-  String username = "";
-  String profileImage = "";
-
-  String uid = "";
-  String profileBio = "";
-  String name = "";
+  AppUser? loadedUser;
   late bool isFollowing;
 
-  OtherProfileController({required this.context, required this.user}) {
+  OtherProfileController(
+      {required this.context, required this.user, this.loadedUser}) {
     _init();
   }
   void _init() {
     if (user != null) {
-      uid = user!.uid;
-      name = user!.name;
-      
-      likes = user!.likes;
-      followers = user!.followers;
-      following = user!.following;
-      username = user!.username;
-      profileImage = user!.profilePicture;
-      profileBio = user!.bio;
-      
+      loadedUser = user!;
     }
-    isFollowing = locator<CurrentUser>().checkIsFollowing(uid);
+    isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
 
     notifyListeners();
   }
 
   onFollowPressed() async {
     if (isFollowing) {
-      if (await locator<CurrentUser>().removeFollower(uid)) {
+      if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {
         isFollowing = false;
+        loadedUser!.followers.remove(locator<CurrentUser>().uid);
       }
     } else {
-      if (await locator<CurrentUser>().addFollower(uid)) {
+      if (await locator<CurrentUser>().addFollower(loadedUser!.uid)) {
         isFollowing = true;
+        loadedUser!.followers.add(locator<CurrentUser>().uid);
       }
     }
     notifyListeners();

@@ -27,7 +27,7 @@ class OtherProfile extends StatelessWidget {
               backgroundColor: Theme.of(context).colorScheme.background,
               title: Text(
                 Provider.of<OtherProfileController>(context, listen: true)
-                    .username,
+                    .loadedUser!.username,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.onBackground,
@@ -44,24 +44,24 @@ class OtherProfile extends StatelessWidget {
             body: FeedBuilder(
               user: AppUser(
                   username:
-                      Provider.of<OtherProfileController>(context, listen: true)
-                          .username,
+                      Provider.of<OtherProfileController>(context, listen: false)
+                          .loadedUser!.username,
                   name:
-                      Provider.of<OtherProfileController>(context, listen: true)
-                          .name,
+                      Provider.of<OtherProfileController>(context, listen: false)
+                          .loadedUser!.name,
                   profilePicture:
-                      Provider.of<OtherProfileController>(context, listen: true)
-                          .profileImage,
+                      Provider.of<OtherProfileController>(context, listen: false)
+                          .loadedUser!.profilePicture,
                   uid:
-                      Provider.of<OtherProfileController>(context, listen: true)
-                          .uid),
+                      Provider.of<OtherProfileController>(context, listen: false)
+                          .loadedUser!.uid),
               //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
               firestoreQuery: FirebaseFirestore.instance
                   .collection('posts')
                   .where("author",
                       isEqualTo: Provider.of<OtherProfileController>(context,
                               listen: false)
-                          .uid)
+                          .loadedUser!.uid)
                   .orderBy('time', descending: true),
               //This widget will be first in the list. use Column for this not ListView
               header: const _Header(),
@@ -84,13 +84,13 @@ class _Header extends StatelessWidget {
       children: [
         Consumer<OtherProfileController>(
           builder: (context, otherProfileController, _) => ProfileHeader(
-            username: otherProfileController.username,
-            profilePic: otherProfileController.profileImage,
-            likes: otherProfileController.likes,
-            following: otherProfileController.following.length,
-            followers: otherProfileController.followers.length,
-            profileBio: otherProfileController.profileBio,
-            name: otherProfileController.name,
+            username: otherProfileController.loadedUser!.username,
+            profilePic: otherProfileController.loadedUser!.profilePicture,
+            likes: otherProfileController.loadedUser!.likes,
+            following: otherProfileController.loadedUser!.following.length,
+            followers: otherProfileController.loadedUser!.followers.length,
+            profileBio: otherProfileController.loadedUser!.bio,
+            name: otherProfileController.loadedUser!.name,
           ),
         ),
         //TODO style
