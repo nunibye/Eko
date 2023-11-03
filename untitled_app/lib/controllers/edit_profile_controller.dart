@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'dart:io';
 import '../custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import '../utilities/constants.dart' as c;
+import 'dart:async';
 
 class EditProfileController extends ChangeNotifier {
   String profileImage = locator<CurrentUser>().profilePicture;
@@ -22,6 +24,15 @@ class EditProfileController extends ChangeNotifier {
       TextEditingController(text: locator<CurrentUser>().name);
   // final nameFocus = FocusNode();
   // int bioNameBodyChars = locator<CurrentUser>().bioName.length;
+
+  final usernameController =
+      TextEditingController(text: locator<CurrentUser>().username);
+  final usernameFocus = FocusNode();
+
+  bool availableUsername = true;
+  bool validUsername = true;
+  bool isChecking = false;
+  Timer? _debounce;
 
   int titleChars = 0;
   bool showBioCounts = false;
@@ -63,7 +74,7 @@ class EditProfileController extends ChangeNotifier {
   void _showLoadingDialog() {
     showGeneralDialog(
       context: context,
-      barrierColor: Colors.black12.withOpacity(0.6), // Background color
+      barrierColor: Theme.of(context).colorScheme.background,
       barrierDismissible: false,
       barrierLabel: 'Dialog',
       transitionDuration: const Duration(milliseconds: 200),
@@ -74,33 +85,55 @@ class EditProfileController extends ChangeNotifier {
   }
 
   void exitPressed() {
-    if(showSave){
-    showMyDialog(
-        AppLocalizations.of(context)!.exitEditProfileTitle,
-        AppLocalizations.of(context)!.exitEditProfileBody,
-        [
-          AppLocalizations.of(context)!.exit,
-          AppLocalizations.of(context)!.stay
-        ],
-        [_popTwice, _pop],
-        context);}else{
-          _pop();
-        }
+    if (showSave) {
+      showMyDialog(
+          AppLocalizations.of(context)!.exitEditProfileTitle,
+          AppLocalizations.of(context)!.exitEditProfileBody,
+          [
+            AppLocalizations.of(context)!.exit,
+            AppLocalizations.of(context)!.stay
+          ],
+          [_popTwice, _pop],
+          context);
+    } else {
+      _pop();
+    }
   }
 
   void savePressed() async {
+    bool shouldPop = true;
     if (locator<CurrentUser>().name != nameController.text) {
       await _saveNameData(nameController.text);
     }
     if (locator<CurrentUser>().bio != bioController.text) {
       await _saveBioData(bioController.text);
     }
+    if (locator<CurrentUser>().username != usernameController.text.trim()) {
+      if (await locator<CurrentUser>()
+          .isUsernameAvailable(usernameController.text.trim())) {
+        await _saveUsernameData(usernameController.text.trim());
+      } else {
+        shouldPop = false;
+        await usernameTakenDialog();
+      }
+    }
     if (newProfileImage != null) {
       _showLoadingDialog();
       await locator<CurrentUser>().uploadProfilePicture(newProfileImage!);
       _pop();
     }
-    _pop();
+    if (shouldPop) {
+      _pop();
+    }
+  }
+
+  usernameTakenDialog() {
+    showMyDialog(
+        AppLocalizations.of(context)!.usernameTakenTitle,
+        AppLocalizations.of(context)!.usernameTakenBody,
+        [AppLocalizations.of(context)!.goBack],
+        [_pop],
+        context);
   }
 
   // showCountsBio(bool show) {
@@ -130,6 +163,43 @@ class EditProfileController extends ChangeNotifier {
   Future<void> _saveNameData(String name) async {
     if (await locator<CurrentUser>().uploadProfileName(name) == "success") {
       locator<CurrentUser>().name = name;
+    }
+  }
+
+  Future<void> _saveUsernameData(String username) async {
+    if (await locator<CurrentUser>().uploadProfileUsername(username) ==
+        "success") {
+      locator<CurrentUser>().username = username;
+    }
+  }
+
+  void onUsernameChanged(String s) {
+    showSave = false;
+    if (!s.trim().contains(RegExp(r'^[a-zA-Z0-9._]{3,12}$'))) {
+      validUsername = false;
+      notifyListeners();
+    } else {
+      validUsername = true;
+      isChecking = true;
+      notifyListeners();
+    }
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce =
+        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
+      if (s != '') {
+        if (s == locator<CurrentUser>().username) {
+          availableUsername = true;
+        } else {
+          availableUsername = await locator<CurrentUser>()
+              .isUsernameAvailable(usernameController.text.trim());
+        }
+        isChecking = false;
+        notifyListeners();
+      }
+    });
+    if (locator<CurrentUser>().username != usernameController.text.trim() &&
+        validUsername == true) {
+      showSave = true;
     }
   }
 }

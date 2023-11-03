@@ -192,8 +192,7 @@ class GetInfo extends StatelessWidget {
                     Provider.of<SignUpController>(context, listen: false)
                         .forwardPressed(),
                 style: TextButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).colorScheme.primary),
+                    backgroundColor: Theme.of(context).colorScheme.primary),
                 child: Text(
                   AppLocalizations.of(context)!.cont,
                   style: TextStyle(
@@ -323,7 +322,9 @@ class GetPassword extends StatelessWidget {
                     backgroundColor: Theme.of(context).colorScheme.primary),
                 child: Provider.of<SignUpController>(context, listen: true)
                         .loggingIn
-                    ?  CircularProgressIndicator(color: Theme.of(context).colorScheme.primary,)
+                    ? CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.primary,
+                      )
                     : Text(
                         AppLocalizations.of(context)!.cont,
                         style: TextStyle(

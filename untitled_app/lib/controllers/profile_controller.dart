@@ -50,6 +50,7 @@ class ProfileController extends ChangeNotifier {
     user.profilePicture = locator<CurrentUser>().profilePicture;
     user.bio = locator<CurrentUser>().bio;
     user.name = locator<CurrentUser>().name;
+    user.username = locator<CurrentUser>().username;
     notifyListeners();
   }
 

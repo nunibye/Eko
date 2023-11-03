@@ -13,8 +13,11 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return ChangeNotifierProvider.value(
-      value: CommentCardController(post: post, context: context, rootPostId: rootPostId),
+      value: CommentCardController(
+          post: post, context: context, rootPostId: rootPostId),
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -38,7 +41,7 @@ class CommentCard extends StatelessWidget {
                           .avatarPressed(),
                       padding: const EdgeInsets.symmetric(horizontal: 5),
                       icon: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.115,
+                        width: width * 0.115,
                         child: ClipOval(
                           child: CachedNetworkImage(
                             imageUrl: post.author.profilePicture,
@@ -57,34 +60,63 @@ class CommentCard extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                post.author.name,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onBackground,
+                              TextButton(
+                                onPressed: () =>
+                                    Provider.of<CommentCardController>(context,
+                                            listen: false)
+                                        .avatarPressed(),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: const Size(0, 0),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  post.author.name,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 8.0),
-                              Text(
-                                "@${post.author.username}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                  color:
-                                      Theme.of(context).colorScheme.onBackground,
+                              TextButton(
+                                onPressed: () =>
+                                    Provider.of<CommentCardController>(context,
+                                            listen: false)
+                                        .avatarPressed(),
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: const Size(0, 0),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  "@${post.author.username}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8.0),
-                          if(post.body!=null)Text(
-                            post.body!,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context).colorScheme.onBackground,
+                          if (post.body != null)
+                            Text(
+                              post.body!,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -108,7 +140,8 @@ class CommentCard extends StatelessWidget {
                           Text(
                             '${Provider.of<CommentCardController>(context, listen: true).likes}',
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground),
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
                           ),
                         ],
                       ),
@@ -116,10 +149,10 @@ class CommentCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 3),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 3),
                 child: Divider(
-                  color: Color.fromARGB(255, 112, 112, 112),
+                  color: Theme.of(context).colorScheme.outline,
                   height: 1,
                 ),
               ),

@@ -12,7 +12,7 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     // double height = MediaQuery.of(context).size.height;
     return ChangeNotifierProvider(
       create: (context) => EditProfileController(context: context),
@@ -155,6 +155,64 @@ class EditProfile extends StatelessWidget {
                     label: AppLocalizations.of(context)!.bioTitle,
                     maxLength: c.maxBioChars,
                   ),
+                  ProfileInputFeild(
+                    onChanged: (s) => Provider.of<EditProfileController>(
+                            context,
+                            listen: false)
+                        .onUsernameChanged(s),
+                    focus: Provider.of<EditProfileController>(context,
+                            listen: false)
+                        .usernameFocus,
+                    label: AppLocalizations.of(context)!.userName,
+                    controller: Provider.of<EditProfileController>(context,
+                            listen: false)
+                        .usernameController,
+                    inputType: TextInputType.text,
+                    maxLength: c.maxUsernameChars,
+                  ),
+                  if (Provider.of<EditProfileController>(context, listen: true)
+                          .usernameController
+                          .text !=
+                      '')
+                    Row(
+                      children: [
+                        const SizedBox(width: 5),
+                        Consumer<EditProfileController>(
+                          builder: (context, signUpController, _) =>
+                              signUpController.validUsername
+                                  ? (signUpController.isChecking
+                                      ? Container(
+                                          alignment: Alignment.centerRight,
+                                          width: width * 0.05,
+                                          height: width * 0.05,
+                                          child:
+                                              const CircularProgressIndicator())
+                                      : signUpController.availableUsername
+                                          ? Text(
+                                              AppLocalizations.of(context)!
+                                                  .available,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary),
+                                            )
+                                          : Text(
+                                              AppLocalizations.of(context)!
+                                                  .usernameInUse,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .error)))
+                                  : Text(
+                                      AppLocalizations.of(context)!
+                                          .invalidUserName,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error)),
+                        )
+                      ],
+                    ),
                 ],
               ),
             ),

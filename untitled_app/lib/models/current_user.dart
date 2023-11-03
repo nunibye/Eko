@@ -318,6 +318,17 @@ class CurrentUser extends AppUser {
     }
   }
 
+    Future<String> uploadProfileUsername(String username) async {
+    final firestore = FirebaseFirestore.instance;
+    final user = getUID();
+    try {
+      await firestore.collection("users").doc(user).update({"username": username});
+      return "success";
+    } catch (e) {
+      return "fail";
+    }
+  }
+
   Future<void> addUserDataToFirestore() async {
     final user = getUID();
     final firestore = FirebaseFirestore.instance;
