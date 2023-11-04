@@ -24,12 +24,9 @@ class FeedController extends ChangeNotifier {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       notificationService.postNotification(context, message);
       rebuildFunction();
-      // String postID = message.data['postId'];
-      // Access the postId from the data payload
-      // Navigate to the specific post using the retrieved postID
-      // context.go("/feed/post/$postID");
     });
   }
+
   void rebuildFunction() {
     notifyListeners();
   }

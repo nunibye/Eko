@@ -34,25 +34,29 @@ class FirebaseHelper {
       provisional: false,
       sound: true,
     );
-    print('User granted permission: ${settings.authorizationStatus}');
-    // final fcmToken = await FirebaseMessaging.instance.getToken();
-    // print(fcmToken);
+
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: false,
       sound: true,
     );
-    
-    await messaging.subscribeToTopic('new_post');
-    
+
+  }
+
+  static Future<void> subscribeToTopic(String topic) async {
+    await FirebaseMessaging.instance.subscribeToTopic(topic);
+  }
+
+  static Future<void> unsubscribeFromTopic(String topic) async {
+    await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
   }
 
   static Future<void> _onBackgroundMessage(RemoteMessage message) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    debugPrint('we have received a notification ${message.notification}');
+
   }
 
 }

@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/utilities/firebase_options.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import 'package:untitled_app/controllers/feed_controller.dart';
 
@@ -54,8 +57,6 @@ class NotificationService extends ChangeNotifier {
 
   static void onMessage(RemoteMessage message) {
     // Extract custom data from the FCM message
-    String? postId = message.data['postId'];
-    print(postId);
     RemoteNotification? notification = message.notification;
     AndroidNotification? androidNotification = message.notification?.android;
     AppleNotification? appleNotification = message.notification?.apple;
@@ -101,10 +102,7 @@ class NotificationService extends ChangeNotifier {
       BuildContext context, RemoteMessage message) async {
     String postID = message.data['postId'];
     locator<FeedPostCache>().clearCache(); // not refreshing
-    // context.go("/feed", extra: true);
-
-    
-    //Provider.of<FeedController>(context, listen: false).rebuildFunction();
     context.go("/feed/post/$postID");
+    locator<NavBarController>().enable(); // this seems odd. idk is it
   }
 }
