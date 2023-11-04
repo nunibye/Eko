@@ -169,18 +169,21 @@ class GetInfo extends StatelessWidget {
                   .emailController,
               inputType: TextInputType.emailAddress,
             ),
-            CustomInputFeild(
-              focus: Provider.of<SignUpController>(context, listen: false)
-                  .dobFocus,
-              onEditingComplete: () =>
-                  Provider.of<SignUpController>(context, listen: false)
-                      .keyboardGoToNextPage(),
-              label: AppLocalizations.of(context)!.dateOfBirth,
-              controller: Provider.of<SignUpController>(context, listen: false)
-                  .dobController,
-              textInputAction: TextInputAction.send,
-              inputType: TextInputType.datetime,
+             SizedBox(
+              height: height * 0.1,
             ),
+            // CustomInputFeild(
+            //   focus: Provider.of<SignUpController>(context, listen: false)
+            //       .dobFocus,
+            //   onEditingComplete: () =>
+            //       Provider.of<SignUpController>(context, listen: false)
+            //           .keyboardGoToNextPage(),
+            //   label: AppLocalizations.of(context)!.dateOfBirth,
+            //   controller: Provider.of<SignUpController>(context, listen: false)
+            //       .dobController,
+            //   textInputAction: TextInputAction.send,
+            //   inputType: TextInputType.datetime,
+            // ),
             SizedBox(
               height: height * 0.1,
             ),

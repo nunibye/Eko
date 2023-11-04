@@ -19,10 +19,19 @@ class PostCard extends StatelessWidget {
       this.isPostPage = false});
 
   String formatTime(String time) {
-    DateTime parsedTime = DateTime.parse(time);
-    DateTime localTime = parsedTime.toLocal();
-    String formattedTime = DateFormat('hh:mm a').format(localTime);
-    return formattedTime;
+    DateTime now = DateTime.now();
+    DateTime postTime = DateTime.parse(time).toLocal();
+    Duration difference = now.difference(postTime);
+
+    if (difference.inDays < 1) {
+      return DateFormat('hh:mm a').format(postTime);
+    } else if (difference.inDays == 1) {
+      return '${difference.inDays} day ago';
+    } else if (difference.inDays >= 2 && difference.inDays <= 3) {
+      return '${difference.inDays} days ago';
+    } else {
+      return DateFormat('MM/dd').format(postTime);
+    }
   }
 
   @override
@@ -187,6 +196,33 @@ class PostCard extends StatelessWidget {
                                       .onBackground,
                                 ),
                               ),
+                            Visibility(
+                              visible: !isPostPage && !isPreview,
+                              child: TextButton(
+                                onPressed: () {
+                                  if (!isPreview && !isPostPage) {
+                                    Provider.of<PostCardController>(context,
+                                            listen: false)
+                                        .postPressed();
+                                  }
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: const Size(0, 0),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  "View post",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),

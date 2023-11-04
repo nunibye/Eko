@@ -192,7 +192,6 @@ class SignUpController extends ChangeNotifier {
         locator<CurrentUser>().username = usernameController.text.trim();
         locator<CurrentUser>().name = nameController.text.trim();
 
-
         if (await locator<CurrentUser>()
             .isUsernameAvailable(usernameController.text.trim())) {
           if (_handleError(
@@ -238,8 +237,9 @@ class SignUpController extends ChangeNotifier {
             !validUsername ||
             isChecking ||
             !availableUsername ||
-            emailController.text == "" ||
-            dobController.text == "")) {
+            emailController.text == ""
+        // ||dobController.text == ""
+        )) {
       // Request focus for the empty field
       if (nameController.text == "") {
         nameFocus.requestFocus();
@@ -247,9 +247,8 @@ class SignUpController extends ChangeNotifier {
         usernameFocus.requestFocus();
       } else if (emailController.text == "") {
         emailFocus.requestFocus();
-      } else {
-        dobFocus.requestFocus();
-      }
+      } 
+      // else {dobFocus.requestFocus();}
       return "done";
     }
     if (page == 0) {
