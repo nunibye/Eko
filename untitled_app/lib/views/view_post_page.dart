@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/post_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:go_router/go_router.dart';
+
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
 import '../utilities/constants.dart' as c;
@@ -19,11 +19,15 @@ class ViewPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return  ChangeNotifierProvider(
       create: (context) =>
           PostPageController(passedPost: post, context: context, id: id),
       builder: (context, child) {
-        return GestureDetector(
+        return WillPopScope(onWillPop: () async{
+            Provider.of<PostPageController>(context, listen: false)
+                .onExitPressed();
+            return false;
+          }, child: GestureDetector(
           onTap: () => Provider.of<PostPageController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
@@ -38,7 +42,10 @@ class ViewPostPage extends StatelessWidget {
                             icon: Icon(Icons.arrow_back_ios_rounded,
                                 color:
                                     Theme.of(context).colorScheme.onBackground),
-                            onPressed: () => context.pop(),
+                            onPressed: () => Provider.of<PostPageController>(
+                                    context,
+                                    listen: false)
+                                .onExitPressed(),
                           ),
                         ],
                       ),
@@ -80,37 +87,38 @@ class ViewPostPage extends StatelessWidget {
                                       listen: false)
                                   .commentFeild),
                           TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      20), // Adjust the value for the desired roundness
-                                ),
+                            style: TextButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    20), // Adjust the value for the desired roundness
                               ),
-                              onPressed: () {
-                                Provider.of<PostPageController>(context,
-                                        listen: false)
-                                    .postCommentPressed();
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: MediaQuery.sizeOf(context).width * 0.12,
-                                width: MediaQuery.sizeOf(context).width * 0.23,
-                                child: Text(
-                                  AppLocalizations.of(context)!.post,
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary),
-                                ),
-                              ))
+                            ),
+                            onPressed: () {
+                              Provider.of<PostPageController>(context,
+                                      listen: false)
+                                  .postCommentPressed();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.sizeOf(context).width * 0.12,
+                              width: MediaQuery.sizeOf(context).width * 0.23,
+                              child: Text(
+                                AppLocalizations.of(context)!.post,
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
+                              ),
+                            ),
+                          )
                         ],
                       )
                     ],
                   ),
           ),
-        );
+        ));
       },
     );
   }
@@ -121,15 +129,17 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      PostCard(
-        post: Provider.of<PostPageController>(context, listen: false).post!,
-        isPostPage: true,
-      ),
-      Divider(
-        color: Theme.of(context).colorScheme.outline,
-        height: 1,
-      ),
-    ]);
+    return Column(
+      children: [
+        PostCard(
+          post: Provider.of<PostPageController>(context, listen: false).post!,
+          isPostPage: true,
+        ),
+        Divider(
+          color: Theme.of(context).colorScheme.outline,
+          height: 1,
+        ),
+      ],
+    );
   }
 }

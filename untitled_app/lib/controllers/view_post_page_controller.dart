@@ -5,7 +5,9 @@ import '../utilities/locator.dart';
 import '../custom_widgets/error_snack_bar.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/post_handler.dart';
-import '../models/feed_post_cache.dart';
+import 'package:provider/provider.dart';
+import '../controllers/feed_controller.dart';
+import 'package:go_router/go_router.dart';
 
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
@@ -35,13 +37,17 @@ class PostPageController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  updateCount(String str) {
+  void updateCount(String str) {
     chars = str.length;
     //notifyListeners();
   }
 
+  void onExitPressed() {
+    context.go('/feed', extra: true);
+  }
+
   //TODO add more content like a preview of a post.
-  postCommentPressed() {
+  void postCommentPressed() {
     commentFeild.text = commentFeild.text.trim();
     updateCount(commentFeild.text);
 
