@@ -14,8 +14,6 @@ class NotificationService extends ChangeNotifier {
   NotificationService() {
     initializeNotification();
   }
-// class NotificationService {
-//   const NotificationService._();
 
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();

@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // setupLocator(context);
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
@@ -50,7 +49,8 @@ class MyApp extends StatelessWidget {
           ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
-            final notificationProvider = Provider.of<NotificationProvider>(context); // idk why this works :)
+            final notificationProvider = Provider.of<NotificationProvider>(
+                context); // idk why this works but its needed or the toggle doesnt work :)
             return SafeArea(
               child: MaterialApp.router(
                 title: 'Untitled',
