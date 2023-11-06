@@ -22,7 +22,8 @@ class FollowersController extends ChangeNotifier {
   _isInitUserRunning = true;
   followersList.clear(); 
   for (var uid in followers) {
-    Map<String, dynamic>? userData = await locator<AppUser>().readUserData(uid);
+    AppUser user = AppUser();
+    Map<String, dynamic>? userData = await user.readUserData(uid);
     if (userData != null) {
       followersList.add(AppUser.fromJson(userData));
     }

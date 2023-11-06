@@ -8,8 +8,10 @@ import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled_app/controllers/settings_controller.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
+import 'package:untitled_app/utilities/notifications_provider.dart';
 import 'utilities/themes/dark_theme_provider.dart';
 import 'utilities/themes/dark_theme_styles.dart';
 import 'utilities/firebase_options.dart';
@@ -22,7 +24,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
   await NotificationService.initializeNotification();
-  // Handle foreground messages.
 
   setupLocator();
   runApp(const MyApp());
@@ -38,14 +39,18 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    // setupLocator(context);
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
-        return ChangeNotifierProvider(
-          create: (_) => DarkThemeProvider(),
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => NotificationProvider()),
+            ChangeNotifierProvider(create: (context) => DarkThemeProvider()),
+          ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
+            final notificationProvider = Provider.of<NotificationProvider>(
+                context); // idk why this works but its needed or the toggle doesnt work :)
             return SafeArea(
               child: MaterialApp.router(
                 title: 'Untitled',

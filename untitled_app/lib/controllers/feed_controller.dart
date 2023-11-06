@@ -20,16 +20,22 @@ class FeedController extends ChangeNotifier {
       rebuildFunction();
     }
     NotificationService notificationService = NotificationService();
+    
+    // Handling the initial message received when the app is launched from dead (killed state)
+    // When the app is killed and a new notification arrives when user clicks on it
+    // It gets the data to which screen to open
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        notificationService.postNotification(context, message);
+      }
+    });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       notificationService.postNotification(context, message);
       rebuildFunction();
-      // String postID = message.data['postId'];
-      // Access the postId from the data payload
-      // Navigate to the specific post using the retrieved postID
-      // context.go("/feed/post/$postID");
     });
   }
+
   void rebuildFunction() {
     notifyListeners();
   }

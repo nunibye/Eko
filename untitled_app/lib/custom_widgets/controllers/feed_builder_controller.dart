@@ -26,7 +26,6 @@ class FeedBuilderController extends ChangeNotifier {
       required this.context,
       this.passedUser,
       required this.index}) {
-    // print(locator<FeedPostCache>().postsList[index ?? 0].length);
 
     init();
   }
@@ -92,7 +91,6 @@ class FeedBuilderController extends ChangeNotifier {
   }
 
   Future<void> onRefresh() async {
-    print('Refreshing data...');
     end = false;
     posts = [];
     if (index != null) {
@@ -105,8 +103,6 @@ class FeedBuilderController extends ChangeNotifier {
     if (refreshFunction != null) {
       refreshFunction!();
     }
-    // end = false;
-    print('Data refreshed.');
     notifyListeners();
   }
 }

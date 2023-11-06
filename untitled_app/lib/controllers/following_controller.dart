@@ -22,7 +22,8 @@ class FollowingController extends ChangeNotifier {
   _isInitUserRunning = true;
   followingList.clear(); 
   for (var uid in following) {
-    Map<String, dynamic>? userData = await locator<AppUser>().readUserData(uid);
+    AppUser user = AppUser();
+    Map<String, dynamic>? userData = await user.readUserData(uid);
     if (userData != null) {
       followingList.add(AppUser.fromJson(userData));
     }

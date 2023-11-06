@@ -45,7 +45,7 @@ final goRouter = GoRouter(
 
     GoRoute(
       path: '/profile_picture_detail',
-      //name: 'profile_picture_detail',
+      name: 'profile_picture_detail',
       builder: (context, state) {
         String url = state.extra as String;
         return ProfilePictureDetail(imageURL: url);

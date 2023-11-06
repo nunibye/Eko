@@ -8,7 +8,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/notification_service.dart';
 import 'package:untitled_app/utilities/firebase_options.dart';
+import 'package:untitled_app/utilities/locator.dart';
 
 class FirebaseHelper {
   const FirebaseHelper._();
@@ -23,7 +26,7 @@ class FirebaseHelper {
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
@@ -34,25 +37,29 @@ class FirebaseHelper {
       provisional: false,
       sound: true,
     );
-    print('User granted permission: ${settings.authorizationStatus}');
-    // final fcmToken = await FirebaseMessaging.instance.getToken();
-    // print(fcmToken);
+
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: false,
       sound: true,
     );
-    
-    await messaging.subscribeToTopic('new_post');
-    
   }
 
-  static Future<void> _onBackgroundMessage(RemoteMessage message) async {
+  static Future<void> subscribeToTopic(String topic) async {
+    await FirebaseMessaging.instance.subscribeToTopic(topic);
+  }
+
+  static Future<void> unsubscribeFromTopic(String topic) async {
+    await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
+  }
+
+  @pragma('vm:entry-point')
+  static Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    debugPrint('we have received a notification ${message.notification}');
+        options: DefaultFirebaseOptions.currentPlatform);
+    // NotificationService.onMessage(message);
+  // needs to wait for app to build, then call "postNotification" function
   }
-
 }

@@ -22,7 +22,7 @@ class CommentCardController extends ChangeNotifier {
 
   avatarPressed() async {
     if (post.author.uid != locator<CurrentUser>().getUID()) {
-      await context.pushNamed("sub_profile", extra: post);
+      await context.pushNamed("sub_profile", extra: post.author);
       //update post liked in sub menu
       final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
       if (liked != newvalue) {
