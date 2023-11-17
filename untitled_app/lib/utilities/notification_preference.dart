@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:untitled_app/models/firebase_helper.dart';
 class NotificationPreference {
   static const NOTIFICATION_STATUS = "NOTIFICATIONSTATUS";
 
@@ -10,6 +10,12 @@ class NotificationPreference {
 
   Future<bool> getNotificationPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(NOTIFICATION_STATUS) ?? true;
+    final bool? value = prefs.getBool(NOTIFICATION_STATUS);
+    if (value == null) {
+      await setNotificationPreference(true);
+      await FirebaseHelper.subscribeToTopic('new_post');
+      return true;
+    }
+    return value;
   }
 }
