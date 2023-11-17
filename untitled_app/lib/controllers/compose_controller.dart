@@ -97,8 +97,12 @@ class ComposeController extends ChangeNotifier {
         post["gifUrl"] = gif!.images!.fixedWidth.url;
         post["gifSource"] = gif!.url;
       }
+      void popAndGo(BuildContext context) {
+        context.pop();
+        context.go("/feed", extra: true);
+      }
 
-      showDialog (
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -121,19 +125,19 @@ class ComposeController extends ChangeNotifier {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.cancel),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  context.pop();
                 },
               ),
               TextButton(
                 child: Text(AppLocalizations.of(context)!.post),
-                onPressed: (){
-                  locator<PostsHandling>().createPost(post);
+                onPressed: () async {
                   locator<FeedPostCache>().addPost(
                       2,
                       Post(
                           gifSource: post["gifSource"],
                           gifURL: post["gifUrl"],
-                          postId: "postId",
+                          postId:
+                              await locator<PostsHandling>().createPost(post),
                           time: DateTime.now().toUtc().toIso8601String(),
                           title: post["title"],
                           author: locator<CurrentUser>(),
@@ -143,9 +147,7 @@ class ComposeController extends ChangeNotifier {
                   titleController.text = "";
                   bodyController.text = "";
                   gif = null;
-
-                  Navigator.of(context).pop();
-                   context.go("/feed", extra: true);
+                  popAndGo(context);
                   notifyListeners();
                 },
               ),

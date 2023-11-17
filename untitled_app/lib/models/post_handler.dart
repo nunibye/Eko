@@ -60,15 +60,16 @@ class FeedChunk {
 
 class PostsHandling {
   List<FeedChunk> feedChunks = [];
-  createPost(Map<String, dynamic> post) async {
+  Future<String> createPost(Map<String, dynamic> post) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     post["author"] = user.uid;
     post["time"] = DateTime.now().toUtc().toIso8601String();
     post["likes"] = 0; //change this
-    await firestore.collection('posts').add(post);
-    //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
-    return "success";
+    return await firestore
+        .collection('posts')
+        .add(post)
+        .then((documentSnapshot) => documentSnapshot.id);
   }
 
   Future<int> countComments(String postId) {
