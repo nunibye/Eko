@@ -40,7 +40,7 @@ class PostPageController extends ChangeNotifier {
   }
 
   void onExitPressed() {
-    context.go('/feed', extra: true);
+    context.pop();
   }
 
   //TODO add more content like a preview of a post.
@@ -61,6 +61,7 @@ class PostPageController extends ChangeNotifier {
           .createComment({"body": commentFeild.text}, post!.postId);
       // locator<FeedPostCache>().updateComments(post!.postId, 1);
       // notifyListeners();
+      
       commentFeild.text = "";
       notifyListeners();
     }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +11,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';
 import 'utilities/locator.dart';
+import 'controllers/feed_controller.dart';
+import 'controllers/profile_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (context) => NotificationProvider()),
             ChangeNotifierProvider(create: (context) => DarkThemeProvider()),
+            ChangeNotifierProvider(create: (context) => FeedController(context: context, rebuild: false)),
           ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);

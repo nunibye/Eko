@@ -20,11 +20,7 @@ class ViewPostPage extends StatelessWidget {
       create: (context) =>
           PostPageController(passedPost: post, context: context, id: id),
       builder: (context, child) {
-        return WillPopScope(onWillPop: () async{
-            Provider.of<PostPageController>(context, listen: false)
-                .onExitPressed();
-            return false;
-          }, child: GestureDetector(
+        return  GestureDetector(
           onTap: () => Provider.of<PostPageController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
@@ -115,7 +111,7 @@ class ViewPostPage extends StatelessWidget {
                     ],
                   ),
           ),
-        ));
+        );
       },
     );
   }

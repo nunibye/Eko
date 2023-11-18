@@ -5,6 +5,8 @@ import '../../utilities/locator.dart';
 import '../../models/post_handler.dart';
 import '../../models/feed_post_cache.dart' show FeedPostCache;
 import 'package:share_plus/share_plus.dart';
+import '../../controllers/feed_controller.dart';
+import 'package:provider/provider.dart';
 
 class PostCardController extends ChangeNotifier {
   BuildContext context;
@@ -26,18 +28,20 @@ class PostCardController extends ChangeNotifier {
   }
 
 //FIXME could be optomized
+  void rebuildFeed() {
+    Provider.of<FeedController>(context, listen: false).rebuildFunction();
+  }
+
   postPressed() {
     context.push("/feed/post/${post.postId}", extra: post).then((v) async {
       comments = await locator<PostsHandling>().countComments(post.postId);
-      notifyListeners();
+
+      rebuildFeed();
     });
   }
 
   commentPressed() {
-    context.push("/feed/post/${post.postId}", extra: post).then((v) async {
-      comments = await locator<PostsHandling>().countComments(post.postId);
-      notifyListeners();
-    });
+    postPressed();
   }
 
   avatarPressed() async {

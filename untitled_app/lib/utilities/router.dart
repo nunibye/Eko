@@ -19,6 +19,7 @@ import '../views/profile_picture_detail.dart';
 import '../views/welcome.dart';
 import '../views/followers.dart';
 import '../views/following.dart';
+import '../views/recent_activity.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -114,6 +115,14 @@ final goRouter = GoRouter(
               },
               routes: [
                 GoRoute(
+                  path: 'recent',
+                  //name: 'recent',
+                  //name: 'post_screen',
+                  builder: (context, state) {
+                    return const RecentActivity();
+                  },
+                ),
+                GoRoute(
                   path: 'post/:id',
                   //name: 'post_screen',
                   builder: (context, state) {
@@ -179,21 +188,19 @@ final goRouter = GoRouter(
                   builder: (context, state) => const UserSettings(),
                 ),
                 GoRoute(
-                  path: 'followers',
-                  name: 'followers',
-                  builder: (context, state) {
-                    List<dynamic> followers = state.extra as List<dynamic>;
-                    return Followers(followers: followers);
-                  }
-                ),
+                    path: 'followers',
+                    name: 'followers',
+                    builder: (context, state) {
+                      List<dynamic> followers = state.extra as List<dynamic>;
+                      return Followers(followers: followers);
+                    }),
                 GoRoute(
-                  path: 'following',
-                  name: 'following',
-                  builder: (context, state) {
-                    List<dynamic> following = state.extra as List<dynamic>;
-                    return Following(following: following);
-                  }
-                ),
+                    path: 'following',
+                    name: 'following',
+                    builder: (context, state) {
+                      List<dynamic> following = state.extra as List<dynamic>;
+                      return Following(following: following);
+                    }),
               ],
             ),
           ],

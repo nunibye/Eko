@@ -10,9 +10,9 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => FeedController(context: context, rebuild: rebuild),
-      builder: (context, child) {
+    // return ChangeNotifierProvider(
+    //   create: (context) => FeedController(context: context, rebuild: rebuild),
+    //   builder: (context, child) {
         return Scaffold(
           body: FeedBuilder(
             firestoreQuery:
@@ -23,8 +23,8 @@ class FeedPage extends StatelessWidget {
             header: const _Header(),
           ),
         );
-      },
-    );
+    //   },
+    // );
   }
 }
 
@@ -33,11 +33,38 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    double height = MediaQuery.of(context).size.height;
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        CustomTabBar(),
+        Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                height: height * 0.08,
+                child: Image.asset("images/echo.png"),
+              ),
+            ),
+            Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  height: height * 0.08,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.notifications,
+                      size: 28,
+                    ),
+                    onPressed: () =>
+                        Provider.of<FeedController>(context, listen: false)
+                            .onNotificationButtonPressed(),
+                  ),
+                ))
+          ],
+        ),
+        const CustomTabBar(),
       ],
     );
   }
