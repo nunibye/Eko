@@ -51,7 +51,7 @@ ColorScheme darkThemeColors(context) {
     onTertiary: Color(0xFF133348),
     tertiaryContainer: Color(0xFF2C4A60),
     onTertiaryContainer: Color(0xFFCAE6FF),
-    error: Color(0xFFFFB4AB),
+    error: Color.fromARGB(255, 224, 30, 9),
     errorContainer: Color(0xFF93000A),
     onError: Color(0xFF690005),
     onErrorContainer: Color(0xFFFFDAD6),

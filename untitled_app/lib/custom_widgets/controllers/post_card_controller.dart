@@ -7,6 +7,7 @@ import '../../models/feed_post_cache.dart' show FeedPostCache;
 import 'package:share_plus/share_plus.dart';
 import '../../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
+import 'feed_builder_controller.dart';
 
 class PostCardController extends ChangeNotifier {
   BuildContext context;
@@ -29,7 +30,7 @@ class PostCardController extends ChangeNotifier {
 
 //FIXME could be optomized
   void rebuildFeed() {
-    Provider.of<FeedController>(context, listen: false).rebuildFunction();
+    Provider.of<FeedBuilderController>(context, listen: false).rebuildFunction();
   }
 
   postPressed() {

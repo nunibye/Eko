@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (context) => NotificationProvider()),
             ChangeNotifierProvider(create: (context) => DarkThemeProvider()),
-            ChangeNotifierProvider(create: (context) => FeedController(context: context, rebuild: false)),
           ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);

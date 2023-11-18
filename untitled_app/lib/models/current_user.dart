@@ -10,11 +10,13 @@ import 'package:untitled_app/utilities/locator.dart';
 import '../models/users.dart';
 
 class CurrentUser extends AppUser {
+  bool newActivity;
   String email;
   List<dynamic> likedPosts;
   bool stateIsLiking = false;
   bool stateIsFollowing = false;
-  CurrentUser({this.email = '', this.likedPosts = const []});
+  CurrentUser(
+      {this.email = '', this.likedPosts = const [], this.newActivity = false});
 
 //gets uid making sure it is current. idk if this is neccesary but it will be easy to remove.
   String getUID() {
@@ -74,6 +76,8 @@ class CurrentUser extends AppUser {
     final userData = await readUserData(user); //uses function from parent class
     if (userData != null) {
       email = userData["email"] ?? "";
+      //print(userData["newActivty"] ?? false);
+      newActivity = userData["newActivity"] ?? false;
     }
     await _readLikedPosts();
   }
@@ -105,6 +109,16 @@ class CurrentUser extends AppUser {
     } else {
       return false;
     }
+  }
+
+  Future<void> setNewActivity(bool value) async {
+    final firestore = FirebaseFirestore.instance;
+    final user = getUID();
+    newActivity = value;
+    await firestore
+        .collection("users")
+        .doc(user)
+        .set({'newActivity': value}, SetOptions(merge: true));
   }
 
   Future<bool> removeFollower(String otherUid) async {
@@ -295,7 +309,7 @@ class CurrentUser extends AppUser {
   }
 
   Future<bool> isUsernameAvailable(String username) async {
-     final querySnapshot = await FirebaseFirestore.instance
+    final querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('username', isEqualTo: username)
         .get();
@@ -318,11 +332,14 @@ class CurrentUser extends AppUser {
     }
   }
 
-    Future<String> uploadProfileUsername(String username) async {
+  Future<String> uploadProfileUsername(String username) async {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();
     try {
-      await firestore.collection("users").doc(user).update({"username": username});
+      await firestore
+          .collection("users")
+          .doc(user)
+          .update({"username": username});
       return "success";
     } catch (e) {
       return "fail";

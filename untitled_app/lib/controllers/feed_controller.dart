@@ -1,13 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
- import 'package:go_router/go_router.dart';
-// import 'package:provider/provider.dart';
-// import 'package:untitled_app/custom_widgets/controllers/feed_builder_controller.dart';
-import 'bottom_nav_bar_controller.dart';
-import '../utilities/locator.dart';
 import 'package:untitled_app/models/notification_service.dart';
-// import 'package:untitled_app/utilities/locator.dart';
+import 'package:untitled_app/utilities/locator.dart';
+import '../models/current_user.dart';
+import 'package:go_router/go_router.dart';
 
 class FeedController extends ChangeNotifier {
   int index = 2;
@@ -16,13 +13,14 @@ class FeedController extends ChangeNotifier {
       .collection("posts")
       .orderBy('time', descending: true);
   final BuildContext context;
+  bool newActivity = false;
 
   FeedController({required this.context, required this.rebuild}) {
+    NotificationService notificationService = NotificationService();
     if (rebuild) {
       rebuildFunction();
     }
-    NotificationService notificationService = NotificationService();
-    
+    checkNewActivity();
     // Handling the initial message received when the app is launched from dead (killed state)
     // When the app is killed and a new notification arrives when user clicks on it
     // It gets the data to which screen to open
@@ -37,6 +35,9 @@ class FeedController extends ChangeNotifier {
       rebuildFunction();
     });
   }
+  void checkNewActivity() {
+    newActivity = locator<CurrentUser>().newActivity;
+  }
 
   void rebuildFunction() {
     notifyListeners();
@@ -47,8 +48,12 @@ class FeedController extends ChangeNotifier {
     getQueryFromIndex();
     notifyListeners();
   }
-  void onNotificationButtonPressed(){
-    context.push('/feed/recent');
+
+  void onNotificationButtonPressed() {
+    context.push('/feed/recent').then((v) async {
+      checkNewActivity();
+      notifyListeners();
+    });
   }
 
   void getQueryFromIndex() {

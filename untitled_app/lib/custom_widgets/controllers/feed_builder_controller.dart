@@ -26,7 +26,6 @@ class FeedBuilderController extends ChangeNotifier {
       required this.context,
       this.passedUser,
       required this.index}) {
-
     init();
   }
   init() async {
@@ -42,6 +41,10 @@ class FeedBuilderController extends ChangeNotifier {
       await parseRawPosts(
           await locator<PostsHandling>().getPosts(null, firestoreQuery));
     }
+    notifyListeners();
+  }
+
+  void rebuildFunction() {
     notifyListeners();
   }
 

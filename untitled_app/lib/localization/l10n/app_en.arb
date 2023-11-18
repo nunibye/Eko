@@ -107,5 +107,6 @@
     "cancel":"Cancel",
     "resetPassword":"Reset Password",
     "sendResetLink":"Send reset link",
-    "ok":"Ok"
+    "ok":"Ok",
+    "recentActivity":"Recent Activity"
 }
