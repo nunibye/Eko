@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/utilities/locator.dart';
 import 'package:untitled_app/models/users.dart';
 
 class FollowersController extends ChangeNotifier {

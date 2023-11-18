@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:flutter/services.dart';
 import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
 import '../custom_widgets/feed_builder.dart';
@@ -55,7 +54,7 @@ class Header extends StatelessWidget {
           builder: (context, profileController, _) => Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
                     Text(

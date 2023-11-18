@@ -1,12 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:untitled_app/models/users.dart';
 import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
 import '../custom_widgets/error_snack_bar.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/post_handler.dart';
-import 'package:provider/provider.dart';
-import '../controllers/feed_controller.dart';
 import 'package:go_router/go_router.dart';
 
 class PostPageController extends ChangeNotifier {

@@ -1,4 +1,3 @@
-import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/login_text_feild.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 

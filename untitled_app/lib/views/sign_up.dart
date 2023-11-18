@@ -6,7 +6,7 @@ import '../custom_widgets/login_text_feild.dart';
 import '../utilities/constants.dart' as c;
 
 class _BackButton extends StatelessWidget {
-  const _BackButton({super.key});
+  const _BackButton();
 
   @override
   Widget build(BuildContext context) {

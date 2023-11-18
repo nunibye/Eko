@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/welcome_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:flutter/services.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

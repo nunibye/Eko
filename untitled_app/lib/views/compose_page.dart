@@ -84,7 +84,7 @@ class ComposePage extends StatelessWidget {
                                       Provider.of<ComposeController>(context,
                                               listen: false)
                                           .removeGifPressed(),
-                                  icon: Icon(Icons.remove),
+                                  icon: const Icon(Icons.remove),
                                 )
                               : null),
                   ConstrainedBox(

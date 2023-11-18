@@ -1,20 +1,13 @@
-import 'dart:io';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:go_router/go_router.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled_app/controllers/settings_controller.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
 import 'package:untitled_app/utilities/notifications_provider.dart';
 import 'utilities/themes/dark_theme_provider.dart';
 import 'utilities/themes/dark_theme_styles.dart';
-import 'utilities/firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';

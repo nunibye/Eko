@@ -5,9 +5,6 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
-import '../utilities/constants.dart' as c;
-import '../custom_widgets/profile_picture_loading.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../custom_widgets/login_text_feild.dart';
 import '../custom_widgets/feed_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -125,7 +122,7 @@ class ViewPostPage extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({super.key});
+  const _Header();
 
   @override
   Widget build(BuildContext context) {

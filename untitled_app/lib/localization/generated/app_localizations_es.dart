@@ -239,7 +239,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteAcountTitle => 'Are you sure you want to delete your account?';
 
   @override
-  String get deleteAcountBody => 'All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel';
+  String get deleteAcountBody => 'All account data will be deleted. This action cannot be undone. Press "Go Back" to cancel';
 
   @override
   String get delete => 'Delete';

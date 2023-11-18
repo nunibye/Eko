@@ -1,14 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
-import 'package:untitled_app/utilities/firebase_options.dart';
 import 'package:untitled_app/utilities/locator.dart';
-import 'package:untitled_app/controllers/feed_controller.dart';
 
 class NotificationService extends ChangeNotifier {
   NotificationService() {

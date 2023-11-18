@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:untitled_app/utilities/notifications_provider.dart';
 
 //import '../utilities/constants.dart' as c;
 import '../controllers/settings_controller.dart';
@@ -47,7 +46,7 @@ class UserSettings extends StatelessWidget {
                 activeColor: Theme.of(context).colorScheme.primary,
               ),
               SwitchListTile(
-                title: Text("New Post Notifications"), // TODO: add localization
+                title: const Text("New Post Notifications"), // TODO: add localization
                 value: Provider.of<SettingsController>(context, listen: true)
                     .getPostNotificationValue(),
                 // value: Provider.of<NotificationProvider>(context, listen: true).notificationEnabled,
