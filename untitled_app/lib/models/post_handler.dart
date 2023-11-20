@@ -7,6 +7,7 @@ import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
 import 'users.dart';
 import '../custom_widgets/controllers/pagination_controller.dart';
+import '../models/feed_post_cache.dart';
 
 class Post {
   final String postId;
@@ -272,26 +273,112 @@ class PostsHandling {
 
       return Post.fromRaw(raw, user, rootPostId: rootUid);
     }).toList();
-   
 
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh), payload: await Future.wait(postList));
+        end: (postList.length < c.postsOnRefresh),
+        payload: await Future.wait(postList));
+  }
+
+//feed
+  Future<PaginationGetterReturn> getFeedPosts(
+      dynamic time, Query<Map<String, dynamic>>? query, int index) async {
+    final postList =
+        (await newGetPosts(time, query)).map<Future<Post>>((raw) async {
+      AppUser user = AppUser();
+      await user.readUserData(raw.author);
+
+      return Post.fromRaw(
+        raw,
+        user,
+      );
+    }).toList();
+    if (postList.length < c.postsOnRefresh) {
+      locator<FeedPostCache>().postsList[index].end = true;
+    }
+    final listReturn = await Future.wait(postList);
+    locator<FeedPostCache>().postsList[index].posts.addAll(listReturn);
+    return PaginationGetterReturn(
+        end: (postList.length < c.postsOnRefresh), payload: listReturn);
   }
 
   Future<List<RawPostObject>> newGetPosts(
-      String? time, Query<Map<String, dynamic>> query) async {
+      dynamic time, Query<Map<String, dynamic>>? query) async {
     late QuerySnapshot<Map<String, dynamic>> snapshot;
-    if (time == null) {
-      //initial data
-      snapshot = await query.limit(c.postsOnRefresh).get();
-    } else {
-      snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
-    }
-    return snapshot.docs.map<RawPostObject>((doc) {
-      var data = doc.data();
+    if (query != null) {
+      if (time == null) {
+        //initial data
+        snapshot = await query.limit(c.postsOnRefresh).get();
+      } else {
+        snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
+      }
+      return snapshot.docs.map<RawPostObject>((doc) {
+        var data = doc.data();
 
-      return RawPostObject.fromJson(data, doc.id);
-    }).toList();
+        return RawPostObject.fromJson(data, doc.id);
+      }).toList();
+    } else {
+      final firestore = FirebaseFirestore.instance;
+      List<RawPostObject> postsToPassBack = [];
+      if (locator<CurrentUser>().following.isEmpty) {
+        return postsToPassBack;
+      }
+      if (feedChunks.isEmpty) {
+        // must handle if the user is following no one or app crashes
+        if (locator<CurrentUser>().following.isEmpty) {
+          return postsToPassBack;
+        }
+
+        final following = locator<CurrentUser>().following.slices(30);
+        for (List<dynamic> slice in following) {
+          snapshot = await firestore
+              .collection('posts')
+              .where('author', whereIn: slice)
+              .orderBy('time', descending: true)
+              .limit(1)
+              .get();
+          if (snapshot.docs.isEmpty) {
+            return postsToPassBack;
+          }
+          final data = snapshot.docs.first.data();
+          feedChunks.add(
+            FeedChunk(
+                uids: slice,
+                oldestPost:
+                    RawPostObject.fromJson(data, snapshot.docs.first.id)),
+          );
+        }
+
+        feedChunks
+            .sort((a, b) => a.oldestPost.time.compareTo(a.oldestPost.time));
+        postsToPassBack.add(feedChunks.first.oldestPost);
+      }
+
+      while (postsToPassBack.length < c.postsOnRefresh) {
+        snapshot = await firestore
+            .collection('posts')
+            .where("author", whereIn: feedChunks.first.uids)
+            .orderBy('time', descending: true)
+            .startAfter([feedChunks.first.oldestPost.time])
+            .limit(1)
+            .get();
+        if (snapshot.docs.isNotEmpty) {
+          final data = snapshot.docs.first.data();
+          feedChunks.first.oldestPost =
+              RawPostObject.fromJson(data, snapshot.docs.first.id);
+          postsToPassBack.add(feedChunks.first.oldestPost);
+          feedChunks.sort(
+            (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
+          );
+        } else {
+          feedChunks.removeAt(0);
+          if (feedChunks.isEmpty) {
+            return postsToPassBack;
+          }
+        }
+      }
+
+      return postsToPassBack;
+    }
   }
 
   Future<List<RawPostObject>> getPosts(
@@ -307,15 +394,7 @@ class PostsHandling {
       return snapshot.docs.map<RawPostObject>((doc) {
         var data = doc.data();
 
-        return RawPostObject(
-            postID: doc.id,
-            author: data["author"] ?? "",
-            title: data["title"],
-            body: data["body"],
-            gifSource: data["gifSource"],
-            gifUrl: data["gifUrl"],
-            time: data["time"] ?? "",
-            likes: data["likes"] ?? 0);
+        return RawPostObject.fromJson(data, doc.id);
       }).toList();
 
       //Following

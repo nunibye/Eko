@@ -11,6 +11,7 @@ import 'bottom_nav_bar_controller.dart';
 import '../custom_widgets/post_card.dart';
 import "package:go_router/go_router.dart";
 import 'package:untitled_app/models/feed_post_cache.dart';
+import '../models/users.dart' show AppUser;
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -114,9 +115,9 @@ class ComposeController extends ChangeNotifier {
                       gifSource: post["gifSource"],
                       gifURL: post["gifUrl"],
                       postId: "postId",
-                      time: DateTime.now().toUtc().toIso8601String(),
+                      time: "", //DateTime.now().toUtc().toIso8601String(),
                       title: post["title"],
-                      author: locator<CurrentUser>(),
+                      author: AppUser.fromCurrent(locator<CurrentUser>()),
                       body: post["body"],
                       likes: 0),
                   isPreview: true),
@@ -131,13 +132,14 @@ class ComposeController extends ChangeNotifier {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.post),
                 onPressed: () async {
+                  final postID =
+                      await locator<PostsHandling>().createPost(post);
                   locator<FeedPostCache>().addPost(
                       2,
                       Post(
                           gifSource: post["gifSource"],
                           gifURL: post["gifUrl"],
-                          postId:
-                              await locator<PostsHandling>().createPost(post),
+                          postId: postID,
                           time: DateTime.now().toUtc().toIso8601String(),
                           title: post["title"],
                           author: locator<CurrentUser>(),

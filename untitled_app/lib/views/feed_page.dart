@@ -20,17 +20,14 @@ class FeedPage extends StatelessWidget {
       builder: (context, child) {
         return Scaffold(
             body: PaginationPage(
-                getter: Provider.of<FeedController>(context, listen: false), card: postCardBuilder, startAfterQuery: Provider.of<FeedController>(context, listen: false)
-                          .getTimeFromPost)
-            // FeedBuilder(
-            //   firestoreQuery:
-            //       Provider.of<FeedController>(context, listen: true).query,
-            //   index: Provider.of<FeedController>(context, listen: true).index,
-            //   //TODO maybe optimize to check current user?
-            //   user: null,
-            //   header: const _Header(),
-            // ),
-            );
+          getter: Provider.of<FeedController>(context, listen: false).getPosts,
+          card: postCardBuilder,
+          startAfterQuery: Provider.of<FeedController>(context, listen: false)
+              .getTimeFromPost,
+          header: const _Header(),
+          cachedIndex: Provider.of<FeedController>(context, listen: true)
+              .index,
+        ));
       },
     );
   }

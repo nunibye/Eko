@@ -6,6 +6,8 @@ import 'package:untitled_app/utilities/locator.dart';
 import '../models/current_user.dart';
 import 'package:go_router/go_router.dart';
 import '../models/post_handler.dart';
+import '../custom_widgets/controllers/pagination_controller.dart'
+    show PaginationGetterReturn;
 
 class FeedController extends ChangeNotifier {
   int index = 2;
@@ -56,12 +58,17 @@ class FeedController extends ChangeNotifier {
       notifyListeners();
     });
   }
-  getPosts(dynamic time){
-    
+
+  Future<PaginationGetterReturn> getPosts(dynamic time) {
+    return locator<PostsHandling>().getFeedPosts(time, query, index);
   }
 
   dynamic getTimeFromPost(dynamic post) {
-    return locator<PostsHandling>().getTimeFromPost(post);
+    if (index != 1) {
+      return locator<PostsHandling>().getTimeFromPost(post);
+    } else {
+      return (post as Post).likes;
+    }
   }
 
   void getQueryFromIndex() {

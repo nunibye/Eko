@@ -12,6 +12,7 @@ class PaginationPage extends StatelessWidget {
   final Widget? emptySetNotice;
   final Widget? loadingWidget;
   final Widget? initialLoadingWidget;
+  final int? cachedIndex;
   const PaginationPage(
       {super.key,
       required this.getter,
@@ -21,7 +22,8 @@ class PaginationPage extends StatelessWidget {
       required this.startAfterQuery,
       this.emptySetNotice,
       this.initialLoadingWidget,
-      this.loadingWidget});
+      this.loadingWidget,
+      this.cachedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,8 @@ class PaginationPage extends StatelessWidget {
           extraRefresh: extraRefresh,
           getter: getter,
           context: context,
-          startAfterQuery: startAfterQuery),
+          startAfterQuery: startAfterQuery,
+          cacheIndex: cachedIndex),
       builder: (context, child) {
         return RefreshIndicator(
           child: ListView.builder(
@@ -68,7 +71,9 @@ class PaginationPage extends StatelessWidget {
                       .isEmpty) {
                 //what to return if dataset is empty
                 return emptySetNotice ??
-                    Center(child:Text(AppLocalizations.of(context)!.nothingToSeeHere));
+                    Center(
+                        child: Text(
+                            AppLocalizations.of(context)!.nothingToSeeHere));
               } else if ((!Provider.of<PaginationController>(context,
                           listen: true)
                       .end) &&

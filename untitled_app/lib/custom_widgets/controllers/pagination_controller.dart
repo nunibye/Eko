@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:untitled_app/models/feed_post_cache.dart';
+import '../../utilities/locator.dart';
 
 class PaginationGetterReturn {
   final bool end;
@@ -12,6 +13,7 @@ class PaginationController extends ChangeNotifier {
   final dynamic Function(dynamic) startAfterQuery;
   final Function()? extraRefresh;
   final BuildContext context;
+  int? cacheIndex;
 
   bool loading = false;
   bool end = false;
@@ -22,17 +24,28 @@ class PaginationController extends ChangeNotifier {
       {required this.extraRefresh,
       required this.getter,
       required this.context,
-      required this.startAfterQuery}) {
+      required this.startAfterQuery,
+      this.cacheIndex}) {
     init();
   }
   void init() async {
     scrollController.addListener(() => _onScroll());
+    if (cacheIndex == null) {
+      items = [];
+      end = false;
+    } else {
+      items = List.from(locator<FeedPostCache>().postsList[cacheIndex!].posts);
+      end = locator<FeedPostCache>().postsList[cacheIndex!].end;
+    }
     if (items.isEmpty) {
       final returned = await getter(null); //should be passed null
       end = returned.end;
       items.addAll(returned.payload);
-      
     }
+    notifyListeners();
+  }
+
+  rebuildFunction() {
     notifyListeners();
   }
 
@@ -60,11 +73,16 @@ class PaginationController extends ChangeNotifier {
   Future<void> onRefresh() async {
     end = false;
     items = [];
+    if (cacheIndex != null) {
+      locator<FeedPostCache>().postsList[cacheIndex!].posts.clear();
+      locator<FeedPostCache>().postsList[cacheIndex!].end = false;
+    }
     final returned = await getter(null); //should be passed null
     end = returned.end;
     items.addAll(returned.payload);
     if (extraRefresh != null) {
       extraRefresh!();
     }
+    notifyListeners();
   }
 }
