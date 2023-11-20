@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/utilities/locator.dart';
+import 'package:untitled_app/views/recent_activity.dart';
 import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
 import 'users.dart';
@@ -58,6 +59,30 @@ class FeedChunk {
   FeedChunk({required this.uids, required this.oldestPost});
 }
 
+class RecentActivityCard {
+  final String time;
+  final String type;
+  final String content;
+  final String path;
+  final String sourceUid;
+  RecentActivityCard(
+      {required this.time,
+      required this.type,
+      required this.content,
+      required this.path,
+      required this.sourceUid});
+  Map<String, String> toMap() {
+    Map<String, String> map = {};
+    map["time"] = time;
+    map["type"] = type;
+    map["content"] = content;
+    map["path"] = path;
+    map["sourceUid"] = sourceUid;
+
+    return map;
+  }
+}
+
 class PostsHandling {
   List<FeedChunk> feedChunks = [];
   Future<String> createPost(Map<String, dynamic> post) async {
@@ -82,19 +107,46 @@ class PostsHandling {
         .then((value) => value.count, onError: (e) => 0);
   }
 
-  createComment(Map<String, dynamic> comment, String postID) async {
+  createComment(
+      Map<String, dynamic> comment, String postID, String rootAuthor) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
+    final String time = DateTime.now().toUtc().toIso8601String();
     comment["author"] = user.uid;
-    comment["time"] = DateTime.now().toUtc().toIso8601String();
+    comment["time"] = time;
     comment["likes"] = 0; //change this
     await firestore
         .collection('posts')
         .doc(postID)
         .collection('comments')
         .add(comment);
+    await addActivty(
+        time: time,
+        type: "comment",
+        content: comment["body"],
+        path: "test",
+        user: rootAuthor);
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
+  }
+
+  addActivty(
+      {String? time,
+      required String type,
+      required String content,
+      required String path,
+      required String user}) async {
+        final sourceUser = FirebaseAuth.instance.currentUser!.uid;
+    time ??= DateTime.now().toUtc().toIso8601String();
+    final firestore = FirebaseFirestore.instance;
+    final RecentActivityCard card = RecentActivityCard(
+        time: time, type: type, content: content, path: path, sourceUid:sourceUser);
+    await firestore
+        .collection('users')
+        .doc(user)
+        .collection('newActivity')
+        .add(card.toMap());
+    await locator<CurrentUser>().setNewActivity(true, uid: user);
   }
 
   Future<Post> getPostFromId(String id) async {
@@ -122,6 +174,32 @@ class PostsHandling {
       body: rawPostData.body,
       likes: rawPostData.likes,
     );
+  }
+
+  Future<List<RecentActivityCard>> getNewActivity(String? time) async {
+    late QuerySnapshot<Map<String, dynamic>>? snapshot;
+    final user = FirebaseAuth.instance.currentUser!.uid;
+    final firestore = FirebaseFirestore.instance;
+    final firestoreRef =
+        firestore.collection("users").doc(user).collection("newActivity");
+    if (time == null) {
+      snapshot = await firestoreRef.limit(c.activitiesPerRequest).get();
+    } else {
+      snapshot = await firestoreRef
+          .startAfter([time])
+          .limit(c.activitiesPerRequest)
+          .get();
+    }
+    return snapshot.docs.map<RecentActivityCard>((doc) {
+      var data = doc.data();
+
+      return RecentActivityCard(
+          time: data["time"] ?? "",
+          type: data["type"] ?? "",
+          content: data["content"] ?? "",
+          path: data["path"] ?? "",
+          sourceUid: data["sourceUid"]??"");
+    }).toList();
   }
 
   Future<List<RawPostObject>> getPosts(
@@ -226,44 +304,6 @@ class PostsHandling {
       }
 
       return postsToPassBack;
-
-      // RawPostObject? newOldestPost;
-      // while (postsToPassBack.length < c.postsOnRefresh) {
-      //   snapshot = await firestore
-      //       .collection('posts')
-      //       .where("author", whereIn: feedChunks.first.uids)
-      //       .orderBy('time', descending: true)
-      //       .startAfter([feedChunks.first.oldestPost.time])
-      //       .limit(1)
-      //       .get();
-      //   if (snapshot.docs.isNotEmpty) {
-      //     final data = snapshot.docs.first.data();
-      //     newOldestPost = RawPostObject(
-      //       postID: snapshot.docs.first.id,
-      //       author: data["author"] ?? "",
-      //       title: data["title"],
-      //       body: data["body"],
-      //       gifSource: data["gifSource"],
-      //       gifUrl: data["gifUrl"],
-      //       time: data["time"] ?? "",
-      //       likes: data["likes"] ?? 0,
-      //     );
-      //     postsToPassBack.add(newOldestPost);
-      //     feedChunks.sort(
-      //        (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
-      //      );
-      //   } else {
-      //     feedChunks.removeAt(0);
-      //     if (feedChunks.isEmpty) {
-      //       return postsToPassBack;
-      //     }
-      //   }
-      // }
-
-      // // Update the oldest post after all asynchronous operations are complete
-      // feedChunks.first.oldestPost = newOldestPost!;
-
-      // return postsToPassBack;
     }
   }
 }

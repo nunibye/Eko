@@ -138,5 +138,6 @@ const int maxNameChars = 20;
 const int maxUsernameChars = 12;
 const int searchPageDebounce = 1500;
 const int postsOnRefresh = 10;
+const int activitiesPerRequest = 15;
 
 const double postIconSize = 17;
