@@ -117,16 +117,17 @@ class PostCard extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  formatTime(post.time),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
+                                if (!isPreview)
+                                  Text(
+                                    formatTime(post.time),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                             const SizedBox(height: 8.0),

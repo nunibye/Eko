@@ -37,6 +37,7 @@ class UserCard extends StatelessWidget {
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(user.username),
                       Text(user.name)
