@@ -4,6 +4,7 @@ import '../controllers/recent_activity_controller.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/pagination.dart';
+import '../custom_widgets/recent_activity_card.dart';
 
 class RecentActivity extends StatelessWidget {
   const RecentActivity({Key? key}) : super(key: key);
@@ -38,8 +39,7 @@ class RecentActivity extends StatelessWidget {
                   Provider.of<RecentActivtiyController>(context, listen: false)
                       .getActivity,
               card:
-                  Provider.of<RecentActivtiyController>(context, listen: false)
-                      .recentActivityCardBuilder,
+                  recentActivityCardBuilder,
               startAfterQuery:
                   Provider.of<RecentActivtiyController>(context, listen: false)
                       .getNextQueryStart),

@@ -5,6 +5,7 @@ import 'package:untitled_app/models/notification_service.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../models/current_user.dart';
 import 'package:go_router/go_router.dart';
+import '../models/post_handler.dart';
 
 class FeedController extends ChangeNotifier {
   int index = 2;
@@ -54,6 +55,13 @@ class FeedController extends ChangeNotifier {
       checkNewActivity();
       notifyListeners();
     });
+  }
+  getPosts(dynamic time){
+    
+  }
+
+  dynamic getTimeFromPost(dynamic post) {
+    return locator<PostsHandling>().getTimeFromPost(post);
   }
 
   void getQueryFromIndex() {

@@ -6,10 +6,14 @@ import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
 
+Widget commentCardBuilder(dynamic post) {
+  return CommentCard(post: post);
+}
+
 class CommentCard extends StatelessWidget {
   final Post post;
-  final String rootPostId;
-  const CommentCard({super.key, required this.post, required this.rootPostId});
+  
+  const CommentCard({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class CommentCard extends StatelessWidget {
 
     return ChangeNotifierProvider.value(
       value: CommentCardController(
-          post: post, context: context, rootPostId: rootPostId),
+          post: post, context: context),
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),

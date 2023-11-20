@@ -27,7 +27,5 @@ class RecentActivtiyController extends ChangeNotifier {
     return (lastActivity as RecentActivityCard).time;
   }
 
-  Widget recentActivityCardBuilder(dynamic data) {
-    return ActivityCardWidget(card: data);
-  }
+  
 }

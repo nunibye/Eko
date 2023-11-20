@@ -2,6 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:untitled_app/models/users.dart';
 import '../models/current_user.dart';
 import '../utilities/locator.dart';
+import '../models/post_handler.dart';
+import '../custom_widgets/controllers/pagination_controller.dart'
+    show PaginationGetterReturn;
 
 class OtherProfileController extends ChangeNotifier {
   final BuildContext context;
@@ -35,6 +38,14 @@ class OtherProfileController extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  dynamic getTimeFromPost(dynamic post) {
+    return locator<PostsHandling>().getTimeFromPost(post);
+  }
+
+  Future<PaginationGetterReturn> getPosts(dynamic time) {
+    return locator<PostsHandling>().getSubProfilePosts(time, loadedUser!);
   }
 
   onPageRefresh() {

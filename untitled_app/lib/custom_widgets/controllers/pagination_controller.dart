@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/models/post_handler.dart';
+
 
 class PaginationGetterReturn {
   final bool end;

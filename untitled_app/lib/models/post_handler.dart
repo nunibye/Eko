@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/utilities/locator.dart';
-import 'package:untitled_app/views/recent_activity.dart';
 import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
 import 'users.dart';
+import '../custom_widgets/controllers/pagination_controller.dart';
 
 class Post {
   final String postId;
@@ -19,16 +19,32 @@ class Post {
   final String? body;
   int likes;
 
-  Post({
-    required this.gifSource,
-    required this.gifURL,
-    required this.postId,
-    required this.time,
-    required this.title,
-    required this.author,
-    required this.body,
-    required this.likes,
-  });
+  //for comments
+  final String? rootPostId;
+
+  Post(
+      {required this.gifSource,
+      required this.gifURL,
+      required this.postId,
+      required this.time,
+      required this.title,
+      required this.author,
+      required this.body,
+      required this.likes,
+      this.rootPostId});
+  static Post fromRaw(RawPostObject rawPost, AppUser user,
+      {String? rootPostId}) {
+    return Post(
+        gifSource: rawPost.gifSource,
+        gifURL: rawPost.gifUrl,
+        postId: rawPost.postID,
+        author: user,
+        title: rawPost.title,
+        body: rawPost.body,
+        time: rawPost.time,
+        likes: rawPost.likes,
+        rootPostId: rootPostId);
+  }
 }
 
 class RawPostObject {
@@ -51,6 +67,17 @@ class RawPostObject {
     required this.time,
     required this.likes,
   });
+  static RawPostObject fromJson(Map<String, dynamic> json, String id) {
+    return RawPostObject(
+        gifSource: json["gifSource"],
+        gifUrl: json["gifUrl"],
+        postID: id,
+        author: json["author"] ?? "",
+        title: json["title"],
+        body: json["body"],
+        time: json["time"] ?? "",
+        likes: json["likes"] ?? 0);
+  }
 }
 
 class FeedChunk {
@@ -136,11 +163,15 @@ class PostsHandling {
       required String content,
       required String path,
       required String user}) async {
-        final sourceUser = FirebaseAuth.instance.currentUser!.uid;
+    final sourceUser = FirebaseAuth.instance.currentUser!.uid;
     time ??= DateTime.now().toUtc().toIso8601String();
     final firestore = FirebaseFirestore.instance;
     final RecentActivityCard card = RecentActivityCard(
-        time: time, type: type, content: content, path: path, sourceUid:sourceUser);
+        time: time,
+        type: type,
+        content: content,
+        path: path,
+        sourceUid: sourceUser);
     await firestore
         .collection('users')
         .doc(user)
@@ -149,31 +180,17 @@ class PostsHandling {
     await locator<CurrentUser>().setNewActivity(true, uid: user);
   }
 
-  Future<Post> getPostFromId(String id) async {
+  Future<Post?> getPostFromId(String id) async {
     final data =
         await FirebaseFirestore.instance.collection("posts").doc(id).get();
     final postData = data.data();
-    final rawPostData = RawPostObject(
-        postID: data.id,
-        author: postData!["author"] ?? "",
-        title: postData["title"],
-        body: postData["body"],
-        gifSource: postData["gifSource"],
-        gifUrl: postData["gifUrl"],
-        time: postData["time"] ?? "",
-        likes: postData["likes"] ?? 0);
-    AppUser user = AppUser();
-    await user.readUserData(rawPostData.author);
-    return Post(
-      gifSource: rawPostData.gifSource,
-      gifURL: rawPostData.gifUrl,
-      postId: rawPostData.postID,
-      author: user,
-      time: rawPostData.time,
-      title: rawPostData.title,
-      body: rawPostData.body,
-      likes: rawPostData.likes,
-    );
+    if (postData != null) {
+      final rawPostData = RawPostObject.fromJson(postData, data.id);
+      AppUser user = AppUser();
+      await user.readUserData(rawPostData.author);
+      return Post.fromRaw(rawPostData, user);
+    }
+    return null;
   }
 
   Future<List<RecentActivityCard>> getNewActivity(String? time) async {
@@ -198,7 +215,82 @@ class PostsHandling {
           type: data["type"] ?? "",
           content: data["content"] ?? "",
           path: data["path"] ?? "",
-          sourceUid: data["sourceUid"]??"");
+          sourceUid: data["sourceUid"] ?? "");
+    }).toList();
+  }
+
+  dynamic getTimeFromPost(dynamic post) {
+    return (post as Post).time;
+  }
+
+//user profile
+  Future<PaginationGetterReturn> getProfilePosts(dynamic time) async {
+    final user = FirebaseAuth.instance.currentUser!.uid;
+    final postList = (await newGetPosts(
+            time,
+            FirebaseFirestore.instance
+                .collection('posts')
+                .where("author", isEqualTo: user)
+                .orderBy('time', descending: true)))
+        .map<Post>((raw) {
+      return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()));
+    }).toList();
+    return PaginationGetterReturn(
+        end: (postList.length < c.postsOnRefresh), payload: postList);
+  }
+
+//sub
+  Future<PaginationGetterReturn> getSubProfilePosts(
+      dynamic time, AppUser user) async {
+    final postList = (await newGetPosts(
+            time,
+            FirebaseFirestore.instance
+                .collection('posts')
+                .where("author", isEqualTo: user.uid)
+                .orderBy('time', descending: true)))
+        .map<Post>((raw) {
+      return Post.fromRaw(raw, user);
+    }).toList();
+
+    return PaginationGetterReturn(
+        end: (postList.length < c.postsOnRefresh), payload: postList);
+  }
+
+//comments
+  Future<PaginationGetterReturn> getCommentPosts(
+      dynamic time, String rootUid) async {
+    final postList = (await newGetPosts(
+            time,
+            FirebaseFirestore.instance
+                .collection('posts')
+                .doc(rootUid)
+                .collection("comments")
+                .orderBy('time', descending: true)))
+        .map<Future<Post>>((raw) async {
+      AppUser user = AppUser();
+      await user.readUserData(raw.author);
+
+      return Post.fromRaw(raw, user, rootPostId: rootUid);
+    }).toList();
+   
+
+    return PaginationGetterReturn(
+        end: (postList.length < c.postsOnRefresh), payload: await Future.wait(postList));
+  }
+
+  Future<List<RawPostObject>> newGetPosts(
+      String? time, Query<Map<String, dynamic>> query) async {
+    late QuerySnapshot<Map<String, dynamic>> snapshot;
+    if (time == null) {
+      //initial data
+      snapshot = await query.limit(c.postsOnRefresh).get();
+    } else {
+      snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
+    }
+    return snapshot.docs.map<RawPostObject>((doc) {
+      var data = doc.data();
+
+      return RawPostObject.fromJson(data, doc.id);
     }).toList();
   }
 

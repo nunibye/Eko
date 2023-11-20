@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/post_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-
+import 'package:untitled_app/custom_widgets/comment_card.dart';
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
 import '../custom_widgets/login_text_feild.dart';
-import '../custom_widgets/feed_builder.dart';
+import '../custom_widgets/pagination.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewPostPage extends StatelessWidget {
@@ -16,11 +16,11 @@ class ViewPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ChangeNotifierProvider(
+    return ChangeNotifierProvider(
       create: (context) =>
           PostPageController(passedPost: post, context: context, id: id),
       builder: (context, child) {
-        return  GestureDetector(
+        return GestureDetector(
           onTap: () => Provider.of<PostPageController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
@@ -43,23 +43,33 @@ class ViewPostPage extends StatelessWidget {
                         ],
                       ),
                       Expanded(
-                        child: FeedBuilder(
-                          rootPostId: Provider.of<PostPageController>(context,
-                                  listen: false)
-                              .post!
-                              .postId,
-                          isComment: true,
-                          firestoreQuery: FirebaseFirestore.instance
-                              .collection('posts')
-                              .doc(Provider.of<PostPageController>(context,
+                          child: PaginationPage(
+                              getter: Provider.of<PostPageController>(context,
                                       listen: false)
-                                  .post!
-                                  .postId)
-                              .collection("comments")
-                              .orderBy('time', descending: true),
-                          header: const _Header(),
-                        ),
-                      ),
+                                  .getCommentsFromPost,
+                              card: commentCardBuilder,
+                              header: _Header(),
+                              startAfterQuery: Provider.of<PostPageController>(
+                                      context,
+                                      listen: false)
+                                  .getTimeFromPost)
+                          // FeedBuilder(
+                          //   rootPostId: Provider.of<PostPageController>(context,
+                          //           listen: false)
+                          //       .post!
+                          //       .postId,
+                          //   isComment: true,
+                          //   firestoreQuery: FirebaseFirestore.instance
+                          //       .collection('posts')
+                          //       .doc(Provider.of<PostPageController>(context,
+                          //               listen: false)
+                          //           .post!
+                          //           .postId)
+                          //       .collection("comments")
+                          //       .orderBy('time', descending: true),
+                          //   header: const _Header(),
+                          // ),
+                          ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
