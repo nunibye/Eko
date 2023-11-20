@@ -111,13 +111,13 @@ class CurrentUser extends AppUser {
     }
   }
 
-  Future<void> setNewActivity(bool value) async {
+  Future<void> setNewActivity(bool value, {String? uid}) async {
     final firestore = FirebaseFirestore.instance;
-    final user = getUID();
+    uid ??= getUID();
     newActivity = value;
     await firestore
         .collection("users")
-        .doc(user)
+        .doc(uid)
         .set({'newActivity': value}, SetOptions(merge: true));
   }
 

@@ -39,7 +39,7 @@ class ComposePage extends StatelessWidget {
                               .titleController),
                   Consumer<ComposeController>(
                     builder: (context, composeController, _) => Text(
-                        "${composeController.titleChars}/${c.maxTittleChars} ${AppLocalizations.of(context)!.characters}"),
+                        "${composeController.titleChars}/${c.maxTitleChars} ${AppLocalizations.of(context)!.characters}"),
                   ),
                   SizedBox(height: height * 0.01),
                   SizedBox(

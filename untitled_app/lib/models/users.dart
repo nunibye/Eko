@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:untitled_app/models/current_user.dart';
 
 class AppUser {
   String name;
@@ -21,7 +22,17 @@ class AppUser {
     this.profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",
   });
-
+  static AppUser fromCurrent(CurrentUser user) {
+    return AppUser(
+        username: user.name,
+        uid: user.uid,
+        name: user.name,
+        profilePicture: user.profilePicture,
+        likes: user.hashCode,
+        bio: user.bio,
+        followers: user.followers,
+        following: user.following);
+  }
   static AppUser fromJson(Map<String, dynamic> json) {
     return AppUser(
         username: json['username'],

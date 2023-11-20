@@ -3,9 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
-import '../custom_widgets/feed_builder.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../custom_widgets/pagination.dart';
+import '../custom_widgets/post_card.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -15,27 +14,15 @@ class ProfilePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return  Scaffold(
-            body: Consumer<ProfileController>(
-              builder: (context, profileController, _) => FeedBuilder(
-                //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
-                firestoreQuery: FirebaseFirestore.instance
-                    .collection('posts')
-                    .where("author",
-                        isEqualTo: Provider.of<ProfileController>(context,
-                                listen: false)
-                            .getUID())
-                    .orderBy('time', descending: true),
-                //This widget will be first in the list. use Column for this not ListView
-                header: const Header(),
-                user:
-                    Provider.of<ProfileController>(context, listen: true).user,
-                //Optional funtion to call on refresh.
-                refreshFunction:
-                    Provider.of<ProfileController>(context, listen: false)
-                        .onPageRefresh,
-              ),
-            ),
+        return Scaffold(
+          body: PaginationPage(
+              getter: Provider.of<ProfileController>(context, listen: false).getProfilePosts,
+              card: postCardBuilder,
+              startAfterQuery: Provider.of<ProfileController>(context, listen: false).getTimeFromPost,
+              header: const _Header(),
+              extraRefresh:
+                  Provider.of<ProfileController>(context, listen: false)
+                      .onPageRefresh),
           
         );
       },
@@ -43,8 +30,8 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class Header extends StatelessWidget {
-  const Header({super.key});
+class _Header extends StatelessWidget {
+  const _Header({super.key});
 
   @override
   Widget build(BuildContext context) {

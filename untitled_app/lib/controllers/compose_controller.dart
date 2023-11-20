@@ -69,7 +69,7 @@ class ComposeController extends ChangeNotifier {
     titleController.text = titleController.text.trim();
     updateCountsBody(bodyController.text);
     updateCountsTitle(titleController.text);
-    if (titleChars > c.maxTittleChars) {
+    if (titleChars > c.maxTitleChars) {
       showSnackBar(
           text: AppLocalizations.of(context)!.tooManyChar, context: context);
     } else if (newLines > c.maxPostLines) {

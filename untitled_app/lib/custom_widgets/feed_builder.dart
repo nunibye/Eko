@@ -53,7 +53,7 @@ class FeedBuilder extends StatelessWidget {
                   return isComment
                       ? CommentCard(
                           post: feedController.posts[index - 1],
-                          rootPostId: rootPostId!,
+                          //rootPostId: rootPostId!,
                         )
                       : PostCard(post: feedController.posts[index - 1]);
                 } else {

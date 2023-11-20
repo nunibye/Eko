@@ -270,4 +270,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recentActivity => 'Recent Activity';
+
+  @override
+  String get nothingToSeeHere => 'Nothing to see here!';
 }

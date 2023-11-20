@@ -626,6 +626,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent Activity'**
   String get recentActivity;
+
+  /// No description provided for @nothingToSeeHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to see here!'**
+  String get nothingToSeeHere;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

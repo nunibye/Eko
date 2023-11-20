@@ -7,6 +7,12 @@ import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
 import 'package:intl/intl.dart';
 
+Widget postCardBuilder(dynamic post) {
+  return PostCard(
+    post: post,
+  );
+}
+
 class PostCard extends StatelessWidget {
   final Post post;
   final bool isPreview;
@@ -214,7 +220,7 @@ class PostCard extends StatelessWidget {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
-                                  "View post",
+                                  "View post", //FIXME
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../custom_widgets/feed_builder.dart';
+import '../custom_widgets/pagination.dart';
 import '../custom_widgets/tab_bar.dart';
 import '../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../custom_widgets/post_card.dart';
 
 class FeedPage extends StatelessWidget {
   final bool rebuild;
@@ -17,16 +18,19 @@ class FeedPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => FeedController(context: context, rebuild: rebuild),
       builder: (context, child) {
-    return Scaffold(
-      body: FeedBuilder(
-        firestoreQuery:
-            Provider.of<FeedController>(context, listen: true).query,
-        index: Provider.of<FeedController>(context, listen: true).index,
-        //TODO maybe optimize to check current user?
-        user: null,
-        header: const _Header(),
-      ),
-    );
+        return Scaffold(
+            body: PaginationPage(
+                getter: Provider.of<FeedController>(context, listen: false), card: postCardBuilder, startAfterQuery: Provider.of<FeedController>(context, listen: false)
+                          .getTimeFromPost)
+            // FeedBuilder(
+            //   firestoreQuery:
+            //       Provider.of<FeedController>(context, listen: true).query,
+            //   index: Provider.of<FeedController>(context, listen: true).index,
+            //   //TODO maybe optimize to check current user?
+            //   user: null,
+            //   header: const _Header(),
+            // ),
+            );
       },
     );
   }
@@ -63,7 +67,8 @@ class _Header extends StatelessWidget {
                         Icons.notifications,
                         size: 28,
                       ),
-                      if (Provider.of<FeedController>(context, listen: true).newActivity)
+                      if (Provider.of<FeedController>(context, listen: true)
+                          .newActivity)
                         Positioned(
                           right: 0,
                           child: Container(
@@ -78,7 +83,9 @@ class _Header extends StatelessWidget {
                         )
                     ],
                   ),
-                  onPressed: () => Provider.of<FeedController>(context, listen: false).onNotificationButtonPressed(),
+                  onPressed: () =>
+                      Provider.of<FeedController>(context, listen: false)
+                          .onNotificationButtonPressed(),
                 ),
               ),
             )

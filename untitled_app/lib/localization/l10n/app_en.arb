@@ -108,5 +108,6 @@
     "resetPassword":"Reset Password",
     "sendResetLink":"Send reset link",
     "ok":"Ok",
-    "recentActivity":"Recent Activity"
+    "recentActivity":"Recent Activity",
+    "nothingToSeeHere":"Nothing to see here!"
 }

@@ -5,6 +5,8 @@ import '../custom_widgets/error_snack_bar.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/post_handler.dart';
 import 'package:go_router/go_router.dart';
+import '../custom_widgets/controllers/pagination_controller.dart'
+    show PaginationGetterReturn;
 
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
@@ -25,9 +27,14 @@ class PostPageController extends ChangeNotifier {
       post = passedPost!;
       notifyListeners();
     } else {
-      post ??= await locator<PostsHandling>().getPostFromId(id);
+      post ??= (await locator<PostsHandling>()
+          .getPostFromId(id))!; //FIXME might break if opening deleted post
       notifyListeners();
     }
+  }
+
+  dynamic getTimeFromPost(dynamic post) {
+    return locator<PostsHandling>().getTimeFromPost(post);
   }
 
   void hideKeyboard() {
@@ -41,6 +48,10 @@ class PostPageController extends ChangeNotifier {
 
   void onExitPressed() {
     context.pop();
+  }
+
+  Future<PaginationGetterReturn> getCommentsFromPost(dynamic time) async {
+    return locator<PostsHandling>().getCommentPosts(time, post!.postId);
   }
 
   //TODO add more content like a preview of a post.
@@ -57,11 +68,11 @@ class PostPageController extends ChangeNotifier {
           text: AppLocalizations.of(context)!.emptyFieldError,
           context: context);
     } else {
-      locator<PostsHandling>()
-          .createComment({"body": commentFeild.text}, post!.postId);
+      locator<PostsHandling>().createComment(
+          {"body": commentFeild.text}, post!.postId, post!.author.uid);
       // locator<FeedPostCache>().updateComments(post!.postId, 1);
       // notifyListeners();
-      
+
       commentFeild.text = "";
       notifyListeners();
     }
