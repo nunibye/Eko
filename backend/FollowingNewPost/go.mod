@@ -2,10 +2,7 @@ module example.com/FollowingNewPost
 
 go 1.21.0
 
-require (
-	cloud.google.com/go/firestore v1.14.0
-	google.golang.org/api v0.151.0
-)
+require cloud.google.com/go/firestore v1.14.0
 
 require (
 	cloud.google.com/go v0.110.8 // indirect
@@ -26,6 +23,7 @@ require (
 	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
+	google.golang.org/api v0.151.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20231016165738-49dd2c1f3d0b // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20231016165738-49dd2c1f3d0b // indirect

@@ -2,48 +2,93 @@ package FollowingNewPost
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"time"
 
 	"cloud.google.com/go/firestore"
-	"google.golang.org/api/iterator"
 )
 
 type Post struct {
-	author string `firestore:"author,omitempty"`
-	time   string `firestore:"time,omitempty"`
+	Author struct {
+		StringValue string `json:"stringValue"`
+	} `json:"author"`
+	Time struct {
+		StringValue string `json:"stringValue"`
+	} `json:"time"`
 }
 
-func FollowingNewPost(ctx context.Context, m firestore.DocumentSnapshot) error {
+type FirestoreEvent struct {
+	OldValue   FirestoreValue `json:"oldValue"`
+	Value      FirestoreValue `json:"value"`
+	UpdateMask struct {
+		FieldPaths []string `json:"fieldPaths"`
+	} `json:"updateMask"`
+}
+
+type FirestoreValue struct {
+	CreateTime time.Time `json:"createTime"`
+	Fields     Post      `json:"fields"`
+	Name       string    `json:"name"`
+	UpdateTime time.Time `json:"updateTime"`
+}
+
+func FollowingNewPost(ctx context.Context, e FirestoreEvent) error {
 	projectID := "untitled-2832f"
 
 	// load new post data into post
-	var post Post
-	m.DataTo(&post)
+	post := e.Value.Fields
 
+	// firestore client
 	client, err := firestore.NewClient(ctx, projectID)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer client.Close()
 
-	// if post by me for testing
-	if post.author == "bdeewAqwXHYQPIjSbwDLmpPKhV83" {
+	// Get the author's document
+	authorDoc, err := client.Collection("users").Doc(post.Author.StringValue).Get(ctx)
+	if err != nil {
+		log.Fatalf("Failed to get author document: %v", err)
+	}
 
-		// go through users who follow the author
-		iter := client.Collection("users").Where("following", "array-contains", post.author).Documents(ctx)
-		for {
-			doc, err := iter.Next()
-			if err == iterator.Done {
-				break
-			}
-			if err != nil {
-				log.Fatalf("Failed to iterate: %v", err)
-			}
+	// Get the author's username
+	username, ok := authorDoc.Data()["username"].(string)
+	if !ok {
+		log.Fatalf("Failed to convert username to string")
+	}
 
-			// add to newActivity
-			client.Collection("users").Doc(doc.Ref.ID).Collection("newActivity").Add(ctx, map[string]interface{}{"content": m.Ref.ID, "path": m.Ref.Path, "time": post.time, "type": "post"})
+	// Get the author's profileData
+	profileData, ok := authorDoc.Data()["profileData"].(map[string]interface{})
+	if !ok {
+		log.Fatalf("Failed to convert profileData to map")
+	}
+
+	// Get the author's followers
+	followers, ok := profileData["followers"].([]interface{})
+	if !ok {
+		log.Fatalf("Failed to convert followers to array")
+	}
+
+	// For each follower, add the new activity
+	for _, follower := range followers {
+		followerID, ok := follower.(string)
+		if !ok {
+			log.Printf("Failed to convert follower ID to string")
+			continue
+		}
+		_, _, err = client.Collection("users").Doc(followerID).Collection("newActivity").Add(ctx, map[string]interface{}{
+			"content": fmt.Sprintf("New post from %s", username),
+			"path":    e.Value.Name,
+			"time":    post.Time.StringValue,
+			"type":    "post",
+		})
+		if err != nil {
+			log.Fatalf("Failed to add activity: %v", err)
 		}
 	}
 
 	return nil
 }
+
+// gcloud functions deploy FollowingNewPost --runtime go121 --trigger-event "providers/cloud.firestore/eventTypes/document.create" --trigger-resource "projects/untitled-2832f/databases/(default)/documents/posts/{docId}"
