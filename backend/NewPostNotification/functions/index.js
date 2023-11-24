@@ -33,7 +33,9 @@ exports.sendNotification = functions.firestore.document('posts/{docId}').onCreat
         body: snapshot.data().title || snapshot.data().body || 'Click to see post',
       },
       data: {
-        postId: docId // Pass the ID of the newly created post
+        type: 'AllPost', // needs to change to type variable in database
+        postId: docId, // this needs to be deleted and just be path
+        path: docId, // Pass the ID of the newly created post
       }
     };
 

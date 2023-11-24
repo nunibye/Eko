@@ -94,9 +94,17 @@ class NotificationService extends ChangeNotifier {
 
   Future<void> postNotification(
       BuildContext context, RemoteMessage message) async {
-    String postID = message.data['postId'];
-    locator<FeedPostCache>().clearCache(); // not refreshing
-    context.go("/feed/post/$postID");
-    locator<NavBarController>().enable(); // this seems odd. idk is it
+    String path = message.data['path'];
+    String type = message.data['type'];
+    locator<FeedPostCache>().clearCache();
+    switch (type) {
+      case 'AllPost':
+        context.go("/feed/post/$path");
+        break;
+      case 'comment':
+        context.go("/feed/post/$path");
+        break;
+    }
+    locator<NavBarController>().enable();
   }
 }

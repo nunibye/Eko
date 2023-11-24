@@ -11,6 +11,7 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
         const uid = context.params.uid;
         const path = snapshot.data().path;
         const comment = snapshot.data().content;
+        const type = snapshot.data().type;
         console.log("UID: ", uid);
         console.log("Path: ", path);
         console.log("Comment: ", comment);
@@ -47,6 +48,7 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
                   },
                   data: {
                     path: path,
+                    type: type,
                   },
                   tokens: userTokens,
                 };

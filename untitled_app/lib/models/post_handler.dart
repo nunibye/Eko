@@ -136,7 +136,7 @@ class PostsHandling {
   }
 
   createComment(
-      Map<String, dynamic> comment, String postID, String rootAuthor) async {
+      Map<String, dynamic> comment, String postID, String rootAuthor, String path) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     final String time = DateTime.now().toUtc().toIso8601String();
@@ -152,7 +152,7 @@ class PostsHandling {
         time: time,
         type: "comment",
         content: comment["body"],
-        path: "test",
+        path: path,
         user: rootAuthor);
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
@@ -210,13 +210,21 @@ class PostsHandling {
     }
     return snapshot.docs.map<RecentActivityCard>((doc) {
       var data = doc.data();
-
+      // FIXME: not sure why this gave an error, i had to add these conditionals
       return RecentActivityCard(
-          time: data["time"] ?? "",
-          type: data["type"] ?? "",
-          content: data["content"] ?? "",
-          path: data["path"] ?? "",
-          sourceUid: data["sourceUid"] ?? "");
+        time: (data["time"] is String) ? data["time"] : "",
+        type: (data["type"] is String) ? data["type"] : "",
+        content: (data["content"] is String) ? data["content"] : "",
+        path: (data["path"] is String) ? data["path"] : "",
+        sourceUid: (data["sourceUid"] is String) ? data["sourceUid"] : "",
+      );
+
+      // return RecentActivityCard(
+      //     time: data["time"] ?? "",
+      //     type: data["type"] ?? "",
+      //     content: data["content"] ?? "",
+      //     path: data["path"] ?? "",
+      //     sourceUid: data["sourceUid"] ?? "");
     }).toList();
   }
 

@@ -81,6 +81,7 @@ class CurrentUser extends AppUser {
       email = userData["email"] ?? "";
       //print(userData["newActivty"] ?? false);
       newActivity = userData["newActivity"] ?? false;
+      await addFCM(); // TODO: remove this once people download latest version. everyone should have their token in after that
     }
     await _readLikedPosts();
   }
@@ -385,16 +386,25 @@ class CurrentUser extends AppUser {
       // Get the current data
       final DocumentSnapshot userSnapshot = await userDocRef.get();
       if (userSnapshot.exists) {
-        // Retrieve the FCM tokens array
-        List<String> fcmTokens =
-            List<String>.from(userSnapshot['fcmTokens'] ?? []);
         final String currentDeviceToken =
             await FirebaseMessaging.instance.getToken() ?? "";
-        if (!fcmTokens.contains(currentDeviceToken)) {
+        // Retrieve the FCM tokens array
+        // TODO: will change when in a collection
+        if (userSnapshot.data().toString().contains('fcmTokens')) {
+          List<String> fcmTokens =
+              List<String>.from(userSnapshot['fcmTokens'] ?? []);
+
+          // check to see if contained in array
+          if (!fcmTokens.contains(currentDeviceToken)) {
+            fcmTokens.add(currentDeviceToken);
+          }
+          // Update the Firestore document with the modified FCM tokens array
+          await userDocRef.update({'fcmTokens': fcmTokens});
+        } else {
+          List<String> fcmTokens = [];
           fcmTokens.add(currentDeviceToken);
+          userDocRef.update({'fcmTokens': fcmTokens});
         }
-        // Update the Firestore document with the modified FCM tokens array
-        await userDocRef.update({'fcmTokens': fcmTokens});
       }
     } catch (e) {
       // TODO: Handle the error as needed

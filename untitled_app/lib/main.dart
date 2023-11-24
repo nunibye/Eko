@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
   await NotificationService.initializeNotification();
-  
+  print(await FirebaseMessaging.instance.getToken());
+
   setupLocator();
   runApp(const MyApp());
 }

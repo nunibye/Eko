@@ -69,7 +69,7 @@ class PostPageController extends ChangeNotifier {
           context: context);
     } else {
       locator<PostsHandling>().createComment(
-          {"body": commentFeild.text}, post!.postId, post!.author.uid);
+          {"body": commentFeild.text}, post!.postId, post!.author.uid, post!.postId);
       // locator<FeedPostCache>().updateComments(post!.postId, 1);
       // notifyListeners();
 
