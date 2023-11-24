@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled_app/controllers/login_controller.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
 import 'package:untitled_app/utilities/notifications_provider.dart';
@@ -18,7 +19,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
   await NotificationService.initializeNotification();
-
+  
   setupLocator();
   runApp(const MyApp());
 }

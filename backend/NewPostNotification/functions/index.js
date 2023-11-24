@@ -30,7 +30,7 @@ exports.sendNotification = functions.firestore.document('posts/{docId}').onCreat
     const payload = {
       notification: {
         title: 'New post from ' + userData.username || 'New post!',
-        body: snapshot.data().title || snapshot.data().body || 'Click to see post'
+        body: snapshot.data().title || snapshot.data().body || 'Click to see post',
       },
       data: {
         postId: docId // Pass the ID of the newly created post

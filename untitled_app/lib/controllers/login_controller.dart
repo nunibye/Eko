@@ -86,10 +86,10 @@ class LoginController extends ChangeNotifier {
     hideKeyboard();
     locator<CurrentUser>().email = resetEmailController.text;
     if (_handleError(
-            await locator<CurrentUser>().forgotPassword(countryCode)) == 0) {
-              resetConfirmation();
-            }
-    
+            await locator<CurrentUser>().forgotPassword(countryCode)) ==
+        0) {
+      resetConfirmation();
+    }
   }
 
   resetConfirmation() {
@@ -114,6 +114,7 @@ class LoginController extends ChangeNotifier {
 
       _handleError(
           await locator<CurrentUser>().signIn(passwordController.text));
+      locator<CurrentUser>().addFCM();
 
       loggingIn = false;
       notifyListeners(); //FIXME problems can apear here since it gets disposed

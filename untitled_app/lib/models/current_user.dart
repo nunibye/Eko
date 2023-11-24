@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -33,6 +34,7 @@ class CurrentUser extends AppUser {
         password: password,
       );
       uid = FirebaseAuth.instance.currentUser!.uid;
+      // await addFCM();
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -44,6 +46,7 @@ class CurrentUser extends AppUser {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       uid = FirebaseAuth.instance.currentUser!.uid;
+      // await addFCM();
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -372,6 +375,58 @@ class CurrentUser extends AppUser {
         .set({"likes": []});
   }
 
+  Future<void> addFCM() async {
+    // TODO: eventually needs to support timestamp
+    final user = getUID();
+    final DocumentReference userDocRef =
+        FirebaseFirestore.instance.collection("users").doc(user);
+
+    try {
+      // Get the current data
+      final DocumentSnapshot userSnapshot = await userDocRef.get();
+      if (userSnapshot.exists) {
+        // Retrieve the FCM tokens array
+        List<String> fcmTokens =
+            List<String>.from(userSnapshot['fcmTokens'] ?? []);
+        final String currentDeviceToken =
+            await FirebaseMessaging.instance.getToken() ?? "";
+        if (!fcmTokens.contains(currentDeviceToken)) {
+          fcmTokens.add(currentDeviceToken);
+        }
+        // Update the Firestore document with the modified FCM tokens array
+        await userDocRef.update({'fcmTokens': fcmTokens});
+      }
+    } catch (e) {
+      // TODO: Handle the error as needed
+    }
+  }
+
+  Future<void> removeFCM() async {
+    // TODO: eventually needs to support timestamp
+    final user = getUID();
+    final DocumentReference userDocRef =
+        FirebaseFirestore.instance.collection("users").doc(user);
+
+    try {
+      // Get the current data
+      final DocumentSnapshot userSnapshot = await userDocRef.get();
+      if (userSnapshot.exists) {
+        // Retrieve the FCM tokens array
+        List<String> fcmTokens =
+            List<String>.from(userSnapshot['fcmTokens'] ?? []);
+        final String? currentDeviceToken =
+            await FirebaseMessaging.instance.getToken();
+        // Remove the current device's FCM token from the array
+        fcmTokens.remove(currentDeviceToken);
+
+        // Update the Firestore document with the modified FCM tokens array
+        await userDocRef.update({'fcmTokens': fcmTokens});
+      }
+    } catch (e) {
+      // TODO: Handle the error as needed
+    }
+  }
+
   clearVariables() {
     uid = '';
     name = '';
@@ -387,9 +442,12 @@ class CurrentUser extends AppUser {
   }
 
   // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
-  signOut() {
+  signOut() async {
     locator<FeedPostCache>().clearCache();
     clearVariables();
+    // remove fcm token from account
+    await removeFCM();
+
     FirebaseAuth.instance.signOut();
   }
 
