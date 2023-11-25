@@ -104,6 +104,10 @@ class NotificationService extends ChangeNotifier {
       case 'comment':
         context.go("/feed/post/$path");
         break;
+      case 'post':
+        List<String> parts = path.split('/');
+        String lastPart = parts.last;
+        context.go("/feed/post/$lastPart");
     }
     locator<NavBarController>().enable();
   }
