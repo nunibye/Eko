@@ -71,8 +71,11 @@ class PaginationController extends ChangeNotifier {
   }
 
   Future<void> onRefresh() async {
+    if (extraRefresh != null) {
+      extraRefresh!();
+    }
     end = false;
-    items = [];
+    items.clear();
     if (cacheIndex != null) {
       locator<FeedPostCache>().postsList[cacheIndex!].posts.clear();
       locator<FeedPostCache>().postsList[cacheIndex!].end = false;
@@ -80,9 +83,10 @@ class PaginationController extends ChangeNotifier {
     final returned = await getter(null); //should be passed null
     end = returned.end;
     items.addAll(returned.payload);
-    if (extraRefresh != null) {
-      extraRefresh!();
-    }
+    // if (cacheIndex != null) {
+    //   locator<FeedPostCache>().postsList[cacheIndex!].end = returned.end;
+    // }
+    
     notifyListeners();
   }
 }

@@ -93,12 +93,14 @@ class RecentActivityCard {
   final String content;
   final String path;
   final String sourceUid;
+  AppUser? sourceUser;
   RecentActivityCard(
       {required this.time,
       required this.type,
       required this.content,
       required this.path,
-      required this.sourceUid});
+      required this.sourceUid,
+      this.sourceUser});
   Map<String, String> toMap() {
     Map<String, String> map = {};
     map["time"] = time;
@@ -135,8 +137,8 @@ class PostsHandling {
         .then((value) => value.count, onError: (e) => 0);
   }
 
-  createComment(
-      Map<String, dynamic> comment, String postID, String rootAuthor, String path) async {
+  createComment(Map<String, dynamic> comment, String postID, String rootAuthor,
+      String path) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     final String time = DateTime.now().toUtc().toIso8601String();
@@ -330,6 +332,7 @@ class PostsHandling {
       if (locator<CurrentUser>().following.isEmpty) {
         return postsToPassBack;
       }
+      
       if (feedChunks.isEmpty) {
         // must handle if the user is following no one or app crashes
         if (locator<CurrentUser>().following.isEmpty) {

@@ -12,7 +12,30 @@
     <list default="true" id="d6ac1f54-c74f-42a5-b3f6-927b69a36997" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-hdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-mdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xxhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../untitled_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../untitled_app.iml" afterDir="false" />
     </list>
@@ -63,6 +86,7 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="memory.settings.postsync.last.time.stamp" value="1700675615139" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunManager">
