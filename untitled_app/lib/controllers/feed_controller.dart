@@ -60,7 +60,9 @@ class FeedController extends ChangeNotifier {
   }
 
   void onRefresh() {
-    locator<PostsHandling>().feedChunks.clear();
+    if (index == 0) {
+      locator<PostsHandling>().feedChunks.clear();
+    }
   }
 
   Future<PaginationGetterReturn> getPosts(dynamic time) {

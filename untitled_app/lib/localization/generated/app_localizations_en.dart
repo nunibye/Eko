@@ -273,4 +273,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nothingToSeeHere => 'Nothing to see here!';
+
+  @override
+  String get commentText => 'Someone commented on your post:';
 }

@@ -201,7 +201,7 @@ class PostsHandling {
     final user = FirebaseAuth.instance.currentUser!.uid;
     final firestore = FirebaseFirestore.instance;
     final firestoreRef =
-        firestore.collection("users").doc(user).collection("newActivity");
+        firestore.collection("users").doc(user).collection("newActivity").where("type", isNotEqualTo: "post");
     if (time == null) {
       snapshot = await firestoreRef.limit(c.activitiesPerRequest).get();
     } else {
