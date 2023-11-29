@@ -32,10 +32,12 @@ class PostCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: InkWell(
-            onDoubleTap: () => isPreview
-                ? null
-                : Provider.of<PostCardController>(context, listen: false)
-                    .likePressed(),
+            onTap: () {
+              if (!isPreview && !isPostPage) {
+                Provider.of<PostCardController>(context, listen: false)
+                    .postPressed();
+              }
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -123,48 +125,62 @@ class PostCard extends StatelessWidget {
                                 ),
                               ),
                             if (post.gifURL != null)
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  post.gifURL!,
-                                  fit: BoxFit.fill,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return
-                                        // ClipRRect(
-                                        //   borderRadius: BorderRadius.circular(10),
-                                        //   child: Shimmer.fromColors(
-                                        //     baseColor: const Color.fromARGB(
-                                        //         100, 130, 131, 130),
-                                        //     highlightColor: Colors.white,
-                                        //     child: Container(
-                                        //       width: 200,
-                                        //       height: 150,
-                                        //       color: Colors.amber,
-                                        //     ),
-                                        //   ),
-                                        // );
-                                        Container(
-                                      alignment: Alignment.center,
-                                      width: 200,
-                                      height: 150,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
+                              InkWell(
+                                onDoubleTap: () {
+                                  if (!isPreview) {
+                                    if (!Provider.of<PostCardController>(
+                                            context,
+                                            listen: false)
+                                        .liked) {
+                                      Provider.of<PostCardController>(context,
+                                              listen: false)
+                                          .likePressed();
+                                    }
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    post.gifURL!,
+                                    fit: BoxFit.fill,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return
+                                          // ClipRRect(
+                                          //   borderRadius: BorderRadius.circular(10),
+                                          //   child: Shimmer.fromColors(
+                                          //     baseColor: const Color.fromARGB(
+                                          //         100, 130, 131, 130),
+                                          //     highlightColor: Colors.white,
+                                          //     child: Container(
+                                          //       width: 200,
+                                          //       height: 150,
+                                          //       color: Colors.amber,
+                                          //     ),
+                                          //   ),
+                                          // );
+                                          Container(
+                                        alignment: Alignment.center,
+                                        width: 200,
+                                        height: 150,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             if (post.body != null)
@@ -177,33 +193,33 @@ class PostCard extends StatelessWidget {
                                       .onBackground,
                                 ),
                               ),
-                            Visibility(
-                              visible: !isPostPage && !isPreview,
-                              child: TextButton(
-                                onPressed: () {
-                                  if (!isPreview && !isPostPage) {
-                                    Provider.of<PostCardController>(context,
-                                            listen: false)
-                                        .postPressed();
-                                  }
-                                },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: const Size(0, 0),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  "View post", //FIXME
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    color:
-                                        Theme.of(context).colorScheme.outline,
-                                  ),
-                                ),
-                              ),
-                            )
+                            // Visibility(
+                            //   visible: !isPostPage && !isPreview,
+                            //   child: TextButton(
+                            //     onPressed: () {
+                            //       if (!isPreview && !isPostPage) {
+                            //         Provider.of<PostCardController>(context,
+                            //                 listen: false)
+                            //             .postPressed();
+                            //       }
+                            //     },
+                            //     style: TextButton.styleFrom(
+                            //       padding: EdgeInsets.zero,
+                            //       minimumSize: const Size(0, 0),
+                            //       tapTargetSize:
+                            //           MaterialTapTargetSize.shrinkWrap,
+                            //     ),
+                            //     child: Text(
+                            //       "View post", //FIXME
+                            //       style: TextStyle(
+                            //         fontSize: 16,
+                            //         fontWeight: FontWeight.normal,
+                            //         color:
+                            //             Theme.of(context).colorScheme.outline,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ),
                       ),

@@ -12,7 +12,7 @@ import 'pagination_controller.dart';
 class PostCardController extends ChangeNotifier {
   BuildContext context;
   Post post;
-  int comments = 0;
+  late int comments;
   late int likes;
   late bool liked;
   bool liking = false;
@@ -23,20 +23,21 @@ class PostCardController extends ChangeNotifier {
   _init() async {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
     likes = post.likes;
-    comments = await locator<PostsHandling>().countComments(post.postId);
+    comments = post.commentCount;
+
+    ///comments = await locator<PostsHandling>().countComments(post.postId);
 
     notifyListeners();
   }
 
 //FIXME could be optomized
   void rebuildFeed() {
-    Provider.of<PaginationController>(context, listen: false)
-        .rebuildFunction();
+    Provider.of<PaginationController>(context, listen: false).rebuildFunction();
   }
 
   postPressed() {
     context.push("/feed/post/${post.postId}", extra: post).then((v) async {
-      comments = await locator<PostsHandling>().countComments(post.postId);
+      //comments = await locator<PostsHandling>().countComments(post.postId);
 
       rebuildFeed();
     });

@@ -83,7 +83,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPasswordBody => 'Check your email for a password reset link.';
 
   @override
-  String get exitCreateAccountTitle => 'Return to welcome page';
+  String get exitCreateAccountTitle => 'Return to welcome page?';
 
   @override
   String get exitCreateAccountBody => 'Are you sure you want to go back? your information will be deleted.';

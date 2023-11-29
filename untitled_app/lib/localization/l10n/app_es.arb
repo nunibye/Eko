@@ -1,4 +1,114 @@
 {
+    "post":"Publicación",
+    "email":"Correo electrónico",
+    "password":"Contraseña",
+    "confirmPassword":"Confirmar Contraseña",
+    "logIn":"Iniciar sesión",
 
+    "invalidUserName":"Nombre de usuario no cumple los requisitos",
+    "available":"Disponible",
+    "usernameInUse":"Nombre de usuario no disponible",
+
+    "usernameTakenTitle":"Este nombre de usuario ha sido tomado.",
+    "usernameTakenBody":"Por favor escoja un nombre de usuario diferente.",
+
+    "invalidEmailTittle":"Formato de correo electrónico invalido",
+    "invalidEmailBody":"Por favor revise su correo electrónico y vuelva a intentar.",
+
+    "userNotFoundTitle":"No hemos encontrado esta cuenta",
+    "userNotFoundBody":"No hemos encontado una cuenta con este correo electrónico. Intente otro correo electrónico o cree una cuenta.",
+
+    "wrongPasswordTittle":"Contraseña incorrecta",
+    "wrongPasswordBody":"La contraseña usada es incorrecta.",
+
+    "userDisabledTittle":"Cuenta no disponible",
+    "userDisabledBody":"Su cuenta ha sido deshabilitada. Para preguntas comunicarse con conetechnologiesdev@gmail.com.",
+
+    "weakPasswordTitle":"Contraseña débil",
+    "weakPasswordBody":"Revise los requisitos para su contraseña e intente de nuevo.",
+
+    "defaultErrorTittle":"Oops! Algo salió mal",
+    "defaultErrorBody":"Por favor intente de nuevo o contacte conetechnologiesdev@gmail.com.",
+
+    "emailAlreadyInUseTitle":"Correo electrónico en uso",
+    "emailAlreadyInUseBody":"Una cuenta con este correo electrónico ya existe.",
+
+    "forgotPasswordTittle":"Recibiste un correo!",
+    "forgotPasswordBody":"Intenta usar el link que mandamos a tu correo electrónico.",
+
+    "exitCreateAccountTitle":"Quieres regresar a la página de inicio?",
+    "exitCreateAccountBody":"Estas seguro de que quieres regresar a la página de inicio? Tu informacion será borrada.",
+
+    "exitEditProfileTitle":"Estas seguro de que quieres salir?",
+    "exitEditProfileBody":"Todos los cambios serán borrados.",
+    "stay":"Permanecer en esta página",
+    "exit":"Salir",
+    "goBack":"Volver",
+    "tryAgain":"Intentelo de nuevo",
+    "signUp":"Crear cuenta",
+    "forgotPassword":"Contraseña olvidada?",
+
+    "passwordLen":"Entre 8 y 32 caracteres.",
+    "passwordLower":"Contiene letra mayuscula",
+    "passwordUpper":"Contiene letra minúscula",
+    "passwordNumber":"Contiene un número",
+    "passwordSpecial":"Contiene un simbolo",
+    "passwordMatch":"Las contraseñas coinciden",
+
+    "close":"Cerrar",
+    "likes":"Likes",
+    "follow":"Seguir",
+    "followers":"Seguidores",
+    "following":"Siguiendo",
+    "editProfile":"Editar perfil",
+    "name":"Nombre",
     
+    "userName":"Nombre de usuario",
+    "previous":"Regresar",
+    "followingTab":"Siguiendo",
+    "popularTab":"Popular",
+    "newTab":"Nuevo",
+    "oldTab":"Viejo",
+
+    "postTitle":"Titulo",
+    "postBody":"Body",
+    "newLines":"New Lines",
+    "characters":"Characters",
+
+    "postButton":"POST",
+    "tooManyChar":"Too many characters.",
+    "tooManyLine":"Too many newlines.",
+
+    "emptyFieldError":"Make sure all feilds are filled.",
+
+    "bioTitle":"Bio",
+
+    "logOut":"Log Out",
+    "deleteAccount":"Delete Account",
+    "darkMode":"Dark Mode",
+    "addComment":"Add a comment",
+    "settings":"Settings",
+    "welcome":"Welcome",
+    "welcomeTo":"Welcome to",
+    "welcomeBack":"Welcome Back",
+    "createAccount":"Create Account",
+    "createAnAccount":"Create an Account",
+    "cont":"Continue",
+    "dateOfBirth":"Date of Birth",
+    "createAPassword":"Create a Password",
+
+    "deleteAcountTitle":"Are you sure you want to delete your account?",
+    "deleteAcountBody":"All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel",
+    "delete":"Delete",
+    "save":"Save",
+    "searchUsername":"Search username...",
+    "noResultsFound":"No results found.",
+    "confirmation":"Confirmation",
+    "cancel":"Cancel",
+    "resetPassword":"Reset Password",
+    "sendResetLink":"Send reset link",
+    "ok":"Ok",
+    "recentActivity":"Recent Activity",
+    "nothingToSeeHere":"Nothing to see here!",
+    "commentText":"Someone commented on your post:"
 }
