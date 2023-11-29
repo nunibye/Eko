@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
+import 'package:untitled_app/models/shared_pref_model.dart';
 import 'package:untitled_app/utilities/locator.dart';
-import 'package:untitled_app/utilities/notifications_provider.dart';
 import '../utilities/themes/dark_theme_provider.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import 'package:go_router/go_router.dart';
@@ -12,18 +12,20 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 class SettingsController extends ChangeNotifier {
   final BuildContext context;
+  bool activityNotification = true;
 
   SettingsController({
     required this.context,
-  });
+  }) {
+    init();
+  }
+  init() async {
+    activityNotification = await getActivityNotification();
+    notifyListeners();
+  }
 
   bool getThemeValue() {
     return Provider.of<DarkThemeProvider>(context, listen: false).darkTheme;
-  }
-
-  bool getActivityNotificationValue() {
-    return Provider.of<NotificationProvider>(context, listen: true)
-        .notificationEnabled;
   }
 
   changeValue(value) {
@@ -51,11 +53,16 @@ class SettingsController extends ChangeNotifier {
     // } else {
     //   await FirebaseHelper.unsubscribeFromTopic('new_post');
     // }
+    setActivityNotification(value);
     if (value) {
-      Provider.of<CurrentUser>(context, listen: false).addFCM();
+      locator<CurrentUser>().addFCM();
+      activityNotification = true;
     } else {
-      Provider.of<CurrentUser>(context, listen: false).removeFCM();
+      locator<CurrentUser>().removeFCM();
+      activityNotification = false;
     }
+    
+    notifyListeners();
   }
 
   signOut() {
