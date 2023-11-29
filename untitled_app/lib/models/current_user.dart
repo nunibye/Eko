@@ -440,14 +440,14 @@ class CurrentUser extends AppUser {
 
   void clearVariables() {
     uid = '';
-    
+
     name = '';
     likes = 0;
     bio = '';
     followers = const [];
     following = const [];
     username = '';
-    
+
     email = '';
     likedPosts = const [];
     profilePicture =
@@ -459,10 +459,6 @@ class CurrentUser extends AppUser {
     locator<FeedPostCache>().clearCache();
     await removeFCM();
     clearVariables();
-    // remove fcm token from account
-    
-    
-   
     FirebaseAuth.instance.signOut();
   }
 

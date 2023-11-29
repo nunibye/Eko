@@ -46,13 +46,13 @@ class UserSettings extends StatelessWidget {
                 activeColor: Theme.of(context).colorScheme.primary,
               ),
               SwitchListTile(
-                title: const Text("New Post Notifications"), // TODO: add localization
+                title: const Text("New Activity Notifications"), // TODO: add localization
                 value: Provider.of<SettingsController>(context, listen: true)
-                    .getPostNotificationValue(),
+                    .getActivityNotificationValue(),
                 // value: Provider.of<NotificationProvider>(context, listen: true).notificationEnabled,
                 onChanged: (value1) {
                   Provider.of<SettingsController>(context, listen: false)
-                      .toggleMessagingSubscription(value1);
+                      .toggleActivityNotification(value1);
                 },
                 activeColor: Theme.of(context).colorScheme.primary,
               ),

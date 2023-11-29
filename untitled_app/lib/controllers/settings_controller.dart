@@ -10,8 +10,6 @@ import 'package:go_router/go_router.dart';
 import '../custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
-
-
 class SettingsController extends ChangeNotifier {
   final BuildContext context;
 
@@ -23,7 +21,7 @@ class SettingsController extends ChangeNotifier {
     return Provider.of<DarkThemeProvider>(context, listen: false).darkTheme;
   }
 
-  bool getPostNotificationValue() {
+  bool getActivityNotificationValue() {
     return Provider.of<NotificationProvider>(context, listen: true)
         .notificationEnabled;
   }
@@ -43,15 +41,20 @@ class SettingsController extends ChangeNotifier {
     locator<NavBarController>().enable();
   }
 
-  toggleMessagingSubscription(value) async {
-    final notification =
-        Provider.of<NotificationProvider>(context, listen: false);
-    notification.notificationEnabled = value;
-    notifyListeners();
+  toggleActivityNotification(value) async {
+    // final notification =
+    //     Provider.of<NotificationProvider>(context, listen: false);
+    // notification.notificationEnabled = value;
+    // notifyListeners();
+    // if (value) {
+    //   await FirebaseHelper.subscribeToTopic('new_post');
+    // } else {
+    //   await FirebaseHelper.unsubscribeFromTopic('new_post');
+    // }
     if (value) {
-      await FirebaseHelper.subscribeToTopic('new_post');
+      Provider.of<CurrentUser>(context, listen: false).addFCM();
     } else {
-      await FirebaseHelper.unsubscribeFromTopic('new_post');
+      Provider.of<CurrentUser>(context, listen: false).removeFCM();
     }
   }
 
