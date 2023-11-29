@@ -1,4 +1,5 @@
 import 'package:flutter/Material.dart';
+import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import '../models/post_handler.dart' show RecentActivityCard;
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +15,7 @@ class ActivityCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.go("/feed/post/${card.path}"),
+      onTap: () => context.push("/feed/post/${card.path}"),
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.sizeOf(context).height * 0.01),
@@ -22,7 +23,8 @@ class ActivityCardWidget extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.03, right: MediaQuery.of(context).size.width * 0.015),
+                  left: MediaQuery.of(context).size.width * 0.03,
+                  right: MediaQuery.of(context).size.width * 0.015),
               child: Container(
                 alignment: Alignment.center,
                 height: MediaQuery.of(context).size.width * 0.14,
@@ -36,12 +38,24 @@ class ActivityCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: Text(
-                "${AppLocalizations.of(context)!.commentText} ${card.content}",
-                //overflow: TextOverflow.ellipsis,
+            Column(children: [
+             
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Text(
+                  "${AppLocalizations.of(context)!.commentText} ${card.content}",
+                  softWrap: true,
+                ),
               ),
-            )
+              Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+                alignment: Alignment.centerLeft,
+                child: TimeStamp(
+                  time: card.time,
+                  fontSize: 12,
+                ),
+              ),
+            ])
           ],
         ),
       ),

@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
-import 'package:intl/intl.dart';
 
 Widget postCardBuilder(dynamic post) {
   return PostCard(
@@ -23,22 +23,6 @@ class PostCard extends StatelessWidget {
       required this.post,
       this.isPreview = false,
       this.isPostPage = false});
-
-  String formatTime(String time) {
-    DateTime now = DateTime.now();
-    DateTime postTime = DateTime.parse(time).toLocal();
-    Duration difference = now.difference(postTime);
-
-    if (difference.inDays < 1) {
-      return DateFormat('hh:mm a').format(postTime);
-    } else if (difference.inDays == 1) {
-      return '${difference.inDays} day ago';
-    } else if (difference.inDays >= 2 && difference.inDays <= 3) {
-      return '${difference.inDays} days ago';
-    } else {
-      return DateFormat('MM/dd').format(postTime);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,17 +107,7 @@ class PostCard extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                if (!isPreview)
-                                  Text(
-                                    formatTime(post.time),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ),
+                                if (!isPreview) TimeStamp(time: post.time)
                               ],
                             ),
                             const SizedBox(height: 8.0),
