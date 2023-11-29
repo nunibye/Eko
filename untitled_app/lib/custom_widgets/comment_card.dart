@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'controllers/comment_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
@@ -12,7 +13,7 @@ Widget commentCardBuilder(dynamic post) {
 
 class CommentCard extends StatelessWidget {
   final Post post;
-  
+
   const CommentCard({super.key, required this.post});
 
   @override
@@ -20,8 +21,7 @@ class CommentCard extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     return ChangeNotifierProvider.value(
-      value: CommentCardController(
-          post: post, context: context),
+      value: CommentCardController(post: post, context: context),
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -124,32 +124,37 @@ class CommentCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => Provider.of<CommentCardController>(
-                              context,
-                              listen: false)
-                          .likePressed(),
-                      icon: Row(
-                        children: [
-                          Icon(
-                            (Provider.of<CommentCardController>(context,
-                                        listen: true)
-                                    .liked)
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: Theme.of(context).colorScheme.onBackground,
-                            size: c.postIconSize,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            '${Provider.of<CommentCardController>(context, listen: true).likes}',
-                            style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground),
-                          ),
-                        ],
+
+                    Column(children: [
+                      TimeStamp(time: post.time),
+                      IconButton(
+                        onPressed: () => Provider.of<CommentCardController>(
+                                context,
+                                listen: false)
+                            .likePressed(),
+                        icon: Row(
+                          children: [
+                            Icon(
+                              (Provider.of<CommentCardController>(context,
+                                          listen: true)
+                                      .liked)
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: Theme.of(context).colorScheme.onBackground,
+                              size: c.postIconSize,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              '${Provider.of<CommentCardController>(context, listen: true).likes}',
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    ])
                   ],
                 ),
               ),
