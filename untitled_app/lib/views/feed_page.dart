@@ -20,6 +20,7 @@ class FeedPage extends StatelessWidget {
       builder: (context, child) {
         return Scaffold(
             body: PaginationPage(
+              extraRefresh: Provider.of<FeedController>(context, listen: false).onRefresh,
           getter: Provider.of<FeedController>(context, listen: false).getPosts,
           card: postCardBuilder,
           startAfterQuery: Provider.of<FeedController>(context, listen: false)

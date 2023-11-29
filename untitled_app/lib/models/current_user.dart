@@ -9,6 +9,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../models/users.dart';
+import '../models/post_handler.dart';
 
 class CurrentUser extends AppUser {
   bool newActivity;
@@ -437,27 +438,31 @@ class CurrentUser extends AppUser {
     }
   }
 
-  clearVariables() {
+  void clearVariables() {
     uid = '';
+    
     name = '';
     likes = 0;
     bio = '';
     followers = const [];
     following = const [];
     username = '';
+    
     email = '';
     likedPosts = const [];
     profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c";
   }
 
-  // FIXME: this will probably want to handle more? Do we clear caching? Is that necessary
   signOut() async {
+    locator<PostsHandling>().feedChunks.clear();
     locator<FeedPostCache>().clearCache();
+    await removeFCM();
     clearVariables();
     // remove fcm token from account
-    await removeFCM();
-
+    
+    
+   
     FirebaseAuth.instance.signOut();
   }
 

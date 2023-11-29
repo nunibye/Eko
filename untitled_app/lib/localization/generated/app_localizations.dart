@@ -632,6 +632,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing to see here!'**
   String get nothingToSeeHere;
+
+  /// No description provided for @commentText.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone commented on your post:'**
+  String get commentText;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -9,7 +9,6 @@ import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
 
 class ProfileController extends ChangeNotifier {
-
   final BuildContext context;
   late AppUser user;
 
@@ -34,6 +33,8 @@ class ProfileController extends ChangeNotifier {
       followers: locator<CurrentUser>().followers,
       following: locator<CurrentUser>().following,
     );
+    
+    notifyListeners();
   }
 
 //FIXME doesn't update

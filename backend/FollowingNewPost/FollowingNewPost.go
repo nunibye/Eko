@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -58,6 +59,17 @@ func FollowingNewPost(ctx context.Context, e FirestoreEvent) error {
 		log.Fatalf("Failed to convert username to string")
 	}
 
+	// Get the author's uid
+	uid, ok := authorDoc.Data()["uid"].(string)
+	if !ok {
+		log.Fatalf("Failed to convert uid to string")
+	}
+
+	// split the path to just get the document id
+	path := e.Value.Name
+	splitPath := strings.Split(path, "/")
+	lastPart := splitPath[len(splitPath)-1]
+
 	// Get the author's profileData
 	profileData, ok := authorDoc.Data()["profileData"].(map[string]interface{})
 	if !ok {
@@ -78,10 +90,11 @@ func FollowingNewPost(ctx context.Context, e FirestoreEvent) error {
 			continue
 		}
 		_, _, err = client.Collection("users").Doc(followerID).Collection("newActivity").Add(ctx, map[string]interface{}{
-			"content": fmt.Sprintf("New post from %s", username),
-			"path":    e.Value.Name,
-			"time":    post.Time.StringValue,
-			"type":    "post",
+			"content":   fmt.Sprintf("New post from %s", username),
+			"path":      lastPart,
+			"sourceUid": uid,
+			"time":      post.Time.StringValue,
+			"type":      "post",
 		})
 		if err != nil {
 			log.Fatalf("Failed to add activity: %v", err)
