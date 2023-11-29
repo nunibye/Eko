@@ -3,10 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/models/shared_pref_model.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../models/users.dart';
 import '../models/post_handler.dart';
@@ -82,7 +85,10 @@ class CurrentUser extends AppUser {
       email = userData["email"] ?? "";
       //print(userData["newActivty"] ?? false);
       newActivity = userData["newActivity"] ?? false;
-      await addFCM(); // TODO: remove this once people download latest version. everyone should have their token in after that
+      List<dynamic>? fcmTokens = userData["fcmTokens"];
+      if (fcmTokens == null) {
+        addFCM();
+      }
     }
     await _readLikedPosts();
   }
@@ -406,6 +412,7 @@ class CurrentUser extends AppUser {
           fcmTokens.add(currentDeviceToken);
           userDocRef.update({'fcmTokens': fcmTokens});
         }
+        setActivityNotification(true);
       }
     } catch (e) {
       // TODO: Handle the error as needed
@@ -432,7 +439,9 @@ class CurrentUser extends AppUser {
 
         // Update the Firestore document with the modified FCM tokens array
         await userDocRef.update({'fcmTokens': fcmTokens});
+        setActivityNotification(false);
       }
+      
     } catch (e) {
       // TODO: Handle the error as needed
     }

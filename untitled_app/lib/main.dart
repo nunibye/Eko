@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled_app/controllers/login_controller.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
-import 'package:untitled_app/utilities/notifications_provider.dart';
 import 'utilities/themes/dark_theme_provider.dart';
 import 'utilities/themes/dark_theme_styles.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -41,13 +40,10 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (context) => NotificationProvider()),
             ChangeNotifierProvider(create: (context) => DarkThemeProvider()),
           ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
-            final notificationProvider = Provider.of<NotificationProvider>(
-                context); // idk why this works but its needed or the toggle doesnt work :)
             return SafeArea(
               child: MaterialApp.router(
                 title: 'Untitled',

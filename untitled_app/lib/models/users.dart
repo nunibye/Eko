@@ -58,7 +58,6 @@ class AppUser {
         username = user.username;
         name = user.name;
         bio = user.bio;
-
         return null;
       }
     }
