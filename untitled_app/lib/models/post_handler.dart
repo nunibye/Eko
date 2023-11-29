@@ -200,8 +200,12 @@ class PostsHandling {
     late QuerySnapshot<Map<String, dynamic>>? snapshot;
     final user = FirebaseAuth.instance.currentUser!.uid;
     final firestore = FirebaseFirestore.instance;
-    final firestoreRef =
-        firestore.collection("users").doc(user).collection("newActivity").where("type", isNotEqualTo: "post").orderBy('time', descending: true);
+    final firestoreRef = firestore
+        .collection("users")
+        .doc(user)
+        .collection("newActivity")
+        .where("type", whereIn: const ["comment", "follow"])//update for new types
+        .orderBy('time', descending: true);
     if (time == null) {
       snapshot = await firestoreRef.limit(c.activitiesPerRequest).get();
     } else {
