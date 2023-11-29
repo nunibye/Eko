@@ -34,14 +34,15 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
         const userData = await readUserData(snapshot.data().sourceUid);
 
         if (userData) {
-            // Retrieve FCM tokens associated with the user
-            const userTokensSnapshot = await admin.firestore().collection("users").doc(snapshot.data().sourceUid).get();
+            // Retrieve FCM tokens associated with the user's activity
+            const userTokensSnapshot = await admin.firestore().collection("users").doc(uid).get();
             
             if (userTokensSnapshot.exists) {
                 const userTokens = userTokensSnapshot.data().fcmTokens;
                 console.log(userTokens);
                 // Construct the notification payload
-                const payload = {
+                if (type == "comment") {
+                  const payload = {
                   notification: {
                     title: userData.username + ' commented on your post!' || 'New comment!',
                     body: comment || 'Click to see comment',
@@ -52,8 +53,28 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
                   },
                   tokens: userTokens,
                 };
-
                 return admin.messaging().sendEachForMulticast(payload);
+              }
+              else if (type == "post") {
+                const payload = {
+                notification: {
+                  title: 'New post from ' + userData.username || 'New post!',
+                  body: content || 'Click to see post',
+                },
+                data: {
+                  path: path,
+                  type: type,
+                },
+                tokens: userTokens,
+              };
+              return admin.messaging().sendEachForMulticast(payload);
+            }
+            else {
+              console.log("no type existing");
+              return;
+            }
+                
+                
 
         
             //     // Send notifications to each device
