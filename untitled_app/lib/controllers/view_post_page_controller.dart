@@ -5,8 +5,9 @@ import '../custom_widgets/error_snack_bar.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/post_handler.dart';
 import 'package:go_router/go_router.dart';
-import '../custom_widgets/controllers/pagination_controller.dart'
-    show PaginationGetterReturn;
+import '../custom_widgets/controllers/pagination_controller.dart' show PaginationGetterReturn;
+import '../models/feed_post_cache.dart';
+   
 
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
@@ -56,6 +57,7 @@ class PostPageController extends ChangeNotifier {
 
   //TODO add more content like a preview of a post.
   void postCommentPressed() {
+     
     commentFeild.text = commentFeild.text.trim();
     updateCount(commentFeild.text);
 
@@ -70,8 +72,9 @@ class PostPageController extends ChangeNotifier {
     } else {
       locator<PostsHandling>().createComment(
           {"body": commentFeild.text}, post!.postId, post!.author.uid, post!.postId);
-      // locator<FeedPostCache>().updateComments(post!.postId, 1);
-      // notifyListeners();
+
+       locator<FeedPostCache>().updateComments(post!.postId, 1);
+      
 
       commentFeild.text = "";
       notifyListeners();

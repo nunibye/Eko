@@ -5,172 +5,172 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get post => 'Post';
+  String get post => 'Publicación';
 
   @override
-  String get email => 'Email';
+  String get email => 'Correo electrónico';
 
   @override
-  String get password => 'Password';
+  String get password => 'Contraseña';
 
   @override
-  String get confirmPassword => 'Confirm Password';
+  String get confirmPassword => 'Confirmar Contraseña';
 
   @override
-  String get logIn => 'Login';
+  String get logIn => 'Iniciar sesión';
 
   @override
-  String get invalidUserName => 'Username does not meet requirements';
+  String get invalidUserName => 'Nombre de usuario no cumple los requisitos';
 
   @override
-  String get available => 'Available';
+  String get available => 'Disponible';
 
   @override
-  String get usernameInUse => 'Username Unavilable';
+  String get usernameInUse => 'Nombre de usuario no disponible';
 
   @override
-  String get usernameTakenTitle => 'This Username has been taken.';
+  String get usernameTakenTitle => 'Este nombre de usuario ha sido tomado.';
 
   @override
-  String get usernameTakenBody => 'Please go back and choose a diffrent username.';
+  String get usernameTakenBody => 'Por favor escoja un nombre de usuario diferente.';
 
   @override
-  String get invalidEmailTittle => 'Invalid Email Formating';
+  String get invalidEmailTittle => 'Formato de correo electrónico invalido';
 
   @override
-  String get invalidEmailBody => 'Please check your email and try again.';
+  String get invalidEmailBody => 'Por favor revise su correo electrónico y vuelva a intentar.';
 
   @override
-  String get userNotFoundTitle => 'Can\'t Find Account';
+  String get userNotFoundTitle => 'No hemos encontrado esta cuenta';
 
   @override
-  String get userNotFoundBody => 'We can\'t find an account with that email. Try another email, or sign up.';
+  String get userNotFoundBody => 'No hemos encontado una cuenta con este correo electrónico. Intente otro correo electrónico o cree una cuenta.';
 
   @override
-  String get wrongPasswordTittle => 'Incorrect Password';
+  String get wrongPasswordTittle => 'Contraseña incorrecta';
 
   @override
-  String get wrongPasswordBody => 'The password you entered is incorrect.';
+  String get wrongPasswordBody => 'La contraseña usada es incorrecta.';
 
   @override
-  String get userDisabledTittle => 'Account Disabled';
+  String get userDisabledTittle => 'Cuenta no disponible';
 
   @override
-  String get userDisabledBody => 'Your account has been disabled. Please contact us at conetechnologiesdev@gmail.com.';
+  String get userDisabledBody => 'Su cuenta ha sido deshabilitada. Para preguntas comunicarse con conetechnologiesdev@gmail.com.';
 
   @override
-  String get weakPasswordTitle => 'Weak Password';
+  String get weakPasswordTitle => 'Contraseña débil';
 
   @override
-  String get weakPasswordBody => 'Check password requirements and try again.';
+  String get weakPasswordBody => 'Revise los requisitos para su contraseña e intente de nuevo.';
 
   @override
-  String get defaultErrorTittle => 'Something Went Wrong';
+  String get defaultErrorTittle => 'Oops! Algo salió mal';
 
   @override
-  String get defaultErrorBody => 'Please try again later or reach out to conetechnologiesdev@gmail.com.';
+  String get defaultErrorBody => 'Por favor intente de nuevo o contacte conetechnologiesdev@gmail.com.';
 
   @override
-  String get emailAlreadyInUseTitle => 'Email Already In-Use';
+  String get emailAlreadyInUseTitle => 'Correo electrónico en uso';
 
   @override
-  String get emailAlreadyInUseBody => 'An account with that email already exists';
+  String get emailAlreadyInUseBody => 'Una cuenta con este correo electrónico ya existe.';
 
   @override
-  String get forgotPasswordTittle => 'You\'ve Got Mail!';
+  String get forgotPasswordTittle => 'Recibiste un correo!';
 
   @override
-  String get forgotPasswordBody => 'Check your email for a password reset link.';
+  String get forgotPasswordBody => 'Intenta usar el link que mandamos a tu correo electrónico.';
 
   @override
-  String get exitCreateAccountTitle => 'Return to welcome page';
+  String get exitCreateAccountTitle => 'Quieres regresar a la página de inicio?';
 
   @override
-  String get exitCreateAccountBody => 'Are you sure you want to go back? your information will be deleted.';
+  String get exitCreateAccountBody => 'Estas seguro de que quieres regresar a la página de inicio? Tu informacion será borrada.';
 
   @override
-  String get exitEditProfileTitle => 'Are you sure you want to exit?';
+  String get exitEditProfileTitle => 'Estas seguro de que quieres salir?';
 
   @override
-  String get exitEditProfileBody => 'All changes will be lost.';
+  String get exitEditProfileBody => 'Todos los cambios serán borrados.';
 
   @override
-  String get stay => 'Stay';
+  String get stay => 'Permanecer en esta página';
 
   @override
-  String get exit => 'Exit';
+  String get exit => 'Salir';
 
   @override
-  String get goBack => 'Go Back';
+  String get goBack => 'Volver';
 
   @override
-  String get tryAgain => 'Try Again';
+  String get tryAgain => 'Intentelo de nuevo';
 
   @override
-  String get signUp => 'Sign Up';
+  String get signUp => 'Crear cuenta';
 
   @override
-  String get forgotPassword => 'Forgot Password?';
+  String get forgotPassword => 'Contraseña olvidada?';
 
   @override
-  String get passwordLen => 'Between 8 and 32 characters.';
+  String get passwordLen => 'Entre 8 y 32 caracteres.';
 
   @override
-  String get passwordLower => 'Contains a lowercase letter';
+  String get passwordLower => 'Contiene letra mayuscula';
 
   @override
-  String get passwordUpper => 'Contains a uppercase letter';
+  String get passwordUpper => 'Contiene letra minúscula';
 
   @override
-  String get passwordNumber => 'Contains a number';
+  String get passwordNumber => 'Contiene un número';
 
   @override
-  String get passwordSpecial => 'Contains a special character';
+  String get passwordSpecial => 'Contiene un simbolo';
 
   @override
-  String get passwordMatch => 'Passwords match';
+  String get passwordMatch => 'Las contraseñas coinciden';
 
   @override
-  String get close => 'Close';
+  String get close => 'Cerrar';
 
   @override
   String get likes => 'Likes';
 
   @override
-  String get follow => 'Follow';
+  String get follow => 'Seguir';
 
   @override
-  String get followers => 'Followers';
+  String get followers => 'Seguidores';
 
   @override
-  String get following => 'Following';
+  String get following => 'Siguiendo';
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get editProfile => 'Editar perfil';
 
   @override
-  String get name => 'Name';
+  String get name => 'Nombre';
 
   @override
-  String get userName => 'Username';
+  String get userName => 'Nombre de usuario';
 
   @override
-  String get previous => 'Previous';
+  String get previous => 'Regresar';
 
   @override
-  String get followingTab => 'Following';
+  String get followingTab => 'Siguiendo';
 
   @override
   String get popularTab => 'Popular';
 
   @override
-  String get newTab => 'New';
+  String get newTab => 'Nuevo';
 
   @override
-  String get oldTab => 'Old';
+  String get oldTab => 'Viejo';
 
   @override
-  String get postTitle => 'Title';
+  String get postTitle => 'Titulo';
 
   @override
   String get postBody => 'Body';

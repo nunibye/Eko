@@ -252,7 +252,7 @@ abstract class AppLocalizations {
   /// No description provided for @exitCreateAccountTitle.
   ///
   /// In en, this message translates to:
-  /// **'Return to welcome page'**
+  /// **'Return to welcome page?'**
   String get exitCreateAccountTitle;
 
   /// No description provided for @exitCreateAccountBody.

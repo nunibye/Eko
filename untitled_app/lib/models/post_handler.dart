@@ -19,6 +19,7 @@ class Post {
   final String? title;
   final String? body;
   int likes;
+  int commentCount;
 
   //for comments
   final String? rootPostId;
@@ -32,8 +33,9 @@ class Post {
       required this.author,
       required this.body,
       required this.likes,
+      this.commentCount = 0,
       this.rootPostId});
-  static Post fromRaw(RawPostObject rawPost, AppUser user,
+  static Post fromRaw(RawPostObject rawPost, AppUser user, int commentCount,
       {String? rootPostId}) {
     return Post(
         gifSource: rawPost.gifSource,
@@ -44,6 +46,7 @@ class Post {
         body: rawPost.body,
         time: rawPost.time,
         likes: rawPost.likes,
+        commentCount: commentCount,
         rootPostId: rootPostId);
   }
 }
@@ -191,7 +194,9 @@ class PostsHandling {
       final rawPostData = RawPostObject.fromJson(postData, data.id);
       AppUser user = AppUser();
       await user.readUserData(rawPostData.author);
-      return Post.fromRaw(rawPostData, user);
+      await countComments(rawPostData.postID);
+      return Post.fromRaw(
+          rawPostData, user, await countComments(rawPostData.postID));
     }
     return null;
   }
@@ -204,7 +209,8 @@ class PostsHandling {
         .collection("users")
         .doc(user)
         .collection("newActivity")
-        .where("type", whereIn: const ["comment", "follow"])//update for new types
+        .where("type",
+            whereIn: const ["comment", "follow"]) //update for new types
         .orderBy('time', descending: true);
     if (time == null) {
       snapshot = await firestoreRef.limit(c.activitiesPerRequest).get();
@@ -247,11 +253,13 @@ class PostsHandling {
                 .collection('posts')
                 .where("author", isEqualTo: user)
                 .orderBy('time', descending: true)))
-        .map<Post>((raw) {
-      return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()));
+        .map<Future<Post>>((raw) async {
+      return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()),
+          await countComments(raw.postID));
     }).toList();
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh), payload: postList);
+        end: (postList.length < c.postsOnRefresh),
+        payload: await Future.wait(postList));
   }
 
 //sub
@@ -263,12 +271,13 @@ class PostsHandling {
                 .collection('posts')
                 .where("author", isEqualTo: user.uid)
                 .orderBy('time', descending: true)))
-        .map<Post>((raw) {
-      return Post.fromRaw(raw, user);
+        .map<Future<Post>>((raw) async {
+      return Post.fromRaw(raw, user, await countComments(raw.postID));
     }).toList();
 
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh), payload: postList);
+        end: (postList.length < c.postsOnRefresh),
+        payload: await Future.wait(postList));
   }
 
 //comments
@@ -285,7 +294,8 @@ class PostsHandling {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
 
-      return Post.fromRaw(raw, user, rootPostId: rootUid);
+      return Post.fromRaw(raw, user, await countComments(raw.postID),
+          rootPostId: rootUid);
     }).toList();
 
     return PaginationGetterReturn(
@@ -301,10 +311,7 @@ class PostsHandling {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
 
-      return Post.fromRaw(
-        raw,
-        user,
-      );
+      return Post.fromRaw(raw, user, await countComments(raw.postID));
     }).toList();
     if (postList.length < c.postsOnRefresh) {
       locator<FeedPostCache>().postsList[index].end = true;
@@ -336,7 +343,7 @@ class PostsHandling {
       if (locator<CurrentUser>().following.isEmpty) {
         return postsToPassBack;
       }
-      
+
       if (feedChunks.isEmpty) {
         // must handle if the user is following no one or app crashes
         if (locator<CurrentUser>().following.isEmpty) {
