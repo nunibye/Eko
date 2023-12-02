@@ -10,11 +10,11 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
     .onCreate(async (snapshot, context) => {
         const uid = context.params.uid;
         const path = snapshot.data().path;
-        const comment = snapshot.data().content;
+        const content = snapshot.data().content;
         const type = snapshot.data().type;
         console.log("UID: ", uid);
         console.log("Path: ", path);
-        console.log("Comment: ", comment);
+        console.log("content: ", content);
 
         // Extra read, idk if we want to change that.
         // Function to read user data based on the author ID
@@ -45,7 +45,7 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
                   const payload = {
                   notification: {
                     title: userData.username + ' commented on your post!' || 'New comment!',
-                    body: comment || 'Click to see comment',
+                    body: content || 'Click to see comment',
                   },
                   data: {
                     path: path,
