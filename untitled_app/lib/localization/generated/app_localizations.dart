@@ -447,11 +447,35 @@ abstract class AppLocalizations {
   /// **'Characters'**
   String get characters;
 
+  /// No description provided for @addText.
+  ///
+  /// In en, this message translates to:
+  /// **'Add text...'**
+  String get addText;
+
+  /// No description provided for @addTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add title...'**
+  String get addTitle;
+
+  /// No description provided for @createNewPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Create new post'**
+  String get createNewPost;
+
   /// No description provided for @postButton.
   ///
   /// In en, this message translates to:
   /// **'POST'**
   String get postButton;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
 
   /// No description provided for @tooManyChar.
   ///

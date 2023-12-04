@@ -74,8 +74,12 @@
     "postBody":"Body",
     "newLines":"New Lines",
     "characters":"Characters",
+    "addText":"Add text...",
+    "addTitle":"Add title...",
 
+    "createNewPost":"Create new post",
     "postButton":"POST",
+    "clear":"Clear",
     "tooManyChar":"Too many characters.",
     "tooManyLine":"Too many newlines.",
 
