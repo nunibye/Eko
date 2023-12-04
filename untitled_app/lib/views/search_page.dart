@@ -31,6 +31,7 @@ class SearchPage extends StatelessWidget {
                     SizedBox(height: height * 0.008),
                     TextField(
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(height*0.01),
                         prefixIcon: Padding(
                           padding: EdgeInsets.all(width*0.02),
                           child: Image.asset('images/algolia_logo.png',

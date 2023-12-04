@@ -16,6 +16,8 @@ class ViewPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
     return ChangeNotifierProvider(
       create: (context) =>
           PostPageController(passedPost: post, context: context, id: id),
@@ -70,53 +72,53 @@ class ViewPostPage extends StatelessWidget {
                           //   header: const _Header(),
                           // ),
                           ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          CustomInputFeild(
-                              onChanged: (s) => Provider.of<PostPageController>(
-                                      context,
-                                      listen: false)
-                                  .updateCount(s),
-                              //height: MediaQuery.sizeOf(context).width * 0.2,
-                              width: MediaQuery.sizeOf(context).width * 0.7,
-                              focus: Provider.of<PostPageController>(context,
-                                      listen: false)
-                                  .commentFeildFocus,
-                              label: AppLocalizations.of(context)!.addComment,
-                              controller: Provider.of<PostPageController>(
-                                      context,
-                                      listen: false)
-                                  .commentFeild),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    20), // Adjust the value for the desired roundness
+                      SizedBox(
+                        height: height * 0.08,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.8,
+                              child: TextField(
+                                cursorColor:
+                                    Theme.of(context).colorScheme.onBackground,
+                                focusNode: Provider.of<PostPageController>(
+                                        context,
+                                        listen: false)
+                                    .commentFeildFocus,
+                                onChanged: (s) =>
+                                    Provider.of<PostPageController>(context,
+                                            listen: false)
+                                        .updateCount(s),
+                                maxLines: null,
+                                controller: Provider.of<PostPageController>(
+                                        context,
+                                        listen: false)
+                                    .commentFeild,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(height * 0.01),
+                                  hintText:
+                                      AppLocalizations.of(context)!.addComment,
+                                  fillColor:
+                                      Theme.of(context).colorScheme.surface,
+                                  filled: true,
+                                  focusColor:
+                                      Theme.of(context).colorScheme.surface,
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
-                            onPressed: () {
-                              Provider.of<PostPageController>(context,
-                                      listen: false)
-                                  .postCommentPressed();
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: MediaQuery.sizeOf(context).width * 0.12,
-                              width: MediaQuery.sizeOf(context).width * 0.23,
-                              child: Text(
-                                AppLocalizations.of(context)!.post,
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary),
-                              ),
-                            ),
-                          )
-                        ],
+                            IconButton(
+                                onPressed: () {
+                                  Provider.of<PostPageController>(context,
+                                          listen: false)
+                                      .postCommentPressed();
+                                },
+                                icon: const Icon(Icons.send), iconSize: 50,)
+                          ],
+                        ),
                       )
                     ],
                   ),
