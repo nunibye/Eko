@@ -11,7 +11,7 @@ import '../models/feed_post_cache.dart';
 
 class Post {
   final String postId;
-
+  final bool hasCache;
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
@@ -34,9 +34,10 @@ class Post {
       required this.body,
       required this.likes,
       this.commentCount = 0,
+      this.hasCache = false,
       this.rootPostId});
   static Post fromRaw(RawPostObject rawPost, AppUser user, int commentCount,
-      {String? rootPostId}) {
+      {String? rootPostId, bool hasCache = false}) {
     return Post(
         gifSource: rawPost.gifSource,
         gifURL: rawPost.gifUrl,
@@ -153,12 +154,14 @@ class PostsHandling {
         .doc(postID)
         .collection('comments')
         .add(comment);
-    await addActivty(
-        time: time,
-        type: "comment",
-        content: comment["body"],
-        path: path,
-        user: rootAuthor);
+    if (user.uid != rootAuthor) {
+      await addActivty(
+          time: time,
+          type: "comment",
+          content: comment["body"],
+          path: path,
+          user: rootAuthor);
+    }
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }
@@ -311,7 +314,7 @@ class PostsHandling {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
 
-      return Post.fromRaw(raw, user, await countComments(raw.postID));
+      return Post.fromRaw(raw, user, await countComments(raw.postID), hasCache: true);
     }).toList();
     if (postList.length < c.postsOnRefresh) {
       locator<FeedPostCache>().postsList[index].end = true;

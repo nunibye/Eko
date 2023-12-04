@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
+import '../models/post_handler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationService extends ChangeNotifier {
   NotificationService() {
@@ -97,16 +99,21 @@ class NotificationService extends ChangeNotifier {
     String path = message.data['path'];
     String type = message.data['type'];
     locator<FeedPostCache>().clearCache();
+    await locator<PostsHandling>().getFeedPosts(
+        null,
+        FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy('time', descending: true),
+        2);
+
     switch (type) {
-      case 'AllPost':
-        context.go("/feed/post/$path");
-        break;
       case 'comment':
         context.go("/feed/post/$path");
         break;
       case 'post':
         List<String> parts = path.split('/');
         String lastPart = parts.last;
+
         context.go("/feed/post/$lastPart");
     }
     locator<NavBarController>().enable();
