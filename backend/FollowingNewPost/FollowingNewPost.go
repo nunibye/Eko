@@ -17,6 +17,12 @@ type Post struct {
 	Time struct {
 		StringValue string `json:"stringValue"`
 	} `json:"time"`
+	Title struct {
+		StringValue string `json:"stringValue"`
+	} `json:"title"`
+	Body struct {
+		StringValue string `json:"stringValue"`
+	} `json:"body"`
 }
 
 type FirestoreEvent struct {
@@ -70,6 +76,16 @@ func FollowingNewPost(ctx context.Context, e FirestoreEvent) error {
 	splitPath := strings.Split(path, "/")
 	lastPart := splitPath[len(splitPath)-1]
 
+	// format content
+	var content string
+	if post.Title.StringValue != "" {
+		content = post.Title.StringValue
+	} else if post.Body.StringValue != "" {
+		content = post.Body.StringValue
+	} else {
+		content = fmt.Sprintf("New post from %s", username)
+	}
+
 	// Get the author's profileData
 	profileData, ok := authorDoc.Data()["profileData"].(map[string]interface{})
 	if !ok {
@@ -90,7 +106,7 @@ func FollowingNewPost(ctx context.Context, e FirestoreEvent) error {
 			continue
 		}
 		_, _, err = client.Collection("users").Doc(followerID).Collection("newActivity").Add(ctx, map[string]interface{}{
-			"content":   fmt.Sprintf("New post from %s", username),
+			"content":   content,
 			"path":      lastPart,
 			"sourceUid": uid,
 			"time":      post.Time.StringValue,
