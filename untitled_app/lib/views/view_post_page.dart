@@ -136,7 +136,7 @@ class _Header extends StatelessWidget {
       children: [
         PostCard(
           post: Provider.of<PostPageController>(context, listen: false).post!,
-          isPostPage: true,
+          isBuiltFromId: Provider.of<PostPageController>(context, listen: false).builtFromID,
         ),
         Divider(
           color: Theme.of(context).colorScheme.outline,
