@@ -36,13 +36,14 @@ class UserCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user.username),
-                      Text(user.name)
-                    ],
-                  )
+                  Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.02),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text(user.username), Text(user.name)],
+                    ),
+                  ),
                 ],
               ),
             ),

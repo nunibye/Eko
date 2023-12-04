@@ -46,6 +46,13 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
+  clearPressed() {
+    gif = null;
+    titleController.text = "";
+    bodyController.text = "";
+    notifyListeners();
+  }
+
   addGifPressed() async {
     locator<NavBarController>().disable();
     GiphyGif? newGif = await GiphyGet.getGif(

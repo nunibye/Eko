@@ -182,7 +182,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get characters => 'Characters';
 
   @override
+  String get addText => 'Add text...';
+
+  @override
+  String get addTitle => 'Add title...';
+
+  @override
+  String get createNewPost => 'Create new post';
+
+  @override
   String get postButton => 'POST';
+
+  @override
+  String get clear => 'Clear';
 
   @override
   String get tooManyChar => 'Too many characters.';

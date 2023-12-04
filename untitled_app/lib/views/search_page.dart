@@ -16,7 +16,8 @@ class SearchPage extends StatelessWidget {
       create: (context) => SearchPageController(),
       builder: (context, child) {
         return GestureDetector(
-          onPanDown: (details) => Provider.of<SearchPageController>(context, listen: false)
+            onPanDown: (details) =>
+                Provider.of<SearchPageController>(context, listen: false)
                     .hideKeyboard(),
             onTap: () =>
                 Provider.of<SearchPageController>(context, listen: false)
@@ -27,36 +28,35 @@ class SearchPage extends StatelessWidget {
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: height * 0.008,
-                    ),
-                    SizedBox(
-                      height: height * 0.06,
-                      child: TextField(
-                        onChanged: (s) => Provider.of<SearchPageController>(
-                                context,
-                                listen: false)
-                            .onSearchTextChanged(s),
-                        controller: Provider.of<SearchPageController>(context,
-                                listen: false)
-                            .searchTextController,
-                        style: const TextStyle(fontSize: 20),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText:
-                              AppLocalizations.of(context)!.searchUsername,
-                          prefix: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: width * 0.03),
-                                child: Image.asset('images/algolia_logo.png',
-                                    width: width * 0.05, height: width * 0.05),
-                              ),
-                            ],
-                          ),
+                    SizedBox(height: height * 0.008),
+                    TextField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(height*0.01),
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.all(width*0.02),
+                          child: Image.asset('images/algolia_logo.png',
+                              width: width * 0.05, height: width * 0.05),
                         ),
+                        hintText: AppLocalizations.of(context)!.searchUsername,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.outline)),
                       ),
+                      onChanged: (s) => Provider.of<SearchPageController>(
+                              context,
+                              listen: false)
+                          .onSearchTextChanged(s),
+                      controller: Provider.of<SearchPageController>(context,
+                              listen: false)
+                          .searchTextController,
+                      style: const TextStyle(fontSize: 20),
                     ),
                     Expanded(
                       child: Provider.of<SearchPageController>(context,
@@ -81,7 +81,6 @@ class SearchPage extends StatelessWidget {
                                   ),
                                 )
                               : ListView.builder(
-                                
                                   //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                                   itemCount: Provider.of<SearchPageController>(
                                           context,
