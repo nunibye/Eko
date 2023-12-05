@@ -30,24 +30,21 @@ class SearchPage extends StatelessWidget {
                   children: [
                     SizedBox(height: height * 0.008),
                     TextField(
+                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(height*0.01),
+                        contentPadding: EdgeInsets.all(height * 0.01),
                         prefixIcon: Padding(
-                          padding: EdgeInsets.all(width*0.02),
+                          padding: EdgeInsets.all(width * 0.035),
                           child: Image.asset('images/algolia_logo.png',
                               width: width * 0.05, height: width * 0.05),
                         ),
-                        hintText: AppLocalizations.of(context)!.searchUsername,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
+                        hintText: AppLocalizations.of(context)!.search,
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.surface,
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.outline)),
                       ),
                       onChanged: (s) => Provider.of<SearchPageController>(
                               context,
@@ -56,6 +53,7 @@ class SearchPage extends StatelessWidget {
                       controller: Provider.of<SearchPageController>(context,
                               listen: false)
                           .searchTextController,
+                      keyboardType: TextInputType.text,
                       style: const TextStyle(fontSize: 20),
                     ),
                     Expanded(

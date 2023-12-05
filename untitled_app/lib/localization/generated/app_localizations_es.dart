@@ -263,6 +263,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchUsername => 'Search username...';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get noResultsFound => 'No results found.';
 
   @override

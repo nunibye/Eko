@@ -57,7 +57,7 @@ ColorScheme darkThemeColors(context) {
     onErrorContainer: Color(0xFFFFDAD6),
     background: Color(0xFF000000), //0xFF191C1B
     onBackground: Color(0xFFE0E3E1),
-    surface: Color(0xFF191C1B),
+    surface: Color.fromARGB(255, 33, 35, 34),
     onSurface: Color(0xFFE0E3E1),
     surfaceVariant: Color(0xFF3F4946),
     onSurfaceVariant: Color(0xFFBEC9C5),

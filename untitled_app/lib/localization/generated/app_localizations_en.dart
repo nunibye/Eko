@@ -260,7 +260,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get save => 'Save';
 
   @override
-  String get searchUsername => 'Search username...';
+  String get searchUsername => 'Search users...';
+
+  @override
+  String get search => 'Search';
 
   @override
   String get noResultsFound => 'No results found.';

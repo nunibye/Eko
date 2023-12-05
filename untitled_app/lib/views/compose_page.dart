@@ -43,7 +43,7 @@ class ComposePage extends StatelessWidget {
                             .postPressed(context),
                     style: TextButton.styleFrom(
                         backgroundColor:
-                            Theme.of(context).colorScheme.background),
+                            Theme.of(context).colorScheme.surfaceVariant),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -79,37 +79,47 @@ class ComposePage extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.2),
                     child: TextField(
-                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .titleFocus,
                       onChanged: (s) =>
                           Provider.of<ComposeController>(context, listen: false)
                               .updateCountsTitle(s),
-                      maxLines: null,
                       controller:
                           Provider.of<ComposeController>(context, listen: false)
                               .titleController,
+                      maxLines: null,
+                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       keyboardType: TextInputType.text,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onBackground),
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.addTitle,
-                        labelText: AppLocalizations.of(context)!.postTitle,
-                        labelStyle: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.outline)),
+                        contentPadding: EdgeInsets.all(height * 0.01),
+                        hintText: AppLocalizations.of(context)!.postTitle,
+                        hintStyle: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.outline),
+                        border: InputBorder.none,
+                        // labelText: AppLocalizations.of(context)!.postTitle,
+                        // labelStyle: TextStyle(
+                        //   fontSize: 18,
+                        //   letterSpacing: 1,
+                        //   fontWeight: FontWeight.normal,
+                        //   color: Theme.of(context).colorScheme.onBackground,
+                        // ),
+                        // enabledBorder: OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //       color:
+                        //           Theme.of(context).colorScheme.outline),
+                        //   borderRadius: BorderRadius.circular(10.0),
+                        // ),
+                        // focusedBorder: OutlineInputBorder(
+                        //     borderRadius: BorderRadius.circular(10.0),
+                        //     borderSide: BorderSide(
+                        //         color: Theme.of(context).colorScheme.outline)),
                       ),
                     ),
                   ),
@@ -141,7 +151,7 @@ class ComposePage extends StatelessWidget {
                                 ),
                                 Positioned(
                                     top: -10,
-                                    left: -10,
+                                    right: -10,
                                     child: IconButton(
                                       onPressed: () =>
                                           Provider.of<ComposeController>(
@@ -157,50 +167,51 @@ class ComposePage extends StatelessWidget {
                             SizedBox(height: height * 0.025),
                           ],
                         )
-                      : IconButton(
-                          onPressed: () => Provider.of<ComposeController>(
-                                  context,
-                                  listen: false)
-                              .addGifPressed(),
-                          icon: const Icon(Icons.add_box_outlined),
-                          color: Theme.of(context).colorScheme.onBackground,
-                          iconSize: 230,
-                        ),
+                      : Container(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.5),
                     child: TextField(
-                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .bodyFocus,
                       onChanged: (s) =>
                           Provider.of<ComposeController>(context, listen: false)
                               .updateCountsBody(s),
-                      maxLines: null,
                       controller:
                           Provider.of<ComposeController>(context, listen: false)
                               .bodyController,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
+                      maxLines: null,
+                      cursorColor: Theme.of(context).colorScheme.onBackground,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onBackground),
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(height * 0.01),
                         hintText: AppLocalizations.of(context)!.addText,
-                        labelText: AppLocalizations.of(context)!.postBody,
-                        labelStyle: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.outline)),
+                        hintStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.outline),
+                        border: InputBorder.none,
+                        // labelText: AppLocalizations.of(context)!.postBody,
+                        // labelStyle: TextStyle(
+                        //   fontSize: 18,
+                        //   letterSpacing: 1,
+                        //   fontWeight: FontWeight.normal,
+                        //   color: Theme.of(context).colorScheme.onBackground,
+                        // ),
+                        // enabledBorder: OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //       color:
+                        //           Theme.of(context).colorScheme.outline),
+                        //   borderRadius: BorderRadius.circular(10.0),
+                        // ),
+                        // focusedBorder: OutlineInputBorder(
+                        //     borderRadius: BorderRadius.circular(10.0),
+                        //     borderSide: BorderSide(
+                        //         color: Theme.of(context).colorScheme.outline)),
                       ),
                     ),
                   ),
@@ -219,6 +230,28 @@ class ComposePage extends StatelessWidget {
                           ),
                         )
                       : Container(),
+                  SizedBox(height: height * 0.1),
+                  Provider.of<ComposeController>(context, listen: true).gif !=
+                          null
+                      ? Container()
+                      : Container(
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: IconButton(
+                            onPressed: () => Provider.of<ComposeController>(
+                                    context,
+                                    listen: false)
+                                .addGifPressed(),
+                            icon: const Icon(Icons.add),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            iconSize: 180,
+                          ),
+                        )
                 ],
               ),
             ),
