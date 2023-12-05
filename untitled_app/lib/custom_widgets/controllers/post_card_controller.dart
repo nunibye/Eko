@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/views/view_post_page.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart';
@@ -8,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
 import 'pagination_controller.dart';
+import '../../controllers/view_post_page_controller.dart';
 
 class PostCardController extends ChangeNotifier {
   BuildContext context;
@@ -17,12 +19,20 @@ class PostCardController extends ChangeNotifier {
   late bool liked;
   bool liking = false;
   bool sharing = false;
-  PostCardController({required this.context, required this.post}) {
+  
+  final bool isBuiltFromId;
+  PostCardController(
+      {required this.context,
+      required this.post,
+
+      required this.isBuiltFromId}) {
     _init();
   }
   _init() async {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
+
     likes = post.likes;
+
     comments = post.commentCount;
 
     ///comments = await locator<PostsHandling>().countComments(post.postId);
@@ -74,44 +84,77 @@ class PostCardController extends ChangeNotifier {
   likePressed() async {
     if (post.author.uid != locator<CurrentUser>().getUID()) {
       if (!liking) {
+        //set bool
         liking = true;
+        //get action
         liked = locator<CurrentUser>()
             .checkIsLiked(post.postId); //prevent user from double likeing
 
         if (liked) {
+          //set bool
           liked = false;
+          //remove like
+          likes--;
+          //also remove from parent if not linked to cache
+          if (isBuiltFromId) {
+            Provider.of<PostPageController>(context, listen: false)
+                .changeInternalLikes(-1);
+          }
+          //update cache if present
           if (post.hasCache) {
             locator<FeedPostCache>().updateLikes(post.postId, -1);
           }
-          likes--;
+
           notifyListeners();
           //undo if it fails. maybe remove this
           if (!await locator<CurrentUser>().removeLike(post.postId, null)) {
             liked = true;
+            likes++;
+            if (isBuiltFromId) {
+              Provider.of<PostPageController>(context, listen: false)
+                  .changeInternalLikes(1);
+            }
+
             if (post.hasCache) {
               locator<FeedPostCache>().updateLikes(post.postId, 1);
             }
-            likes++;
+
             notifyListeners();
           }
         } else {
           liked = true;
+          //locator<FeedPostCache>().updateLikes(post.postId, 1);
+          likes++;
+          if (isBuiltFromId) {
+            Provider.of<PostPageController>(context, listen: false)
+                .changeInternalLikes(1);
+          }
+
           if (post.hasCache) {
             locator<FeedPostCache>().updateLikes(post.postId, 1);
           }
-          likes++;
+
           notifyListeners();
           //undo if it fails
           if (!await locator<CurrentUser>().addLike(post.postId, null)) {
             liked = false;
+            //locator<FeedPostCache>().updateLikes(post.postId, -1);
+            likes--;
+            if (isBuiltFromId) {
+              Provider.of<PostPageController>(context, listen: false)
+                  .changeInternalLikes(-1);
+            }
+
             if (post.hasCache) {
               locator<FeedPostCache>().updateLikes(post.postId, -1);
             }
-            likes--;
             notifyListeners();
           }
         }
-
+        //only rebuild from parent here to avoid reseting bool
+        if (isBuiltFromId) {
+          Provider.of<PostPageController>(context, listen: false).rebuild();
+        }
         liking = false;
       }
     }

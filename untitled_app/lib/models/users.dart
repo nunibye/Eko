@@ -24,7 +24,7 @@ class AppUser {
   });
   static AppUser fromCurrent(CurrentUser user) {
     return AppUser(
-        username: user.name,
+        username: user.username,
         uid: user.uid,
         name: user.name,
         profilePicture: user.profilePicture,

@@ -11,7 +11,7 @@ import '../models/feed_post_cache.dart';
 
 class Post {
   final String postId;
-  final bool hasCache;
+   bool hasCache;
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
@@ -39,6 +39,7 @@ class Post {
   static Post fromRaw(RawPostObject rawPost, AppUser user, int commentCount,
       {String? rootPostId, bool hasCache = false}) {
     return Post(
+        hasCache: hasCache,
         gifSource: rawPost.gifSource,
         gifURL: rawPost.gifUrl,
         postId: rawPost.postID,

@@ -20,12 +20,11 @@ class PostPageController extends ChangeNotifier {
   FocusNode commentFeildFocus = FocusNode();
   int chars = 0;
 
-  //bool builtFromID = false;
+  bool builtFromID = false;
   PostPageController({
     required this.passedPost,
     required this.context,
     required this.id,
-
   }) {
     _init();
   }
@@ -36,7 +35,8 @@ class PostPageController extends ChangeNotifier {
     } else {
       post ??= (await locator<PostsHandling>()
           .getPostFromId(id))!; //FIXME might break if opening deleted post
-      //builtFromID = true;
+      builtFromID = true;
+      post!.hasCache = true;
       notifyListeners();
     }
   }
@@ -56,6 +56,15 @@ class PostPageController extends ChangeNotifier {
 
   void onExitPressed() {
     context.pop();
+  }
+
+  void changeInternalLikes(int amount) {
+    post!.likes += amount;
+    //notifyListeners();
+  }
+
+  void rebuild() {
+    notifyListeners();
   }
 
   Future<PaginationGetterReturn> getCommentsFromPost(dynamic time) async {
@@ -82,9 +91,12 @@ class PostPageController extends ChangeNotifier {
       // print(tempComments);
       if (post!.hasCache) {
         locator<FeedPostCache>().updateComments(post!.postId, 1);
-       } else {
-         post!.commentCount++;
-       }
+        if (builtFromID) {
+          post!.commentCount++;
+        }
+      } else {
+        post!.commentCount++;
+      }
       commentFeild.text = "";
       notifyListeners();
     }

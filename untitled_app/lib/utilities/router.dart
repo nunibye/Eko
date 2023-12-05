@@ -20,6 +20,7 @@ import '../views/welcome.dart';
 import '../views/followers.dart';
 import '../views/following.dart';
 import '../views/recent_activity.dart';
+import '../views/groups_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -29,6 +30,8 @@ final _shellNavigatorComposeKey =
     GlobalKey<NavigatorState>(debugLabel: 'Compose');
 final _shellNavigatorProfileKey =
     GlobalKey<NavigatorState>(debugLabel: 'Profile');
+    final _shellNavigatorGroupsKey =
+    GlobalKey<NavigatorState>(debugLabel: 'Groups');
 final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
   refreshListenable: routerNotifier,
@@ -136,12 +139,13 @@ final goRouter = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: _shellNavigatorSearchKey,
+          navigatorKey: _shellNavigatorGroupsKey,
           routes: [
             GoRoute(
-              path: '/search',
+              path: '/groups',
+              name: 'groups',
               pageBuilder: (context, state) => const NoTransitionPage(
-                child: SearchPage(),
+                child: GroupsPage(),
               ),
             ),
           ],
@@ -154,6 +158,17 @@ final goRouter = GoRouter(
               name: 'compose',
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: ComposePage(),
+              ),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorSearchKey,
+          routes: [
+            GoRoute(
+              path: '/search',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: SearchPage(),
               ),
             ),
           ],

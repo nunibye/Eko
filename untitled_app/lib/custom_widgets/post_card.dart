@@ -17,17 +17,20 @@ class PostCard extends StatelessWidget {
   final Post post;
   final bool isPreview;
   final bool isPostPage;
+  final bool isBuiltFromId;
 
   const PostCard(
       {super.key,
       required this.post,
       this.isPreview = false,
-      this.isPostPage = false});
+      this.isPostPage = false,
+      this.isBuiltFromId = false});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: PostCardController(post: post, context: context),
+      value: PostCardController(
+          post: post, context: context, isBuiltFromId: isBuiltFromId),
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
