@@ -105,7 +105,7 @@ class NotificationService extends ChangeNotifier {
             .collection("posts")
             .orderBy('time', descending: true),
         2);
-
+    cancelNotification();
     switch (type) {
       case 'comment':
         context.push("/feed/post/$path");
@@ -116,9 +116,11 @@ class NotificationService extends ChangeNotifier {
         context.push("/feed/post/$lastPart").then((value) {
           context.go("/feed", extra: true);
         });
-
-        ;
     }
     locator<NavBarController>().enable();
+  }
+
+  static Future<void> cancelNotification() async {
+    await _notificationsPlugin.cancelAll();
   }
 }
