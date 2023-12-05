@@ -19,6 +19,10 @@ class ComposePage extends StatelessWidget {
           onTap: () => Provider.of<ComposeController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
+            floatingActionButton: FloatingActionButton.large(onPressed: () =>Provider.of<ComposeController>(
+                                    context,
+                                    listen: false)
+                                 .addGifPressed(), shape: const CircleBorder(),child: Icon(Icons.add_photo_alternate_outlined, size: 40)),
             appBar: AppBar(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,9 +127,8 @@ class ComposePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Provider.of<ComposeController>(context, listen: false)
-                          .titleFocus
-                          .hasFocus
+                  Provider.of<ComposeController>(context, listen: true)
+                          .showCount0
                       ? Consumer<ComposeController>(
                           builder: (context, composeController, _) => Text(
                               "${composeController.titleChars}/${c.maxTitleChars} ${AppLocalizations.of(context)!.characters}"),
@@ -133,12 +136,17 @@ class ComposePage extends StatelessWidget {
                       : Container(),
                   Provider.of<ComposeController>(context, listen: true).gif !=
                           null
-                      ? Column(
-                          children: [
-                            SizedBox(height: height * 0.025),
-                            Stack(
-                              children: [
-                                ClipRRect(
+                      ? FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: height * 0.025,
+                                    horizontal: height * 0.025),
+                                child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
                                     Provider.of<ComposeController>(context,
@@ -147,26 +155,51 @@ class ComposePage extends StatelessWidget {
                                         .images!
                                         .fixedWidth
                                         .url,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        width: 200,
+                                        height: 150,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
-                                Positioned(
-                                    top: -10,
-                                    right: -10,
-                                    child: IconButton(
-                                      onPressed: () =>
-                                          Provider.of<ComposeController>(
-                                                  context,
-                                                  listen: false)
-                                              .removeGifPressed(),
-                                      icon: const Icon(Icons.cancel_outlined),
+                              ),
+                              IconButton(
+                                  onPressed: () =>
+                                      Provider.of<ComposeController>(context,
+                                              listen: false)
+                                          .removeGifPressed(),
+                                  icon: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .background),
+                                    child: Icon(
+                                      Icons.cancel,
                                       color:
-                                          Theme.of(context).colorScheme.error,
-                                    ))
-                              ],
-                            ),
-                            SizedBox(height: height * 0.025),
-                          ],
-                        )
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ))
+                            ],
+                          ))
                       : Container(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.5),
@@ -215,9 +248,8 @@ class ComposePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Provider.of<ComposeController>(context, listen: false)
-                          .bodyFocus
-                          .hasFocus
+                  Provider.of<ComposeController>(context, listen: true)
+                          .showCount1
                       ? Consumer<ComposeController>(
                           builder: (context, composeController, _) => Row(
                             children: [
@@ -230,28 +262,41 @@ class ComposePage extends StatelessWidget {
                           ),
                         )
                       : Container(),
-                  SizedBox(height: height * 0.1),
-                  Provider.of<ComposeController>(context, listen: true).gif !=
-                          null
-                      ? Container()
-                      : Container(
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: IconButton(
-                            onPressed: () => Provider.of<ComposeController>(
-                                    context,
-                                    listen: false)
-                                .addGifPressed(),
-                            icon: const Icon(Icons.add),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            iconSize: 180,
-                          ),
-                        )
+                  // SizedBox(height: height * 0.1),
+                  // Provider.of<ComposeController>(context, listen: true).gif !=
+                  //         null
+                  //     ? Container()
+                  //     : Container(
+                  //         width: 80,
+                  //         height: 80,
+                  //         decoration: BoxDecoration(
+                  //           shape: BoxShape.circle,
+                  //           color:
+                  //               Theme.of(context).colorScheme.primaryContainer,
+                  //           //borderRadius: BorderRadius.circular(20.0),
+                  //         ),
+                  //         child: IconButton(
+                  //           onPressed: () => Provider.of<ComposeController>(
+                  //                   context,
+                  //                   listen: false)
+                  //               .addGifPressed(),
+                  //           icon: const Icon(Icons.add),
+                  //           color: Theme.of(context)
+                  //               .colorScheme
+                  //               .onPrimaryContainer,
+                  //           iconSize: 50,
+                  //         ),
+                  //       ),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: Text(
+                  //     "Add Gif",
+                  //     style: TextStyle(
+                  //         fontSize: 25,
+                  //         color:
+                  //             Theme.of(context).colorScheme.primaryContainer),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

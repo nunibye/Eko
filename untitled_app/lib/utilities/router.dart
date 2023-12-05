@@ -21,6 +21,7 @@ import '../views/followers.dart';
 import '../views/following.dart';
 import '../views/recent_activity.dart';
 import '../views/groups_page.dart';
+import '../views/create_group_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -30,7 +31,7 @@ final _shellNavigatorComposeKey =
     GlobalKey<NavigatorState>(debugLabel: 'Compose');
 final _shellNavigatorProfileKey =
     GlobalKey<NavigatorState>(debugLabel: 'Profile');
-    final _shellNavigatorGroupsKey =
+final _shellNavigatorGroupsKey =
     GlobalKey<NavigatorState>(debugLabel: 'Groups');
 final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
@@ -147,6 +148,13 @@ final goRouter = GoRouter(
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: GroupsPage(),
               ),
+              routes: [
+                GoRoute(
+                  path: 'create_group',
+                  name: 'create_group',
+                  builder: (context, state) => const CreateGroupPage(),
+                ),
+              ]
             ),
           ],
         ),

@@ -291,4 +291,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commentText => 'Someone commented on your post:';
+
+  @override
+  String get groups => 'Groups';
 }

@@ -668,6 +668,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Someone commented on your post:'**
   String get commentText;
+
+  /// No description provided for @groups.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get groups;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
