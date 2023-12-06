@@ -131,6 +131,29 @@ class NotificationService extends ChangeNotifier {
     locator<NavBarController>().enable();
   }
 
+  Future<void> inAppPostNotification(
+      BuildContext context, RemoteMessage message) async {
+    String path = message.data['path'];
+    String type = message.data['type'];
+    locator<FeedPostCache>().clearCache();
+    await locator<PostsHandling>().getFeedPosts(
+        null,
+        FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy('time', descending: true),
+        2);
+    switch (type) {
+      case 'comment':
+        context.push("/feed/post/$path");
+        break;
+      case 'post':
+        List<String> parts = path.split('/');
+        String lastPart = parts.last;
+        context.push("/feed/post/$lastPart");
+    }
+    locator<NavBarController>().enable();
+  }
+
   static Future<void> cancelNotification() async {
     await _notificationsPlugin.cancelAll();
   }

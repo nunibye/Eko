@@ -33,6 +33,10 @@ showOverlayNote(BuildContext context, RemoteMessage message) {
               OverlaySupportEntry.of(context)?.dismiss();
             },
           ),
+          onTap: () async {
+            await NotificationService().inAppPostNotification(context, message);
+            OverlaySupportEntry.of(context)?.dismiss();
+          },
         ),
       ),
     );
