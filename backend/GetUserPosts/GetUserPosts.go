@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 
 	"cloud.google.com/go/firestore"
 	"google.golang.org/api/iterator"
@@ -20,12 +21,22 @@ func GetUserPosts(w http.ResponseWriter, r *http.Request) {
 	}
 	defer client.Close()
 
-	uid := r.URL.Query().Get("uid") // https://?uid={UID}
+	// Parse the request body
+	var requestBody map[string]interface{}
+	err = json.NewDecoder(r.Body).Decode(&requestBody)
+	if err != nil {
+		log.Fatalf("Failed to decode request body: %v", err)
+	}
+
+	// Get the uid from the request body
+	uid := requestBody["uid"].(string)
+
+	// log.Printf("uid = %s", uid)
 
 	postIter := client.Collection("posts").Where("author", "==", uid).Documents(ctx)
 
 	// slice to store the posts data
-	var posts []map[string]interface{}
+	var posts []string
 
 	for {
 		postDoc, err := postIter.Next()
@@ -36,10 +47,11 @@ func GetUserPosts(w http.ResponseWriter, r *http.Request) {
 			log.Fatalf("Failed to iterate: %v", err)
 		}
 
-		postData := postDoc.Data()
-
 		// add post data to slice
-		posts = append(posts, postData)
+		postPath := postDoc.Ref.Path
+		relativePath := strings.TrimPrefix(postPath, "projects/untitled-2832f/databases/(default)/documents/")
+		posts = append(posts, relativePath)
+		// log.Printf("post: %s", relativePath)
 
 	}
 
@@ -53,3 +65,5 @@ func GetUserPosts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(jsonData)
 }
+
+// gcloud functions deploy GetUserPosts
