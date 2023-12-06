@@ -56,7 +56,8 @@ class FeedController extends ChangeNotifier {
     checkNewActivity();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      showOverlayNote(context, message);
+      NotificationService.onMessage(message, context);
+      // showOverlayNote(context, message);
     });
 
     // Handling the initial message received when the app is launched from dead (killed state)

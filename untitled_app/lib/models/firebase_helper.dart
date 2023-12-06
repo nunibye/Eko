@@ -34,9 +34,9 @@ class FirebaseHelper {
 
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-      alert: true,
+      alert: false,
       badge: false,
-      sound: true,
+      sound: false,
     );
   }
 

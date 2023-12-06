@@ -20,7 +20,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
   await NotificationService.initializeNotification();
-  print(await FirebaseMessaging.instance.getToken());
 
   setupLocator();
   runApp(const MyApp());

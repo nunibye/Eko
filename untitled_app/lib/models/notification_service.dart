@@ -68,19 +68,18 @@ class NotificationService extends ChangeNotifier {
   //     );
   //   }
   // }
-  // static void onMessage(RemoteMessage message, BuildContext context) {
-  //   // Extract custom data from the FCM message
-  //   RemoteNotification? notification = message.notification;
-  //   AndroidNotification? androidNotification = message.notification?.android;
-  //   AppleNotification? appleNotification = message.notification?.apple;
-  //   if (notification == null) {
-  //     return;
-  //   }
-  //   if (androidNotification != null || appleNotification != null) {
-  //     // Show in-app overlay notification
-  //     showOverlayNote(context, message);
-  //   }
-  // }
+  static Future<void> onMessage(
+      RemoteMessage message, BuildContext context) async {
+    // Extract custom data from the FCM message
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? androidNotification = message.notification?.android;
+    AppleNotification? appleNotification = message.notification?.apple;
+
+    if (androidNotification != null || appleNotification != null) {
+      // Show in-app overlay notification
+      showOverlayNote(context, message);
+    }
+  }
 
   static void onMessageOpenedApp(BuildContext context, RemoteMessage message) {
     RemoteNotification? notification = message.notification;
@@ -88,7 +87,6 @@ class NotificationService extends ChangeNotifier {
     AppleNotification? appleNotification = message.notification?.apple;
 
     if (notification == null) return;
-
     if (androidNotification != null || appleNotification != null) {
       showDialog(
         context: context,
