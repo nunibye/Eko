@@ -19,6 +19,10 @@ class ComposePage extends StatelessWidget {
           onTap: () => Provider.of<ComposeController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
+            floatingActionButton: FloatingActionButton.large(onPressed: () =>Provider.of<ComposeController>(
+                                    context,
+                                    listen: false)
+                                 .addGifPressed(), shape: const CircleBorder(),child: Icon(Icons.add_photo_alternate_outlined, size: 40)),
             appBar: AppBar(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +47,7 @@ class ComposePage extends StatelessWidget {
                             .postPressed(context),
                     style: TextButton.styleFrom(
                         backgroundColor:
-                            Theme.of(context).colorScheme.background),
+                            Theme.of(context).colorScheme.surfaceVariant),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -79,43 +83,52 @@ class ComposePage extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.2),
                     child: TextField(
-                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .titleFocus,
                       onChanged: (s) =>
                           Provider.of<ComposeController>(context, listen: false)
                               .updateCountsTitle(s),
-                      maxLines: null,
                       controller:
                           Provider.of<ComposeController>(context, listen: false)
                               .titleController,
+                      maxLines: null,
+                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       keyboardType: TextInputType.text,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onBackground),
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.addTitle,
-                        labelText: AppLocalizations.of(context)!.postTitle,
-                        labelStyle: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.outline)),
+                        contentPadding: EdgeInsets.all(height * 0.01),
+                        hintText: AppLocalizations.of(context)!.postTitle,
+                        hintStyle: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.outline),
+                        border: InputBorder.none,
+                        // labelText: AppLocalizations.of(context)!.postTitle,
+                        // labelStyle: TextStyle(
+                        //   fontSize: 18,
+                        //   letterSpacing: 1,
+                        //   fontWeight: FontWeight.normal,
+                        //   color: Theme.of(context).colorScheme.onBackground,
+                        // ),
+                        // enabledBorder: OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //       color:
+                        //           Theme.of(context).colorScheme.outline),
+                        //   borderRadius: BorderRadius.circular(10.0),
+                        // ),
+                        // focusedBorder: OutlineInputBorder(
+                        //     borderRadius: BorderRadius.circular(10.0),
+                        //     borderSide: BorderSide(
+                        //         color: Theme.of(context).colorScheme.outline)),
                       ),
                     ),
                   ),
-                  Provider.of<ComposeController>(context, listen: false)
-                          .titleFocus
-                          .hasFocus
+                  Provider.of<ComposeController>(context, listen: true)
+                          .showCount0
                       ? Consumer<ComposeController>(
                           builder: (context, composeController, _) => Text(
                               "${composeController.titleChars}/${c.maxTitleChars} ${AppLocalizations.of(context)!.characters}"),
@@ -123,12 +136,17 @@ class ComposePage extends StatelessWidget {
                       : Container(),
                   Provider.of<ComposeController>(context, listen: true).gif !=
                           null
-                      ? Column(
-                          children: [
-                            SizedBox(height: height * 0.025),
-                            Stack(
-                              children: [
-                                ClipRRect(
+                      ? FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: height * 0.025,
+                                    horizontal: height * 0.025),
+                                child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
                                     Provider.of<ComposeController>(context,
@@ -137,76 +155,101 @@ class ComposePage extends StatelessWidget {
                                         .images!
                                         .fixedWidth
                                         .url,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        alignment: Alignment.center,
+                                        width: 200,
+                                        height: 150,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
-                                Positioned(
-                                    top: -10,
-                                    left: -10,
-                                    child: IconButton(
-                                      onPressed: () =>
-                                          Provider.of<ComposeController>(
-                                                  context,
-                                                  listen: false)
-                                              .removeGifPressed(),
-                                      icon: const Icon(Icons.cancel_outlined),
+                              ),
+                              IconButton(
+                                  onPressed: () =>
+                                      Provider.of<ComposeController>(context,
+                                              listen: false)
+                                          .removeGifPressed(),
+                                  icon: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .background),
+                                    child: Icon(
+                                      Icons.cancel,
                                       color:
-                                          Theme.of(context).colorScheme.error,
-                                    ))
-                              ],
-                            ),
-                            SizedBox(height: height * 0.025),
-                          ],
-                        )
-                      : IconButton(
-                          onPressed: () => Provider.of<ComposeController>(
-                                  context,
-                                  listen: false)
-                              .addGifPressed(),
-                          icon: const Icon(Icons.add_box_outlined),
-                          color: Theme.of(context).colorScheme.onBackground,
-                          iconSize: 230,
-                        ),
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ))
+                            ],
+                          ))
+                      : Container(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.5),
                     child: TextField(
-                      cursorColor: Theme.of(context).colorScheme.onBackground,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .bodyFocus,
                       onChanged: (s) =>
                           Provider.of<ComposeController>(context, listen: false)
                               .updateCountsBody(s),
-                      maxLines: null,
                       controller:
                           Provider.of<ComposeController>(context, listen: false)
                               .bodyController,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
+                      maxLines: null,
+                      cursorColor: Theme.of(context).colorScheme.onBackground,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onBackground),
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(height * 0.01),
                         hintText: AppLocalizations.of(context)!.addText,
-                        labelText: AppLocalizations.of(context)!.postBody,
-                        labelStyle: TextStyle(
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.outline)),
+                        hintStyle: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.outline),
+                        border: InputBorder.none,
+                        // labelText: AppLocalizations.of(context)!.postBody,
+                        // labelStyle: TextStyle(
+                        //   fontSize: 18,
+                        //   letterSpacing: 1,
+                        //   fontWeight: FontWeight.normal,
+                        //   color: Theme.of(context).colorScheme.onBackground,
+                        // ),
+                        // enabledBorder: OutlineInputBorder(
+                        //   borderSide: BorderSide(
+                        //       color:
+                        //           Theme.of(context).colorScheme.outline),
+                        //   borderRadius: BorderRadius.circular(10.0),
+                        // ),
+                        // focusedBorder: OutlineInputBorder(
+                        //     borderRadius: BorderRadius.circular(10.0),
+                        //     borderSide: BorderSide(
+                        //         color: Theme.of(context).colorScheme.outline)),
                       ),
                     ),
                   ),
-                  Provider.of<ComposeController>(context, listen: false)
-                          .bodyFocus
-                          .hasFocus
+                  Provider.of<ComposeController>(context, listen: true)
+                          .showCount1
                       ? Consumer<ComposeController>(
                           builder: (context, composeController, _) => Row(
                             children: [
@@ -219,6 +262,41 @@ class ComposePage extends StatelessWidget {
                           ),
                         )
                       : Container(),
+                  // SizedBox(height: height * 0.1),
+                  // Provider.of<ComposeController>(context, listen: true).gif !=
+                  //         null
+                  //     ? Container()
+                  //     : Container(
+                  //         width: 80,
+                  //         height: 80,
+                  //         decoration: BoxDecoration(
+                  //           shape: BoxShape.circle,
+                  //           color:
+                  //               Theme.of(context).colorScheme.primaryContainer,
+                  //           //borderRadius: BorderRadius.circular(20.0),
+                  //         ),
+                  //         child: IconButton(
+                  //           onPressed: () => Provider.of<ComposeController>(
+                  //                   context,
+                  //                   listen: false)
+                  //               .addGifPressed(),
+                  //           icon: const Icon(Icons.add),
+                  //           color: Theme.of(context)
+                  //               .colorScheme
+                  //               .onPrimaryContainer,
+                  //           iconSize: 50,
+                  //         ),
+                  //       ),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: Text(
+                  //     "Add Gif",
+                  //     style: TextStyle(
+                  //         fontSize: 25,
+                  //         color:
+                  //             Theme.of(context).colorScheme.primaryContainer),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -263,6 +263,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchUsername => 'Search username...';
 
   @override
+  String get search => 'Search';
+
+  @override
   String get noResultsFound => 'No results found.';
 
   @override
@@ -288,4 +291,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get commentText => 'Someone commented on your post:';
+
+  @override
+  String get groups => 'Groups';
 }

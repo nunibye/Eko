@@ -79,7 +79,7 @@ class ViewPostPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.8,
+                              width: MediaQuery.sizeOf(context).width * 0.95,
                               child: TextField(
                                 cursorColor:
                                     Theme.of(context).colorScheme.onBackground,
@@ -106,17 +106,21 @@ class ViewPostPage extends StatelessWidget {
                                   filled: true,
                                   focusColor:
                                       Theme.of(context).colorScheme.surface,
-                                  border: InputBorder.none,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      Provider.of<PostPageController>(context,
+                                              listen: false)
+                                          .postCommentPressed();
+                                    },
+                                    icon: const Icon(Icons.send),
+                                  ),
                                 ),
                               ),
                             ),
-                            IconButton(
-                                onPressed: () {
-                                  Provider.of<PostPageController>(context,
-                                          listen: false)
-                                      .postCommentPressed();
-                                },
-                                icon: const Icon(Icons.send), iconSize: 50,)
                           ],
                         ),
                       )

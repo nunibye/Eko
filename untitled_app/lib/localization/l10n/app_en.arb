@@ -105,7 +105,8 @@
     "deleteAcountBody":"All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel",
     "delete":"Delete",
     "save":"Save",
-    "searchUsername":"Search username...",
+    "searchUsername":"Search users...",
+    "search":"Search",
     "noResultsFound":"No results found.",
     "confirmation":"Confirmation",
     "cancel":"Cancel",
@@ -114,5 +115,6 @@
     "ok":"Ok",
     "recentActivity":"Recent Activity",
     "nothingToSeeHere":"Nothing to see here!",
-    "commentText":"Someone commented on your post:"
+    "commentText":"Someone commented on your post:",
+    "groups":"Groups"
 }

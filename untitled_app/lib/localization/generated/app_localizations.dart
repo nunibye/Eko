@@ -606,8 +606,14 @@ abstract class AppLocalizations {
   /// No description provided for @searchUsername.
   ///
   /// In en, this message translates to:
-  /// **'Search username...'**
+  /// **'Search users...'**
   String get searchUsername;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
 
   /// No description provided for @noResultsFound.
   ///
@@ -662,6 +668,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Someone commented on your post:'**
   String get commentText;
+
+  /// No description provided for @groups.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get groups;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
