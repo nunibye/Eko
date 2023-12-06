@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled_app/controllers/login_controller.dart';
@@ -45,6 +46,8 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
             return SafeArea(
+              child:
+              OverlaySupport(
               child: MaterialApp.router(
                 title: 'Untitled',
                 debugShowCheckedModeBanner: false,
@@ -61,7 +64,7 @@ class MyApp extends StatelessWidget {
                   Locale('es'), // Spanish
                 ],
                 routerConfig: goRouter,
-              ),
+              ),)
             );
           },
         );
