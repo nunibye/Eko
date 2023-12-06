@@ -19,10 +19,16 @@ class ComposePage extends StatelessWidget {
           onTap: () => Provider.of<ComposeController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
-            floatingActionButton: FloatingActionButton.large(onPressed: () =>Provider.of<ComposeController>(
-                                    context,
-                                    listen: false)
-                                 .addGifPressed(), shape: const CircleBorder(),child: Icon(Icons.add_photo_alternate_outlined, size: 40)),
+            floatingActionButton: SizedBox(
+              width: 70,
+              child: FloatingActionButton.large(
+                  onPressed: () =>
+                      Provider.of<ComposeController>(context, listen: false)
+                          .addGifPressed(),
+                  shape: const CircleBorder(),
+                  child:
+                      const Icon(Icons.add_photo_alternate_outlined, size: 40)),
+            ),
             appBar: AppBar(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,13 +133,14 @@ class ComposePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Provider.of<ComposeController>(context, listen: true)
-                          .showCount0
-                      ? Consumer<ComposeController>(
-                          builder: (context, composeController, _) => Text(
-                              "${composeController.titleChars}/${c.maxTitleChars} ${AppLocalizations.of(context)!.characters}"),
-                        )
-                      : Container(),
+                  Consumer<ComposeController>(
+                    builder: (context, composeController, _) => (composeController
+                                .showCount0 &&
+                            composeController.titleChars != 0)
+                        ? Text(
+                            "${composeController.titleChars}/${c.maxTitleChars} ${AppLocalizations.of(context)!.characters}")
+                        : Container(),
+                  ),
                   Provider.of<ComposeController>(context, listen: true).gif !=
                           null
                       ? FittedBox(
@@ -194,8 +201,9 @@ class ComposePage extends StatelessWidget {
                                             .background),
                                     child: Icon(
                                       Icons.cancel,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
                                     ),
                                   ))
                             ],
@@ -215,7 +223,7 @@ class ComposePage extends StatelessWidget {
                               .bodyController,
                       maxLines: null,
                       cursorColor: Theme.of(context).colorScheme.onBackground,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.multiline,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -248,20 +256,23 @@ class ComposePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Provider.of<ComposeController>(context, listen: true)
-                          .showCount1
-                      ? Consumer<ComposeController>(
-                          builder: (context, composeController, _) => Row(
-                            children: [
-                              Text(
-                                  "${composeController.bodyChars}/${c.maxPostChars} ${AppLocalizations.of(context)!.characters}"),
-                              const Spacer(),
-                              Text(
-                                  "${composeController.newLines}/${c.maxPostLines} ${AppLocalizations.of(context)!.newLines}"),
-                            ],
-                          ),
-                        )
-                      : Container(),
+
+                  Consumer<ComposeController>(
+                    builder: (context, composeController, _) =>
+                        (composeController.showCount1 &&
+                                composeController.bodyChars != 0)
+                            ? Row(
+                                children: [
+                                  Text(
+                                      "${composeController.bodyChars}/${c.maxPostChars} ${AppLocalizations.of(context)!.characters}"),
+                                  const Spacer(),
+                                  if (composeController.newLines != 0)
+                                    Text(
+                                        "${composeController.newLines}/${c.maxPostLines} ${AppLocalizations.of(context)!.newLines}"),
+                                ],
+                              )
+                            : Container(),
+                  ),
                   // SizedBox(height: height * 0.1),
                   // Provider.of<ComposeController>(context, listen: true).gif !=
                   //         null
