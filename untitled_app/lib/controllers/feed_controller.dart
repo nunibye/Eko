@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:untitled_app/models/notification_service.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../models/current_user.dart';
@@ -8,6 +11,37 @@ import 'package:go_router/go_router.dart';
 import '../models/post_handler.dart';
 import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
+
+showOverlayNote(BuildContext context, RemoteMessage message) {
+  showOverlayNotification((context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      child: SafeArea(
+        child: ListTile(
+          leading: SizedBox.fromSize(
+            size: const Size(40, 40),
+            child: ClipOval(
+                child: Container(
+              color: Colors.black,
+            )),
+          ),
+          title: Text(message.notification?.title ?? "New Notification"),
+          subtitle: Text(message.notification?.body ?? ""),
+          trailing: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              OverlaySupportEntry.of(context)?.dismiss();
+            },
+          ),
+          onTap: () async {
+            await NotificationService().inAppPostNotification(context, message);
+            OverlaySupportEntry.of(context)?.dismiss();
+          },
+        ),
+      ),
+    );
+  }, duration: Duration(milliseconds: 4000));
+}
 
 class FeedController extends ChangeNotifier {
   int index = 2;
@@ -24,6 +58,12 @@ class FeedController extends ChangeNotifier {
       rebuildFunction();
     }
     checkNewActivity();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      NotificationService.onMessage(message, context);
+      // showOverlayNote(context, message);
+    });
+
     // Handling the initial message received when the app is launched from dead (killed state)
     // When the app is killed and a new notification arrives when user clicks on it
     // It gets the data to which screen to open
@@ -32,7 +72,6 @@ class FeedController extends ChangeNotifier {
         notificationService.postNotification(context, message);
       }
     });
-
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       notificationService.postNotification(context, message);
       rebuildFunction();
