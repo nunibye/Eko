@@ -2,7 +2,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
+import 'package:untitled_app/controllers/feed_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../models/post_handler.dart';
@@ -51,21 +53,31 @@ class NotificationService extends ChangeNotifier {
     );
   }
 
-  static void onMessage(RemoteMessage message) {
+  // static void onMessage(RemoteMessage message) {
+  //   // Extract custom data from the FCM message
+  //   RemoteNotification? notification = message.notification;
+  //   AndroidNotification? androidNotification = message.notification?.android;
+  //   AppleNotification? appleNotification = message.notification?.apple;
+  //   if (notification == null) return;
+  //   if (androidNotification != null || appleNotification != null) {
+  //     _notificationsPlugin.show(
+  //       notification.hashCode,
+  //       notification.title,
+  //       notification.body,
+  //       _notificationDetails(),
+  //     );
+  //   }
+  // }
+  static Future<void> onMessage(
+      RemoteMessage message, BuildContext context) async {
     // Extract custom data from the FCM message
     RemoteNotification? notification = message.notification;
     AndroidNotification? androidNotification = message.notification?.android;
     AppleNotification? appleNotification = message.notification?.apple;
 
-    if (notification == null) return;
-
     if (androidNotification != null || appleNotification != null) {
-      _notificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        _notificationDetails(),
-      );
+      // Show in-app overlay notification
+      showOverlayNote(context, message);
     }
   }
 
@@ -75,7 +87,6 @@ class NotificationService extends ChangeNotifier {
     AppleNotification? appleNotification = message.notification?.apple;
 
     if (notification == null) return;
-
     if (androidNotification != null || appleNotification != null) {
       showDialog(
         context: context,
@@ -116,6 +127,29 @@ class NotificationService extends ChangeNotifier {
         context.push("/feed/post/$lastPart").then((value) {
           context.go("/feed", extra: true);
         });
+    }
+    locator<NavBarController>().enable();
+  }
+
+  Future<void> inAppPostNotification(
+      BuildContext context, RemoteMessage message) async {
+    String path = message.data['path'];
+    String type = message.data['type'];
+    locator<FeedPostCache>().clearCache();
+    await locator<PostsHandling>().getFeedPosts(
+        null,
+        FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy('time', descending: true),
+        2);
+    switch (type) {
+      case 'comment':
+        context.push("/feed/post/$path");
+        break;
+      case 'post':
+        List<String> parts = path.split('/');
+        String lastPart = parts.last;
+        context.push("/feed/post/$lastPart");
     }
     locator<NavBarController>().enable();
   }

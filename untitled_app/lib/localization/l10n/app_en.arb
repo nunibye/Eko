@@ -115,5 +115,6 @@
     "ok":"Ok",
     "recentActivity":"Recent Activity",
     "nothingToSeeHere":"Nothing to see here!",
-    "commentText":"Someone commented on your post:"
+    "commentText":"Someone commented on your post:",
+    "groups":"Groups"
 }

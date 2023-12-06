@@ -22,9 +22,40 @@ class ComposeController extends ChangeNotifier {
   int newLines = 0;
   int bodyChars = 0;
   int titleChars = 0;
+  bool showCount0 = false;
+  bool showCount1 = false;
   GiphyGif? gif;
 
-  ComposeController({required this.context});
+  ComposeController({required this.context}) {
+    titleFocus.addListener(onTitleFocusChanged);
+    bodyFocus.addListener(onBodyFocusChanged);
+  }
+  void onTitleFocusChanged() {
+    if (titleFocus.hasFocus) {
+      showCount0 = true;
+    } else {
+      showCount0 = false;
+    }
+    notifyListeners();
+  }
+
+  void onBodyFocusChanged() {
+    if (bodyFocus.hasFocus) {
+      showCount1 = true;
+    } else {
+      showCount1 = false;
+    }
+    notifyListeners();
+  }
+
+  // changeDisplayCount(bool value, int index) {
+  //   if (index == 0) {
+  //     showCount0 = value;
+  //   } else {
+  //     showCount1 = value;
+  //   }
+  //   notifyListeners();
+  // }
 
   updateCountsBody(String str) {
     bodyChars = str.length;
@@ -47,7 +78,13 @@ class ComposeController extends ChangeNotifier {
   }
 
   clearPressed() {
+    hideKeyboard();
     gif = null;
+    newLines = 0;
+    bodyChars = 0;
+    titleChars = 0;
+    showCount0 = false;
+    showCount1 = false;
     titleController.text = "";
     bodyController.text = "";
     notifyListeners();
