@@ -81,6 +81,7 @@ class ViewPostPage extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.95,
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 cursorColor:
                                     Theme.of(context).colorScheme.onBackground,
                                 focusNode: Provider.of<PostPageController>(
@@ -141,6 +142,7 @@ class _Header extends StatelessWidget {
     return Column(
       children: [
         PostCard(
+          isPostPage: true,
           post: Provider.of<PostPageController>(context, listen: false).post!,
           isBuiltFromId: Provider.of<PostPageController>(context, listen: false).builtFromID,
         ),

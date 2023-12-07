@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'users.dart';
 
 class SearchModel {
+
   Future<List<AppUser>> hitsQuery(String query) async {
     final response = await http.post(
       Uri.parse(
@@ -25,4 +26,21 @@ class SearchModel {
       return [];
     }
   }
+
+  // Future<List<AppUser>> onSearchTextChanged(String s) async {
+  //   List<AppUser> hits = [];
+  //   void internalCall() async {
+  //     hits = await hitsQuery(s);
+  //   }
+
+  //   if (_debounce?.isActive ?? false) _debounce!.cancel();
+  //   _debounce =
+  //       Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
+  //     if (s != '') {
+  //       internalCall();
+  //     }
+  //   });
+  //   return hits;
+  // }
+
 }

@@ -22,6 +22,7 @@ import '../views/following.dart';
 import '../views/recent_activity.dart';
 import '../views/groups_page.dart';
 import '../views/create_group_page.dart';
+import '../custom_widgets/emoji_picker.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -143,19 +144,24 @@ final goRouter = GoRouter(
           navigatorKey: _shellNavigatorGroupsKey,
           routes: [
             GoRoute(
-              path: '/groups',
-              name: 'groups',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: GroupsPage(),
-              ),
-              routes: [
-                GoRoute(
-                  path: 'create_group',
-                  name: 'create_group',
-                  builder: (context, state) => const CreateGroupPage(),
-                ),
-              ]
-            ),
+                path: '/groups',
+                name: 'groups',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                      child: GroupsPage(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: 'create_group',
+                    name: 'create_group',
+                    builder: (context, state) => const CreateGroupPage(),
+                    routes: [
+                       GoRoute(
+                    path: 'pick_emoji',
+                    name: 'pick_emoji',
+                    builder: (context, state) => const EmojiSelector(),)
+                    ]
+                  ),
+                ]),
           ],
         ),
         StatefulShellBranch(

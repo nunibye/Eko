@@ -294,4 +294,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get groups => 'Groups';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get description => 'Description(Optional)';
 }

@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled_app/models/users.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import '../models/search_model.dart';
 import 'dart:async';
 import '../utilities/constants.dart' as c;
+import '../models/current_user.dart';
+
 
 class SearchPageController extends ChangeNotifier {
   final searchTextController = TextEditingController();
@@ -13,7 +15,7 @@ class SearchPageController extends ChangeNotifier {
   List<AppUser> hits = [];
   Timer? _debounce;
 
-    void hideKeyboard() {
+  void hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
@@ -50,7 +52,8 @@ class SearchPageController extends ChangeNotifier {
         Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
       if (s != '') {
         hits = await SearchModel().hitsQuery(s);
-
+        hits.removeWhere(
+            (element) => element.uid == locator<CurrentUser>().getUID());
         isLoading = false;
         notifyListeners();
       }

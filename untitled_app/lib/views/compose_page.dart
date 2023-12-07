@@ -89,6 +89,7 @@ class ComposePage extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.2),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .titleFocus,
@@ -189,29 +190,32 @@ class ComposePage extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () =>
-                                      Provider.of<ComposeController>(context,
-                                              listen: false)
-                                          .removeGifPressed(),
-                                  icon: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background),
-                                    child: Icon(
-                                      Icons.cancel,
+                                onPressed: () => Provider.of<ComposeController>(
+                                        context,
+                                        listen: false)
+                                    .removeGifPressed(),
+                                icon: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .onBackground,
-                                    ),
-                                  ))
+                                          .background),
+                                  child: Icon(
+                                    Icons.cancel,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                ),
+                              )
                             ],
-                          ))
+                          ),
+                        )
                       : Container(),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: height * 0.5),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       focusNode:
                           Provider.of<ComposeController>(context, listen: false)
                               .bodyFocus,

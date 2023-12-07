@@ -674,6 +674,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Groups'**
   String get groups;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description(Optional)'**
+  String get description;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

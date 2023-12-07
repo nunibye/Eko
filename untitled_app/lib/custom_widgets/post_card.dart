@@ -35,12 +35,12 @@ class PostCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: InkWell(
-            onTap: () {
-              if (!isPreview && !isPostPage) {
+            onTap: () =>
+              (!isPreview && !isPostPage) ?
                 Provider.of<PostCardController>(context, listen: false)
-                    .postPressed();
-              }
-            },
+                    .postPressed():null,
+              
+            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

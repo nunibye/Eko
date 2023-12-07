@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'controllers/login_text_feild_controller.dart';
 
 class CustomInputFeild extends StatelessWidget {
+  final int? maxLen;
   final String label;
   final TextEditingController controller;
   final String? Function(String?)? validatorFunction;
@@ -23,6 +24,7 @@ class CustomInputFeild extends StatelessWidget {
       {required this.label,
       required this.controller,
       this.onChanged,
+      this.maxLen,
       this.onEditingComplete,
       this.focus,
       this.width,
@@ -39,7 +41,7 @@ class CustomInputFeild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double feildWidth;
-  
+
     if (width == null) {
       feildWidth = MediaQuery.of(context).size.width * 0.9;
     } else {
@@ -54,6 +56,7 @@ class CustomInputFeild extends StatelessWidget {
             width: feildWidth,
             height: height,
             child: TextFormField(
+              maxLength: maxLen,
               cursorColor: Theme.of(context).colorScheme.onBackground,
               obscureText:
                   Provider.of<LoginFieldController>(context, listen: true)
@@ -84,7 +87,8 @@ class CustomInputFeild extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
-                fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
+                fillColor:
+                    Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(

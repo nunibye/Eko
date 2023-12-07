@@ -116,5 +116,8 @@
     "recentActivity":"Recent Activity",
     "nothingToSeeHere":"Nothing to see here!",
     "commentText":"Someone commented on your post:",
-    "groups":"Groups"
+    "groups":"Groups",
+    "next":"Next",
+    "description":"Description(Optional)"
+
 }

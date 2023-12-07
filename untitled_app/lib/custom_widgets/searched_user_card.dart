@@ -7,18 +7,32 @@ import 'package:provider/provider.dart';
 import 'controllers/searched_user_controller.dart';
 
 class UserCard extends StatelessWidget {
+  final bool? initialBool;
   final AppUser user;
-  const UserCard({super.key, required this.user});
+  final bool groupSearch;
+  final void Function(AppUser, bool)? adder;
+  const UserCard(
+      {super.key, required this.user, this.groupSearch = false, this.adder, this.initialBool});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: SearchedUserController(user: user, context: context),
+        value: SearchedUserController(
+            user: user,
+            context: context,
+            groupSearch: groupSearch,
+            adder: adder,
+            initialBool: initialBool),
         builder: (context, child) {
           return InkWell(
-            onTap: () => {
-              Provider.of<SearchedUserController>(context, listen: false)
-                  .onCardPressed()
+            onTap: () {
+              if (groupSearch) {
+                Provider.of<SearchedUserController>(context, listen: false)
+                    .onAddPressed();
+              } else {
+                Provider.of<SearchedUserController>(context, listen: false)
+                    .onCardPressed();
+              }
             },
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -50,42 +64,50 @@ class UserCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: 120, 
-                    height: 35,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        side: BorderSide.none,
-                        backgroundColor: Provider.of<SearchedUserController>(
-                                    context,
+                  if (groupSearch)
+                    Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: Provider.of<SearchedUserController>(context,
                                     listen: true)
-                                .isFollowing
-                            ? Theme.of(context).colorScheme.surface
-                            : Theme.of(context).colorScheme.primaryContainer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              5),
+                                .added
+                            ? const Icon(Icons.check_circle)
+                            : const Icon(Icons.circle_outlined))
+                  else
+                    SizedBox(
+                      width: 120, //FIXME make dynamic
+                      height: 35,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          side: BorderSide.none,
+                          backgroundColor: Provider.of<SearchedUserController>(
+                                      context,
+                                      listen: true)
+                                  .isFollowing
+                              ? Theme.of(context).colorScheme.surface
+                              : Theme.of(context).colorScheme.primaryContainer,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
-                      ),
-                      onPressed: () => Provider.of<SearchedUserController>(
-                              context,
-                              listen: false)
-                          .onFollowPressed(),
-                      child: Text(
-                        Provider.of<SearchedUserController>(context,
-                                    listen: true)
-                                .isFollowing
-                            ? AppLocalizations.of(context)!.following
-                            : AppLocalizations.of(context)!.follow,
-                        style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
+                        onPressed: () => Provider.of<SearchedUserController>(
+                                context,
+                                listen: false)
+                            .onFollowPressed(),
+                        child: Text(
+                          Provider.of<SearchedUserController>(context,
+                                      listen: true)
+                                  .isFollowing
+                              ? AppLocalizations.of(context)!.following
+                              : AppLocalizations.of(context)!.follow,
+                          style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.normal,
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

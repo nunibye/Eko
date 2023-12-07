@@ -9,13 +9,26 @@ class SearchedUserController extends ChangeNotifier {
   final BuildContext context;
   AppUser? loadedUser;
   late bool isFollowing;
+  final bool groupSearch;
+  final bool? initialBool;
+  late bool added;
+  final void Function(AppUser, bool)? adder;
   SearchedUserController(
-      {required this.context, required this.user, this.loadedUser}) {
+      {required this.context,
+      required this.user,
+      this.loadedUser,
+      required this.groupSearch,
+      this.adder,
+      this.initialBool}) {
     _init();
   }
   void _init() {
     loadedUser = user;
-    isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+    if (groupSearch) {
+      added = initialBool!;
+    } else {
+      isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+    }
 
     notifyListeners();
   }
@@ -35,6 +48,17 @@ class SearchedUserController extends ChangeNotifier {
         isFollowing = true;
         loadedUser!.followers.add(locator<CurrentUser>().uid);
       }
+    }
+    notifyListeners();
+  }
+
+  void onAddPressed() {
+    if (added) {
+      adder!(user, false);
+      added = false;
+    } else {
+      adder!(user, true);
+      added = true;
     }
     notifyListeners();
   }
