@@ -3,7 +3,6 @@ import '../custom_widgets/pagination.dart';
 import '../custom_widgets/tab_bar.dart';
 import '../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import '../custom_widgets/post_card.dart';
 
 class FeedPage extends StatelessWidget {

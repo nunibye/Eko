@@ -4,7 +4,6 @@ import '../models/current_user.dart';
 import '../models/post_handler.dart';
 import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
-import '../custom_widgets/recent_activity_card.dart';
 import '../utilities/constants.dart' as c;
 
 class RecentActivtiyController extends ChangeNotifier {

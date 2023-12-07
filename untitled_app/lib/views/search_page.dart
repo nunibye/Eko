@@ -5,7 +5,7 @@ import '../custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {

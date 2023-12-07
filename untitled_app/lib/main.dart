@@ -1,10 +1,8 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled_app/controllers/login_controller.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
 import 'utilities/themes/dark_theme_provider.dart';
@@ -13,8 +11,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';
 import 'utilities/locator.dart';
-import 'controllers/feed_controller.dart';
-import 'controllers/profile_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

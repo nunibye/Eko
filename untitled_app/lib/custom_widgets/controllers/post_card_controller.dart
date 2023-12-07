@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:untitled_app/views/view_post_page.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart';
 import '../../models/feed_post_cache.dart' show FeedPostCache;
 import 'package:share_plus/share_plus.dart';
-import '../../controllers/feed_controller.dart';
 import 'package:provider/provider.dart';
 import 'pagination_controller.dart';
 import '../../controllers/view_post_page_controller.dart';

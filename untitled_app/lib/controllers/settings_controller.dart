@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/models/current_user.dart';
-import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/shared_pref_model.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/themes/dark_theme_provider.dart';

@@ -66,7 +66,7 @@ class UserCard extends StatelessWidget {
                   ),
                   if (groupSearch)
                     Padding(
-                        padding: EdgeInsets.only(right: 15),
+                        padding: const EdgeInsets.only(right: 15),
                         child: Provider.of<SearchedUserController>(context,
                                     listen: true)
                                 .added

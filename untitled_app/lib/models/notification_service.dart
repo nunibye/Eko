@@ -2,7 +2,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/controllers/feed_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';

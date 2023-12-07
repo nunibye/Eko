@@ -7,7 +7,7 @@ import '../custom_widgets/pagination.dart';
 import '../custom_widgets/recent_activity_card.dart';
 
 class RecentActivity extends StatelessWidget {
-  const RecentActivity({Key? key}) : super(key: key);
+  const RecentActivity({super.key});
 
   @override
   Widget build(BuildContext context) {

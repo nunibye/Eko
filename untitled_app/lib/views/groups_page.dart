@@ -33,7 +33,7 @@ class _Header extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   AppLocalizations.of(context)!.groups,
-                  style: TextStyle(fontSize: 25),
+                  style: const TextStyle(fontSize: 25),
                 ),
               ),
               Align(

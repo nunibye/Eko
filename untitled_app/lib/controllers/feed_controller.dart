@@ -28,7 +28,7 @@ showOverlayNote(BuildContext context, RemoteMessage message) {
           title: Text(message.notification?.title ?? "New Notification"),
           subtitle: Text(message.notification?.body ?? ""),
           trailing: IconButton(
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             onPressed: () {
               OverlaySupportEntry.of(context)?.dismiss();
             },
@@ -40,7 +40,7 @@ showOverlayNote(BuildContext context, RemoteMessage message) {
         ),
       ),
     );
-  }, duration: Duration(milliseconds: 4000));
+  }, duration: const Duration(milliseconds: 4000));
 }
 
 class FeedController extends ChangeNotifier {

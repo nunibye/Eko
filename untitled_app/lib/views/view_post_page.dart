@@ -5,9 +5,7 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/custom_widgets/comment_card.dart';
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
-import '../custom_widgets/login_text_feild.dart';
 import '../custom_widgets/pagination.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewPostPage extends StatelessWidget {
   final Post? post;
@@ -50,7 +48,7 @@ class ViewPostPage extends StatelessWidget {
                                       listen: false)
                                   .getCommentsFromPost,
                               card: commentCardBuilder,
-                              header: _Header(),
+                              header: const _Header(),
                               startAfterQuery: Provider.of<PostPageController>(
                                       context,
                                       listen: false)

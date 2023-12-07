@@ -7,8 +7,6 @@ import '../custom_widgets/edit_profile_text_field.dart';
 import '../utilities/constants.dart' as c;
 import 'package:go_router/go_router.dart';
 import '../custom_widgets/searched_user_card.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:flutter/foundation.dart' as foundation;
 
 class CreateGroupPage extends StatelessWidget {
   const CreateGroupPage({super.key});
@@ -31,7 +29,7 @@ class CreateGroupPage extends StatelessWidget {
 }
 
 class _GetInfo extends StatelessWidget {
-  const _GetInfo({super.key});
+  const _GetInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +120,7 @@ class _GetInfo extends StatelessWidget {
 }
 
 class _AddPeople extends StatelessWidget {
-  const _AddPeople({super.key});
+  const _AddPeople();
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +179,7 @@ class _AddPeople extends StatelessWidget {
             style: const TextStyle(fontSize: 20),
           ),
           Container(
-            padding: EdgeInsets.only(top: 5),
+            padding: const EdgeInsets.only(top: 5),
             height:
                 Provider.of<CreateGroupPageController>(context, listen: true)
                         .selectedPeople

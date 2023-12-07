@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:untitled_app/models/shared_pref_model.dart';
 
 //import '../utilities/constants.dart' as c;
 import '../controllers/settings_controller.dart';
