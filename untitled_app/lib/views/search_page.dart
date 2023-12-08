@@ -15,90 +15,97 @@ class SearchPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => SearchPageController(),
       builder: (context, child) {
-        return GestureDetector(
-            onPanDown: (details) =>
+        return WillPopScope(
+            onWillPop: () =>
                 Provider.of<SearchPageController>(context, listen: false)
-                    .hideKeyboard(),
-            onTap: () =>
-                Provider.of<SearchPageController>(context, listen: false)
-                    .hideKeyboard(),
-            child: Scaffold(
-              body: Padding(
-                padding: EdgeInsets.all(height * 0.01),
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: height * 0.008),
-                    TextField(
-                      cursorColor: Theme.of(context).colorScheme.onBackground,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(height * 0.01),
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(width * 0.035),
-                          child: Image.asset('images/algolia_logo.png',
-                              width: width * 0.05, height: width * 0.05),
+                    .onWillPop(),
+            child: GestureDetector(
+                onPanDown: (details) =>
+                    Provider.of<SearchPageController>(context, listen: false)
+                        .hideKeyboard(),
+                onTap: () =>
+                    Provider.of<SearchPageController>(context, listen: false)
+                        .hideKeyboard(),
+                child: Scaffold(
+                  body: Padding(
+                    padding: EdgeInsets.all(height * 0.01),
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: height * 0.008),
+                        TextField(
+                          cursorColor:
+                              Theme.of(context).colorScheme.onBackground,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(height * 0.01),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.all(width * 0.035),
+                              child: Image.asset('images/algolia_logo.png',
+                                  width: width * 0.05, height: width * 0.05),
+                            ),
+                            hintText: AppLocalizations.of(context)!.search,
+                            filled: true,
+                            fillColor: Theme.of(context).colorScheme.surface,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          onChanged: (s) => Provider.of<SearchPageController>(
+                                  context,
+                                  listen: false)
+                              .onSearchTextChanged(s),
+                          controller: Provider.of<SearchPageController>(context,
+                                  listen: false)
+                              .searchTextController,
+                          keyboardType: TextInputType.text,
+                          style: const TextStyle(fontSize: 20),
                         ),
-                        hintText: AppLocalizations.of(context)!.search,
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.surface,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      onChanged: (s) => Provider.of<SearchPageController>(
-                              context,
-                              listen: false)
-                          .onSearchTextChanged(s),
-                      controller: Provider.of<SearchPageController>(context,
-                              listen: false)
-                          .searchTextController,
-                      keyboardType: TextInputType.text,
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    Expanded(
-                      child: Provider.of<SearchPageController>(context,
-                                  listen: true)
-                              .isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Provider.of<SearchPageController>(context,
+                        Expanded(
+                          child: Provider.of<SearchPageController>(context,
                                       listen: true)
-                                  .hits
-                                  .isEmpty
-                              ? Center(
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .noResultsFound,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground),
-                                  ),
+                                  .isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
                                 )
-                              : ListView.builder(
-                                  //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                                  itemCount: Provider.of<SearchPageController>(
-                                          context,
+                              : Provider.of<SearchPageController>(context,
                                           listen: true)
                                       .hits
-                                      .length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return UserCard(
-                                        user: Provider.of<SearchPageController>(
-                                                context,
-                                                listen: true)
-                                            .hits[index]);
-                                  },
-                                ),
+                                      .isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .noResultsFound,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                                      itemCount:
+                                          Provider.of<SearchPageController>(
+                                                  context,
+                                                  listen: true)
+                                              .hits
+                                              .length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return UserCard(
+                                            user: Provider.of<
+                                                        SearchPageController>(
+                                                    context,
+                                                    listen: true)
+                                                .hits[index]);
+                                      },
+                                    ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ));
+                  ),
+                )));
       },
     );
   }

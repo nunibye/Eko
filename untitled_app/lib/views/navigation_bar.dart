@@ -12,20 +12,20 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   }) : super(
             key: key ?? const ValueKey<String>('ScaffoldWithNestedNavigation'));
   final StatefulNavigationShell navigationShell;
-//TODO not MVVM
-  void _goBranch(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldWithNavigationBar(
-      body: navigationShell,
-      selectedIndex: navigationShell.currentIndex,
-      onDestinationSelected: _goBranch,
+    locator<NavBarController>().navigationShell = navigationShell;
+    return ChangeNotifierProvider.value(
+      value: locator<NavBarController>(),
+      builder: (context, child) {
+        return ScaffoldWithNavigationBar(
+          body: navigationShell,
+          selectedIndex: navigationShell.currentIndex,
+          onDestinationSelected:
+              Provider.of<NavBarController>(context, listen: true).goBranch,
+        );
+      },
     );
   }
 }
@@ -43,96 +43,87 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return ChangeNotifierProvider.value(
-      value: locator<NavBarController>(),
-      builder: (context, child) {
-        return Scaffold(
-          body: body,
-          bottomNavigationBar:
-              Provider.of<NavBarController>(context, listen: true).enabled
-                  ? Container(
-                      height: c.navBarHeight,
-                      decoration: const BoxDecoration(
-                          border: Border(
-                        top: BorderSide(
-                          color: Color.fromARGB(255, 47, 47, 47),
-                          width: 0.5,
-                        ),
-                      )),
-                      child: BottomNavigationBar(
-                        type: BottomNavigationBarType.fixed,
-                        currentIndex: selectedIndex,
-                        // c.navBarIconSize:
-                        //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
-                        elevation: 16,
-                        selectedFontSize: 0.0,
-                        unselectedFontSize: 0.0,
-                        showUnselectedLabels: false,
-                        showSelectedLabels: false,
-                        unselectedItemColor:
-                            Theme.of(context).colorScheme.onBackground,
-                        selectedItemColor:
-                            Theme.of(context).colorScheme.onBackground,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.background,
-                        items: const [
-                          BottomNavigationBarItem(
-                              icon: Icon(
-                                Icons.home_outlined,
-                                size: c.navBarIconSize,
-                              ),
-                              activeIcon: Icon(
-                                Icons.home,
-                                size: c.navBarIconSize + c.navBarIconSizeAdder,
-                              ),
-                              label: ''),
-                          BottomNavigationBarItem(
-                              icon: Icon(
-                                Icons.group_outlined,
-                                size: c.navBarIconSize,
-                              ),
-                              activeIcon: Icon(
-                                Icons.group,
-                                size: c.navBarIconSize + c.navBarIconSizeAdder,
-                              ),
-                              label: ''),
-                          BottomNavigationBarItem(
-                              icon: Icon(
-                                Icons.add,
-                                size: c.navBarIconSize,
-                              ),
-                              activeIcon: Icon(
-                                Icons.add,
-                                size: c.navBarIconSize + c.navBarIconSizeAdder,
-                              ),
-                              label: ''),
-                          BottomNavigationBarItem(
-                              icon: Icon(
-                                Icons.search,
-                                size: c.navBarIconSize,
-                              ),
-                              activeIcon: Icon(
-                                Icons.search,
-                                size: c.navBarIconSize + c.navBarIconSizeAdder,
-                              ),
-                              label: ''),
-                          BottomNavigationBarItem(
-                              icon: Icon(
-                                Icons.person_outline,
-                                size: c.navBarIconSize,
-                              ),
-                              activeIcon: Icon(
-                                Icons.person,
-                                size: c.navBarIconSize + c.navBarIconSizeAdder,
-                              ),
-                              label: '')
-                        ],
-                        onTap: (index) => onDestinationSelected(index),
-                      ))
-                  : null,
-        );
-      },
+    return Scaffold(
+      body: body,
+      bottomNavigationBar: Provider.of<NavBarController>(context, listen: true)
+              .enabled
+          ? Container(
+              height: c.navBarHeight,
+              decoration: const BoxDecoration(
+                  border: Border(
+                top: BorderSide(
+                  color: Color.fromARGB(255, 47, 47, 47),
+                  width: 0.5,
+                ),
+              )),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: selectedIndex,
+                // c.navBarIconSize:
+                //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
+                elevation: 16,
+                selectedFontSize: 0.0,
+                unselectedFontSize: 0.0,
+                showUnselectedLabels: false,
+                showSelectedLabels: false,
+                unselectedItemColor: Theme.of(context).colorScheme.onBackground,
+                selectedItemColor: Theme.of(context).colorScheme.onBackground,
+                backgroundColor: Theme.of(context).colorScheme.background,
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.home_outlined,
+                        size: c.navBarIconSize,
+                      ),
+                      activeIcon: Icon(
+                        Icons.home,
+                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      ),
+                      label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.group_outlined,
+                        size: c.navBarIconSize,
+                      ),
+                      activeIcon: Icon(
+                        Icons.group,
+                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      ),
+                      label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.add,
+                        size: c.navBarIconSize,
+                      ),
+                      activeIcon: Icon(
+                        Icons.add,
+                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      ),
+                      label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.search,
+                        size: c.navBarIconSize,
+                      ),
+                      activeIcon: Icon(
+                        Icons.search,
+                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      ),
+                      label: ''),
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.person_outline,
+                        size: c.navBarIconSize,
+                      ),
+                      activeIcon: Icon(
+                        Icons.person,
+                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      ),
+                      label: '')
+                ],
+                onTap: (index) => onDestinationSelected(index),
+              ))
+          : null,
     );
   }
 }

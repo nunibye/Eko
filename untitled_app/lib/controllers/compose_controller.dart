@@ -12,6 +12,7 @@ import '../custom_widgets/post_card.dart';
 import "package:go_router/go_router.dart";
 import 'package:untitled_app/models/feed_post_cache.dart';
 import '../models/users.dart' show AppUser;
+import '../controllers/bottom_nav_bar_controller.dart';
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -37,6 +38,11 @@ class ComposeController extends ChangeNotifier {
       showCount0 = false;
     }
     notifyListeners();
+  }
+
+  Future<bool> onWillPop() async {
+    locator<NavBarController>().goBranch(0);
+    return false;
   }
 
   void onBodyFocusChanged() {

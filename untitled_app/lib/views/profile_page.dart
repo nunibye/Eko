@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return Scaffold(
+        return WillPopScope(onWillPop:()=>Provider.of<ProfileController>(context, listen: false).onWillPop(),child:Scaffold(
           body: PaginationPage(
               getter: Provider.of<ProfileController>(context, listen: false).getProfilePosts,
               card: profilePostCardBuilder,
@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
                   Provider.of<ProfileController>(context, listen: false)
                       .onPageRefresh),
           
-        );
+        ));
       },
     );
   }
