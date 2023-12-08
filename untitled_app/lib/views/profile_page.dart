@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
         return Scaffold(
           body: PaginationPage(
               getter: Provider.of<ProfileController>(context, listen: false).getProfilePosts,
-              card: postCardBuilder,
+              card: profilePostCardBuilder,
               startAfterQuery: Provider.of<ProfileController>(context, listen: false).getTimeFromPost,
               header: const _Header(),
               extraRefresh:

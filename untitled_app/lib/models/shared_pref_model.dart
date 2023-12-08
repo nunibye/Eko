@@ -16,3 +16,12 @@ void setActivityNotification(bool value) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool(activityNotification, value);
 }
+
+Future<bool?> getBool(String name)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getBool(name);
+}
+void setBool(String name, bool bool)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool(name, bool);
+}

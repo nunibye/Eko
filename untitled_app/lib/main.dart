@@ -11,14 +11,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';
 import 'utilities/locator.dart';
+import '../models/shared_pref_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
-  await NotificationService.initializeNotification();
-
   setupLocator();
   runApp(const MyApp());
+  
+  if ((await getBool("NOT_FIRST_INSTALL")) == null) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      FirebaseAuth.instance.signOut();
+    }
+    setBool("NOT_FIRST_INSTALL", true);
+  }
+
+  await NotificationService.initializeNotification();
 }
 
 class MyApp extends StatelessWidget {
@@ -41,8 +50,7 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
             return SafeArea(
-              child:
-              OverlaySupport(
+                child: OverlaySupport(
               child: MaterialApp.router(
                 title: 'Untitled',
                 debugShowCheckedModeBanner: false,
@@ -59,8 +67,8 @@ class MyApp extends StatelessWidget {
                   Locale('es'), // Spanish
                 ],
                 routerConfig: goRouter,
-              ),)
-            );
+              ),
+            ));
           },
         );
       },

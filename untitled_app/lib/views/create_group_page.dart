@@ -16,13 +16,18 @@ class CreateGroupPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CreateGroupPageController(context: context),
       builder: (context, child) {
-        return PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller:
-              Provider.of<CreateGroupPageController>(context, listen: false)
-                  .pageController,
-          children: const [_GetInfo(), _AddPeople()],
-        );
+        return WillPopScope(
+            onWillPop: () =>
+                Provider.of<CreateGroupPageController>(context, listen: false)
+                    .exitPressed(),
+            child: PageView(
+              physics: Provider.of<CreateGroupPageController>(context, listen: true)
+                    .canSwipe ? null : const NeverScrollableScrollPhysics(),
+              controller:
+                  Provider.of<CreateGroupPageController>(context, listen: false)
+                      .pageController,
+              children: const [_GetInfo(), _AddPeople()],
+            ));
       },
     );
   }
@@ -41,7 +46,10 @@ class _GetInfo extends StatelessWidget {
           Row(
             children: [
               TextButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () => Provider.of<CreateGroupPageController>(
+                          context,
+                          listen: false)
+                      .exitPressed(),
                   child: Text(AppLocalizations.of(context)!.cancel)),
               const Spacer(),
               TextButton(
@@ -100,6 +108,10 @@ class _GetInfo extends StatelessWidget {
                   ),
           ),
           ProfileInputFeild(
+            onChanged: (s) => Provider.of<CreateGroupPageController>(context, listen: false).updateCanSwipe(),
+              focus:
+                  Provider.of<CreateGroupPageController>(context, listen: false)
+                      .nameFocus,
               maxLength: c.maxGroupName,
               width: width * 0.9,
               label: AppLocalizations.of(context)!.name,
@@ -145,11 +157,16 @@ class _AddPeople extends StatelessWidget {
                   child: Text(AppLocalizations.of(context)!.goBack)),
               const Spacer(),
               TextButton(
-                  onPressed: () => Provider.of<CreateGroupPageController>(
-                          context,
-                          listen: false)
-                      .createGroup(),
-                  child: Text(AppLocalizations.of(context)!.save))
+                onPressed: () => Provider.of<CreateGroupPageController>(context,
+                        listen: false)
+                    .createGroup(),
+                child: Text(Provider.of<CreateGroupPageController>(context,
+                            listen: true)
+                        .selectedPeople
+                        .isEmpty
+                    ? AppLocalizations.of(context)!.skip
+                    : AppLocalizations.of(context)!.done),
+              )
             ],
           ),
           TextField(

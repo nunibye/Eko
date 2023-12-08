@@ -12,19 +12,27 @@ Widget postCardBuilder(dynamic post) {
     post: post,
   );
 }
+Widget profilePostCardBuilder(dynamic post) {
+  return PostCard(
+    post: post,
+    isOnProfile: true,
+  );
+}
 
 class PostCard extends StatelessWidget {
   final Post post;
   final bool isPreview;
   final bool isPostPage;
   final bool isBuiltFromId;
+  final bool isOnProfile;
 
   const PostCard(
       {super.key,
       required this.post,
       this.isPreview = false,
       this.isPostPage = false,
-      this.isBuiltFromId = false});
+      this.isBuiltFromId = false,
+      this.isOnProfile =  false});
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +43,10 @@ class PostCard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: InkWell(
-            onTap: () =>
-              (!isPreview && !isPostPage) ?
-                Provider.of<PostCardController>(context, listen: false)
-                    .postPressed():null,
-              
-            
+            onTap: () => (!isPreview && !isPostPage)
+                ? Provider.of<PostCardController>(context, listen: false)
+                    .postPressed()
+                : null,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -62,7 +68,7 @@ class PostCard extends StatelessWidget {
                     children: [
                       // Display the profile picture as a CircleAvatar
                       IconButton(
-                        onPressed: () => isPreview
+                        onPressed: () => (isPreview || isOnProfile)
                             ? null
                             : Provider.of<PostCardController>(context,
                                     listen: false)

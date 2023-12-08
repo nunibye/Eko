@@ -175,7 +175,7 @@ class EditProfileController extends ChangeNotifier {
 
   void onUsernameChanged(String s) {
     showSave = false;
-    if (!s.trim().contains(RegExp(r'^[a-zA-Z0-9._]{3,12}$'))) {
+    if (!s.trim().contains(RegExp(c.userNameReqs))) {
       validUsername = false;
       notifyListeners();
     } else {
