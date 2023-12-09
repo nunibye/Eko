@@ -45,48 +45,48 @@ func OnUserDelete(ctx context.Context, e FirestoreEvent) error {
 	}
 	defer client.Close()
 
-	// // Log the entire Firestore event data
-	// eventData, _ := json.Marshal(e)
-	// log.Printf("Event data: %s", eventData)
+	// Log the entire Firestore event data
+	eventData, _ := json.Marshal(e)
+	log.Printf("Event data: %s", eventData)
 
-	// // Load user data into user
-	// user := e.OldValue.Fields
+	// Load user data into user
+	user := e.OldValue.Fields
 
-	// log.Printf("User data: %v", user)
+	log.Printf("User data: %v", user)
 
-	// // Get the user's document ID from the 'uid' field
-	// userId := user.Uid.StringValue
+	// Get the user's document ID from the 'uid' field
+	userId := user.Uid.StringValue
 
-	// // Get the 'followers' and 'following' arrays from the 'profileData' map
-	// followers := user.ProfileData.Followers
-	// following := user.ProfileData.Following
+	// Get the 'followers' and 'following' arrays from the 'profileData' map
+	followers := user.ProfileData.Followers
+	following := user.ProfileData.Following
 
-	// log.Printf("Followers: %v", followers)
-	// log.Printf("Following: %v", following)
+	log.Printf("Followers: %v", followers)
+	log.Printf("Following: %v", following)
 
-	// // For each user that the deleted user is following, remove the deleted user from their followers
-	// for _, followedUserId := range following {
-	// 	_, err := client.Collection("users").Doc(followedUserId).Update(ctx, []firestore.Update{
-	// 		{Path: "profileData.followers", Value: firestore.ArrayRemove(userId)},
-	// 	})
-	// 	if err != nil {
-	// 		log.Printf("Failed to update document: %v", err)
-	// 	} else {
-	// 		log.Printf("Removed %s from the followers of %s", userId, followedUserId)
-	// 	}
-	// }
+	// For each user that the deleted user is following, remove the deleted user from their followers
+	for _, followedUserId := range following {
+		_, err := client.Collection("users").Doc(followedUserId).Update(ctx, []firestore.Update{
+			{Path: "profileData.followers", Value: firestore.ArrayRemove(userId)},
+		})
+		if err != nil {
+			log.Printf("Failed to update document: %v", err)
+		} else {
+			log.Printf("Removed %s from the followers of %s", userId, followedUserId)
+		}
+	}
 
-	// // For each follower of the deleted user, remove the deleted user from their following
-	// for _, followerUserId := range followers {
-	// 	_, err := client.Collection("users").Doc(followerUserId).Update(ctx, []firestore.Update{
-	// 		{Path: "profileData.following", Value: firestore.ArrayRemove(userId)},
-	// 	})
-	// 	if err != nil {
-	// 		log.Printf("Failed to update document: %v", err)
-	// 	} else {
-	// 		log.Printf("Removed %s from the following of %s", userId, followerUserId)
-	// 	}
-	// }
+	// For each follower of the deleted user, remove the deleted user from their following
+	for _, followerUserId := range followers {
+		_, err := client.Collection("users").Doc(followerUserId).Update(ctx, []firestore.Update{
+			{Path: "profileData.following", Value: firestore.ArrayRemove(userId)},
+		})
+		if err != nil {
+			log.Printf("Failed to update document: %v", err)
+		} else {
+			log.Printf("Removed %s from the following of %s", userId, followerUserId)
+		}
+	}
 
 	return nil
 }

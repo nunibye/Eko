@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'controllers/comment_card_controller.dart';
@@ -113,12 +114,35 @@ class CommentCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 8.0),
                           if (post.body != null)
-                            Text(
-                              post.body!,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                            RichText(
+                              text: TextSpan(
+                                children: post.body!.map((chunk) {
+                                  if (chunk.startsWith('@')) {
+                                    // This is a username, create a hyperlink
+                                    return TextSpan(
+                                      text: chunk,
+                                      style: TextStyle(color: Colors.blue),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () =>
+                                            Provider.of<CommentCardController>(
+                                                    context,
+                                                    listen: false)
+                                                .tagPressed(chunk.substring(1)),
+                                    );
+                                  } else {
+                                    // This is a normal text, create a TextSpan
+                                    return TextSpan(
+                                      text: chunk,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
+                                    );
+                                  }
+                                }).toList(),
                               ),
                             ),
                         ],

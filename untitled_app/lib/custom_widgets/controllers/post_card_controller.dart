@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/users.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart';
@@ -17,12 +19,13 @@ class PostCardController extends ChangeNotifier {
   late bool liked;
   bool liking = false;
   bool sharing = false;
-  
+  double _opacity = 0;
+  double get opacity => _opacity;
+
   final bool isBuiltFromId;
   PostCardController(
       {required this.context,
       required this.post,
-
       required this.isBuiltFromId}) {
     _init();
   }
@@ -58,6 +61,26 @@ class PostCardController extends ChangeNotifier {
   avatarPressed() async {
     if (post.author.uid != locator<CurrentUser>().getUID()) {
       await context.pushNamed("sub_profile", extra: post.author);
+      //update post liked in sub menu
+      final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
+      if (liked != newvalue) {
+        liked = newvalue;
+        likes += newvalue ? 1 : -1;
+      }
+      notifyListeners();
+    } else {
+      context.go("/profile");
+    }
+  }
+
+  tagPressed(String username) async {
+    String? uid = await locator<CurrentUser>().getUidFromUsername(username);
+    if (uid != null && uid != locator<CurrentUser>().getUID()) {
+      // Retrieve the user's profile using the uid
+      AppUser taggedUser = AppUser();
+      await taggedUser.readUserData(uid);
+
+      await context.pushNamed("sub_profile", extra: taggedUser);
       //update post liked in sub menu
       final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
       if (liked != newvalue) {
@@ -120,6 +143,14 @@ class PostCardController extends ChangeNotifier {
             notifyListeners();
           }
         } else {
+          // animation
+          _opacity = 1;
+          notifyListeners();
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _opacity = 0;
+            notifyListeners();
+          });
+
           liked = true;
           //locator<FeedPostCache>().updateLikes(post.postId, 1);
           likes++;
