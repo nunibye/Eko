@@ -11,13 +11,13 @@ import '../models/feed_post_cache.dart';
 
 class Post {
   final String postId;
-   bool hasCache;
+  bool hasCache;
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
   final String time;
-  final String? title;
-  final String? body;
+  final List<String>? title;
+  final List<String>? body;
   int likes;
   int commentCount;
 
@@ -44,12 +44,45 @@ class Post {
         gifURL: rawPost.gifUrl,
         postId: rawPost.postID,
         author: user,
-        title: rawPost.title,
-        body: rawPost.body,
+        title: parseText(rawPost.title),
+        body: parseText(rawPost.body),
         time: rawPost.time,
         likes: rawPost.likes,
         commentCount: commentCount,
         rootPostId: rootPostId);
+  }
+
+  static List<String> parseText(String? text) {
+    if (text == null) return [];
+
+    // const String userNameReqs = c.userNameReqs;
+    // RegExp regExp = RegExp('(@$userNameReqs\\b)', caseSensitive: false);
+    RegExp regExp = RegExp(r'@\S*', caseSensitive: false);
+
+    List<String> chunks = [];
+    int lastEnd = 0;
+
+    regExp.allMatches(text).forEach((match) {
+      // Add the chunk of text before the match to the list
+      String precedingText = text.substring(lastEnd, match.start);
+      if (precedingText.isNotEmpty) {
+        chunks.add(precedingText);
+      } else if (chunks.isNotEmpty && chunks.last.startsWith('@')) {
+        // If the last chunk was a username, add an empty string
+        chunks.add('');
+      }
+
+      // Add the match itself
+      chunks.add(match.group(0)!);
+      lastEnd = match.end;
+    });
+
+    // If there's any text left after the last match, add this remaining text to the list
+    if (lastEnd < text.length) {
+      chunks.add(text.substring(lastEnd));
+    }
+
+    return chunks;
   }
 }
 
@@ -315,7 +348,8 @@ class PostsHandling {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
 
-      return Post.fromRaw(raw, user, await countComments(raw.postID), hasCache: true);
+      return Post.fromRaw(raw, user, await countComments(raw.postID),
+          hasCache: true);
     }).toList();
     if (postList.length < c.postsOnRefresh) {
       locator<FeedPostCache>().postsList[index].end = true;
