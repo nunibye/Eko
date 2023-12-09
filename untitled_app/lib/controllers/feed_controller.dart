@@ -47,7 +47,7 @@ class FeedController extends ChangeNotifier {
   int index = 2;
   bool rebuild;
   Query<Map<String, dynamic>>? query = FirebaseFirestore.instance
-      .collection("posts")
+      .collection("posts").where("tags", arrayContains: "public")
       .orderBy('time', descending: true);
   final BuildContext context;
   bool newActivity = false;
@@ -123,17 +123,17 @@ class FeedController extends ChangeNotifier {
         break;
       case 1:
         query = FirebaseFirestore.instance
-            .collection("posts")
+            .collection("posts").where("tags", arrayContains: "public")
             .orderBy('likes', descending: true);
         break;
       case 2:
         query = FirebaseFirestore.instance
-            .collection("posts")
+            .collection("posts").where("tags", arrayContains: "public")
             .orderBy('time', descending: true);
         break;
       case 3:
         query = FirebaseFirestore.instance
-            .collection("posts")
+            .collection("posts").where("tags", arrayContains: "public")
             .orderBy('time', descending: false);
         break;
       default:

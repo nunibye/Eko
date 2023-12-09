@@ -138,6 +138,7 @@ class ComposeController extends ChangeNotifier {
           context: context);
     } else {
       Map<String, dynamic> post = {};
+      post["tags"] = ["public"];
       if (titleController.text != '') {
         post["title"] = titleController.text;
       }
@@ -162,6 +163,7 @@ class ComposeController extends ChangeNotifier {
             content: SingleChildScrollView(
               child: PostCard(
                   post: Post(
+                      tags: ["public"],
                       gifSource: post["gifSource"],
                       gifURL: post["gifUrl"],
                       postId: "postId",
@@ -187,6 +189,7 @@ class ComposeController extends ChangeNotifier {
                   locator<FeedPostCache>().addPost(
                       2,
                       Post(
+                          tags: ["public"],
                           gifSource: post["gifSource"],
                           gifURL: post["gifUrl"],
                           postId: postID,
