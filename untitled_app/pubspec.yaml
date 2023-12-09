@@ -65,6 +65,7 @@ dependencies:
   giphy_get:
     path: ./giphy_get-custom/
   emoji_picker_flutter: ^1.6.3
+  flutter_hooks: ^0.20.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

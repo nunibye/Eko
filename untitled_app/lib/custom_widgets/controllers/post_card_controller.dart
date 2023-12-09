@@ -17,12 +17,13 @@ class PostCardController extends ChangeNotifier {
   late bool liked;
   bool liking = false;
   bool sharing = false;
-  
+  double _opacity = 0;
+  double get opacity => _opacity;
+
   final bool isBuiltFromId;
   PostCardController(
       {required this.context,
       required this.post,
-
       required this.isBuiltFromId}) {
     _init();
   }
@@ -120,6 +121,14 @@ class PostCardController extends ChangeNotifier {
             notifyListeners();
           }
         } else {
+          // animation
+          _opacity = 1;
+          notifyListeners();
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _opacity = 0;
+            notifyListeners();
+          });
+
           liked = true;
           //locator<FeedPostCache>().updateLikes(post.postId, 1);
           likes++;
