@@ -5,7 +5,7 @@ import '../models/search_model.dart';
 import 'dart:async';
 import '../utilities/constants.dart' as c;
 import '../models/current_user.dart';
-
+import 'bottom_nav_bar_controller.dart';
 
 class SearchPageController extends ChangeNotifier {
   final searchTextController = TextEditingController();
@@ -37,6 +37,12 @@ class SearchPageController extends ChangeNotifier {
   //     notifyListeners();
   //   }
   // }
+
+  Future<bool> onWillPop() async {
+    locator<NavBarController>().goBranch(0);
+    return false;
+  }
+
   void onSearchTextChanged(String s) async {
     if (s == '') {
       hits = [];

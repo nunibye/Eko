@@ -7,10 +7,13 @@ import '../models/search_model.dart';
 import 'package:go_router/go_router.dart';
 import '../models/group_handler.dart';
 import '../models/current_user.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
+import '../custom_widgets/warning_dialog.dart';
 
 class CreateGroupPageController extends ChangeNotifier {
   String icon = "";
   final nameController = TextEditingController();
+  final nameFocus = FocusNode();
   final descriptionController = TextEditingController();
   final searchTextController = TextEditingController();
   final PageController pageController = PageController();
@@ -22,12 +25,62 @@ class CreateGroupPageController extends ChangeNotifier {
   Timer? _debounce;
   int? selectedToDelete;
   BuildContext context;
+  bool canSwipe = false;
+
   CreateGroupPageController({required this.context});
   void goForward() {
-    hideKeyboard();
-    pageController.nextPage(
-        duration: const Duration(milliseconds: c.signUpAnimationDuration),
-        curve: Curves.decelerate);
+    if (nameController.text.length < c.minGroupName) {
+      nameFocus.requestFocus();
+      //FIXME show pop up
+    } else {
+      hideKeyboard();
+      pageController.nextPage(
+          duration: const Duration(milliseconds: c.signUpAnimationDuration),
+          curve: Curves.decelerate);
+    }
+  }
+
+  void _pop() {
+    context.pop();
+  }
+
+  void updateCanSwipe() {
+    if (nameController.text.length < c.minGroupName) {
+      if (canSwipe) {
+        canSwipe = false;
+        notifyListeners();
+      }
+    } else {
+      if (!canSwipe) {
+        canSwipe = true;
+        notifyListeners();
+      }
+    }
+  }
+
+  void _popTwice() {
+    _pop();
+    _pop();
+  }
+
+  Future<bool> exitPressed() async {
+    if (selectedPeople.isEmpty &&
+        icon == "" &&
+        nameController.text == "" &&
+        descriptionController.text == "") {
+      _pop();
+    } else {
+      showMyDialog(
+          AppLocalizations.of(context)!.exitEditProfileTitle,
+          AppLocalizations.of(context)!.exitEditProfileBody,
+          [
+            AppLocalizations.of(context)!.exit,
+            AppLocalizations.of(context)!.stay
+          ],
+          [_popTwice, _pop],
+          context);
+    }
+    return false;
   }
 
   void goBack() {
@@ -104,6 +157,7 @@ class CreateGroupPageController extends ChangeNotifier {
   void createGroup() {
     context.pop();
     final newGroup = Group(
+        icon: icon,
         description: descriptionController.text,
         name: nameController.text,
         lastActivity: DateTime.now().toUtc().toIso8601String(),

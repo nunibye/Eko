@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'locator.dart';
 import '../models/current_user.dart';
 
+
 class RouterNotifier extends ChangeNotifier {
   bool loggedIn = false;
 
@@ -14,7 +15,7 @@ class RouterNotifier extends ChangeNotifier {
       } else {
         loggedIn = false;
       }
-      print('authcahnge $loggedIn');
+      //print('authcahnge $loggedIn');
       notifyListeners();
     });
   }
@@ -26,10 +27,10 @@ class RouterNotifier extends ChangeNotifier {
     //print('redirect $loggedIn');
     if (!loggedIn && !(onSignUpPage || onLoginPage || onWelcomePage)) {
       return '/';
-    }
-    else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
-      await locator<CurrentUser>().readCurrentUserData();
+    } else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
       
+      await locator<CurrentUser>().readCurrentUserData();
+
       return '/feed';
     }
 

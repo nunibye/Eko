@@ -5,16 +5,19 @@ class Group {
   final String description;
   final String lastActivity;
   final String owner;
+  final String icon;
   final List<String> members;
   final List<String> invitees;
 
-  Group(
-      {required this.name,
-      required this.lastActivity,
-      required this.owner,
-      required this.invitees,
-      required this.members,
-      required this.description});
+  Group({
+    required this.name,
+    required this.lastActivity,
+    required this.owner,
+    required this.icon,
+    required this.invitees,
+    required this.members,
+    required this.description,
+  });
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {};
     map["name"] = name;
@@ -23,6 +26,7 @@ class Group {
     map["invitees"] = invitees;
     map["members"] = members;
     map["description"] = description;
+    map["icon"] = icon;
     return map;
   }
 }

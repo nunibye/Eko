@@ -11,7 +11,12 @@ class GroupsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => GroupsPageController(context: context),
       builder: (context, child) {
-        return const _Header();
+        return WillPopScope(
+            onWillPop: ()=>Provider.of<GroupsPageController>(context, listen: false)
+                .onWillPop(),
+            child: const Scaffold(
+              body: _Header(),
+            ));
       },
     );
   }
@@ -27,7 +32,6 @@ class _Header extends StatelessWidget {
           color: const Color.fromARGB(255, 52, 51, 51),
           height: MediaQuery.sizeOf(context).height * 0.075,
           child: Stack(
-            
             children: [
               Align(
                 alignment: Alignment.center,
@@ -46,7 +50,10 @@ class _Header extends StatelessWidget {
                       icon: const Icon(Icons.waving_hand_rounded),
                     ),
                     IconButton(
-                      onPressed: () => Provider.of<GroupsPageController>(context, listen: false).createGroupPressed(),
+                      onPressed: () => Provider.of<GroupsPageController>(
+                              context,
+                              listen: false)
+                          .createGroupPressed(),
                       icon: const Icon(Icons.group_add),
                     ),
                     const SizedBox(width: 8)

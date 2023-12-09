@@ -37,7 +37,13 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-//FIXME doesn't update
+
+  Future<bool> onWillPop() async {
+    locator<NavBarController>().goBranch(0);
+    return false;
+  }
+
+//FIXME doesn't updat
   editProfilePressed() async {
     locator<NavBarController>().disable();
     await context.push("/profile/edit_profile");

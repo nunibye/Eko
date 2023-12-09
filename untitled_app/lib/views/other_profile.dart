@@ -46,7 +46,7 @@ class OtherProfile extends StatelessWidget {
               getter:
                   Provider.of<OtherProfileController>(context, listen: false)
                       .getPosts,
-              card: postCardBuilder,
+              card: profilePostCardBuilder,
               startAfterQuery:
                   Provider.of<OtherProfileController>(context, listen: false)
                       .getTimeFromPost,

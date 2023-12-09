@@ -300,4 +300,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get description => 'Description(Optional)';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get done => 'Done';
 }

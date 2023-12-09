@@ -14,17 +14,17 @@ class ProfilePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return Scaffold(
+        return WillPopScope(onWillPop:()=>Provider.of<ProfileController>(context, listen: false).onWillPop(),child:Scaffold(
           body: PaginationPage(
               getter: Provider.of<ProfileController>(context, listen: false).getProfilePosts,
-              card: postCardBuilder,
+              card: profilePostCardBuilder,
               startAfterQuery: Provider.of<ProfileController>(context, listen: false).getTimeFromPost,
               header: const _Header(),
               extraRefresh:
                   Provider.of<ProfileController>(context, listen: false)
                       .onPageRefresh),
           
-        );
+        ));
       },
     );
   }

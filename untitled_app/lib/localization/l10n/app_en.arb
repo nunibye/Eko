@@ -118,6 +118,8 @@
     "commentText":"Someone commented on your post:",
     "groups":"Groups",
     "next":"Next",
-    "description":"Description(Optional)"
+    "description":"Description(Optional)",
+    "skip":"Skip",
+    "done":"Done"
 
 }

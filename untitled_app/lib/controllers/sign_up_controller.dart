@@ -157,7 +157,7 @@ class SignUpController extends ChangeNotifier {
   }
 
   void onUsernameChanged(String s) {
-    if (!s.trim().contains(RegExp(r'^[a-zA-Z0-9._]{3,12}$'))) {
+    if (!s.trim().contains(RegExp(c.userNameReqs))) {
       validUsername = false;
       notifyListeners();
     } else {
@@ -247,7 +247,7 @@ class SignUpController extends ChangeNotifier {
         usernameFocus.requestFocus();
       } else if (emailController.text == "") {
         emailFocus.requestFocus();
-      } 
+      }
       // else {dobFocus.requestFocus();}
       return "done";
     }
