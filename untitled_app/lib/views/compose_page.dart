@@ -117,9 +117,12 @@ class ComposePage extends StatelessWidget {
                           const SizedBox(width: 9),
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
+                              backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondary,
                               side: BorderSide(
                                 width:
-                                    4.0, // Change this value for border thickness
+                                    3.0, // Change this value for border thickness
                                 color: Theme.of(context)
                                     .colorScheme
                                     .primary, // Change this value for border color
@@ -168,7 +171,7 @@ class ComposePage extends StatelessWidget {
                             hintStyle: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.outline),
+                                color: Theme.of(context).colorScheme.onSurfaceVariant),
                             border: InputBorder.none,
                             // labelText: AppLocalizations.of(context)!.postTitle,
                             // labelStyle: TextStyle(
@@ -299,7 +302,7 @@ class ComposePage extends StatelessWidget {
                             hintStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.outline),
+                                color: Theme.of(context).colorScheme.onSurfaceVariant),
                             border: InputBorder.none,
                             // labelText: AppLocalizations.of(context)!.postBody,
                             // labelStyle: TextStyle(
