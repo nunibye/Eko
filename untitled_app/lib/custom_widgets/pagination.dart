@@ -13,8 +13,10 @@ class PaginationPage extends StatelessWidget {
   final Widget? loadingWidget;
   final Widget? initialLoadingWidget;
   final int? cachedIndex;
+  final bool shrinkWrap;
   const PaginationPage(
       {super.key,
+      this.shrinkWrap = false,
       required this.getter,
       required this.card,
       this.extraRefresh,
@@ -37,6 +39,7 @@ class PaginationPage extends StatelessWidget {
       builder: (context, child) {
         return RefreshIndicator(
           child: ListView.builder(
+            shrinkWrap: shrinkWrap,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             physics: const AlwaysScrollableScrollPhysics(),
             controller:

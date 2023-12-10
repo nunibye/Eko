@@ -309,6 +309,24 @@ class PostsHandling {
         payload: await Future.wait(postList));
   }
 
+  //user profile
+  Future<PaginationGetterReturn> getGroupPosts(dynamic time, String id) async {
+    final user = FirebaseAuth.instance.currentUser!.uid;
+    final postList = (await newGetPosts(
+            time,
+            FirebaseFirestore.instance
+                .collection('posts')
+                .where("author", isEqualTo: user).where("tags", arrayContains: id)
+                .orderBy('time', descending: true)))
+        .map<Future<Post>>((raw) async {
+      return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()),
+          await countComments(raw.postID));
+    }).toList();
+    return PaginationGetterReturn(
+        end: (postList.length < c.postsOnRefresh),
+        payload: await Future.wait(postList));
+  }
+
 //sub
   Future<PaginationGetterReturn> getSubProfilePosts(
       dynamic time, AppUser user) async {

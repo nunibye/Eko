@@ -120,6 +120,9 @@
     "next":"Next",
     "description":"Description(Optional)",
     "skip":"Skip",
-    "done":"Done"
+    "done":"Done",
+    "public":"Public",
+    "selectAudience":"Select Audience:",
+    "myGroups":"My groups"
 
 }

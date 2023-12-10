@@ -49,11 +49,23 @@ class Group {
   }
 }
 
+
+
 class GroupHandler {
   void createGroup(Group group) async {
     final firestore = FirebaseFirestore.instance;
     await firestore.collection('groups').add(group.toMap());
   }
+
+  Future<Group?> getGroupFromId(String id) async {
+  final data =
+      await FirebaseFirestore.instance.collection("posts").doc(id).get();
+  final postData = data.data();
+  if (postData != null) {
+    return Group.fromJson(postData, data.id);
+  }
+  return null;
+}
 
   Future<PaginationGetterReturn> getGroups(dynamic time) async {
     final user = FirebaseAuth.instance.currentUser!.uid;

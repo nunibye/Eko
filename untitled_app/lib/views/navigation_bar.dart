@@ -49,10 +49,10 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               .enabled
           ? Container(
               height: c.navBarHeight,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   border: Border(
                 top: BorderSide(
-                  color: Color.fromARGB(255, 47, 47, 47),
+                  color: Theme.of(context).colorScheme.outline,
                   width: 0.5,
                 ),
               )),

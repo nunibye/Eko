@@ -61,7 +61,7 @@ ColorScheme darkThemeColors(context) {
     onSurface: Color(0xFFE0E3E1),
     surfaceVariant: Color(0xFF3F4946),
     onSurfaceVariant: Color(0xFFBEC9C5),
-    outline: Color.fromARGB(255, 112, 112, 112),
+    outline: Color.fromARGB(255, 47, 47, 47),
     onInverseSurface: Color(0xFF191C1B),
     inverseSurface: Color(0xFFE0E3E1),
     inversePrimary: Color(0xFF006B5E),
@@ -147,3 +147,4 @@ const int maxGroupName = 50;
 const int minGroupName = 3;
 const int maxGroupDesc = 300;
 const String userNameReqs = r'^[a-z0-9._]{3,12}$';
+const double dividerWidth = 0.5;

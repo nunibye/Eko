@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/current_user.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import '../controllers/compose_controller.dart';
 import '../utilities/constants.dart' as c;
+import 'package:cached_network_image/cached_network_image.dart';
+import '../custom_widgets/profile_picture_loading.dart';
+
+
 
 
 class ComposePage extends StatelessWidget {
   const ComposePage({super.key});
   @override
   Widget build(BuildContext context) {
+    final audiance = AppLocalizations.of(context)!.public;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return ChangeNotifierProvider(
-      create: (context) => ComposeController(context: context),
+      create: (context) => ComposeController(context: context, audience: audiance),
       builder: (context, child) {
         return WillPopScope(
-            onWillPop: () => Provider.of<ComposeController>(context, listen: false).onWillPop(),
+            onWillPop: () =>
+                Provider.of<ComposeController>(context, listen: false)
+                    .onWillPop(),
             child: GestureDetector(
               onTap: () =>
                   Provider.of<ComposeController>(context, listen: false)
@@ -91,6 +100,45 @@ class ComposePage extends StatelessWidget {
                         ScrollViewKeyboardDismissBehavior.onDrag,
                     children: [
                       SizedBox(height: height * 0.025),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.115,
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: locator<CurrentUser>().profilePicture,
+                                placeholder: (context, url) =>
+                                    const LoadingProfileImage(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 9),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                width:
+                                    4.0, // Change this value for border thickness
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary, // Change this value for border color
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                            onPressed: () => Provider.of<ComposeController>(context,
+                                  listen: false).audianceButtonPressed(),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text( Provider.of<ComposeController>(context,
+                                  listen: true).audience),
+                                const Icon(Icons.expand_more_rounded)
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                       ConstrainedBox(
                         constraints: BoxConstraints(maxHeight: height * 0.2),
                         child: TextField(

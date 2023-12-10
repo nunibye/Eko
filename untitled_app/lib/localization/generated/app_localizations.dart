@@ -698,6 +698,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @public.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get public;
+
+  /// No description provided for @selectAudience.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Audience:'**
+  String get selectAudience;
+
+  /// No description provided for @myGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'My groups'**
+  String get myGroups;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

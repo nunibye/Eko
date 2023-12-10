@@ -21,8 +21,11 @@ class CreateGroupPage extends StatelessWidget {
                 Provider.of<CreateGroupPageController>(context, listen: false)
                     .exitPressed(),
             child: PageView(
-              physics: Provider.of<CreateGroupPageController>(context, listen: true)
-                    .canSwipe ? null : const NeverScrollableScrollPhysics(),
+              physics:
+                  Provider.of<CreateGroupPageController>(context, listen: true)
+                          .canSwipe
+                      ? null
+                      : const NeverScrollableScrollPhysics(),
               controller:
                   Provider.of<CreateGroupPageController>(context, listen: false)
                       .pageController,
@@ -75,17 +78,18 @@ class _GetInfo extends StatelessWidget {
                       alignment: Alignment.topRight,
                       children: [
                         SizedBox(
-                            width: width * 0.3,
-                            height: width * 0.3,
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Text(
-                                Provider.of<CreateGroupPageController>(context,
-                                        listen: true)
-                                    .icon,
-                                //style: TextStyle(fontSize: width * 0.25),
-                              ),
-                            )),
+                          width: width * 0.3,
+                          height: width * 0.3,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Text(
+                              Provider.of<CreateGroupPageController>(context,
+                                      listen: true)
+                                  .icon,
+                              //style: TextStyle(fontSize: width * 0.25),
+                            ),
+                          ),
+                        ),
                         IconButton(
                           //iconSize: width * 0.1,
                           onPressed: () =>
@@ -108,7 +112,9 @@ class _GetInfo extends StatelessWidget {
                   ),
           ),
           ProfileInputFeild(
-            onChanged: (s) => Provider.of<CreateGroupPageController>(context, listen: false).updateCanSwipe(),
+              onChanged: (s) =>
+                  Provider.of<CreateGroupPageController>(context, listen: false)
+                      .updateCanSwipe(),
               focus:
                   Provider.of<CreateGroupPageController>(context, listen: false)
                       .nameFocus,
@@ -260,21 +266,24 @@ class _AddPeople extends StatelessWidget {
                             .length,
                         itemBuilder: (BuildContext context, int index) {
                           return UserCard(
-                              initialBool: Provider.of<CreateGroupPageController>(
-                                      context,
-                                      listen: false)
-                                  .isUserSelected(
-                                      Provider.of<CreateGroupPageController>(
-                                              context,
-                                              listen: true)
-                                          .hits[index]),
-                              adder: Provider.of<CreateGroupPageController>(context,
-                                      listen: false)
-                                  .addRemovePersonToList,
-                              groupSearch: true,
-                              user: Provider.of<CreateGroupPageController>(context,
-                                      listen: true)
-                                  .hits[index]);
+                            initialBool: Provider.of<CreateGroupPageController>(
+                                    context,
+                                    listen: false)
+                                .isUserSelected(
+                                    Provider.of<CreateGroupPageController>(
+                                            context,
+                                            listen: true)
+                                        .hits[index]),
+                            adder: Provider.of<CreateGroupPageController>(
+                                    context,
+                                    listen: false)
+                                .addRemovePersonToList,
+                            groupSearch: true,
+                            user: Provider.of<CreateGroupPageController>(
+                                    context,
+                                    listen: true)
+                                .hits[index],
+                          );
                         },
                       ),
           ),

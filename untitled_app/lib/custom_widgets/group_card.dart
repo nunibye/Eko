@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../models/group_handler.dart';
 import '../custom_widgets/time_stamp.dart';
+import '../utilities/constants.dart' as c;
 
 Widget groupCardBuilder(dynamic group) {
-  print(group.name);
   return GroupCard(
     group: group,
   );
@@ -12,19 +12,21 @@ Widget groupCardBuilder(dynamic group) {
 
 class GroupCard extends StatelessWidget {
   final Group group;
-  const GroupCard({super.key, required this.group});
+  final void Function(Group)? onPressedSearched;
+  const GroupCard({super.key, required this.group, this.onPressedSearched});
 
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    //${group.id}
     return InkWell(
-        onTap: () => context.push("/groups/sub_group/${group.id}", extra: group),
+        onTap: () => (onPressedSearched == null)
+            ? context.push("/groups/sub_group/${group.id}", extra: group)
+            : onPressedSearched!(group),
         child: Column(
           children: [
             Divider(
               color: Theme.of(context).colorScheme.outline,
-              height: 1,
+              height: c.dividerWidth,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -46,10 +48,6 @@ class GroupCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.surface,
-                            // border: Border.all(
-                            //   color: Colors.red,
-                            //   width: 3.0,
-                            // ),
                           ),
                           width: width * 0.18,
                           height: width * 0.18,
@@ -78,9 +76,10 @@ class GroupCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  TimeStamp(
-                    time: group.lastActivity,
-                  ),
+                  if (onPressedSearched == null)
+                    TimeStamp(
+                      time: group.lastActivity,
+                    ),
                   SizedBox(
                     width: width * 0.05,
                   ),

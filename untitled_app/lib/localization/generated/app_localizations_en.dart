@@ -306,4 +306,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get done => 'Done';
+
+  @override
+  String get public => 'Public';
+
+  @override
+  String get selectAudience => 'Select Audience:';
+
+  @override
+  String get myGroups => 'My groups';
 }

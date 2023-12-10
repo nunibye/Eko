@@ -186,7 +186,7 @@ class CommentCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 3),
                 child: Divider(
                   color: Theme.of(context).colorScheme.outline,
-                  height: 1,
+                  height: c.dividerWidth,
                 ),
               ),
             ],

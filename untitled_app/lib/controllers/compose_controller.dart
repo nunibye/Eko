@@ -13,6 +13,11 @@ import "package:go_router/go_router.dart";
 import 'package:untitled_app/models/feed_post_cache.dart';
 import '../models/users.dart' show AppUser;
 import '../controllers/bottom_nav_bar_controller.dart';
+import '../models/group_handler.dart';
+import '../custom_widgets/controllers/pagination_controller.dart'
+    show PaginationGetterReturn;
+import '../custom_widgets/pagination.dart';
+import '../custom_widgets/group_card.dart';
 
 class ComposeController extends ChangeNotifier {
   final BuildContext context;
@@ -20,6 +25,8 @@ class ComposeController extends ChangeNotifier {
   final bodyController = TextEditingController();
   final titleFocus = FocusNode();
   final bodyFocus = FocusNode();
+  List<String> tags = ["public"];
+  String audience = "";
   int newLines = 0;
   int bodyChars = 0;
   int titleChars = 0;
@@ -27,10 +34,16 @@ class ComposeController extends ChangeNotifier {
   bool showCount1 = false;
   GiphyGif? gif;
 
-  ComposeController({required this.context}) {
+  ComposeController({required this.context, required this.audience}) {
     titleFocus.addListener(onTitleFocusChanged);
     bodyFocus.addListener(onBodyFocusChanged);
+    //_init();
   }
+  // void _init() {
+  //   audience = AppLocalizations.of(context)!.public;
+  //   notifyListeners();
+  // }
+
   void onTitleFocusChanged() {
     if (titleFocus.hasFocus) {
       showCount0 = true;
@@ -96,6 +109,100 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _onAudienceGroupCardPressed(Group group) {
+    print("test");
+    tags = [group.id];
+    audience = group.name;
+    context.pop();
+    notifyListeners();
+  }
+
+  dynamic _getTimeFromGroup(dynamic group) {
+    return (group as Group).lastActivity;
+  }
+
+  Future<PaginationGetterReturn> _getGroups(dynamic time) {
+    return GroupHandler().getGroups(time);
+  }
+
+  Widget _groupCardSearchBuilder(dynamic group) {
+    return GroupCard(
+      group: group,
+      onPressedSearched: _onAudienceGroupCardPressed,
+    );
+  }
+
+  void audianceButtonPressed() {
+    showModalBottomSheet(
+      showDragHandle: true,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        final double width = MediaQuery.sizeOf(context).width;
+        return SizedBox(
+            child: PaginationPage(
+                header: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          AppLocalizations.of(context)!.selectAudience,
+                          style: TextStyle(fontSize: 24),
+                        )),
+                    Divider(
+                      color: Theme.of(context).colorScheme.outline,
+                      height: c.dividerWidth,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        tags = ["public"];
+                        audience = AppLocalizations.of(context)!.public;
+                        context.pop();
+                        notifyListeners();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.05,
+                            ),
+                            Icon(Icons.public, size: width * 0.18),
+                            SizedBox(
+                              width: width * 0.05,
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!.public,
+                              style: TextStyle(fontSize: 19),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      color: Theme.of(context).colorScheme.outline,
+                      height: c.dividerWidth,
+                    ),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        padding:
+                            const EdgeInsets.only(left: 7, top: 12, bottom: 12),
+                        child: Text(
+                          AppLocalizations.of(context)!.myGroups,
+                          style: TextStyle(fontSize: 18),
+                        ))
+                  ],
+                ),
+                shrinkWrap: true,
+                getter: _getGroups,
+                card: _groupCardSearchBuilder,
+                startAfterQuery: _getTimeFromGroup));
+      },
+    );
+  }
+
   addGifPressed() async {
     locator<NavBarController>().disable();
     GiphyGif? newGif = await GiphyGet.getGif(
@@ -138,7 +245,7 @@ class ComposeController extends ChangeNotifier {
           context: context);
     } else {
       Map<String, dynamic> post = {};
-      post["tags"] = ["public"];
+      post["tags"] = tags;
       if (titleController.text != '') {
         post["title"] = titleController.text;
       }
@@ -163,12 +270,12 @@ class ComposeController extends ChangeNotifier {
             content: SingleChildScrollView(
               child: PostCard(
                   post: Post(
-                      tags: ["public"],
+                      tags: tags,
                       gifSource: post["gifSource"],
                       gifURL: post["gifUrl"],
                       postId: "postId",
                       time: "", //DateTime.now().toUtc().toIso8601String(),
-                      title:  Post.parseText(post["title"]),
+                      title: Post.parseText(post["title"]),
                       author: AppUser.fromCurrent(locator<CurrentUser>()),
                       body: Post.parseText(post["body"]),
                       likes: 0),
@@ -189,12 +296,12 @@ class ComposeController extends ChangeNotifier {
                   locator<FeedPostCache>().addPost(
                       2,
                       Post(
-                          tags: ["public"],
+                          tags: tags,
                           gifSource: post["gifSource"],
                           gifURL: post["gifUrl"],
                           postId: postID,
                           time: DateTime.now().toUtc().toIso8601String(),
-                          title: Post.parseText(post["title"]),                          
+                          title: Post.parseText(post["title"]),
                           author: locator<CurrentUser>(),
                           body: Post.parseText(post["body"]),
                           likes: 0));
