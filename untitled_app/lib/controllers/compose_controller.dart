@@ -138,6 +138,7 @@ class ComposeController extends ChangeNotifier {
           context: context);
     } else {
       Map<String, dynamic> post = {};
+      post["tags"] = ["public"];
       if (titleController.text != '') {
         post["title"] = titleController.text;
       }
@@ -162,13 +163,14 @@ class ComposeController extends ChangeNotifier {
             content: SingleChildScrollView(
               child: PostCard(
                   post: Post(
+                      tags: ["public"],
                       gifSource: post["gifSource"],
                       gifURL: post["gifUrl"],
                       postId: "postId",
                       time: "", //DateTime.now().toUtc().toIso8601String(),
-                      title: post["title"],
+                      title:  Post.parseText(post["title"]),
                       author: AppUser.fromCurrent(locator<CurrentUser>()),
-                      body: post["body"],
+                      body: Post.parseText(post["body"]),
                       likes: 0),
                   isPreview: true),
             ),
@@ -187,13 +189,14 @@ class ComposeController extends ChangeNotifier {
                   locator<FeedPostCache>().addPost(
                       2,
                       Post(
+                          tags: ["public"],
                           gifSource: post["gifSource"],
                           gifURL: post["gifUrl"],
                           postId: postID,
                           time: DateTime.now().toUtc().toIso8601String(),
-                          title: post["title"],
+                          title: Post.parseText(post["title"]),                          
                           author: locator<CurrentUser>(),
-                          body: post["body"],
+                          body: Post.parseText(post["body"]),
                           likes: 0));
 
                   titleController.text = "";

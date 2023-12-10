@@ -22,7 +22,9 @@ import '../views/following.dart';
 import '../views/recent_activity.dart';
 import '../views/groups_page.dart';
 import '../views/create_group_page.dart';
+import '../models/group_handler.dart';
 import '../custom_widgets/emoji_picker.dart';
+import '../views/sub_group_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -144,24 +146,35 @@ final goRouter = GoRouter(
           navigatorKey: _shellNavigatorGroupsKey,
           routes: [
             GoRoute(
-                path: '/groups',
-                name: 'groups',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                      child: GroupsPage(),
-                    ),
-                routes: [
-                  GoRoute(
-                    path: 'create_group',
-                    name: 'create_group',
-                    builder: (context, state) => const CreateGroupPage(),
-                    routes: [
-                       GoRoute(
-                    path: 'pick_emoji',
-                    name: 'pick_emoji',
-                    builder: (context, state) => const EmojiSelector(),)
-                    ]
-                  ),
-                ]),
+              path: '/groups',
+              name: 'groups',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: GroupsPage(),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'sub_group/:id',
+                  name: 'sub_group',
+                  builder: (context, state) {
+                    Group? group = state.extra as Group?;
+                    String id = state.pathParameters["id"]!;
+                    return SubGroupPage(group: group, id: id);
+                  },
+                ),
+                GoRoute(
+                  path: 'create_group',
+                  name: 'create_group',
+                  builder: (context, state) => const CreateGroupPage(),
+                  routes: [
+                    GoRoute(
+                      path: 'pick_emoji',
+                      name: 'pick_emoji',
+                      builder: (context, state) => const EmojiSelector(),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
         StatefulShellBranch(

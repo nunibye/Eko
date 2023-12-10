@@ -330,6 +330,19 @@ class CurrentUser extends AppUser {
     }
   }
 
+  Future<String?> getUidFromUsername(String username) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('username', isEqualTo: username)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return null;
+    } else {
+      return querySnapshot.docs.first.id;
+    }
+  }
+
   Future<String> uploadProfileName(String name) async {
     final firestore = FirebaseFirestore.instance;
     final user = getUID();
@@ -439,7 +452,6 @@ class CurrentUser extends AppUser {
         await userDocRef.update({'fcmTokens': fcmTokens});
         setActivityNotification(false);
       }
-      
     } catch (e) {
       // TODO: Handle the error as needed
     }

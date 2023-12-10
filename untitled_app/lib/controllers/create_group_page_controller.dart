@@ -160,10 +160,10 @@ class CreateGroupPageController extends ChangeNotifier {
         icon: icon,
         description: descriptionController.text,
         name: nameController.text,
+        createdOn: DateTime.now().toUtc().toIso8601String(),
         lastActivity: DateTime.now().toUtc().toIso8601String(),
-        owner: locator<CurrentUser>().getUID(),
         invitees: selectedPeople.map((e) => e.uid).toList(),
-        members: []);
+        members: [locator<CurrentUser>().getUID()]);
     GroupHandler().createGroup(newGroup);
   }
 
