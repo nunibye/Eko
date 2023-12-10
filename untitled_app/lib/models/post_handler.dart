@@ -12,12 +12,14 @@ import '../models/feed_post_cache.dart';
 class Post {
   final String postId;
   bool hasCache;
+
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
   final String time;
   final List<String>? title;
   final List<String>? body;
+  final List<String> tags;
   int likes;
   int commentCount;
 
@@ -26,6 +28,7 @@ class Post {
 
   Post(
       {required this.gifSource,
+      required this.tags,
       required this.gifURL,
       required this.postId,
       required this.time,
@@ -39,6 +42,7 @@ class Post {
   static Post fromRaw(RawPostObject rawPost, AppUser user, int commentCount,
       {String? rootPostId, bool hasCache = false}) {
     return Post(
+        tags: rawPost.tags,
         hasCache: hasCache,
         gifSource: rawPost.gifSource,
         gifURL: rawPost.gifUrl,
@@ -87,6 +91,7 @@ class Post {
 }
 
 class RawPostObject {
+  final List<String> tags;
   final String postID;
   final String author;
   final String? title;
@@ -97,6 +102,7 @@ class RawPostObject {
   final int likes;
 
   RawPostObject({
+    required this.tags,
     required this.gifSource,
     required this.gifUrl,
     required this.postID,
@@ -108,7 +114,8 @@ class RawPostObject {
   });
   static RawPostObject fromJson(Map<String, dynamic> json, String id) {
     return RawPostObject(
-        gifSource: json["gifSource"],
+        tags: (json["tags"] ?? ["public"]).cast<String>(),
+        gifSource: json["gifSourcef"],
         gifUrl: json["gifUrl"],
         postID: id,
         author: json["author"] ?? "",
@@ -153,12 +160,15 @@ class RecentActivityCard {
 
 class PostsHandling {
   List<FeedChunk> feedChunks = [];
-  Future<String> createPost(Map<String, dynamic> post) async {
+
+  Future<String> createPost(
+      Map<String, dynamic> post) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     post["author"] = user.uid;
     post["time"] = DateTime.now().toUtc().toIso8601String();
     post["likes"] = 0; //change this
+    
     return await firestore
         .collection('posts')
         .add(post)
@@ -306,7 +316,7 @@ class PostsHandling {
             time,
             FirebaseFirestore.instance
                 .collection('posts')
-                .where("author", isEqualTo: user.uid)
+                .where("author", isEqualTo: user.uid).where("tags", arrayContains: "public")
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       return Post.fromRaw(raw, user, await countComments(raw.postID));
@@ -349,6 +359,7 @@ class PostsHandling {
       await user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
+         
           hasCache: true);
     }).toList();
     if (postList.length < c.postsOnRefresh) {
@@ -392,7 +403,7 @@ class PostsHandling {
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
-              .where('author', whereIn: slice)
+              .where('author', whereIn: slice).where("tags", arrayContains: "public")
               .orderBy('time', descending: true)
               .limit(1)
               .get();
@@ -416,7 +427,7 @@ class PostsHandling {
       while (postsToPassBack.length < c.postsOnRefresh) {
         snapshot = await firestore
             .collection('posts')
-            .where("author", whereIn: feedChunks.first.uids)
+            .where("author", whereIn: feedChunks.first.uids).where("tags", arrayContains: "public")
             .orderBy('time', descending: true)
             .startAfter([feedChunks.first.oldestPost.time])
             .limit(1)
@@ -474,7 +485,7 @@ class PostsHandling {
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
-              .where('author', whereIn: slice)
+              .where('author', whereIn: slice).where("tags", arrayContains: "public")
               .orderBy('time', descending: true)
               .limit(1)
               .get();
@@ -485,15 +496,10 @@ class PostsHandling {
           feedChunks.add(
             FeedChunk(
               uids: slice,
-              oldestPost: RawPostObject(
-                  postID: snapshot.docs.first.id,
-                  author: data["author"] ?? "",
-                  title: data["title"],
-                  body: data["body"],
-                  gifSource: data["gifSource"],
-                  gifUrl: data["gifUrl"],
-                  time: data["time"] ?? "",
-                  likes: data["likes"] ?? 0),
+              oldestPost: RawPostObject.fromJson(
+                data,
+                snapshot.docs.first.id,
+              ),
             ),
           );
         }
@@ -506,23 +512,16 @@ class PostsHandling {
       while (postsToPassBack.length < c.postsOnRefresh) {
         snapshot = await firestore
             .collection('posts')
-            .where("author", whereIn: feedChunks.first.uids)
+            .where("author", whereIn: feedChunks.first.uids).where("tags", arrayContains: "public")
             .orderBy('time', descending: true)
             .startAfter([feedChunks.first.oldestPost.time])
             .limit(1)
             .get();
         if (snapshot.docs.isNotEmpty) {
           final data = snapshot.docs.first.data();
-          feedChunks.first.oldestPost = RawPostObject(
-              postID: snapshot.docs.first.id,
-              author: data["author"] ?? "",
-              title: data["title"],
-              body: data["body"],
-              gifSource: data["gifSource"],
-              gifUrl: data["gifUrl"],
-              time: data["time"] ?? "",
-              likes: data["likes"] ?? 0);
-          postsToPassBack.add(feedChunks.first.oldestPost);
+          feedChunks.first.oldestPost =
+              RawPostObject.fromJson(data, snapshot.docs.first.id);
+
           feedChunks.sort(
             (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
           );

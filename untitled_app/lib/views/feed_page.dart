@@ -18,16 +18,20 @@ class FeedPage extends StatelessWidget {
       create: (context) => FeedController(context: context, rebuild: rebuild),
       builder: (context, child) {
         return Scaffold(
-            body: PaginationPage(
-              extraRefresh: Provider.of<FeedController>(context, listen: false).onRefresh,
-          getter: Provider.of<FeedController>(context, listen: false).getPosts,
-          card: postCardBuilder,
-          startAfterQuery: Provider.of<FeedController>(context, listen: false)
-              .getTimeFromPost,
-          header: const _Header(),
-          cachedIndex: Provider.of<FeedController>(context, listen: true)
-              .index,
-        ));
+          body: 
+          PaginationPage(
+            extraRefresh:
+                Provider.of<FeedController>(context, listen: false).onRefresh,
+            getter:
+                Provider.of<FeedController>(context, listen: false).getPosts,
+            card: postCardBuilder,
+            startAfterQuery: Provider.of<FeedController>(context, listen: false)
+                .getTimeFromPost,
+            header: const _Header(),
+            cachedIndex:
+                Provider.of<FeedController>(context, listen: true).index,
+          ),
+        );
       },
     );
   }
