@@ -12,6 +12,7 @@ class SearchedUserController extends ChangeNotifier {
   final bool groupSearch;
   final bool? initialBool;
   late bool added;
+  TextEditingController commentFeild = TextEditingController();
   final void Function(AppUser, bool)? adder;
   SearchedUserController(
       {required this.context,

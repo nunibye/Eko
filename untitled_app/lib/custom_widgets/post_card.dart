@@ -118,7 +118,6 @@ class PostCard extends StatelessWidget {
                                       "@${post.author.username}",
                                       style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onBackground,
@@ -156,7 +155,6 @@ class PostCard extends StatelessWidget {
                                           text: chunk,
                                           style: TextStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.bold,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onBackground,
@@ -272,7 +270,6 @@ class PostCard extends StatelessWidget {
                                           text: chunk,
                                           style: TextStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.bold,
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onBackground,

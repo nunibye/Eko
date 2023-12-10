@@ -80,7 +80,6 @@ class CommentCard extends StatelessWidget {
                                   post.author.name,
                                   style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onBackground,
@@ -135,7 +134,6 @@ class CommentCard extends StatelessWidget {
                                       text: chunk,
                                       style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.bold,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onBackground,
