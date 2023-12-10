@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
+import '../models/current_user.dart';
+import '../models/search_model.dart';
+import '../models/users.dart';
 import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
 import '../custom_widgets/error_snack_bar.dart';
@@ -19,6 +24,11 @@ class PostPageController extends ChangeNotifier {
   final TextEditingController commentFeild = TextEditingController();
   FocusNode commentFeildFocus = FocusNode();
   int chars = 0;
+  bool isAtSymbolTyped = false;
+  bool isUsernameFinished = false;
+  bool isLoading = false;
+  List<AppUser> hits = [];
+  Timer? _debounce;
 
   bool builtFromID = false;
   PostPageController({
@@ -51,7 +61,67 @@ class PostPageController extends ChangeNotifier {
 
   void updateCount(String str) {
     chars = str.length;
-    //notifyListeners();
+    //notifyListeners();j
+  }
+
+  void checkAtSymbol(String text) {
+    if (text.contains('@')) {
+      int start = text.indexOf('@');
+      int end = text.indexOf(' ', start);
+      if (end == -1) {
+        // No space found after '@'
+        isAtSymbolTyped = true;
+        isUsernameFinished = false;
+        onSearchTextChanged(text.substring(start + 1));
+        notifyListeners();
+      } else {
+        // Space found after '@'
+        isAtSymbolTyped = false;
+        isUsernameFinished = true;
+        onSearchTextChanged(text.substring(start + 1, end));
+        notifyListeners();
+      }
+    } else {
+      isAtSymbolTyped = false;
+      isUsernameFinished = false;
+    }
+  }
+
+  void updateTextField(String username) {
+    String currentText = commentFeild.text;
+    int atSymbolIndex = currentText.lastIndexOf('@');
+    if (atSymbolIndex != -1) {
+      String newText = '${currentText.substring(0, atSymbolIndex)}@$username ';
+      commentFeild.text = newText;
+      commentFeild.selection =
+          TextSelection.fromPosition(TextPosition(offset: newText.length));
+    }
+    isAtSymbolTyped = false;
+    isUsernameFinished = true;
+    notifyListeners();
+  }
+
+  void onSearchTextChanged(String s) async {
+    if (s == '') {
+      hits = [];
+
+      isLoading = false;
+      notifyListeners();
+    } else {
+      isLoading = true;
+      notifyListeners();
+    }
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce =
+        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
+      if (s != '') {
+        hits = await SearchModel().hitsQuery(s);
+        hits.removeWhere(
+            (element) => element.uid == locator<CurrentUser>().getUID());
+        isLoading = false;
+        notifyListeners();
+      }
+    });
   }
 
   void onExitPressed() {

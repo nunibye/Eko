@@ -10,9 +10,17 @@ class UserCard extends StatelessWidget {
   final bool? initialBool;
   final AppUser user;
   final bool groupSearch;
+  final bool tagSearch;
+  final Function(String)? onCardTap;
   final void Function(AppUser, bool)? adder;
   const UserCard(
-      {super.key, required this.user, this.groupSearch = false, this.adder, this.initialBool});
+      {super.key,
+      required this.user,
+      this.groupSearch = false,
+      this.tagSearch = false,
+      this.onCardTap,
+      this.adder,
+      this.initialBool});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +37,8 @@ class UserCard extends StatelessWidget {
               if (groupSearch) {
                 Provider.of<SearchedUserController>(context, listen: false)
                     .onAddPressed();
+              } else if (tagSearch) {
+                onCardTap!(user.username);
               } else {
                 Provider.of<SearchedUserController>(context, listen: false)
                     .onCardPressed();
@@ -72,6 +82,8 @@ class UserCard extends StatelessWidget {
                                 .added
                             ? const Icon(Icons.check_circle)
                             : const Icon(Icons.circle_outlined))
+                  else if (tagSearch)
+                    Container()
                   else
                     SizedBox(
                       width: 120, //FIXME make dynamic
