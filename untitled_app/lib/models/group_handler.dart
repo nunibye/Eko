@@ -12,7 +12,7 @@ class Group {
   final String createdOn;
   final String icon;
   final List<String> members;
-  final List<String> invitees;
+  
 
   Group({
     this.id = "",
@@ -20,7 +20,7 @@ class Group {
     required this.name,
     required this.lastActivity,
     required this.icon,
-    required this.invitees,
+   
     required this.members,
     required this.description,
   });
@@ -28,7 +28,7 @@ class Group {
     Map<String, dynamic> map = {};
     map["name"] = name;
     map["lastActivity"] = lastActivity;
-    map["invitees"] = invitees;
+  
     map["members"] = members;
     map["description"] = description;
     map["icon"] = icon;
@@ -42,7 +42,6 @@ class Group {
         name: json["name"],
         lastActivity: json["lastActivity"],
         icon: json["icon"],
-        invitees: json["invitees"].cast<String>(),
         members: json["members"].cast<String>(),
         description: json["description"],
         id: id);
