@@ -116,8 +116,6 @@ class PostPageController extends ChangeNotifier {
         Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
       if (s != '') {
         hits = await SearchModel().hitsQuery(s);
-        hits.removeWhere(
-            (element) => element.uid == locator<CurrentUser>().getUID());
         isLoading = false;
         notifyListeners();
       }

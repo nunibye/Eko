@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/users.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../models/current_user.dart';
+import '../utilities/locator.dart';
 import 'profile_picture_loading.dart';
 import 'package:provider/provider.dart';
 import 'controllers/searched_user_controller.dart';
@@ -74,7 +76,9 @@ class UserCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (groupSearch)
+                  if (user.uid == locator<CurrentUser>().uid)
+                    Container()
+                  else if (groupSearch)
                     Padding(
                         padding: const EdgeInsets.only(right: 15),
                         child: Provider.of<SearchedUserController>(context,
