@@ -716,6 +716,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My groups'**
   String get myGroups;
+
+  /// No description provided for @reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get reply;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

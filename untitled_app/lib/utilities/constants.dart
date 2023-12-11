@@ -66,7 +66,7 @@ ColorScheme darkThemeColors(context) {
   inverseSurface: Color(0xFFE5E1E6),
   inversePrimary: Color(0xFF5056A9),
   shadow: Color(0xFF000000),
-  surfaceTint: Color(0xFFBEC2FF),
+  surfaceTint: Color(0xFF62b4ef),
   outlineVariant: Color(0xFF46464F),
   scrim: Color(0xFF000000),
 );

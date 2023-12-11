@@ -65,8 +65,8 @@ class PostPageController extends ChangeNotifier {
   }
 
   void checkAtSymbol(String text) {
-    if (text.contains('@')) {
-      int start = text.indexOf('@');
+    int start = text.lastIndexOf('@');
+    if (start != -1 && start < text.length - 1) {
       int end = text.indexOf(' ', start);
       if (end == -1) {
         // No space found after '@'
@@ -74,12 +74,16 @@ class PostPageController extends ChangeNotifier {
         isUsernameFinished = false;
         onSearchTextChanged(text.substring(start + 1));
         notifyListeners();
-      } else {
-        // Space found after '@'
-        isAtSymbolTyped = false;
-        isUsernameFinished = true;
+      } else if (text.substring(end).contains('@')) {
+        // Another '@' found after space
+        isAtSymbolTyped = true;
+        isUsernameFinished = false;
         onSearchTextChanged(text.substring(start + 1, end));
         notifyListeners();
+      } else {
+        // Space found after '@' and no other '@' found
+        isAtSymbolTyped = false;
+        isUsernameFinished = true;
       }
     } else {
       isAtSymbolTyped = false;
@@ -120,6 +124,11 @@ class PostPageController extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  replyPressed(String username) {
+    commentFeildFocus.requestFocus();
+    commentFeild.text = ('@$username ');
   }
 
   void onExitPressed() {

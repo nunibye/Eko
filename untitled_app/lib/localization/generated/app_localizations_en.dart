@@ -315,4 +315,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myGroups => 'My groups';
+
+  @override
+  String get reply => 'Reply';
 }

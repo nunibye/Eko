@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled_app/controllers/view_post_page_controller.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
+import '../localization/generated/app_localizations.dart';
 import 'controllers/comment_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
@@ -120,7 +122,9 @@ class CommentCard extends StatelessWidget {
                                     // This is a username, create a hyperlink
                                     return TextSpan(
                                       text: chunk,
-                                      style: TextStyle(color: Colors.blue),
+                                      style: TextStyle(color: Theme.of(context)
+                                                .colorScheme
+                                                .surfaceTint),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () =>
                                             Provider.of<CommentCardController>(
@@ -143,6 +147,27 @@ class CommentCard extends StatelessWidget {
                                 }).toList(),
                               ),
                             ),
+                          const SizedBox(height: 4.0),
+                          TextButton(
+                            onPressed: () => Provider.of<PostPageController>(
+                                    context,
+                                    listen: false)
+                                .replyPressed(post.author.username),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: const Size(0, 0),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context)!.reply,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w300,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

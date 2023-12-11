@@ -123,6 +123,7 @@
     "done":"Done",
     "public":"Public",
     "selectAudience":"Select Audience:",
-    "myGroups":"My groups"
+    "myGroups":"My groups",
+    "reply":"Reply"
 
 }

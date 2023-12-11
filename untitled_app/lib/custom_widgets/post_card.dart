@@ -137,7 +137,9 @@ class PostCard extends StatelessWidget {
                                         // This is a username, create a hyperlink
                                         return TextSpan(
                                           text: chunk,
-                                          style: TextStyle(color: Colors.blue),
+                                          style: TextStyle(color: Theme.of(context)
+                                                .colorScheme
+                                                .surfaceTint),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
                                               if (!isPreview) {
@@ -252,7 +254,9 @@ class PostCard extends StatelessWidget {
                                         // This is a username, create a hyperlink
                                         return TextSpan(
                                           text: chunk,
-                                          style: TextStyle(color: Colors.blue),
+                                          style: TextStyle(color: Theme.of(context)
+                                                .colorScheme
+                                                .surfaceTint),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
                                               if (!isPreview) {

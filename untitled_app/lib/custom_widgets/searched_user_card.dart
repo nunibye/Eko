@@ -76,7 +76,7 @@ class UserCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (user.uid == locator<CurrentUser>().uid)
+                  if (user.uid == locator<CurrentUser>().getUID())
                     Container()
                   else if (groupSearch)
                     Padding(
