@@ -43,87 +43,91 @@ class ViewPostPage extends StatelessWidget {
                           ),
                         ],
                       ),
-
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Offstage(
-                              offstage: Provider.of<PostPageController>(context,
-                                      listen: false)
-                                  .isAtSymbolTyped,
-                              child: PaginationPage(
-                                  getter: Provider.of<PostPageController>(
-                                          context,
-                                          listen: false)
-                                      .getCommentsFromPost,
-                                  card: commentCardBuilder,
-                                  header: const _Header(),
-                                  startAfterQuery:
-                                      Provider.of<PostPageController>(context,
-                                              listen: false)
-                                          .getTimeFromPost),
-                            ),
-                            Offstage(
-                              offstage: !Provider.of<PostPageController>(
-                                          context,
-                                          listen: false)
-                                      .isAtSymbolTyped ||
-                                  Provider.of<PostPageController>(context,
-                                          listen: false)
-                                      .isUsernameFinished,
-                              child: Expanded(
-                                child: Provider.of<PostPageController>(context,
+                      Expanded(child:IndexedStack(
+                        
+                        index: !Provider.of<PostPageController>(context,
+                                    listen: false)
+                                .isAtSymbolTyped
+                            ? 0
+                            : 1,
+                        children: [
+                          //Expanded(
+                            // offstage: Provider.of<PostPageController>(context,
+                            //         listen: false)
+                            //     .isAtSymbolTyped,
+                            //child:
+                             PaginationPage(
+                              //shrinkWrap: true,
+                                getter: Provider.of<PostPageController>(context,
+                                        listen: false)
+                                    .getCommentsFromPost,
+                                card: commentCardBuilder,
+                                header: const _Header(),
+                                startAfterQuery:
+                                    Provider.of<PostPageController>(context,
+                                            listen: false)
+                                        .getTimeFromPost),
+                          //),
+                          // Offstage(
+                          //   offstage: !Provider.of<PostPageController>(context,
+                          //               listen: false)
+                          //           .isAtSymbolTyped ||
+                          //       Provider.of<PostPageController>(context,
+                          //               listen: false)
+                          //           .isUsernameFinished,
+                          //  child:
+                          //Expanded(
+                            //child: 
+                            Provider.of<PostPageController>(context,
+                                        listen: true)
+                                    .isLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : Provider.of<PostPageController>(context,
                                             listen: true)
-                                        .isLoading
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
+                                        .hits
+                                        .isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .noResultsFound,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground),
+                                        ),
                                       )
-                                    : Provider.of<PostPageController>(context,
-                                                listen: true)
-                                            .hits
-                                            .isEmpty
-                                        ? Center(
-                                            child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .noResultsFound,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onBackground),
-                                            ),
-                                          )
-                                        : ListView.builder(
-                                            itemCount:
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            Provider.of<PostPageController>(
+                                                    context,
+                                                    listen: true)
+                                                .hits
+                                                .length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return UserCard(
+                                              tagSearch: true,
+                                              onCardTap: (username) {
                                                 Provider.of<PostPageController>(
                                                         context,
-                                                        listen: true)
-                                                    .hits
-                                                    .length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return UserCard(
-                                                  tagSearch: true,
-                                                  onCardTap: (username) {
-                                                    Provider.of<PostPageController>(
-                                                            context,
-                                                            listen: false)
-                                                        .updateTextField(
-                                                            username);
-                                                  },
-                                                  user: Provider.of<
-                                                              PostPageController>(
-                                                          context,
-                                                          listen: true)
-                                                      .hits[index]);
-                                            },
-                                          ),
-                              ),
-                            ),
-                          ],
-                        ),
+                                                        listen: false)
+                                                    .updateTextField(username);
+                                              },
+                                              user: Provider.of<
+                                                          PostPageController>(
+                                                      context,
+                                                      listen: true)
+                                                  .hits[index]);
+                                        },
+                                      ),
+                          //),
+                          // ),
+                        ],)
                       ),
-
                       SizedBox(
                         height: height * 0.08,
                         child: Row(
