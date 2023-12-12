@@ -91,18 +91,21 @@ class PostPageController extends ChangeNotifier {
     }
   }
 
-  void updateTextField(String username) {
-    String currentText = commentFeild.text;
-    int atSymbolIndex = currentText.lastIndexOf('@');
-    if (atSymbolIndex != -1) {
-      String newText = '${currentText.substring(0, atSymbolIndex)}@$username ';
-      commentFeild.text = newText;
-      commentFeild.selection =
-          TextSelection.fromPosition(TextPosition(offset: newText.length));
+  void updateTextField(
+      String username, TextEditingController controller, FocusNode focus) {
+    if (focus.hasFocus) {
+      String currentText = controller.text;
+      int atSymbolIndex = currentText.lastIndexOf('@');
+      if (atSymbolIndex != -1) {
+        String newText =
+            '${currentText.substring(0, atSymbolIndex)}@$username ';
+        controller.text = newText;
+        controller.selection =
+            TextSelection.fromPosition(TextPosition(offset: newText.length));
+      }
+      isAtSymbolTyped = false;
+      notifyListeners();
     }
-    isAtSymbolTyped = false;
-    //isUsernameFinished = true;
-    notifyListeners();
   }
 
   void onSearchTextChanged(String s) async {
