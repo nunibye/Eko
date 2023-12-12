@@ -18,8 +18,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
   setupLocator();
-  runApp(const MyApp());
-  
+
   if ((await getBool("NOT_FIRST_INSTALL")) == null) {
     if (FirebaseAuth.instance.currentUser != null) {
       FirebaseAuth.instance.signOut();
@@ -28,6 +27,7 @@ Future<void> main() async {
   }
 
   await NotificationService.initializeNotification();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
