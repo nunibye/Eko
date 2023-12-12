@@ -7,20 +7,23 @@ import '../controllers/compose_controller.dart';
 import '../utilities/constants.dart' as c;
 import 'package:cached_network_image/cached_network_image.dart';
 import '../custom_widgets/profile_picture_loading.dart';
-
-
-
+import '../models/group_handler.dart' show Group;
 
 class ComposePage extends StatelessWidget {
-  const ComposePage({super.key});
+  final Group? group;
+  const ComposePage({super.key, this.group});
   @override
   Widget build(BuildContext context) {
     final audiance = AppLocalizations.of(context)!.public;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return ChangeNotifierProvider(
-      create: (context) => ComposeController(context: context, audience: audiance),
+    return ChangeNotifierProvider.value(
+      value: ComposeController(
+        context: context,
+        audience: (group != null) ? group!.name : audiance,
+        groupEndPoint: group,
+      ),
       builder: (context, child) {
         return WillPopScope(
             onWillPop: () =>
@@ -34,12 +37,13 @@ class ComposePage extends StatelessWidget {
                 floatingActionButton: SizedBox(
                   width: 70,
                   child: FloatingActionButton.large(
-                      onPressed: () =>
-                          Provider.of<ComposeController>(context, listen: false)
-                              .addGifPressed(),
-                      shape: const CircleBorder(),
-                      child: const Icon(Icons.add_photo_alternate_outlined,
-                          size: 40)),
+                    onPressed: () =>
+                        Provider.of<ComposeController>(context, listen: false)
+                            .addGifPressed(),
+                    shape: const CircleBorder(),
+                    child: const Icon(Icons.add_photo_alternate_outlined,
+                        size: 40),
+                  ),
                 ),
                 appBar: AppBar(
                   title: Row(
@@ -117,9 +121,8 @@ class ComposePage extends StatelessWidget {
                           const SizedBox(width: 9),
                           OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .onSecondary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
                               side: BorderSide(
                                 width:
                                     3.0, // Change this value for border thickness
@@ -129,13 +132,16 @@ class ComposePage extends StatelessWidget {
                                 style: BorderStyle.solid,
                               ),
                             ),
-                            onPressed: () => Provider.of<ComposeController>(context,
-                                  listen: false).audianceButtonPressed(),
+                            onPressed: () => Provider.of<ComposeController>(
+                                    context,
+                                    listen: false)
+                                .audianceButtonPressed(),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text( Provider.of<ComposeController>(context,
-                                  listen: true).audience),
+                                Text(Provider.of<ComposeController>(context,
+                                        listen: true)
+                                    .audience),
                                 const Icon(Icons.expand_more_rounded)
                               ],
                             ),
@@ -171,7 +177,9 @@ class ComposePage extends StatelessWidget {
                             hintStyle: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                             border: InputBorder.none,
                             // labelText: AppLocalizations.of(context)!.postTitle,
                             // labelStyle: TextStyle(
@@ -302,7 +310,9 @@ class ComposePage extends StatelessWidget {
                             hintStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                             border: InputBorder.none,
                             // labelText: AppLocalizations.of(context)!.postBody,
                             // labelStyle: TextStyle(

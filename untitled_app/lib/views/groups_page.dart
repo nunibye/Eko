@@ -71,13 +71,13 @@ class _Header extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
-                  onPressed: () {
+                // IconButton(
+                //   onPressed: () {
                     
-                    //addTagToDocuments();
-                  },
-                  icon: const Icon(Icons.waving_hand_rounded),
-                ),
+                //     //addTagToDocuments();
+                //   },
+                //   icon: const Icon(Icons.waving_hand_rounded),
+                // ),
                 IconButton(
                   onPressed: () =>
                       Provider.of<GroupsPageController>(context, listen: false)

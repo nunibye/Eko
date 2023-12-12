@@ -10,13 +10,13 @@ import '../custom_widgets/controllers/pagination_controller.dart';
 import '../models/feed_post_cache.dart';
 
 class Post {
-  final String postId;
+ String postId;
   bool hasCache;
 
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
-  final String time;
+   String time;
   final List<String>? title;
   final List<String>? body;
   final List<String> tags;
@@ -27,14 +27,14 @@ class Post {
   final String? rootPostId;
 
   Post(
-      {required this.gifSource,
+      {this.gifSource,
       required this.tags,
-      required this.gifURL,
-      required this.postId,
-      required this.time,
-      required this.title,
+      this.gifURL,
+      this.postId ='',
+       this.time = '',
+      this.title,
       required this.author,
-      required this.body,
+      this.body,
       required this.likes,
       this.commentCount = 0,
       this.hasCache = false,
@@ -161,14 +161,13 @@ class RecentActivityCard {
 class PostsHandling {
   List<FeedChunk> feedChunks = [];
 
-  Future<String> createPost(
-      Map<String, dynamic> post) async {
+  Future<String> createPost(Map<String, dynamic> post) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     post["author"] = user.uid;
     post["time"] = DateTime.now().toUtc().toIso8601String();
     post["likes"] = 0; //change this
-    
+
     return await firestore
         .collection('posts')
         .add(post)
@@ -316,7 +315,8 @@ class PostsHandling {
             time,
             FirebaseFirestore.instance
                 .collection('posts')
-                .where("author", isEqualTo: user).where("tags", arrayContains: id)
+                .where("author", isEqualTo: user)
+                .where("tags", arrayContains: id)
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()),
@@ -334,7 +334,8 @@ class PostsHandling {
             time,
             FirebaseFirestore.instance
                 .collection('posts')
-                .where("author", isEqualTo: user.uid).where("tags", arrayContains: "public")
+                .where("author", isEqualTo: user.uid)
+                .where("tags", arrayContains: "public")
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       return Post.fromRaw(raw, user, await countComments(raw.postID));
@@ -377,7 +378,6 @@ class PostsHandling {
       await user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
-         
           hasCache: true);
     }).toList();
     if (postList.length < c.postsOnRefresh) {
@@ -421,7 +421,8 @@ class PostsHandling {
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
-              .where('author', whereIn: slice).where("tags", arrayContains: "public")
+              .where('author', whereIn: slice)
+              .where("tags", arrayContains: "public")
               .orderBy('time', descending: true)
               .limit(1)
               .get();
@@ -445,7 +446,8 @@ class PostsHandling {
       while (postsToPassBack.length < c.postsOnRefresh) {
         snapshot = await firestore
             .collection('posts')
-            .where("author", whereIn: feedChunks.first.uids).where("tags", arrayContains: "public")
+            .where("author", whereIn: feedChunks.first.uids)
+            .where("tags", arrayContains: "public")
             .orderBy('time', descending: true)
             .startAfter([feedChunks.first.oldestPost.time])
             .limit(1)
@@ -503,7 +505,8 @@ class PostsHandling {
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
-              .where('author', whereIn: slice).where("tags", arrayContains: "public")
+              .where('author', whereIn: slice)
+              .where("tags", arrayContains: "public")
               .orderBy('time', descending: true)
               .limit(1)
               .get();
@@ -530,7 +533,8 @@ class PostsHandling {
       while (postsToPassBack.length < c.postsOnRefresh) {
         snapshot = await firestore
             .collection('posts')
-            .where("author", whereIn: feedChunks.first.uids).where("tags", arrayContains: "public")
+            .where("author", whereIn: feedChunks.first.uids)
+            .where("tags", arrayContains: "public")
             .orderBy('time', descending: true)
             .startAfter([feedChunks.first.oldestPost.time])
             .limit(1)

@@ -25,6 +25,7 @@ import '../views/create_group_page.dart';
 import '../models/group_handler.dart';
 import '../custom_widgets/emoji_picker.dart';
 import '../views/sub_group_page.dart';
+import '../models/group_handler.dart' show Group;
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -184,9 +185,13 @@ final goRouter = GoRouter(
             GoRoute(
               path: '/compose',
               name: 'compose',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ComposePage(),
-              ),
+              pageBuilder: (context, state) {
+                final Group? group = state.extra as Group?;
+                //if (args != null) print(args[0]);
+                return NoTransitionPage(
+                  child: ComposePage(group: group),
+                );
+              },
             ),
           ],
         ),
