@@ -43,8 +43,8 @@ class PostPageController extends ChangeNotifier {
       post = passedPost!;
       notifyListeners();
     } else {
-      post ??= (await locator<PostsHandling>()
-          .getPostFromId(id))!; //FIXME might break if opening deleted post
+        post ??= (await locator<PostsHandling>()
+            .getPostFromId(id))!; //FIXME might break if opening deleted post
       builtFromID = true;
       post!.hasCache = true;
       notifyListeners();
