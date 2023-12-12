@@ -25,8 +25,9 @@ class ComposeController extends ChangeNotifier {
   final bodyController = TextEditingController();
   final titleFocus = FocusNode();
   final bodyFocus = FocusNode();
-  List<String> tags = ["public"];
-  String audience = "";
+  Group? groupEndPoint;
+  // List<String> tags;
+  String audience;
   int newLines = 0;
   int bodyChars = 0;
   int titleChars = 0;
@@ -34,14 +35,15 @@ class ComposeController extends ChangeNotifier {
   bool showCount1 = false;
   GiphyGif? gif;
 
-  ComposeController({required this.context, required this.audience}) {
+  ComposeController(
+      {required this.context, required this.audience, this.groupEndPoint}) {
     titleFocus.addListener(onTitleFocusChanged);
     bodyFocus.addListener(onBodyFocusChanged);
-    //_init();
+    // _init();
   }
   // void _init() {
-  //   audience = AppLocalizations.of(context)!.public;
-  //   notifyListeners();
+  //   // print(audience);
+  //   // notifyListeners();
   // }
 
   void onTitleFocusChanged() {
@@ -110,8 +112,8 @@ class ComposeController extends ChangeNotifier {
   }
 
   void _onAudienceGroupCardPressed(Group group) {
-    print("test");
-    tags = [group.id];
+    // print("test");
+    groupEndPoint = group;
     audience = group.name;
     context.pop();
     notifyListeners();
@@ -146,10 +148,10 @@ class ComposeController extends ChangeNotifier {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                        padding: EdgeInsets.only(bottom: 5),
+                        padding: const EdgeInsets.only(bottom: 5),
                         child: Text(
                           AppLocalizations.of(context)!.selectAudience,
-                          style: TextStyle(fontSize: 24),
+                          style: const TextStyle(fontSize: 24),
                         )),
                     Divider(
                       color: Theme.of(context).colorScheme.outline,
@@ -157,7 +159,7 @@ class ComposeController extends ChangeNotifier {
                     ),
                     InkWell(
                       onTap: () {
-                        tags = ["public"];
+                        groupEndPoint = null;
                         audience = AppLocalizations.of(context)!.public;
                         context.pop();
                         notifyListeners();
@@ -175,7 +177,7 @@ class ComposeController extends ChangeNotifier {
                             ),
                             Text(
                               AppLocalizations.of(context)!.public,
-                              style: TextStyle(fontSize: 19),
+                              style: const TextStyle(fontSize: 19),
                             )
                           ],
                         ),
@@ -191,7 +193,7 @@ class ComposeController extends ChangeNotifier {
                             const EdgeInsets.only(left: 7, top: 12, bottom: 12),
                         child: Text(
                           AppLocalizations.of(context)!.myGroups,
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ))
                   ],
                 ),
@@ -221,8 +223,20 @@ class ComposeController extends ChangeNotifier {
     locator<NavBarController>().enable();
   }
 
+  _goToPage({Group? group}) {
+    if (group == null) {
+      context.go("/feed", extra: true);
+    } else {
+      context.go("/groups/sub_group/${group.id}", extra: group);
+    }
+  }
+
 //TODO add more content like a preview of a post.
   postPressed(BuildContext context) {
+    final List<String> tags = [
+      (groupEndPoint != null) ? groupEndPoint!.id : "public"
+    ];
+
     bodyController.text = bodyController.text.trim();
     titleController.text = titleController.text.trim();
     updateCountsBody(bodyController.text);
@@ -256,10 +270,6 @@ class ComposeController extends ChangeNotifier {
         post["gifUrl"] = gif!.images!.fixedWidth.url;
         post["gifSource"] = gif!.url;
       }
-      void popAndGo(BuildContext context) {
-        context.pop();
-        context.go("/feed", extra: true);
-      }
 
       showDialog(
         context: context,
@@ -291,25 +301,34 @@ class ComposeController extends ChangeNotifier {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.post),
                 onPressed: () async {
+                  context.pop();
+
                   final postID =
                       await locator<PostsHandling>().createPost(post);
-                  locator<FeedPostCache>().addPost(
+                  if (tags.contains("public")) {
+                    locator<FeedPostCache>().addPost(
                       2,
                       Post(
-                          tags: tags,
-                          gifSource: post["gifSource"],
-                          gifURL: post["gifUrl"],
-                          postId: postID,
-                          time: DateTime.now().toUtc().toIso8601String(),
-                          title: Post.parseText(post["title"]),
-                          author: locator<CurrentUser>(),
-                          body: Post.parseText(post["body"]),
-                          likes: 0));
+                        tags: tags,
+                        gifSource: post["gifSource"],
+                        gifURL: post["gifUrl"],
+                        postId: postID,
+                        time: DateTime.now().toUtc().toIso8601String(),
+                        title: Post.parseText(post["title"]),
+                        author: AppUser.fromCurrent(locator<CurrentUser>()),
+                        body: Post.parseText(post["body"]),
+                        likes: 0,
+                      ),
+                    );
 
+                    _goToPage();
+                  } else {
+                    _goToPage(group: groupEndPoint);
+                    //refine cases later for more complicated tag system
+                  }
                   titleController.text = "";
                   bodyController.text = "";
                   gif = null;
-                  popAndGo(context);
                   notifyListeners();
                 },
               ),

@@ -64,17 +64,32 @@ class GroupCard extends StatelessWidget {
                   SizedBox(
                     width: width * 0.05,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(fontSize: 19),
-                      text: group.name,
-                      children: [
-                        TextSpan(
-                            style: TextStyle(fontSize: 15),
-                            text: "\n${group.description}"),
-                      ],
-                    ),
-                  ),
+                  SizedBox(
+                      width: width * 0.5,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              group.name,
+                              style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              group.description,
+                              style: const TextStyle(fontSize: 15),
+                            ),
+                          ])),
+
+                  // RichText(
+                  //   text: TextSpan(
+                  //     style: TextStyle(fontSize: 19),
+                  //     text: group.name,
+                  //     children: [
+                  //       TextSpan(
+                  //           style: TextStyle(fontSize: 15),
+                  //           text: "\n${group.description}"),
+                  //     ],
+                  //   ),
+                  // ),
                   const Spacer(),
                   if (onPressedSearched == null)
                     TimeStamp(
