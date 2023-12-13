@@ -114,7 +114,7 @@ class LoginController extends ChangeNotifier {
 
       _handleError(
           await locator<CurrentUser>().signIn(passwordController.text));
-      locator<CurrentUser>().addFCM();
+      
 
       loggingIn = false;
       notifyListeners(); //FIXME problems can apear here since it gets disposed
@@ -125,6 +125,7 @@ class LoginController extends ChangeNotifier {
     int errorStatus;
     switch (errorCode) {
       case 'success':
+      locator<CurrentUser>().addFCM();
         errorStatus = 0;
         break;
       case 'invalid-email':
