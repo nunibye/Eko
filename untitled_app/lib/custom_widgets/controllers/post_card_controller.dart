@@ -60,7 +60,7 @@ class PostCardController extends ChangeNotifier {
 
   avatarPressed() async {
     if (post.author.uid != locator<CurrentUser>().getUID()) {
-      await context.pushNamed("sub_profile", extra: post.author);
+      await context.push("/sub_profile/${post.author.uid}", extra: post.author);
       //update post liked in sub menu
       final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
       if (liked != newvalue) {
@@ -75,22 +75,7 @@ class PostCardController extends ChangeNotifier {
 
   tagPressed(String username) async {
     String? uid = await locator<CurrentUser>().getUidFromUsername(username);
-    if (uid != null && uid != locator<CurrentUser>().getUID()) {
-      // Retrieve the user's profile using the uid
-      AppUser taggedUser = AppUser();
-      await taggedUser.readUserData(uid);
-
-      await context.pushNamed("sub_profile", extra: taggedUser);
-      //update post liked in sub menu
-      final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
-      if (liked != newvalue) {
-        liked = newvalue;
-        likes += newvalue ? 1 : -1;
-      }
-      notifyListeners();
-    } else {
-      context.go("/profile");
-    }
+    context.push("/sub_profile/$uid");
   }
 
   sharePressed() async {

@@ -35,7 +35,7 @@ class SearchedUserController extends ChangeNotifier {
   }
 
   void onCardPressed() {
-    context.pushNamed("sub_profile", extra: user);
+    context.push("/sub_profile/${user.uid}", extra: user);
   }
 
   onFollowPressed() async {

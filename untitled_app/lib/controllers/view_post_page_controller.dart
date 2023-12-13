@@ -43,8 +43,8 @@ class PostPageController extends ChangeNotifier {
       post = passedPost!;
       notifyListeners();
     } else {
-      post ??= (await locator<PostsHandling>()
-          .getPostFromId(id))!; //FIXME might break if opening deleted post
+        post ??= (await locator<PostsHandling>()
+            .getPostFromId(id))!; //FIXME might break if opening deleted post
       builtFromID = true;
       post!.hasCache = true;
       notifyListeners();
@@ -91,18 +91,21 @@ class PostPageController extends ChangeNotifier {
     }
   }
 
-  void updateTextField(String username) {
-    String currentText = commentFeild.text;
-    int atSymbolIndex = currentText.lastIndexOf('@');
-    if (atSymbolIndex != -1) {
-      String newText = '${currentText.substring(0, atSymbolIndex)}@$username ';
-      commentFeild.text = newText;
-      commentFeild.selection =
-          TextSelection.fromPosition(TextPosition(offset: newText.length));
+  void updateTextField(
+      String username, TextEditingController controller, FocusNode focus) {
+    if (focus.hasFocus) {
+      String currentText = controller.text;
+      int atSymbolIndex = currentText.lastIndexOf('@');
+      if (atSymbolIndex != -1) {
+        String newText =
+            '${currentText.substring(0, atSymbolIndex)}@$username ';
+        controller.text = newText;
+        controller.selection =
+            TextSelection.fromPosition(TextPosition(offset: newText.length));
+      }
+      isAtSymbolTyped = false;
+      notifyListeners();
     }
-    isAtSymbolTyped = false;
-    //isUsernameFinished = true;
-    notifyListeners();
   }
 
   void onSearchTextChanged(String s) async {
@@ -149,7 +152,7 @@ class PostPageController extends ChangeNotifier {
   }
 
   //TODO add more content like a preview of a post.
-  void postCommentPressed() {
+  Future<void> postCommentPressed() async {
     commentFeild.text = commentFeild.text.trim();
     updateCount(commentFeild.text);
 
@@ -162,7 +165,7 @@ class PostPageController extends ChangeNotifier {
           text: AppLocalizations.of(context)!.emptyFieldError,
           context: context);
     } else {
-      locator<PostsHandling>().createComment({"body": commentFeild.text},
+      await locator<PostsHandling>().createComment({"body": commentFeild.text},
           post!.postId, post!.author.uid, post!.postId);
       // int tempComments = post!.commentCount;
       // print(tempComments);
@@ -175,6 +178,7 @@ class PostPageController extends ChangeNotifier {
         post!.commentCount++;
       }
       commentFeild.text = "";
+      hideKeyboard();
       notifyListeners();
     }
   }
