@@ -152,7 +152,7 @@ class PostPageController extends ChangeNotifier {
   }
 
   //TODO add more content like a preview of a post.
-  void postCommentPressed() {
+  Future<void> postCommentPressed() async {
     commentFeild.text = commentFeild.text.trim();
     updateCount(commentFeild.text);
 
@@ -165,7 +165,7 @@ class PostPageController extends ChangeNotifier {
           text: AppLocalizations.of(context)!.emptyFieldError,
           context: context);
     } else {
-      locator<PostsHandling>().createComment({"body": commentFeild.text},
+      await locator<PostsHandling>().createComment({"body": commentFeild.text},
           post!.postId, post!.author.uid, post!.postId);
       // int tempComments = post!.commentCount;
       // print(tempComments);
@@ -178,6 +178,7 @@ class PostPageController extends ChangeNotifier {
         post!.commentCount++;
       }
       commentFeild.text = "";
+      hideKeyboard();
       notifyListeners();
     }
   }
