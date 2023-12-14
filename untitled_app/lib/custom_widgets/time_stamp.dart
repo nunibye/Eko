@@ -12,13 +12,13 @@ class TimeStamp extends StatelessWidget {
     Duration difference = now.difference(postTime);
 
     if (difference.inDays < 1) {
-      return DateFormat('hh:mm a').format(postTime);
+      return DateFormat('h:mm a').format(postTime);
     } else if (difference.inDays == 1) {
-      return '${difference.inDays} day ago';
+      return '${difference.inDays}d';
     } else if (difference.inDays >= 2 && difference.inDays <= 3) {
-      return '${difference.inDays} days ago';
+      return '${difference.inDays}d';
     } else {
-      return DateFormat('MM/dd').format(postTime);
+      return DateFormat('M/d').format(postTime);
     }
   }
 

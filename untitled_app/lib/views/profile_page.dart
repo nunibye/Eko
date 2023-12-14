@@ -5,6 +5,7 @@ import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
 import '../custom_widgets/pagination.dart';
 import '../custom_widgets/post_card.dart';
+import '../utilities/constants.dart' as c;
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -14,17 +15,23 @@ class ProfilePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return WillPopScope(onWillPop:()=>Provider.of<ProfileController>(context, listen: false).onWillPop(),child:Scaffold(
-          body: PaginationPage(
-              getter: Provider.of<ProfileController>(context, listen: false).getProfilePosts,
-              card: profilePostCardBuilder,
-              startAfterQuery: Provider.of<ProfileController>(context, listen: false).getTimeFromPost,
-              header: const _Header(),
-              extraRefresh:
-                  Provider.of<ProfileController>(context, listen: false)
-                      .onPageRefresh),
-          
-        ));
+        return WillPopScope(
+            onWillPop: () =>
+                Provider.of<ProfileController>(context, listen: false)
+                    .onWillPop(),
+            child: Scaffold(
+              body: PaginationPage(
+                  getter: Provider.of<ProfileController>(context, listen: false)
+                      .getProfilePosts,
+                  card: profilePostCardBuilder,
+                  startAfterQuery:
+                      Provider.of<ProfileController>(context, listen: false)
+                          .getTimeFromPost,
+                  header: const _Header(),
+                  extraRefresh:
+                      Provider.of<ProfileController>(context, listen: false)
+                          .onPageRefresh),
+            ));
       },
     );
   }
@@ -107,6 +114,10 @@ class _Header extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        Divider(
+          color: Theme.of(context).colorScheme.outline,
+          height: c.dividerWidth,
         ),
       ],
     );

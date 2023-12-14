@@ -215,10 +215,10 @@ class _Header extends StatelessWidget {
           isBuiltFromId: Provider.of<PostPageController>(context, listen: false)
               .builtFromID,
         ),
-        Divider(
-          color: Theme.of(context).colorScheme.outline,
-          height: 1,
-        ),
+        // Divider(
+        //   color: Theme.of(context).colorScheme.outline,
+        //   height: 1,
+        // ),
       ],
     );
   }
