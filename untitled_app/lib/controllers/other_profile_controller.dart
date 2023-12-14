@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:untitled_app/models/users.dart';
 import '../models/current_user.dart';
@@ -8,20 +9,30 @@ import '../custom_widgets/controllers/pagination_controller.dart'
 
 class OtherProfileController extends ChangeNotifier {
   final BuildContext context;
-  final AppUser? user;
+  final AppUser? passedUser;
+  final String id;
+
   AppUser? loadedUser;
   late bool isFollowing;
 
-  OtherProfileController(
-      {required this.context, required this.user, this.loadedUser}) {
+  OtherProfileController({
+    required this.context,
+    required this.passedUser,
+    this.loadedUser,
+    required this.id,
+  }) {
     _init();
   }
-  void _init() {
-    if (user != null) {
-      loadedUser = user!;
+  void _init() async {
+    if (passedUser != null) {
+      loadedUser = passedUser!;
+    } else {
+      AppUser user = AppUser();
+      await user.readUserData(id);
+      loadedUser = user;
     }
-    isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
 
+    isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
     notifyListeners();
   }
 

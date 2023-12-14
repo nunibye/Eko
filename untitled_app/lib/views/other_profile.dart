@@ -10,49 +10,59 @@ import '../custom_widgets/post_card.dart';
 
 class OtherProfile extends StatelessWidget {
   final AppUser? user;
-  const OtherProfile({super.key, required this.user});
+  final String id;
+  const OtherProfile({super.key, required this.user, required this.id});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => OtherProfileController(context: context, user: user),
+      create: (context) =>
+          OtherProfileController(context: context, passedUser: user, id: id),
       builder: (context, child) {
         return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded,
-                    color: Theme.of(context).colorScheme.onBackground),
-                onPressed: () => context.pop("popped")),
-            backgroundColor: Theme.of(context).colorScheme.background,
-            title: Text(
-              Provider.of<OtherProfileController>(context, listen: true)
-                  .loadedUser!
-                  .username,
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons
-                    .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
-              )
-            ],
-          ),
-          body: PaginationPage(
-              getter:
-                  Provider.of<OtherProfileController>(context, listen: false)
+          appBar: Provider.of<OtherProfileController>(context, listen: true)
+                      .loadedUser ==
+                  null
+              ? null
+              : AppBar(
+                  centerTitle: true,
+                  leading: IconButton(
+                      icon: Icon(Icons.arrow_back_ios_rounded,
+                          color: Theme.of(context).colorScheme.onBackground),
+                      onPressed: () => context.pop("popped")),
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  title: Text(
+                    Provider.of<OtherProfileController>(context, listen: true)
+                        .loadedUser!
+                        .username,
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                  actions: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons
+                          .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
+                    )
+                  ],
+                ),
+          body: Provider.of<OtherProfileController>(context, listen: true)
+                      .loadedUser ==
+                  null
+              ? const CircularProgressIndicator()
+              : PaginationPage(
+                  getter: Provider.of<OtherProfileController>(context,
+                          listen: false)
                       .getPosts,
-              card: profilePostCardBuilder,
-              startAfterQuery:
-                  Provider.of<OtherProfileController>(context, listen: false)
+                  card: profilePostCardBuilder,
+                  startAfterQuery: Provider.of<OtherProfileController>(context,
+                          listen: false)
                       .getTimeFromPost,
-              header: const _Header(),
-              extraRefresh:
-                  Provider.of<OtherProfileController>(context, listen: false)
+                  header: const _Header(),
+                  extraRefresh: Provider.of<OtherProfileController>(context,
+                          listen: false)
                       .onPageRefresh),
           // FeedBuilder(
           //   user: AppUser(
@@ -116,7 +126,11 @@ class _Header extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.width * 0.1,
-                child: TextButton(
+                child: Provider.of<OtherProfileController>(context, listen: true)
+                      .loadedUser ==
+                  null
+              ? null
+              : TextButton(
                   style: TextButton.styleFrom(
                     side: BorderSide(
                         width: 2,

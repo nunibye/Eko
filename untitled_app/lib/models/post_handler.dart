@@ -10,13 +10,13 @@ import '../custom_widgets/controllers/pagination_controller.dart';
 import '../models/feed_post_cache.dart';
 
 class Post {
- String postId;
+  String postId;
   bool hasCache;
 
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
-   String time;
+  String time;
   final List<String>? title;
   final List<String>? body;
   final List<String> tags;
@@ -30,8 +30,8 @@ class Post {
       {this.gifSource,
       required this.tags,
       this.gifURL,
-      this.postId ='',
-       this.time = '',
+      this.postId = '',
+      this.time = '',
       this.title,
       required this.author,
       this.body,
@@ -192,6 +192,25 @@ class PostsHandling {
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
+
+    List<String> parsedText = Post.parseText(comment["body"]);
+    for (String chunk in parsedText) {
+      if (chunk.startsWith('@')) {
+        String? taggedUid =
+            await locator<CurrentUser>().getUidFromUsername(chunk.substring(1));
+
+        if (taggedUid != null && user.uid != taggedUid) {
+          print(taggedUid);
+          await addActivty(
+              time: time,
+              type: "tag",
+              content: comment["body"],
+              path: path,
+              user: taggedUid);
+        }
+      }
+    }
+
     await firestore
         .collection('posts')
         .doc(postID)
@@ -205,6 +224,7 @@ class PostsHandling {
           path: path,
           user: rootAuthor);
     }
+
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/current_user.dart';
+import '../models/search_model.dart';
 import '../utilities/constants.dart' as c;
 import '../custom_widgets/error_snack_bar.dart';
 import 'package:giphy_get/giphy_get.dart';
@@ -34,6 +37,10 @@ class ComposeController extends ChangeNotifier {
   bool showCount0 = false;
   bool showCount1 = false;
   GiphyGif? gif;
+  bool isAtSymbolTyped = false;
+  bool isLoading = false;
+  List<AppUser> hits = [];
+  Timer? _debounce;
 
   ComposeController(
       {required this.context, required this.audience, this.groupEndPoint}) {
@@ -337,5 +344,70 @@ class ComposeController extends ChangeNotifier {
         },
       );
     }
+  }
+
+  void checkAtSymbol(String text) {
+    int start = text.lastIndexOf('@');
+    if (start != -1 && start < text.length - 1) {
+      int end = text.indexOf(' ', start);
+      if (end == -1) {
+        // No space found after '@'
+        isAtSymbolTyped = true;
+        //isUsernameFinished = false;
+        onSearchTextChanged(text.substring(start + 1));
+        notifyListeners();
+      } else if (text.substring(end).contains('@')) {
+        // Another '@' found after space
+        isAtSymbolTyped = true;
+        //isUsernameFinished = false;
+        onSearchTextChanged(text.substring(start + 1, end));
+        notifyListeners();
+      } else {
+        // Space found after '@' and no other '@' found
+        isAtSymbolTyped = false;
+        //isUsernameFinished = true;
+      }
+    } else {
+      isAtSymbolTyped = false;
+      //isUsernameFinished = false;
+    }
+  }
+
+  void updateTextField(
+      String username, TextEditingController controller, FocusNode focus) {
+    if (focus.hasFocus) {
+      String currentText = controller.text;
+      int atSymbolIndex = currentText.lastIndexOf('@');
+      if (atSymbolIndex != -1) {
+        String newText =
+            '${currentText.substring(0, atSymbolIndex)}@$username ';
+        controller.text = newText;
+        controller.selection =
+            TextSelection.fromPosition(TextPosition(offset: newText.length));
+      }
+      isAtSymbolTyped = false;
+      notifyListeners();
+    }
+  }
+
+  void onSearchTextChanged(String s) async {
+    if (s == '') {
+      hits = [];
+
+      isLoading = false;
+      notifyListeners();
+    } else {
+      isLoading = true;
+      notifyListeners();
+    }
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce =
+        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
+      if (s != '') {
+        hits = await SearchModel().hitsQuery(s);
+        isLoading = false;
+        notifyListeners();
+      }
+    });
   }
 }

@@ -14,7 +14,7 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 50, // Adjust the height as needed
+      //height: 50, // Adjust the height as needed
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -43,7 +43,9 @@ class _Button extends StatelessWidget {
       onTap: () => Provider.of<FeedController>(context, listen: false)
           .onTabPressed(index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, 
+        vertical: 8
+        ),
         decoration: BoxDecoration(
           color: isActive
               ? Theme.of(context).colorScheme.secondary

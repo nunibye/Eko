@@ -170,16 +170,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get oldTab => 'Viejo';
 
   @override
-  String get postTitle => 'Titulo';
+  String get postTitle => 'Título';
 
   @override
-  String get postBody => 'Body';
+  String get postBody => 'Cuerpo';
 
   @override
-  String get newLines => 'New Lines';
+  String get newLines => 'Lineas nuevas';
 
   @override
-  String get characters => 'Characters';
+  String get characters => 'Caracteres';
 
   @override
   String get addText => 'Add text...';
@@ -191,34 +191,34 @@ class AppLocalizationsEs extends AppLocalizations {
   String get createNewPost => 'Create new post';
 
   @override
-  String get postButton => 'POST';
+  String get postButton => 'PUBLICAR';
 
   @override
   String get clear => 'Clear';
 
   @override
-  String get tooManyChar => 'Too many characters.';
+  String get tooManyChar => 'Demasiados caracteres.';
 
   @override
-  String get tooManyLine => 'Too many newlines.';
+  String get tooManyLine => 'Demasiadas lineas nuevas.';
 
   @override
   String get emptyFieldError => 'Make sure all feilds are filled.';
 
   @override
-  String get bioTitle => 'Bio';
+  String get bioTitle => 'Biografía';
 
   @override
-  String get logOut => 'Log Out';
+  String get logOut => 'Cerrar Sesión';
 
   @override
-  String get deleteAccount => 'Delete Account';
+  String get deleteAccount => 'Borrar Cuenta';
 
   @override
-  String get darkMode => 'Dark Mode';
+  String get darkMode => 'Modo oscuro';
 
   @override
-  String get addComment => 'Add a comment';
+  String get addComment => 'Añadir comentario';
 
   @override
   String get settings => 'Settings';

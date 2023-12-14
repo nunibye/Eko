@@ -22,6 +22,7 @@ class LoginPage extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.background,
             extendBodyBehindAppBar: true,
             body: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Column(
                 children: [
                   IconButton(

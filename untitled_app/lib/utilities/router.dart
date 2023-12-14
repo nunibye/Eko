@@ -62,11 +62,12 @@ final goRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/sub_profile',
-      name: 'sub_profile',
+      path: '/sub_profile/:id',
+      // name: 'sub_profile',
       builder: (context, state) {
         AppUser? user = state.extra as AppUser?;
-        return OtherProfile(user: user);
+        String id = state.pathParameters["id"]!;
+        return OtherProfile(user: user, id: id);
       },
       // routes: [
       //   GoRoute(

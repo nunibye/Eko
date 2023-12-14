@@ -54,13 +54,7 @@ class PostCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: Divider(
-                      color: Theme.of(context).colorScheme.outline,
-                      height: c.dividerWidth,
-                    ),
-                  ),
+                  
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: c.postPaddingHoriz,
@@ -411,6 +405,13 @@ class PostCard extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 3),
+                    child: Divider(
+                      color: Theme.of(context).colorScheme.outline,
+                      height: c.dividerWidth,
                     ),
                   ),
                 ],

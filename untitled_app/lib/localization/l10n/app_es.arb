@@ -70,23 +70,23 @@
     "newTab":"Nuevo",
     "oldTab":"Viejo",
 
-    "postTitle":"Titulo",
-    "postBody":"Body",
-    "newLines":"New Lines",
-    "characters":"Characters",
+    "postTitle":"Título",
+    "postBody":"Cuerpo",
+    "newLines":"Lineas nuevas",
+    "characters":"Caracteres",
 
-    "postButton":"POST",
-    "tooManyChar":"Too many characters.",
-    "tooManyLine":"Too many newlines.",
+    "postButton":"PUBLICAR",
+    "tooManyChar":"Demasiados caracteres.",
+    "tooManyLine":"Demasiadas lineas nuevas.",
 
     "emptyFieldError":"Make sure all feilds are filled.",
 
-    "bioTitle":"Bio",
+    "bioTitle":"Biografía",
 
-    "logOut":"Log Out",
-    "deleteAccount":"Delete Account",
-    "darkMode":"Dark Mode",
-    "addComment":"Add a comment",
+    "logOut":"Cerrar Sesión",
+    "deleteAccount":"Borrar Cuenta",
+    "darkMode":"Modo oscuro",
+    "addComment":"Añadir comentario",
     "settings":"Settings",
     "welcome":"Welcome",
     "welcomeTo":"Welcome to",
@@ -110,5 +110,14 @@
     "ok":"Ok",
     "recentActivity":"Recent Activity",
     "nothingToSeeHere":"Nothing to see here!",
-    "commentText":"Someone commented on your post:"
+    "commentText":"Someone commented on your post:",
+    "groups":"Groups",
+    "next":"Next",
+    "description":"Description(Optional)",
+    "skip":"Skip",
+    "done":"Done",
+    "public":"Public",
+    "selectAudience":"Select Audience:",
+    "myGroups":"My groups",
+    "reply":"Reply"
 }
