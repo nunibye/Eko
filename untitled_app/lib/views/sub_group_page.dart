@@ -83,7 +83,7 @@ class _Header extends StatelessWidget {
                 overflow: TextOverflow.ellipsis)),
         const Spacer(),
         IconButton(
-          onPressed: () => context.pop(),
+          onPressed: () => Provider.of<SubGroupController>(context, listen: false).editGroup(),
           icon: const Icon(Icons.create),
         ),
       ],

@@ -43,6 +43,7 @@ class SubGroupController extends ChangeNotifier {
   void addPost() {
     context.go('/compose', extra: group);
   }
-
-  
+void editGroup() {
+    context.push('/groups/sub_group/${group?.id}/edit_group', extra: group);
+  }
 }

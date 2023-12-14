@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/users.dart';
+import 'package:untitled_app/views/edit_group_page.dart';
 import 'package:untitled_app/views/login.dart';
 //import 'package:untitled_app/views/root_page.dart';
 import 'package:untitled_app/views/sign_up.dart';
@@ -154,14 +155,24 @@ final goRouter = GoRouter(
               ),
               routes: [
                 GoRoute(
-                  path: 'sub_group/:id',
-                  name: 'sub_group',
-                  builder: (context, state) {
-                    Group? group = state.extra as Group?;
-                    String id = state.pathParameters["id"]!;
-                    return SubGroupPage(group: group, id: id);
-                  },
-                ),
+                    path: 'sub_group/:id',
+                    name: 'sub_group',
+                    builder: (context, state) {
+                      Group? group = state.extra as Group?;
+                      String id = state.pathParameters["id"]!;
+                      return SubGroupPage(group: group, id: id);
+                    },
+                    routes: [
+                      GoRoute(
+                          path: 'edit_group',
+                          name: 'edit_group',
+                          pageBuilder: (context, state) {
+                            Group? group = state.extra as Group;
+                            return NoTransitionPage(
+                              child: EditGroupPage(group: group),
+                            );
+                          }),
+                    ]),
                 GoRoute(
                   path: 'create_group',
                   name: 'create_group',
