@@ -58,12 +58,11 @@ class ActivityCardWidget extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Text(
                   "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.commentText} ${card.content}",
-                  "${AppLocalizations.of(context)!.commentActivity} ${card.content}",
                   softWrap: true,
                 ),
               ),
               Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
                 child: TimeStamp(
                   time: card.time,
