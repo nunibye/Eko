@@ -124,13 +124,19 @@ class _Header extends StatelessWidget {
       children: [
         Consumer<OtherProfileController>(
           builder: (context, otherProfileController, _) => ProfileHeader(
+            //FIXME make object oriented
             username: otherProfileController.loadedUser!.username,
             profilePic: otherProfileController.loadedUser!.profilePicture,
             likes: otherProfileController.loadedUser!.likes,
             following: otherProfileController.loadedUser!.following,
             followers: otherProfileController.loadedUser!.followers,
             profileBio: otherProfileController.loadedUser!.bio,
-            name: otherProfileController.loadedUser!.name,
+            name: Provider.of<OtherProfileController>(context, listen: true)
+                        .loadedUser!
+                        .username !=
+                    ""
+                ? otherProfileController.loadedUser!.name
+                : AppLocalizations.of(context)!.userNotFound,
           ),
         ),
         //TODO style
@@ -142,36 +148,29 @@ class _Header extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.width * 0.1,
-                child: Provider.of<OtherProfileController>(context,
-                                listen: true)
-                            .loadedUser ==
-                        null
-                    ? null
-                    : TextButton(
-                        style: TextButton.styleFrom(
-                          side: BorderSide(
-                              width: 2,
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                        ),
-                        onPressed: () => Provider.of<OtherProfileController>(
-                                context,
-                                listen: false)
-                            .onFollowPressed(),
-                        child: Text(
-                          Provider.of<OtherProfileController>(context,
-                                      listen: true)
-                                  .isFollowing
-                              ? AppLocalizations.of(context)!.following
-                              : AppLocalizations.of(context)!.follow,
-                          style: TextStyle(
-                            fontSize: 16,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.normal,
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
-                        ),
-                      ),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    side: BorderSide(
+                        width: 2,
+                        color: Theme.of(context).colorScheme.onBackground),
+                  ),
+                  onPressed: () =>
+                      Provider.of<OtherProfileController>(context,
+                                  listen: false)
+                              .onFollowPressed(),
+                  child: Text(
+                    Provider.of<OtherProfileController>(context, listen: true)
+                            .isFollowing
+                        ? AppLocalizations.of(context)!.following
+                        : AppLocalizations.of(context)!.follow,
+                    style: TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

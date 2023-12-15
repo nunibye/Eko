@@ -318,4 +318,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reply => 'Reply';
+
+  @override
+  String get userNotFound => 'User Not Found';
 }

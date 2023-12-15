@@ -722,6 +722,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reply'**
   String get reply;
+
+  /// No description provided for @userNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User Not Found'**
+  String get userNotFound;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
