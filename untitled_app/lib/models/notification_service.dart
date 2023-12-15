@@ -126,8 +126,16 @@ class NotificationService extends ChangeNotifier {
         context.push("/feed/post/$lastPart").then((value) {
           context.go("/feed", extra: true);
         });
+        break;
+      case 'tag':
+        List<String> parts = path.split('/');
+        String lastPart = parts.last;
+        context.push("/feed/post/$lastPart").then((value) {
+          context.go("/feed", extra: true);
+        });
+        locator<NavBarController>().enable();
+        break;
     }
-    locator<NavBarController>().enable();
   }
 
   Future<void> inAppPostNotification(
@@ -149,6 +157,13 @@ class NotificationService extends ChangeNotifier {
         List<String> parts = path.split('/');
         String lastPart = parts.last;
         context.push("/feed/post/$lastPart");
+        break;
+      case 'tag':
+        List<String> parts = path.split('/');
+        String lastPart = parts.last;
+        context.push("/feed/post/$lastPart");
+        locator<NavBarController>().enable();
+        break;
     }
     locator<NavBarController>().enable();
   }

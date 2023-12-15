@@ -62,7 +62,7 @@ class GroupCard extends StatelessWidget {
                     width: width * 0.05,
                   ),
                   SizedBox(
-                      width: width * 0.5,
+                      width: width * 0.45,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
