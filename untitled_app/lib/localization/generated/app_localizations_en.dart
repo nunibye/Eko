@@ -290,10 +290,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nothingToSeeHere => 'Nothing to see here!';
 
   @override
-  String get commentActivity => 'Someone commented on your post:';
+  String get someone => 'Someone';
 
   @override
-  String get tagActivity => 'Someone tagged you:';
+  String get commentText => 'commented on your post:';
 
   @override
   String get groups => 'Groups';
@@ -321,4 +321,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reply => 'Reply';
+
+  @override
+  String get userNotFound => 'User Not Found';
+
+  @override
+  String get usernameReqs => 'Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.';
 }

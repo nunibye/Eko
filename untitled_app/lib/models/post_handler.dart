@@ -61,7 +61,7 @@ class Post {
 
     // const String userNameReqs = c.userNameReqs;
     // RegExp regExp = RegExp('(@$userNameReqs\\b)', caseSensitive: false);
-    RegExp regExp = RegExp(r'@\S*', caseSensitive: false);
+    RegExp regExp = RegExp(r"@[a-z0-9_]{3,24}", caseSensitive: false);
 
     List<String> chunks = [];
     int lastEnd = 0;
@@ -139,6 +139,7 @@ class RecentActivityCard {
   final String path;
   final String sourceUid;
   AppUser? sourceUser;
+
   RecentActivityCard(
       {required this.time,
       required this.type,
@@ -155,6 +156,16 @@ class RecentActivityCard {
     map["sourceUid"] = sourceUid;
 
     return map;
+  }
+
+  static RecentActivityCard fromJson(Map<String, dynamic> json, AppUser user) {
+    return RecentActivityCard(
+      sourceUser: user,
+        time: json["time"] ?? "",
+        type: json["type"] ?? "",
+        content: json["content"] ?? "",
+        path: json["path"] ?? "",
+        sourceUid: json["sourceUid"] ?? "");
   }
 }
 
@@ -286,16 +297,13 @@ class PostsHandling {
           .limit(c.activitiesPerRequest)
           .get();
     }
-    return snapshot.docs.map<RecentActivityCard>((doc) {
+
+    final list = snapshot.docs.map<Future<RecentActivityCard>>((doc) async {
       var data = doc.data();
+      AppUser user = AppUser();
+      await user.readUserData(data["sourceUid"]);
       // FIXME: not sure why this gave an error, i had to add these conditionals
-      return RecentActivityCard(
-        time: (data["time"] is String) ? data["time"] : "",
-        type: (data["type"] is String) ? data["type"] : "",
-        content: (data["content"] is String) ? data["content"] : "",
-        path: (data["path"] is String) ? data["path"] : "",
-        sourceUid: (data["sourceUid"] is String) ? data["sourceUid"] : "",
-      );
+      return RecentActivityCard.fromJson(data, user);
 
       // return RecentActivityCard(
       //     time: data["time"] ?? "",
@@ -304,6 +312,7 @@ class PostsHandling {
       //     path: data["path"] ?? "",
       //     sourceUid: data["sourceUid"] ?? "");
     }).toList();
+    return Future.wait(list);
   }
 
   dynamic getTimeFromPost(dynamic post) {

@@ -37,18 +37,20 @@ class OtherProfileController extends ChangeNotifier {
   }
 
   onFollowPressed() async {
-    if (isFollowing) {
-      if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {
-        isFollowing = false;
-        loadedUser!.followers.remove(locator<CurrentUser>().uid);
+    if (loadedUser!.username != "") {
+      if (isFollowing) {
+        if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {
+          isFollowing = false;
+          loadedUser!.followers.remove(locator<CurrentUser>().uid);
+        }
+      } else {
+        if (await locator<CurrentUser>().addFollower(loadedUser!.uid)) {
+          isFollowing = true;
+          loadedUser!.followers.add(locator<CurrentUser>().uid);
+        }
       }
-    } else {
-      if (await locator<CurrentUser>().addFollower(loadedUser!.uid)) {
-        isFollowing = true;
-        loadedUser!.followers.add(locator<CurrentUser>().uid);
-      }
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   dynamic getTimeFromPost(dynamic post) {

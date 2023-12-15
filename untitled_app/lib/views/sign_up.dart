@@ -130,29 +130,58 @@ class GetInfo extends StatelessWidget {
                   Consumer<SignUpController>(
                     builder: (context, signUpController, _) => signUpController
                             .validUsername
-                        ? (signUpController.isChecking
-                            ? Container(
-                                alignment: Alignment.centerRight,
-                                width: width * 0.05,
-                                height: width * 0.05,
-                                child: const CircularProgressIndicator())
+                        ? signUpController.isChecking
+                            ? Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Container(
+                                  alignment: Alignment.centerRight,
+                                  width: width * 0.05,
+                                  height: width * 0.05,
+                                  child: const CircularProgressIndicator(),
+                                ))
                             : signUpController.availableUsername
-                                ? Text(
-                                    AppLocalizations.of(context)!.available,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      AppLocalizations.of(context)!.available,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                   )
-                                : Text(
-                                    AppLocalizations.of(context)!.usernameInUse,
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .error)))
-                        : Text(AppLocalizations.of(context)!.invalidUserName,
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.error)),
+                                : Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .usernameInUse,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error),
+                                    ),
+                                  )
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            //crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.invalidUserName,
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.error),
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    Provider.of<SignUpController>(context,
+                                            listen: false)
+                                        .showUserNameReqs();
+                                  },
+                                  child: Icon(
+                                    Icons.help_outline_outlined,
+                                    color: Theme.of(context).colorScheme.onBackground,
+                                  ))
+                            ],
+                          ),
                   )
                 ],
               ),
@@ -169,7 +198,7 @@ class GetInfo extends StatelessWidget {
                   .emailController,
               inputType: TextInputType.emailAddress,
             ),
-             SizedBox(
+            SizedBox(
               height: height * 0.1,
             ),
             // CustomInputFeild(

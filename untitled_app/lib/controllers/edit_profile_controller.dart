@@ -114,7 +114,7 @@ class EditProfileController extends ChangeNotifier {
         await _saveUsernameData(usernameController.text.trim());
       } else {
         shouldPop = false;
-        await usernameTakenDialog();
+       usernameTakenDialog();
       }
     }
     if (newProfileImage != null) {
@@ -127,7 +127,16 @@ class EditProfileController extends ChangeNotifier {
     }
   }
 
-  usernameTakenDialog() {
+  void showUserNameReqs() {
+    showMyDialog(
+        AppLocalizations.of(context)!.invalidUserName,
+        AppLocalizations.of(context)!.usernameReqs,
+        [AppLocalizations.of(context)!.ok],
+        [_pop],
+        context);
+  }
+
+void usernameTakenDialog() {
     showMyDialog(
         AppLocalizations.of(context)!.usernameTakenTitle,
         AppLocalizations.of(context)!.usernameTakenBody,
