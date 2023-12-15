@@ -91,6 +91,15 @@ class SignUpController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void showUserNameReqs() {
+    showMyDialog(
+        AppLocalizations.of(context)!.invalidUserName,
+        AppLocalizations.of(context)!.usernameReqs,
+        [AppLocalizations.of(context)!.ok],
+        [_pop],
+        context);
+  }
+
   void keyboardGoToNextPage() async {
     await forwardPressed();
     Future.delayed(const Duration(milliseconds: 100),

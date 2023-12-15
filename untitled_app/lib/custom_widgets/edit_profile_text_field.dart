@@ -47,9 +47,10 @@ class ProfileInputFeild extends StatelessWidget {
     } else {
       feildWidth = width!;
     }
-    return Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+    return SizedBox(
+      //padding: const EdgeInsets.only(top: 10, bottom: 10),
       width: feildWidth,
+      //height: 100,
       child: TextFormField(
         cursorColor: Theme.of(context).colorScheme.onBackground,
         enabled: enabled,

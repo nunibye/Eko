@@ -115,7 +115,8 @@
     "ok":"Ok",
     "recentActivity":"Recent Activity",
     "nothingToSeeHere":"Nothing to see here!",
-    "commentText":"Someone commented on your post:",
+    "someone":"Someone",
+    "commentText":"commented on your post:",
     "groups":"Groups",
     "next":"Next",
     "description":"Description(Optional)",
@@ -125,6 +126,7 @@
     "selectAudience":"Select Audience:",
     "myGroups":"My groups",
     "reply":"Reply",
-    "userNotFound":"User Not Found"
+    "userNotFound":"User Not Found",
+    "usernameReqs":"Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores."
 
 }
