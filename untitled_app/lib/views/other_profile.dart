@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../custom_widgets/pagination.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/post_card.dart';
+import '../utilities/constants.dart' as c;
 
 class OtherProfile extends StatelessWidget {
   final AppUser? user;
@@ -20,39 +21,54 @@ class OtherProfile extends StatelessWidget {
           OtherProfileController(context: context, passedUser: user, id: id),
       builder: (context, child) {
         return Scaffold(
-          appBar: Provider.of<OtherProfileController>(context, listen: true)
-                      .loadedUser ==
-                  null
-              ? null
-              : AppBar(
-                  centerTitle: true,
-                  leading: IconButton(
-                      icon: Icon(Icons.arrow_back_ios_rounded,
-                          color: Theme.of(context).colorScheme.onBackground),
-                      onPressed: () => context.pop("popped")),
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                  title: Text(
-                    Provider.of<OtherProfileController>(context, listen: true)
-                        .loadedUser!
-                        .username,
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons
-                          .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
-                    )
-                  ],
-                ),
           body: Provider.of<OtherProfileController>(context, listen: true)
                       .loadedUser ==
                   null
               ? const CircularProgressIndicator()
               : PaginationPage(
+                  appbar: Provider.of<OtherProfileController>(context,
+                                  listen: true)
+                              .loadedUser ==
+                          null
+                      ? null
+                      : SliverAppBar(
+                          floating: true,
+                          pinned: false,
+                          scrolledUnderElevation: 0.0,
+                          centerTitle: true,
+                          leading: IconButton(
+                              icon: Icon(Icons.arrow_back_ios_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                              onPressed: () => context.pop("popped")),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background,
+                          title: Text(
+                            Provider.of<OtherProfileController>(context,
+                                    listen: true)
+                                .loadedUser!
+                                .username,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                          ),
+                          actions: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons
+                                  .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
+                            )
+                          ],
+                          bottom: PreferredSize(
+                            preferredSize: const Size.fromHeight(3),
+                            child: Divider(
+                              color: Theme.of(context).colorScheme.outline,
+                              height: c.dividerWidth,
+                            ),
+                          ),
+                        ),
                   getter: Provider.of<OtherProfileController>(context,
                           listen: false)
                       .getPosts,
@@ -126,35 +142,43 @@ class _Header extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.width * 0.1,
-                child: Provider.of<OtherProfileController>(context, listen: true)
-                      .loadedUser ==
-                  null
-              ? null
-              : TextButton(
-                  style: TextButton.styleFrom(
-                    side: BorderSide(
-                        width: 2,
-                        color: Theme.of(context).colorScheme.onBackground),
-                  ),
-                  onPressed: () => Provider.of<OtherProfileController>(context,
-                          listen: false)
-                      .onFollowPressed(),
-                  child: Text(
-                    Provider.of<OtherProfileController>(context, listen: true)
-                            .isFollowing
-                        ? AppLocalizations.of(context)!.following
-                        : AppLocalizations.of(context)!.follow,
-                    style: TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                ),
+                child: Provider.of<OtherProfileController>(context,
+                                listen: true)
+                            .loadedUser ==
+                        null
+                    ? null
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                          side: BorderSide(
+                              width: 2,
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                        ),
+                        onPressed: () => Provider.of<OtherProfileController>(
+                                context,
+                                listen: false)
+                            .onFollowPressed(),
+                        child: Text(
+                          Provider.of<OtherProfileController>(context,
+                                      listen: true)
+                                  .isFollowing
+                              ? AppLocalizations.of(context)!.following
+                              : AppLocalizations.of(context)!.follow,
+                          style: TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.normal,
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      ),
               ),
             ],
           ),
+        ),
+        Divider(
+          color: Theme.of(context).colorScheme.outline,
+          height: c.dividerWidth,
         ),
       ],
     );

@@ -17,6 +17,7 @@ class EditProfile extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EditProfileController(context: context),
       builder: (context, child) {
+        final height = MediaQuery.sizeOf(context).height;
         return WillPopScope(
           onWillPop: () async {
             Provider.of<EditProfileController>(context, listen: false)
@@ -202,17 +203,22 @@ class EditProfile extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .colorScheme
-                                                      .error)))
+                                                      .error),
+                                            ))
                                   : Text(
                                       AppLocalizations.of(context)!
                                           .invalidUserName,
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .error)),
+                                              .error),
+                                    ),
                         )
                       ],
                     ),
+                  SizedBox(
+                    height: height * 0.5,
+                  )
                 ],
               ),
             ),

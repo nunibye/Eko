@@ -25,9 +25,10 @@ class FeedPage extends StatelessWidget {
           toolbarHeight: height * 0.1,
           floating: true,
           pinned: false,
+          scrolledUnderElevation: 0.0,
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.background,
-          scrolledUnderElevation: 0.0,
+
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(30),
             child: Column(

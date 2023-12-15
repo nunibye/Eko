@@ -61,7 +61,7 @@ class Post {
 
     // const String userNameReqs = c.userNameReqs;
     // RegExp regExp = RegExp('(@$userNameReqs\\b)', caseSensitive: false);
-    RegExp regExp = RegExp(r'@\S*', caseSensitive: false);
+    RegExp regExp = RegExp(r"@[a-z0-9_]{3,24}", caseSensitive: false);
 
     List<String> chunks = [];
     int lastEnd = 0;

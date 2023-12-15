@@ -6,12 +6,19 @@ import '../controllers/profile_controller.dart';
 import '../custom_widgets/pagination.dart';
 import '../custom_widgets/post_card.dart';
 import '../utilities/constants.dart' as c;
-
+import 'package:flutter/services.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    statusBarColor: Theme.of(context).colorScheme.background,
+     // set Status bar color in Android devices
+    statusBarIconBrightness: (Theme.of(context).brightness == Brightness.dark) ? Brightness.light:Brightness.dark, // set Status bar icons color in Android devices
+    statusBarBrightness: Theme.of(context).brightness, // set Status bar icon color in iOS
+  )
+); 
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
@@ -60,11 +67,13 @@ class _Header extends StatelessWidget {
                     ),
                     const Spacer(),
                     IconButton(
+                      color: Theme.of(context).colorScheme.onBackground,
                       onPressed: () =>
                           Provider.of<ProfileController>(context, listen: false)
                               .settingsButtonPressed(),
                       icon: const Icon(
                         Icons.settings_outlined,
+                        
                         size: 25,
                         weight: 10,
                       ),
