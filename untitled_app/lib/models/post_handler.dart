@@ -192,8 +192,22 @@ class PostsHandling {
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
-
     List<String> parsedText = Post.parseText(comment["body"]);
+
+    await firestore
+        .collection('posts')
+        .doc(postID)
+        .collection('comments')
+        .add(comment);
+    if (user.uid != rootAuthor) {
+      await addActivty(
+          time: time,
+          type: "comment",
+          content: comment["body"],
+          path: path,
+          user: rootAuthor);
+    }
+
     for (String chunk in parsedText) {
       if (chunk.startsWith('@')) {
         String? taggedUid =
@@ -209,20 +223,6 @@ class PostsHandling {
               user: taggedUid);
         }
       }
-    }
-
-    await firestore
-        .collection('posts')
-        .doc(postID)
-        .collection('comments')
-        .add(comment);
-    if (user.uid != rootAuthor) {
-      await addActivty(
-          time: time,
-          type: "comment",
-          content: comment["body"],
-          path: path,
-          user: rootAuthor);
     }
 
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
@@ -276,7 +276,7 @@ class PostsHandling {
         .doc(user)
         .collection("newActivity")
         .where("type",
-            whereIn: const ["comment", "follow"]) //update for new types
+            whereIn: const ["comment", "follow", "tag"]) //update for new types
         .orderBy('time', descending: true);
     if (time == null) {
       snapshot = await firestoreRef.limit(c.activitiesPerRequest).get();

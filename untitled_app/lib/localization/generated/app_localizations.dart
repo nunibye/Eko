@@ -663,11 +663,17 @@ abstract class AppLocalizations {
   /// **'Nothing to see here!'**
   String get nothingToSeeHere;
 
-  /// No description provided for @commentText.
+  /// No description provided for @commentActivity.
   ///
   /// In en, this message translates to:
   /// **'Someone commented on your post:'**
-  String get commentText;
+  String get commentActivity;
+
+  /// No description provided for @tagActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone tagged you:'**
+  String get tagActivity;
 
   /// No description provided for @groups.
   ///

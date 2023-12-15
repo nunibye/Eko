@@ -290,7 +290,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nothingToSeeHere => 'Nothing to see here!';
 
   @override
-  String get commentText => 'Someone commented on your post:';
+  String get commentActivity => 'Someone commented on your post:';
+
+  @override
+  String get tagActivity => 'Someone tagged you:';
 
   @override
   String get groups => 'Groups';

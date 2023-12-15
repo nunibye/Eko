@@ -39,16 +39,15 @@ class ActivityCardWidget extends StatelessWidget {
               ),
             ),
             Column(children: [
-             
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Text(
-                  "${AppLocalizations.of(context)!.commentText} ${card.content}",
+                  "${AppLocalizations.of(context)!.commentActivity} ${card.content}",
                   softWrap: true,
                 ),
               ),
               Container(
-              width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
                 child: TimeStamp(
                   time: card.time,
