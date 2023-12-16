@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/users.dart';
 import '../models/current_user.dart';
 import '../utilities/locator.dart';
 import '../models/post_handler.dart';
 import '../custom_widgets/controllers/pagination_controller.dart'
+
     show PaginationGetterReturn;
 
 class OtherProfileController extends ChangeNotifier {
@@ -31,7 +33,9 @@ class OtherProfileController extends ChangeNotifier {
       await user.readUserData(id);
       loadedUser = user;
     }
-
+    if (loadedUser!.uid == locator<CurrentUser>().getUID()) {
+      context.go("/profile");
+    }
     isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
     notifyListeners();
   }

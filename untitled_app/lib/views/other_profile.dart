@@ -154,10 +154,9 @@ class _Header extends StatelessWidget {
                         width: 2,
                         color: Theme.of(context).colorScheme.onBackground),
                   ),
-                  onPressed: () =>
-                      Provider.of<OtherProfileController>(context,
-                                  listen: false)
-                              .onFollowPressed(),
+                  onPressed: () => Provider.of<OtherProfileController>(context,
+                          listen: false)
+                      .onFollowPressed(),
                   child: Text(
                     Provider.of<OtherProfileController>(context, listen: true)
                             .isFollowing

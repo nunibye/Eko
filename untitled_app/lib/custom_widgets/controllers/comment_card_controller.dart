@@ -37,7 +37,10 @@ class CommentCardController extends ChangeNotifier {
 
   tagPressed(String username) async {
     String? uid = await locator<CurrentUser>().getUidFromUsername(username);
-    context.push("/sub_profile/$uid");
+    if (locator<CurrentUser>().getUID() == uid)
+      context.go("/profile");
+    else
+      context.push("/sub_profile/$uid");
   }
 
   likePressed() async {
