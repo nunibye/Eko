@@ -186,4 +186,8 @@ class EditGroupPageController extends ChangeNotifier {
   List<dynamic> getMembers() {
     return group.members;
   }
+
+  Group getGroup() {
+    return group;
+  }
 }

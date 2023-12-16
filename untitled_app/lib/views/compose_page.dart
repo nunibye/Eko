@@ -46,6 +46,7 @@ class ComposePage extends StatelessWidget {
                 ),
               ),
               appBar: AppBar(
+                surfaceTintColor: Colors.transparent,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

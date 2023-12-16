@@ -19,6 +19,7 @@ class RecentActivity extends StatelessWidget {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded,
                   color: Theme.of(context).colorScheme.onBackground),

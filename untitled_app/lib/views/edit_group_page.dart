@@ -5,6 +5,7 @@ import 'package:untitled_app/custom_widgets/selected_user_groups.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import 'package:untitled_app/views/followers.dart';
+import 'package:untitled_app/views/group_members.dart';
 import '../controllers/create_group_page_controller.dart';
 import '../custom_widgets/edit_profile_text_field.dart';
 import '../utilities/constants.dart' as c;
@@ -141,7 +142,8 @@ class _GroupSettings extends StatelessWidget {
   // }
   @override
   Widget build(BuildContext context) {
-    return Followers(followers: Provider.of<EditGroupPageController>(context, listen: false)
+    return GroupMembers(group: Provider.of<EditGroupPageController>(context, listen: false)
+              .getGroup(), members: Provider.of<EditGroupPageController>(context, listen: false)
               .getMembers());
   }
 }
