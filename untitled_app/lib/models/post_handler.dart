@@ -160,7 +160,7 @@ class RecentActivityCard {
 
   static RecentActivityCard fromJson(Map<String, dynamic> json, AppUser user) {
     return RecentActivityCard(
-      sourceUser: user,
+        sourceUser: user,
         time: json["time"] ?? "",
         type: json["type"] ?? "",
         content: json["content"] ?? "",
@@ -175,14 +175,51 @@ class PostsHandling {
   Future<String> createPost(Map<String, dynamic> post) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
+    final String time = DateTime.now().toUtc().toIso8601String();
     post["author"] = user.uid;
-    post["time"] = DateTime.now().toUtc().toIso8601String();
+    post["time"] = time;
     post["likes"] = 0; //change this
 
-    return await firestore
+    String postID = await firestore
         .collection('posts')
         .add(post)
         .then((documentSnapshot) => documentSnapshot.id);
+
+    List<String> parsedTitle = Post.parseText(post["title"]);
+    List<String> parsedBody = Post.parseText(post["body"]);
+    Set<String> taggedUsers = {};
+
+    Future<void> addToTaggedUsers(String chunk) async {
+      if (chunk.startsWith('@')) {
+        String? taggedUid =
+            await locator<CurrentUser>().getUidFromUsername(chunk.substring(1));
+        if (taggedUid != null && user.uid != taggedUid) {
+          taggedUsers.add(taggedUid);
+        }
+      }
+    }
+
+    for (String chunk in parsedTitle) {
+      await addToTaggedUsers(chunk);
+    }
+    for (String chunk in parsedBody) {
+      await addToTaggedUsers(chunk);
+    }
+
+    String content;
+    if (post["title"] != null) {
+      content = post["title"];
+    } else if (post["body"] != null) {
+      content = post["body"];
+    } else {
+      content = "${post['author']} tagged you in a post";
+    }
+    for (String uid in taggedUsers) {
+      await addActivty(
+          time: time, type: "tag", content: content, path: postID, user: uid);
+    }
+
+    return postID;
   }
 
   Future<int> countComments(String postId) {
@@ -203,7 +240,6 @@ class PostsHandling {
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
-    List<String> parsedText = Post.parseText(comment["body"]);
 
     await firestore
         .collection('posts')
@@ -218,14 +254,13 @@ class PostsHandling {
           path: path,
           user: rootAuthor);
     }
-
+    List<String> parsedText = Post.parseText(comment["body"]);
     for (String chunk in parsedText) {
       if (chunk.startsWith('@')) {
         String? taggedUid =
             await locator<CurrentUser>().getUidFromUsername(chunk.substring(1));
 
         if (taggedUid != null && user.uid != taggedUid) {
-          print(taggedUid);
           await addActivty(
               time: time,
               type: "tag",
