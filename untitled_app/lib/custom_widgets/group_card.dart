@@ -24,10 +24,7 @@ class GroupCard extends StatelessWidget {
             : onPressedSearched!(group),
         child: Column(
           children: [
-            Divider(
-              color: Theme.of(context).colorScheme.outline,
-              height: c.dividerWidth,
-            ),
+            
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
@@ -100,7 +97,11 @@ class GroupCard extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
+            Divider(
+              color: Theme.of(context).colorScheme.outline,
+              height: c.dividerWidth,
+            ),
           ],
         ));
   }

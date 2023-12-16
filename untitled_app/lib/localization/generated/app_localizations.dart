@@ -663,10 +663,16 @@ abstract class AppLocalizations {
   /// **'Nothing to see here!'**
   String get nothingToSeeHere;
 
+  /// No description provided for @someone.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone'**
+  String get someone;
+
   /// No description provided for @commentText.
   ///
   /// In en, this message translates to:
-  /// **'Someone commented on your post:'**
+  /// **'commented on your post:'**
   String get commentText;
 
   /// No description provided for @groups.
@@ -722,6 +728,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reply'**
   String get reply;
+
+  /// No description provided for @userNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User Not Found'**
+  String get userNotFound;
+
+  /// No description provided for @usernameReqs.
+  ///
+  /// In en, this message translates to:
+  /// **'Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.'**
+  String get usernameReqs;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

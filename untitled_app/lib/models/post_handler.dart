@@ -61,7 +61,7 @@ class Post {
 
     // const String userNameReqs = c.userNameReqs;
     // RegExp regExp = RegExp('(@$userNameReqs\\b)', caseSensitive: false);
-    RegExp regExp = RegExp(r'@\S*', caseSensitive: false);
+    RegExp regExp = RegExp(r"@[a-z0-9_]{3,24}", caseSensitive: false);
 
     List<String> chunks = [];
     int lastEnd = 0;
@@ -139,6 +139,7 @@ class RecentActivityCard {
   final String path;
   final String sourceUid;
   AppUser? sourceUser;
+
   RecentActivityCard(
       {required this.time,
       required this.type,
@@ -155,6 +156,16 @@ class RecentActivityCard {
     map["sourceUid"] = sourceUid;
 
     return map;
+  }
+
+  static RecentActivityCard fromJson(Map<String, dynamic> json, AppUser user) {
+    return RecentActivityCard(
+      sourceUser: user,
+        time: json["time"] ?? "",
+        type: json["type"] ?? "",
+        content: json["content"] ?? "",
+        path: json["path"] ?? "",
+        sourceUid: json["sourceUid"] ?? "");
   }
 }
 
@@ -192,8 +203,22 @@ class PostsHandling {
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
-
     List<String> parsedText = Post.parseText(comment["body"]);
+
+    await firestore
+        .collection('posts')
+        .doc(postID)
+        .collection('comments')
+        .add(comment);
+    if (user.uid != rootAuthor) {
+      await addActivty(
+          time: time,
+          type: "comment",
+          content: comment["body"],
+          path: path,
+          user: rootAuthor);
+    }
+
     for (String chunk in parsedText) {
       if (chunk.startsWith('@')) {
         String? taggedUid =
@@ -209,20 +234,6 @@ class PostsHandling {
               user: taggedUid);
         }
       }
-    }
-
-    await firestore
-        .collection('posts')
-        .doc(postID)
-        .collection('comments')
-        .add(comment);
-    if (user.uid != rootAuthor) {
-      await addActivty(
-          time: time,
-          type: "comment",
-          content: comment["body"],
-          path: path,
-          user: rootAuthor);
     }
 
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
@@ -276,7 +287,7 @@ class PostsHandling {
         .doc(user)
         .collection("newActivity")
         .where("type",
-            whereIn: const ["comment", "follow"]) //update for new types
+            whereIn: const ["comment", "follow", "tag"]) //update for new types
         .orderBy('time', descending: true);
     if (time == null) {
       snapshot = await firestoreRef.limit(c.activitiesPerRequest).get();
@@ -286,16 +297,13 @@ class PostsHandling {
           .limit(c.activitiesPerRequest)
           .get();
     }
-    return snapshot.docs.map<RecentActivityCard>((doc) {
+
+    final list = snapshot.docs.map<Future<RecentActivityCard>>((doc) async {
       var data = doc.data();
+      AppUser user = AppUser();
+      await user.readUserData(data["sourceUid"]);
       // FIXME: not sure why this gave an error, i had to add these conditionals
-      return RecentActivityCard(
-        time: (data["time"] is String) ? data["time"] : "",
-        type: (data["type"] is String) ? data["type"] : "",
-        content: (data["content"] is String) ? data["content"] : "",
-        path: (data["path"] is String) ? data["path"] : "",
-        sourceUid: (data["sourceUid"] is String) ? data["sourceUid"] : "",
-      );
+      return RecentActivityCard.fromJson(data, user);
 
       // return RecentActivityCard(
       //     time: data["time"] ?? "",
@@ -304,6 +312,7 @@ class PostsHandling {
       //     path: data["path"] ?? "",
       //     sourceUid: data["sourceUid"] ?? "");
     }).toList();
+    return Future.wait(list);
   }
 
   dynamic getTimeFromPost(dynamic post) {

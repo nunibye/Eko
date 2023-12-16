@@ -43,8 +43,8 @@ class PostPageController extends ChangeNotifier {
       post = passedPost!;
       notifyListeners();
     } else {
-        post ??= (await locator<PostsHandling>()
-            .getPostFromId(id))!; //FIXME might break if opening deleted post
+      post ??= (await locator<PostsHandling>()
+          .getPostFromId(id))!; //FIXME might break if opening deleted post
       builtFromID = true;
       post!.hasCache = true;
       notifyListeners();
@@ -165,8 +165,11 @@ class PostPageController extends ChangeNotifier {
           text: AppLocalizations.of(context)!.emptyFieldError,
           context: context);
     } else {
-      await locator<PostsHandling>().createComment({"body": commentFeild.text},
-          post!.postId, post!.author.uid, post!.postId);
+      String comment = commentFeild.text;
+      commentFeild.text = "";
+      hideKeyboard();
+      await locator<PostsHandling>().createComment(
+          {"body": comment}, post!.postId, post!.author.uid, post!.postId);
       // int tempComments = post!.commentCount;
       // print(tempComments);
       if (post!.hasCache) {
@@ -177,8 +180,6 @@ class PostPageController extends ChangeNotifier {
       } else {
         post!.commentCount++;
       }
-      commentFeild.text = "";
-      hideKeyboard();
       notifyListeners();
     }
   }
