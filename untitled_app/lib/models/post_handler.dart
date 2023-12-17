@@ -160,7 +160,7 @@ class RecentActivityCard {
 
   static RecentActivityCard fromJson(Map<String, dynamic> json, AppUser user) {
     return RecentActivityCard(
-      sourceUser: user,
+        sourceUser: user,
         time: json["time"] ?? "",
         type: json["type"] ?? "",
         content: json["content"] ?? "",
@@ -337,18 +337,20 @@ class PostsHandling {
         payload: await Future.wait(postList));
   }
 
-  //user profile
+  //groups
   Future<PaginationGetterReturn> getGroupPosts(dynamic time, String id) async {
     final user = FirebaseAuth.instance.currentUser!.uid;
     final postList = (await newGetPosts(
             time,
             FirebaseFirestore.instance
                 .collection('posts')
-                .where("author", isEqualTo: user)
+                //.where("author", isEqualTo: user)
                 .where("tags", arrayContains: id)
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
-      return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()),
+      AppUser user = AppUser();
+      await user.readUserData(raw.author);
+      return Post.fromRaw(raw, user,
           await countComments(raw.postID));
     }).toList();
     return PaginationGetterReturn(
@@ -501,90 +503,90 @@ class PostsHandling {
     }
   }
 
-  Future<List<RawPostObject>> getPosts(
-      String? time, Query<Map<String, dynamic>>? query) async {
-    late QuerySnapshot<Map<String, dynamic>>? snapshot;
-    if (query != null) {
-      if (time == null) {
-        //initial data
-        snapshot = await query.limit(c.postsOnRefresh).get();
-      } else {
-        snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
-      }
-      return snapshot.docs.map<RawPostObject>((doc) {
-        var data = doc.data();
+  // Future<List<RawPostObject>> getPosts(
+  //     String? time, Query<Map<String, dynamic>>? query) async {
+  //   late QuerySnapshot<Map<String, dynamic>>? snapshot;
+  //   if (query != null) {
+  //     if (time == null) {
+  //       //initial data
+  //       snapshot = await query.limit(c.postsOnRefresh).get();
+  //     } else {
+  //       snapshot = await query.startAfter([time]).limit(c.postsOnRefresh).get();
+  //     }
+  //     return snapshot.docs.map<RawPostObject>((doc) {
+  //       var data = doc.data();
 
-        return RawPostObject.fromJson(data, doc.id);
-      }).toList();
+  //       return RawPostObject.fromJson(data, doc.id);
+  //     }).toList();
 
-      //Following
-    } else {
-      final firestore = FirebaseFirestore.instance;
-      List<RawPostObject> postsToPassBack = [];
-      if (locator<CurrentUser>().following.isEmpty) {
-        return postsToPassBack;
-      }
-      if (feedChunks.isEmpty) {
-        // must handle if the user is following no one or app crashes
-        if (locator<CurrentUser>().following.isEmpty) {
-          return postsToPassBack;
-        }
+  //     //Following
+  //   } else {
+  //     final firestore = FirebaseFirestore.instance;
+  //     List<RawPostObject> postsToPassBack = [];
+  //     if (locator<CurrentUser>().following.isEmpty) {
+  //       return postsToPassBack;
+  //     }
+  //     if (feedChunks.isEmpty) {
+  //       // must handle if the user is following no one or app crashes
+  //       if (locator<CurrentUser>().following.isEmpty) {
+  //         return postsToPassBack;
+  //       }
 
-        final following = locator<CurrentUser>().following.slices(30);
-        for (List<dynamic> slice in following) {
-          snapshot = await firestore
-              .collection('posts')
-              .where('author', whereIn: slice)
-              .where("tags", arrayContains: "public")
-              .orderBy('time', descending: true)
-              .limit(1)
-              .get();
-          if (snapshot.docs.isEmpty) {
-            return postsToPassBack;
-          }
-          final data = snapshot.docs.first.data();
-          feedChunks.add(
-            FeedChunk(
-              uids: slice,
-              oldestPost: RawPostObject.fromJson(
-                data,
-                snapshot.docs.first.id,
-              ),
-            ),
-          );
-        }
+  //       final following = locator<CurrentUser>().following.slices(30);
+  //       for (List<dynamic> slice in following) {
+  //         snapshot = await firestore
+  //             .collection('posts')
+  //             .where('author', whereIn: slice)
+  //             .where("tags", arrayContains: "public")
+  //             .orderBy('time', descending: true)
+  //             .limit(1)
+  //             .get();
+  //         if (snapshot.docs.isEmpty) {
+  //           return postsToPassBack;
+  //         }
+  //         final data = snapshot.docs.first.data();
+  //         feedChunks.add(
+  //           FeedChunk(
+  //             uids: slice,
+  //             oldestPost: RawPostObject.fromJson(
+  //               data,
+  //               snapshot.docs.first.id,
+  //             ),
+  //           ),
+  //         );
+  //       }
 
-        feedChunks
-            .sort((a, b) => a.oldestPost.time.compareTo(a.oldestPost.time));
-        postsToPassBack.add(feedChunks.first.oldestPost);
-      }
+  //       feedChunks
+  //           .sort((a, b) => a.oldestPost.time.compareTo(a.oldestPost.time));
+  //       postsToPassBack.add(feedChunks.first.oldestPost);
+  //     }
 
-      while (postsToPassBack.length < c.postsOnRefresh) {
-        snapshot = await firestore
-            .collection('posts')
-            .where("author", whereIn: feedChunks.first.uids)
-            .where("tags", arrayContains: "public")
-            .orderBy('time', descending: true)
-            .startAfter([feedChunks.first.oldestPost.time])
-            .limit(1)
-            .get();
-        if (snapshot.docs.isNotEmpty) {
-          final data = snapshot.docs.first.data();
-          feedChunks.first.oldestPost =
-              RawPostObject.fromJson(data, snapshot.docs.first.id);
+  //     while (postsToPassBack.length < c.postsOnRefresh) {
+  //       snapshot = await firestore
+  //           .collection('posts')
+  //           .where("author", whereIn: feedChunks.first.uids)
+  //           .where("tags", arrayContains: "public")
+  //           .orderBy('time', descending: true)
+  //           .startAfter([feedChunks.first.oldestPost.time])
+  //           .limit(1)
+  //           .get();
+  //       if (snapshot.docs.isNotEmpty) {
+  //         final data = snapshot.docs.first.data();
+  //         feedChunks.first.oldestPost =
+  //             RawPostObject.fromJson(data, snapshot.docs.first.id);
 
-          feedChunks.sort(
-            (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
-          );
-        } else {
-          feedChunks.removeAt(0);
-          if (feedChunks.isEmpty) {
-            return postsToPassBack;
-          }
-        }
-      }
+  //         feedChunks.sort(
+  //           (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
+  //         );
+  //       } else {
+  //         feedChunks.removeAt(0);
+  //         if (feedChunks.isEmpty) {
+  //           return postsToPassBack;
+  //         }
+  //       }
+  //     }
 
-      return postsToPassBack;
-    }
-  }
+  //     return postsToPassBack;
+  //   }
+  // }
 }
