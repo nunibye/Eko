@@ -69,6 +69,20 @@ exports.sendActivityNotification = functions.firestore.document('users/{uid}/new
               };
               return admin.messaging().sendEachForMulticast(payload);
             }
+            else if (type == "tag") {
+              const payload = {
+              notification: {
+                title: userData.username || ' tagged you in a post!',
+                body: content || 'Click to see post',
+              },
+              data: {
+                path: path,
+                type: type,
+              },
+              tokens: userTokens,
+            };
+            return admin.messaging().sendEachForMulticast(payload);
+          }
             else {
               console.log("no type existing");
               return;

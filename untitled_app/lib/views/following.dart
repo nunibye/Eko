@@ -33,6 +33,7 @@ class Following extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
+              surfaceTintColor: Colors.transparent,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_rounded,
                     color: Theme.of(context).colorScheme.onBackground),
@@ -49,7 +50,7 @@ class Following extends StatelessWidget {
               ),
             ),
             body: Padding(
-              padding: EdgeInsets.all(height * 0.01),
+              padding: EdgeInsets.all(height * 0.02),
               child: Column(
                 children: [
                   Expanded(

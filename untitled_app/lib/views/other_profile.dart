@@ -148,29 +148,36 @@ class _Header extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.width * 0.1,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    side: BorderSide(
-                        width: 2,
-                        color: Theme.of(context).colorScheme.onBackground),
-                  ),
-                  onPressed: () =>
-                      Provider.of<OtherProfileController>(context,
-                                  listen: false)
-                              .onFollowPressed(),
-                  child: Text(
-                    Provider.of<OtherProfileController>(context, listen: true)
-                            .isFollowing
-                        ? AppLocalizations.of(context)!.following
-                        : AppLocalizations.of(context)!.follow,
-                    style: TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                ),
+                child: Provider.of<OtherProfileController>(context,
+                                listen: true)
+                            .loadedUser ==
+                        null
+                    ? null
+                    : TextButton(
+                        style: TextButton.styleFrom(
+                          side: BorderSide(
+                              width: 2,
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                        ),
+                        onPressed: () => Provider.of<OtherProfileController>(
+                                context,
+                                listen: false)
+                            .onFollowPressed(),
+                        child: Text(
+                          Provider.of<OtherProfileController>(context,
+                                      listen: true)
+                                  .isFollowing
+                              ? AppLocalizations.of(context)!.following
+                              : AppLocalizations.of(context)!.follow,
+                          style: TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.normal,
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      ),
               ),
             ],
           ),

@@ -71,7 +71,7 @@ class UserCard extends StatelessWidget {
                             MediaQuery.of(context).size.width * 0.02),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text(user.username), Text(user.name)],
+                          children: [Text(user.name, style: TextStyle(fontWeight: FontWeight.bold)), Text(user.username)],
                         ),
                       ),
                     ],
