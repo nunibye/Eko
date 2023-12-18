@@ -19,8 +19,8 @@ class ComposePage extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return ChangeNotifierProvider.value(
-      value: ComposeController(
+    return ChangeNotifierProvider(
+      create: (context) => ComposeController(
         context: context,
         audience: (group != null) ? group!.name : audiance,
         groupEndPoint: group,
