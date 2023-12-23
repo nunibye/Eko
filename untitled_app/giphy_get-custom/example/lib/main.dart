@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Text("Random ID: $randomId"),
                   const Text(
                     "Selected GIF",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
                   ),
                   const SizedBox(
                     height: 10,

@@ -25,7 +25,6 @@ class PostPageController extends ChangeNotifier {
   FocusNode commentFeildFocus = FocusNode();
   int chars = 0;
   bool isAtSymbolTyped = false;
-  //bool isUsernameFinished = false;
   bool isLoading = false;
   List<AppUser> hits = [];
   Timer? _debounce;
@@ -65,29 +64,27 @@ class PostPageController extends ChangeNotifier {
   }
 
   void checkAtSymbol(String text) {
+    bool wasAtSymbolTyped = isAtSymbolTyped;
     int start = text.lastIndexOf('@');
     if (start != -1 && start < text.length - 1) {
       int end = text.indexOf(' ', start);
       if (end == -1) {
         // No space found after '@'
         isAtSymbolTyped = true;
-        //isUsernameFinished = false;
         onSearchTextChanged(text.substring(start + 1));
-        notifyListeners();
       } else if (text.substring(end).contains('@')) {
         // Another '@' found after space
         isAtSymbolTyped = true;
-        //isUsernameFinished = false;
         onSearchTextChanged(text.substring(start + 1, end));
-        notifyListeners();
       } else {
         // Space found after '@' and no other '@' found
         isAtSymbolTyped = false;
-        //isUsernameFinished = true;
       }
     } else {
       isAtSymbolTyped = false;
-      //isUsernameFinished = false;
+    }
+    if (wasAtSymbolTyped != isAtSymbolTyped) {
+      notifyListeners();
     }
   }
 
