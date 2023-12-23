@@ -1,9 +1,13 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/edit_group_page_controller.dart';
+import 'package:untitled_app/controllers/group_members_controller.dart';
 import 'package:untitled_app/custom_widgets/selected_user_groups.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/group_handler.dart';
+import 'package:untitled_app/models/users.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import 'package:untitled_app/views/followers.dart';
 import 'package:untitled_app/views/group_members.dart';
 import '../controllers/create_group_page_controller.dart';
@@ -19,7 +23,8 @@ class EditGroupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => EditGroupPageController(context: context, group: group),
+      create: (context) =>
+          EditGroupPageController(context: context, group: group),
       builder: (context, child) {
         return WillPopScope(
             onWillPop: () =>
@@ -44,117 +49,171 @@ class EditGroupPage extends StatelessWidget {
 class _GroupSettings extends StatelessWidget {
   _GroupSettings();
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   final width = MediaQuery.sizeOf(context).width;
-  //   final height = MediaQuery.sizeOf(context).height;
-  //   return Scaffold(
-  //     body: Column(
-  //       children: [
-  //         Row(
-  //           children: [
-  //             TextButton(
-  //                 onPressed: () => Provider.of<EditGroupPageController>(
-  //                         context,
-  //                         listen: false)
-  //                     .exitPressed(),
-  //                 child: Text(AppLocalizations.of(context)!.cancel)),
-  //             const Spacer(),
-  //             TextButton(
-  //                 onPressed: () => Provider.of<EditGroupPageController>(
-  //                         context,
-  //                         listen: false)
-  //                     .goForward(),
-  //                 child: Text(AppLocalizations.of(context)!.next))
-  //           ],
-  //         ),
-  //         IconButton(
-  //           //iconSize: width * 0.2,
-  //           onPressed: () =>
-  //               Provider.of<EditGroupPageController>(context, listen: false)
-  //                   .pickEmoji(),
-  //           icon: (Provider.of<EditGroupPageController>(context, listen: true)
-  //                       .icon ==
-  //                   "")
-  //               ? Icon(Icons.add_reaction_outlined, size: width * 0.3)
-  //               : FittedBox(
-  //                   fit: BoxFit.scaleDown,
-  //                   child: Stack(
-  //                     alignment: Alignment.topRight,
-  //                     children: [
-  //                       SizedBox(
-  //                         width: width * 0.3,
-  //                         height: width * 0.3,
-  //                         child: FittedBox(
-  //                           fit: BoxFit.contain,
-  //                           child: Text(
-  //                             Provider.of<EditGroupPageController>(context,
-  //                                     listen: true)
-  //                                 .icon,
-  //                             //style: TextStyle(fontSize: width * 0.25),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                       IconButton(
-  //                         //iconSize: width * 0.1,
-  //                         onPressed: () =>
-  //                             Provider.of<EditGroupPageController>(context,
-  //                                     listen: false)
-  //                                 .clearIcon(),
-  //                         icon: DecoratedBox(
-  //                           decoration: BoxDecoration(
-  //                               shape: BoxShape.circle,
-  //                               color:
-  //                                   Theme.of(context).colorScheme.background),
-  //                           child: Icon(
-  //                             Icons.cancel,
-  //                             color: Theme.of(context).colorScheme.onBackground,
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //         ),
-  //         ProfileInputFeild(
-  //             onChanged: (s) =>
-  //                 Provider.of<EditGroupPageController>(context, listen: false)
-  //                     .updateCanSwipe(),
-  //             focus:
-  //                 Provider.of<EditGroupPageController>(context, listen: false)
-  //                     .nameFocus,
-  //             maxLength: c.maxGroupName,
-  //             width: width * 0.9,
-  //             label: AppLocalizations.of(context)!.name,
-  //             controller:
-  //                 Provider.of<EditGroupPageController>(context, listen: false)
-  //                     .nameController),
-  //         ProfileInputFeild(
-  //             maxLength: c.maxGroupDesc,
-  //             width: width * 0.9,
-  //             label: AppLocalizations.of(context)!.description,
-  //             controller:
-  //                 Provider.of<EditGroupPageController>(context, listen: false)
-  //                     .descriptionController),
-  //       ],
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
-    return GroupMembers(group: Provider.of<EditGroupPageController>(context, listen: false)
-              .getGroup(), members: Provider.of<EditGroupPageController>(context, listen: false)
-              .getMembers());
+    // double width = MediaQuery.of(context).size.width;
+    // double height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
+
+    return ChangeNotifierProvider(
+      create: (context) => GroupMembersController(
+          context: context,
+          members: Provider.of<EditGroupPageController>(context, listen: false)
+              .getMembers()),
+      builder: (context, child) {
+        GroupMembersController controller =
+            Provider.of<GroupMembersController>(context);
+        Group group =
+            Provider.of<EditGroupPageController>(context, listen: false)
+                .getGroup();
+        Provider.of<EditGroupPageController>(context, listen: false)
+            .loadMembersList(
+                Provider.of<GroupMembersController>(context, listen: false)
+                    .membersList);
+
+        if (controller.membersList.isEmpty) {
+          return const Center(
+            child: SizedBox(
+              width: 50,
+              height: 50,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              surfaceTintColor: Colors.transparent,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded,
+                    color: Theme.of(context).colorScheme.onBackground),
+                onPressed: () => context.pop("poped"),
+              ),
+              backgroundColor: Theme.of(context).colorScheme.background,
+            ),
+            body: Padding(
+              padding:
+                  EdgeInsets.only(left: height * 0.02, right: height * 0.02),
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        (group.icon != '')
+                            ? SizedBox(
+                                width: width * 0.4,
+                                height: width * 0.4,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    group.icon,
+                                    style: TextStyle(fontSize: width * 0.15),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                                width: width * 0.3,
+                                height: width * 0.3,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    group.name[0],
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      fontSize: width * 0.15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                        //FIXME: how can i get there to be less padding between the emoji and title
+                        Text(
+                          group.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Lato',
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.person_add_outlined),
+                          color: Theme.of(context).colorScheme.onBackground,
+                          onPressed: () {
+                            Provider.of<EditGroupPageController>(context,
+                                    listen: false)
+                                .initializeSearch();
+                            Provider.of<EditGroupPageController>(context,
+                                    listen: false)
+                                .goForward();
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.notifications_none),
+                          color: Theme.of(context).colorScheme.onBackground,
+                          onPressed: () {
+                            // TODO
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.exit_to_app_rounded),
+                          color: Theme.of(context).colorScheme.onBackground,
+                          onPressed: () {
+                            // TODO
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return UserCard(
+                          user: Provider.of<GroupMembersController>(context,
+                                  listen: true)
+                              .membersList[index],
+                        );
+                      },
+                      childCount: Provider.of<GroupMembersController>(context,
+                              listen: true)
+                          .membersList
+                          .length,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 }
 
 class _AddPeople extends StatelessWidget {
-  const _AddPeople();
+  _AddPeople();
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
+    final membersList =
+        Provider.of<EditGroupPageController>(context).getMembersList();
+    final selectedPeople =
+        Provider.of<EditGroupPageController>(context, listen: true)
+            .selectedPeople;
+
     return GestureDetector(
       onPanDown: (details) =>
           Provider.of<EditGroupPageController>(context, listen: false)
@@ -174,11 +233,10 @@ class _AddPeople extends StatelessWidget {
               TextButton(
                 onPressed: () =>
                     Provider.of<EditGroupPageController>(context, listen: false)
-                        .createGroup(),
+                        .updateGroupMembers(),
                 child: Text(
-                    Provider.of<EditGroupPageController>(context, listen: true)
-                            .selectedPeople
-                            .isEmpty
+                    SetEquality()
+                            .equals(selectedPeople.toSet(), membersList.toSet())
                         ? ""
                         : AppLocalizations.of(context)!.save),
               )
