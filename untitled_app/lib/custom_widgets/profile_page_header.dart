@@ -112,7 +112,7 @@ class ProfileHeader extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         letterSpacing: 1,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
@@ -153,7 +153,7 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
             text: NumberFormat.compact().format(number),
             style: TextStyle(
                 color: Theme.of(context).colorScheme.onBackground,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
                 fontSize: 17),
             children: [
               TextSpan(
