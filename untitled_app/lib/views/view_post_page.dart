@@ -51,11 +51,6 @@ class ViewPostPage extends StatelessWidget {
                               ? 0
                               : 1,
                           children: [
-                            //Expanded(
-                            // offstage: Provider.of<PostPageController>(context,
-                            //         listen: false)
-                            //     .isAtSymbolTyped,
-                            //child:
                             PaginationPage(
                                 getter: Provider.of<PostPageController>(context,
                                         listen: false)
@@ -66,17 +61,7 @@ class ViewPostPage extends StatelessWidget {
                                     Provider.of<PostPageController>(context,
                                             listen: false)
                                         .getTimeFromPost),
-                            //),
-                            // Offstage(
-                            //   offstage: !Provider.of<PostPageController>(context,
-                            //               listen: false)
-                            //           .isAtSymbolTyped ||
-                            //       Provider.of<PostPageController>(context,
-                            //               listen: false)
-                            //           .isUsernameFinished,
-                            //  child:
-                            //Expanded(
-                            //child:
+                           
                             Provider.of<PostPageController>(context,
                                         listen: true)
                                     .isLoading
@@ -166,7 +151,7 @@ class ViewPostPage extends StatelessWidget {
                                         context,
                                         listen: false)
                                     .commentFeild,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(height * 0.01),
                                   hintText:

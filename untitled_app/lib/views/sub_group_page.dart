@@ -45,7 +45,10 @@ class SubGroupPage extends StatelessWidget {
                     actions: [
                       IconButton(
                         color: Theme.of(context).colorScheme.onBackground,
-                        onPressed: () => context.pop(),
+                        onPressed: () => Provider.of<SubGroupController>(
+                                context,
+                                listen: false)
+                            .editGroup(),
                         icon: const Icon(Icons.create),
                       ),
                     ],

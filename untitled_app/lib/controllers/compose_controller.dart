@@ -28,6 +28,9 @@ class ComposeController extends ChangeNotifier {
   final bodyController = TextEditingController();
   final titleFocus = FocusNode();
   final bodyFocus = FocusNode();
+  final searchController = TextEditingController();
+  final searchFocus = FocusNode();
+
   Group? groupEndPoint;
   Group? initGroupVar;
   // List<String> tags;
@@ -119,6 +122,8 @@ class ComposeController extends ChangeNotifier {
     showCount1 = false;
     titleController.text = "";
     bodyController.text = "";
+    searchController.text = "";
+    isAtSymbolTyped = false;
     notifyListeners();
   }
 
@@ -350,32 +355,40 @@ class ComposeController extends ChangeNotifier {
     }
   }
 
-  void checkAtSymbol(String text) {
-    int start = text.lastIndexOf('@');
-    if (start != -1 && start < text.length - 1) {
-      int end = text.indexOf(' ', start);
-      if (end == -1) {
-        // No space found after '@'
-        isAtSymbolTyped = true;
-        //isUsernameFinished = false;
-        onSearchTextChanged(text.substring(start + 1));
-        notifyListeners();
-      } else if (text.substring(end).contains('@')) {
-        // Another '@' found after space
-        isAtSymbolTyped = true;
-        //isUsernameFinished = false;
-        onSearchTextChanged(text.substring(start + 1, end));
-        notifyListeners();
-      } else {
-        // Space found after '@' and no other '@' found
-        isAtSymbolTyped = false;
-        //isUsernameFinished = true;
-      }
+void checkAtSymbol(String text) {
+  searchController.text = text;
+  bool wasAtSymbolTyped = isAtSymbolTyped;
+  int start = text.lastIndexOf('@');
+  if (start != -1 && start < text.length - 1) {
+    int end = text.indexOf(' ', start);
+    if (end == -1) {
+      // No space found after '@'
+      isAtSymbolTyped = true;
+      onSearchTextChanged(text.substring(start + 1));
+    } else if (text.substring(end).contains('@')) {
+      // Another '@' found after space
+      isAtSymbolTyped = true;
+      onSearchTextChanged(text.substring(start + 1, end));
     } else {
+      // Space found after '@' and no other '@' found
       isAtSymbolTyped = false;
-      //isUsernameFinished = false;
     }
+  } else {
+    isAtSymbolTyped = false;
   }
+  //if it changed
+  if (wasAtSymbolTyped != isAtSymbolTyped) {
+    if (!isAtSymbolTyped) {
+      // copy back to the original controller
+      if (titleFocus.hasFocus) {
+        titleController.text = searchController.text;
+      } else if (bodyFocus.hasFocus) {
+        bodyController.text = searchController.text;
+      }
+    }
+    notifyListeners();
+  }
+}
 
   void updateTextField(
       String username, TextEditingController controller, FocusNode focus) {
