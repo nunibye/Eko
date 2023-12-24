@@ -48,13 +48,38 @@ class Group {
   }
 }
 
-
-
 class GroupHandler {
+
   void createGroup(Group group) async {
     final firestore = FirebaseFirestore.instance;
     await firestore.collection('groups').add(group.toMap());
   }
+
+  void updateGroupMembers(Group group, List<String> members) async {
+  final firestore = FirebaseFirestore.instance;
+  final groupMap = group.toMap();
+
+  // Query the to find the document with the matching group
+  QuerySnapshot querySnapshot = await firestore
+      .collection('groups')
+      .where(groupMap.keys.first, isEqualTo: groupMap.values.first)
+      .limit(1)
+      .get();
+
+  if (querySnapshot.docs.isNotEmpty) {
+    // Get the first document (there should be only one)
+    DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+
+    // Update the 'members' field in the document
+    await firestore.collection('groups').doc(documentSnapshot.id).update({
+      'members': members,
+    });
+
+    print('Group members updated successfully.');
+  } else {
+    print('No matching group found.');
+  }
+}
 
   Future<Group?> getGroupFromId(String id) async {
   final data =
