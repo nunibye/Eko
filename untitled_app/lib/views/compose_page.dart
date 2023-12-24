@@ -405,112 +405,115 @@ class ComposePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Column(
-                    children: [
-                      TextField(
-                          focusNode: Provider.of<ComposeController>(context,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+                    child: Column(
+                      children: [
+                        TextField(
+                            focusNode: Provider.of<ComposeController>(context,
+                                        listen: false)
+                                    .searchFocus,
+                            controller: Provider.of<ComposeController>(context,
+                                        listen: false)
+                                    .searchController,
+                            onChanged: (s) {
+                              Provider.of<ComposeController>(context,
                                       listen: false)
-                                  .searchFocus,
-                          controller: Provider.of<ComposeController>(context,
-                                      listen: false)
-                                  .searchController,
-                          onChanged: (s) {
-                            Provider.of<ComposeController>(context,
-                                    listen: false)
-                                .checkAtSymbol(s);
-                          },
-                          textCapitalization: TextCapitalization.sentences,
-                          maxLines: null,
-                          cursorColor:
-                              Theme.of(context).colorScheme.onBackground,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(height * 0.01),
-                            hintText: AppLocalizations.of(context)!.addText,
-                            hintStyle: TextStyle(
+                                  .checkAtSymbol(s);
+                            },
+                            textCapitalization: TextCapitalization.sentences,
+                            maxLines: null,
+                            cursorColor:
+                                Theme.of(context).colorScheme.onBackground,
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.normal,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
-                            border: InputBorder.none,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(height * 0.01),
+                              hintText: AppLocalizations.of(context)!.addText,
+                              hintStyle: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant),
+                              border: InputBorder.none,
+                            ),
                           ),
-                        ),
-                      
-                      Expanded(
-                        child: Provider.of<ComposeController>(context,
-                                    listen: true)
-                                .isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : Provider.of<ComposeController>(context,
-                                        listen: true)
-                                    .hits
-                                    .isEmpty
-                                ? Center(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .noResultsFound,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground),
+                        
+                        Expanded(
+                          child: Provider.of<ComposeController>(context,
+                                      listen: true)
+                                  .isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Provider.of<ComposeController>(context,
+                                          listen: true)
+                                      .hits
+                                      .isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .noResultsFound,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: Provider.of<ComposeController>(
+                                              context,
+                                              listen: true)
+                                          .hits
+                                          .length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return UserCard(
+                                            tagSearch: true,
+                                            onCardTap: (username) {
+                                              Provider.of<ComposeController>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateTextField(
+                                                      username,
+                                                      Provider.of<ComposeController>(
+                                                              context,
+                                                              listen: false)
+                                                          .titleController,
+                                                      Provider.of<ComposeController>(
+                                                              context,
+                                                              listen: false)
+                                                          .titleFocus);
+                                              Provider.of<ComposeController>(
+                                                      context,
+                                                      listen: false)
+                                                  .updateTextField(
+                                                      username,
+                                                      Provider.of<ComposeController>(
+                                                              context,
+                                                              listen: false)
+                                                          .bodyController,
+                                                      Provider.of<ComposeController>(
+                                                              context,
+                                                              listen: false)
+                                                          .bodyFocus);
+                                            },
+                                            user: Provider.of<ComposeController>(
+                                                    context,
+                                                    listen: true)
+                                                .hits[index]);
+                                      },
                                     ),
-                                  )
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: Provider.of<ComposeController>(
-                                            context,
-                                            listen: true)
-                                        .hits
-                                        .length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return UserCard(
-                                          tagSearch: true,
-                                          onCardTap: (username) {
-                                            Provider.of<ComposeController>(
-                                                    context,
-                                                    listen: false)
-                                                .updateTextField(
-                                                    username,
-                                                    Provider.of<ComposeController>(
-                                                            context,
-                                                            listen: false)
-                                                        .titleController,
-                                                    Provider.of<ComposeController>(
-                                                            context,
-                                                            listen: false)
-                                                        .titleFocus);
-                                            Provider.of<ComposeController>(
-                                                    context,
-                                                    listen: false)
-                                                .updateTextField(
-                                                    username,
-                                                    Provider.of<ComposeController>(
-                                                            context,
-                                                            listen: false)
-                                                        .bodyController,
-                                                    Provider.of<ComposeController>(
-                                                            context,
-                                                            listen: false)
-                                                        .bodyFocus);
-                                          },
-                                          user: Provider.of<ComposeController>(
-                                                  context,
-                                                  listen: true)
-                                              .hits[index]);
-                                    },
-                                  ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),

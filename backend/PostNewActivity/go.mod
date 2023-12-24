@@ -1,4 +1,4 @@
-module example.com/FollowingNewPost
+module example.com/PostNewActivity
 
 go 1.21.0
 
