@@ -243,6 +243,8 @@ class ComposeController extends ChangeNotifier {
     if (group == null) {
       context.go("/feed", extra: true);
     } else {
+      groupEndPoint = null;
+      audience = AppLocalizations.of(context)!.public;
       context.go("/groups/sub_group/${group.id}", extra: group);
     }
   }
@@ -355,40 +357,40 @@ class ComposeController extends ChangeNotifier {
     }
   }
 
-void checkAtSymbol(String text) {
-  searchController.text = text;
-  bool wasAtSymbolTyped = isAtSymbolTyped;
-  int start = text.lastIndexOf('@');
-  if (start != -1 && start < text.length - 1) {
-    int end = text.indexOf(' ', start);
-    if (end == -1) {
-      // No space found after '@'
-      isAtSymbolTyped = true;
-      onSearchTextChanged(text.substring(start + 1));
-    } else if (text.substring(end).contains('@')) {
-      // Another '@' found after space
-      isAtSymbolTyped = true;
-      onSearchTextChanged(text.substring(start + 1, end));
+  void checkAtSymbol(String text) {
+    searchController.text = text;
+    bool wasAtSymbolTyped = isAtSymbolTyped;
+    int start = text.lastIndexOf('@');
+    if (start != -1 && start < text.length - 1) {
+      int end = text.indexOf(' ', start);
+      if (end == -1) {
+        // No space found after '@'
+        isAtSymbolTyped = true;
+        onSearchTextChanged(text.substring(start + 1));
+      } else if (text.substring(end).contains('@')) {
+        // Another '@' found after space
+        isAtSymbolTyped = true;
+        onSearchTextChanged(text.substring(start + 1, end));
+      } else {
+        // Space found after '@' and no other '@' found
+        isAtSymbolTyped = false;
+      }
     } else {
-      // Space found after '@' and no other '@' found
       isAtSymbolTyped = false;
     }
-  } else {
-    isAtSymbolTyped = false;
-  }
-  //if it changed
-  if (wasAtSymbolTyped != isAtSymbolTyped) {
-    if (!isAtSymbolTyped) {
-      // copy back to the original controller
-      if (titleFocus.hasFocus) {
-        titleController.text = searchController.text;
-      } else if (bodyFocus.hasFocus) {
-        bodyController.text = searchController.text;
+    //if it changed
+    if (wasAtSymbolTyped != isAtSymbolTyped) {
+      if (!isAtSymbolTyped) {
+        // copy back to the original controller
+        if (titleFocus.hasFocus) {
+          titleController.text = searchController.text;
+        } else if (bodyFocus.hasFocus) {
+          bodyController.text = searchController.text;
+        }
       }
+      notifyListeners();
     }
-    notifyListeners();
   }
-}
 
   void updateTextField(
       String username, TextEditingController controller, FocusNode focus) {
@@ -418,13 +420,15 @@ void checkAtSymbol(String text) {
       notifyListeners();
     }
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce =
-        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
-      if (s != '') {
-        hits = await SearchModel().hitsQuery(s);
-        isLoading = false;
-        notifyListeners();
-      }
-    });
+    _debounce = Timer(
+      const Duration(milliseconds: c.searchPageDebounce),
+      () async {
+        if (s != '') {
+          hits = await SearchModel().hitsQuery(s);
+          isLoading = false;
+          notifyListeners();
+        }
+      },
+    );
   }
 }

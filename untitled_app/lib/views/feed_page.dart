@@ -52,18 +52,16 @@ class FeedPage extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onBackground,
                     size: 28,
                   ),
-                  if (Provider.of<FeedController>(context, listen: true)
-                      .newActivity)
+                  if (Provider.of<FeedController>(context, listen: true).newActivity) 
                     Positioned(
-                      right: 0,
+                      right: 1.5,
                       child: Container(
+                        width:9,
+                        height: 9,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.error),
-                        constraints: const BoxConstraints(
-                          minWidth: 10,
-                          //minHeight: 10,
-                        ),
+                        
                       ),
                     )
                 ],
