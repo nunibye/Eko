@@ -29,6 +29,7 @@ class ComposeController extends ChangeNotifier {
   final titleFocus = FocusNode();
   final bodyFocus = FocusNode();
   Group? groupEndPoint;
+  Group? initGroupVar;
   // List<String> tags;
   String audience;
   int newLines = 0;
@@ -42,16 +43,19 @@ class ComposeController extends ChangeNotifier {
   List<AppUser> hits = [];
   Timer? _debounce;
 
-  ComposeController(
-      {required this.context, required this.audience, this.groupEndPoint}) {
+  ComposeController({required this.context, required this.audience}) {
     titleFocus.addListener(onTitleFocusChanged);
     bodyFocus.addListener(onBodyFocusChanged);
-    // _init();
   }
-  // void _init() {
-  //   // print(audience);
-  //   // notifyListeners();
-  // }
+  initGroup(Group? group) {
+    if (group != initGroupVar) {
+      groupEndPoint = group;
+      audience =
+          (group != null) ? group.name : AppLocalizations.of(context)!.public;
+
+      initGroupVar = group;
+    }
+  }
 
   void onTitleFocusChanged() {
     if (titleFocus.hasFocus) {

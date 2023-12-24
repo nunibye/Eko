@@ -23,6 +23,7 @@ class SubGroupPage extends StatelessWidget {
           floatingActionButton: SizedBox(
             width: 70,
             child: FloatingActionButton.large(
+              heroTag: null,
               onPressed: () =>
                   Provider.of<SubGroupController>(context, listen: false)
                       .addPost(),

@@ -159,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
+              heroTag: null,
                 onPressed: () async {
                   giphyGetWrapper.getGif(
                     '',

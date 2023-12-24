@@ -13,6 +13,7 @@ import '../models/group_handler.dart' show Group;
 class ComposePage extends StatelessWidget {
   final Group? group;
   const ComposePage({super.key, this.group});
+
   @override
   Widget build(BuildContext context) {
     final audiance = AppLocalizations.of(context)!.public;
@@ -23,9 +24,10 @@ class ComposePage extends StatelessWidget {
       create: (context) => ComposeController(
         context: context,
         audience: (group != null) ? group!.name : audiance,
-        groupEndPoint: group,
+        // groupEndPoint: group,
       ),
       builder: (context, child) {
+        Provider.of<ComposeController>(context, listen: false).initGroup(group);
         return WillPopScope(
           onWillPop: () =>
               Provider.of<ComposeController>(context, listen: false)
@@ -37,6 +39,7 @@ class ComposePage extends StatelessWidget {
               floatingActionButton: SizedBox(
                 width: 70,
                 child: FloatingActionButton.large(
+                  heroTag: null,
                   onPressed: () =>
                       Provider.of<ComposeController>(context, listen: false)
                           .addGifPressed(),
