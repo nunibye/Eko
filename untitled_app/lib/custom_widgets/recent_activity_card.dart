@@ -16,9 +16,14 @@ class ActivityCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     final bool hasUser = card.sourceUser != null;
     return InkWell(
-      onTap: () => context.push("/feed/post/${card.path}"),
+      onTap: () {
+        if (card.type == "comment" || card.type == "tag") {
+          context.push("/feed/post/${card.path}");
+        }
+      }, 
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.sizeOf(context).height * 0.01),

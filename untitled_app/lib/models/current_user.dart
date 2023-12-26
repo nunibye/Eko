@@ -109,6 +109,12 @@ class CurrentUser extends AppUser {
           "profileData.followers": FieldValue.arrayUnion([user])
         });
         following.add(otherUid);
+        await locator<PostsHandling>().addActivty(
+            type: "follow",
+            content: "Someone followed you",
+            path: user,
+            user: otherUid);
+
         stateIsFollowing = false;
         return true;
       } catch (e) {
