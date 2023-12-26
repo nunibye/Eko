@@ -327,4 +327,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get usernameReqs => 'Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.';
+
+  @override
+  String get followText => 'started following you';
+
+  @override
+  String get taggedText => 'tagged you:';
 }

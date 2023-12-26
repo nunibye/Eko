@@ -740,6 +740,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.'**
   String get usernameReqs;
+
+  /// No description provided for @followText.
+  ///
+  /// In en, this message translates to:
+  /// **'started following you'**
+  String get followText;
+
+  /// No description provided for @taggedText.
+  ///
+  /// In en, this message translates to:
+  /// **'tagged you:'**
+  String get taggedText;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

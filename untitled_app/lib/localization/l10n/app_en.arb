@@ -117,6 +117,7 @@
     "nothingToSeeHere":"Nothing to see here!",
     "someone":"Someone",
     "commentText":"commented on your post:",
+
     "groups":"Groups",
     "next":"Next",
     "description":"Description(Optional)",
@@ -127,6 +128,8 @@
     "myGroups":"My groups",
     "reply":"Reply",
     "userNotFound":"User Not Found",
-    "usernameReqs":"Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores."
+    "usernameReqs":"Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.",
 
+    "followText":"started following you",
+    "taggedText":"tagged you:"
 }

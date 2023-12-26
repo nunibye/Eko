@@ -16,14 +16,15 @@ class ActivityCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     final bool hasUser = card.sourceUser != null;
     return InkWell(
       onTap: () {
         if (card.type == "comment" || card.type == "tag") {
           context.push("/feed/post/${card.path}");
+        } else if (card.type == "follow") {
+          context.push("/sub_profile/${card.path}");
         }
-      }, 
+      },
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.sizeOf(context).height * 0.01),
@@ -60,12 +61,21 @@ class ActivityCardWidget extends StatelessWidget {
             ),
             Column(children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: Text(
-                  "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.commentText} ${card.content}",
-                  softWrap: true,
-                ),
-              ),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: card.type == "follow"
+                      ?  Text(
+                          "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.followText}",
+                          softWrap: true,
+                        )
+                      : card.type == "tag"
+                          ? Text(
+                              "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.taggedText} ${card.content}",
+                              softWrap: true,
+                            )
+                          : Text(
+                              "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.commentText} ${card.content}",
+                              softWrap: true,
+                            )),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 alignment: Alignment.centerLeft,
