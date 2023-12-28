@@ -35,7 +35,7 @@ class PaginationController extends ChangeNotifier {
   }
   void init() async {
 
-    scrollController!.addListener(() => _onScroll());
+    scrollController.addListener(() => _onScroll());
     if (cacheIndex == null) {
       items = [];
       end = false;

@@ -15,12 +15,12 @@ class PaginationPage extends StatelessWidget {
   final int? cachedIndex;
   final bool shrinkWrap;
   final SliverAppBar? appbar;
-  
+  //final bool forceLoadingState;
   const PaginationPage(
       {super.key,
-      
       this.shrinkWrap = false,
       required this.getter,
+      //this.forceLoadingState = false,
       required this.card,
       this.appbar,
       this.extraRefresh,
@@ -33,6 +33,7 @@ class PaginationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  
     return ChangeNotifierProvider.value(
       value: PaginationController(
         //hasAppbar: (appbar != null),
@@ -45,16 +46,21 @@ class PaginationPage extends StatelessWidget {
       builder: (context, child) {
         return RefreshIndicator(
           child: CustomScrollView(
-            
             shrinkWrap: shrinkWrap,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: ((!Provider.of<PaginationController>(context,
+                              listen: true)
+                          .end) &&
+                      Provider.of<PaginationController>(context, listen: true)
+                          .items
+                          .isEmpty)
+                ? const NeverScrollableScrollPhysics()
+                : const AlwaysScrollableScrollPhysics(),
             controller:
                 Provider.of<PaginationController>(context, listen: false)
                     .scrollController,
-                    
             slivers: [
-              if(appbar != null) appbar!,
+              if (appbar != null) appbar!,
               // if(appbar != null) SliverToBoxAdapter(child: SizedBox(height:40, child:Text("test")),),
               // const SliverAppBar(
               //   title: Text("test"),
@@ -68,7 +74,6 @@ class PaginationPage extends StatelessWidget {
                             .length +
                         2,
                 itemBuilder: (BuildContext context, int index) {
-                  //print(index);
                   if (index == 0) {
                     //build header
                     return header ?? const SizedBox();
@@ -81,7 +86,6 @@ class PaginationPage extends StatelessWidget {
                                   .length +
                               1) {
                     //normal case put cards
-
                     return card(
                         Provider.of<PaginationController>(context, listen: true)
                             .items[index - 1]);

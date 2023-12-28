@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/post_loader.dart';
 import '../custom_widgets/pagination.dart';
 import '../custom_widgets/tab_bar.dart';
 import '../controllers/feed_controller.dart';
@@ -14,7 +15,7 @@ class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Provider.of<FeedController>(context, listen: false).checkNewActivity();
-
+    //return ExampleUiLoadingAnimation();
     return ChangeNotifierProvider(
       create: (context) => FeedController(context: context, rebuild: rebuild),
       builder: (context, child) {
@@ -28,14 +29,12 @@ class FeedPage extends StatelessWidget {
           scrolledUnderElevation: 0.0,
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.background,
-
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(30),
             child: Column(
               children: [
                 const Padding(
-                    padding: EdgeInsets.only(bottom: 6),
-                    child: const CustomTabBar()),
+                    padding: EdgeInsets.only(bottom: 6), child: CustomTabBar()),
                 Divider(
                   color: Theme.of(context).colorScheme.outline,
                   height: c.dividerWidth,
@@ -52,16 +51,16 @@ class FeedPage extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onBackground,
                     size: 28,
                   ),
-                  if (Provider.of<FeedController>(context, listen: true).newActivity) 
+                  if (Provider.of<FeedController>(context, listen: true)
+                      .newActivity)
                     Positioned(
                       right: 1.5,
                       child: Container(
-                        width:9,
+                        width: 9,
                         height: 9,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.error),
-                        
                       ),
                     )
                 ],
@@ -80,6 +79,7 @@ class FeedPage extends StatelessWidget {
 
         return Scaffold(
           body: PaginationPage(
+            initialLoadingWidget: const PostLoader(),
             appbar: appBar,
             extraRefresh:
                 Provider.of<FeedController>(context, listen: false).onRefresh,
@@ -99,67 +99,67 @@ class FeedPage extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
-  const _Header();
+// class _Header extends StatelessWidget {
+//   const _Header();
 
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    return SizedBox(
-        // height: 200,
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: width * 0.3,
-                //height: height * 0.08,
-                child: Image.asset("images/echo.png"),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                padding: const EdgeInsets.only(right: 10),
-                //height: height * 0.08,
-                child: IconButton(
-                  icon: Stack(
-                    children: [
-                      const Icon(
-                        Icons.notifications,
-                        //size: ,
-                      ),
-                      if (Provider.of<FeedController>(context, listen: true)
-                          .newActivity)
-                        Positioned(
-                          right: 0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Theme.of(context).colorScheme.error),
-                            constraints: const BoxConstraints(
-                              minWidth: 10,
-                              //minHeight: 10,
-                            ),
-                          ),
-                        )
-                    ],
-                  ),
-                  onPressed: () =>
-                      Provider.of<FeedController>(context, listen: false)
-                          .onNotificationButtonPressed(),
-                ),
-              ),
-            )
-          ],
-        ),
-        const CustomTabBar(),
-      ],
-    ));
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     double width = MediaQuery.of(context).size.width;
+//     double height = MediaQuery.of(context).size.height;
+//     return SizedBox(
+//         // height: 200,
+//         child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//       children: [
+//         Stack(
+//           children: [
+//             Align(
+//               alignment: Alignment.center,
+//               child: SizedBox(
+//                 width: width * 0.3,
+//                 //height: height * 0.08,
+//                 child: Image.asset("images/echo.png"),
+//               ),
+//             ),
+//             Align(
+//               alignment: Alignment.centerRight,
+//               child: Container(
+//                 padding: const EdgeInsets.only(right: 10),
+//                 //height: height * 0.08,
+//                 child: IconButton(
+//                   icon: Stack(
+//                     children: [
+//                       const Icon(
+//                         Icons.notifications,
+//                         //size: ,
+//                       ),
+//                       if (Provider.of<FeedController>(context, listen: true)
+//                           .newActivity)
+//                         Positioned(
+//                           right: 0,
+//                           child: Container(
+//                             decoration: BoxDecoration(
+//                                 shape: BoxShape.circle,
+//                                 color: Theme.of(context).colorScheme.error),
+//                             constraints: const BoxConstraints(
+//                               minWidth: 10,
+//                               //minHeight: 10,
+//                             ),
+//                           ),
+//                         )
+//                     ],
+//                   ),
+//                   onPressed: () =>
+//                       Provider.of<FeedController>(context, listen: false)
+//                           .onNotificationButtonPressed(),
+//                 ),
+//               ),
+//             )
+//           ],
+//         ),
+//         const CustomTabBar(),
+//       ],
+//     ));
+//   }
+// }

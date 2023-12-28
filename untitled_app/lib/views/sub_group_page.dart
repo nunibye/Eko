@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/post_loader.dart';
 import '../models/group_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +99,8 @@ class SubGroupPage extends StatelessWidget {
                   card: postCardBuilder,
                   startAfterQuery:
                       Provider.of<SubGroupController>(context, listen: false)
-                          .getTimeFromPost),
+                          .getTimeFromPost,
+                          initialLoadingWidget: const PostLoader(),),
         );
       },
     );

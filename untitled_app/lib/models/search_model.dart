@@ -2,10 +2,11 @@ import '../secrets/secrets.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'users.dart';
+import "../utilities/constants.dart" as c;
 
 class SearchModel {
 
-  Future<List<AppUser>> hitsQuery(String query) async {
+  Future<List<AppUser>> hitsQuery(String query, {int page = 0}) async {
     final response = await http.post(
       Uri.parse(
           'https://${Secrets.ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/users/query'),
@@ -14,13 +15,13 @@ class SearchModel {
         'X-Algolia-Application-Id': Secrets.ALGOLIA_APP_ID,
       },
       body: jsonEncode(<String, String>{
-        'params': 'query=$query&hitsPerPage=10',
+        'params': 'query=$query&hitsPerPage=${c.usersOnSearch}&page=$page',
       }),
     );
 
     if (response.statusCode == 200) {
       return (json.decode(response.body)['hits'] as List)
-          .map((i) => AppUser.fromJson(i))
+          .map((i) => AppUser.fromJson(i, page: page))
           .toList();
     } else {
       return [];

@@ -8,6 +8,10 @@ import 'profile_picture_loading.dart';
 import 'package:provider/provider.dart';
 import 'controllers/searched_user_controller.dart';
 
+Widget searchPageBuilder(dynamic user) {
+  return UserCard(user: user);
+}
+
 class UserCard extends StatelessWidget {
   final bool? initialBool;
   final AppUser user;
@@ -71,7 +75,12 @@ class UserCard extends StatelessWidget {
                             MediaQuery.of(context).size.width * 0.02),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text(user.name, style: const TextStyle(fontWeight: FontWeight.bold)), Text(user.username)],
+                          children: [
+                            Text(user.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            Text(user.username)
+                          ],
                         ),
                       ),
                     ],

@@ -138,6 +138,7 @@ const int maxNameChars = 20;
 const int maxUsernameChars = 24;
 const int searchPageDebounce = 1500;
 const int postsOnRefresh = 10;
+const int usersOnSearch = 15;
 const int activitiesPerRequest = 15;
 const double navBarIconSize = 27;
 const double navBarIconSizeAdder = 4;

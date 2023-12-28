@@ -10,8 +10,10 @@ class AppUser {
   List<dynamic> followers;
   List<dynamic> following;
   String uid;
+  int? pageIndex; //for search pagination
 
   AppUser({
+    this.pageIndex,
     this.uid = '',
     this.name = '',
     this.likes = 0,
@@ -33,8 +35,10 @@ class AppUser {
         followers: user.followers,
         following: user.following);
   }
-  static AppUser fromJson(Map<String, dynamic> json) {
+
+  static AppUser fromJson(Map<String, dynamic> json, {int? page}) {
     return AppUser(
+        pageIndex: page,
         username: json['username'],
         uid: json['uid'],
         name: json['name'],

@@ -182,7 +182,12 @@ final goRouter = GoRouter(
                     GoRoute(
                       path: 'pick_emoji',
                       name: 'pick_emoji',
-                      builder: (context, state) => const EmojiSelector(),
+                      pageBuilder:(context, state) {
+                        return NoTransitionPage(
+                              child: EmojiSelector(onPressed: state.extra! as void Function(String)),
+                            );
+                      },
+                      //builder: (context, state) => EmojiSelector(onPressed: state.extra! as void Function(String)),
                     )
                   ],
                 ),

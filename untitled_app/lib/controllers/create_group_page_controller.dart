@@ -169,8 +169,10 @@ class CreateGroupPageController extends ChangeNotifier {
   }
 
   void pickEmoji() async {
-    final returnedString =
-        ((await context.pushNamed("pick_emoji")) ?? "").toString();
+    context.pushNamed("pick_emoji", extra: _setIcon);
+  }
+
+  void _setIcon(String returnedString) {
     if (returnedString != "") icon = returnedString;
     notifyListeners();
   }

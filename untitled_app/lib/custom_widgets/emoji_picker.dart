@@ -4,13 +4,14 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:go_router/go_router.dart';
 
 class EmojiSelector extends StatelessWidget {
-  const EmojiSelector({super.key});
-
+  const EmojiSelector({super.key, required this.onPressed});
+  final void Function(String) onPressed;
   @override
   Widget build(BuildContext context) {
     return EmojiPicker(
       onEmojiSelected: (Category? category, Emoji? emoji) {
-        context.pop(emoji?.emoji);
+        onPressed((emoji?.emoji) ?? "");
+        context.pop();
       },
       config: Config(
         columns: 7,
