@@ -9,6 +9,10 @@ import '../models/group_handler.dart';
 import '../models/current_user.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/warning_dialog.dart';
+import 'package:untitled_app/custom_widgets/controllers/pagination_controller.dart'
+    show PaginationGetterReturn;
+import 'package:untitled_app/models/feed_post_cache.dart' show Cache;
+import '../custom_widgets/searched_user_card.dart';
 
 class CreateGroupPageController extends ChangeNotifier {
   String icon = "";
@@ -26,6 +30,9 @@ class CreateGroupPageController extends ChangeNotifier {
   int? selectedToDelete;
   BuildContext context;
   bool canSwipe = false;
+  final searchModel = SearchModel();
+  String query = "";
+Cache searchedListData = Cache(items: [], end: false);
 
   CreateGroupPageController({required this.context});
   void goForward() {
@@ -94,27 +101,33 @@ class CreateGroupPageController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  void onSearchTextChanged(String s) async {
-    if (s == '') {
-      hits = [];
-
-      isLoading = false;
-      notifyListeners();
+  Future<PaginationGetterReturn> getter(dynamic page) async {
+    if (isLoading) {
+      //forces loading animation
+      return PaginationGetterReturn(end: false, payload: []);
     } else {
-      isLoading = true;
-      notifyListeners();
+      page = page ?? 0;
+      return searchModel.getter(page, query, true);
     }
+  }
+
+  dynamic startAfterQuery(dynamic lastUser) {
+    return searchModel.startAfterQuery(lastUser);
+  }
+
+  void onSearchTextChanged(String s) async {
+    isLoading = true;
+    notifyListeners();
+
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce =
-        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
-      if (s != '') {
-        hits = await SearchModel().hitsQuery(s);
-        hits.removeWhere(
-            (element) => element.uid == locator<CurrentUser>().getUID());
+    _debounce = Timer(
+      const Duration(milliseconds: c.searchPageDebounce),
+      () async {
+        query = s;
         isLoading = false;
         notifyListeners();
-      }
-    });
+      },
+    );
   }
 
   bool isUserSelected(AppUser user) {
@@ -124,6 +137,15 @@ class CreateGroupPageController extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  Widget groupSearchPageBuilder(dynamic user) {
+    return UserCard(
+      user: user,
+      initialBool: isUserSelected(user),
+      groupSearch: true,
+      adder: addRemovePersonToList,
+    );
   }
 
   void addRemovePersonToList(AppUser user, bool add) {

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import '../models/current_user.dart';
 import '../models/search_model.dart';
 import '../models/users.dart';
 import '../utilities/constants.dart' as c;

@@ -30,7 +30,7 @@ class EditProfile extends StatelessWidget {
                     .hideKeyboard(),
             child: Scaffold(
               body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView(
                   keyboardDismissBehavior:
                       ScrollViewKeyboardDismissBehavior.onDrag,

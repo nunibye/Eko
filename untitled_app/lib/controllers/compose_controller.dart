@@ -15,7 +15,6 @@ import '../custom_widgets/post_card.dart';
 import "package:go_router/go_router.dart";
 import 'package:untitled_app/models/feed_post_cache.dart';
 import '../models/users.dart' show AppUser;
-import '../controllers/bottom_nav_bar_controller.dart';
 import '../models/group_handler.dart';
 import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;

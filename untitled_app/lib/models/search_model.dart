@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'users.dart';
 import "../utilities/constants.dart" as c;
+import '../models/current_user.dart';
+import 'package:untitled_app/utilities/locator.dart';
+import 'package:untitled_app/custom_widgets/controllers/pagination_controller.dart';
 
 class SearchModel {
-
   Future<List<AppUser>> hitsQuery(String query, {int page = 0}) async {
     final response = await http.post(
       Uri.parse(
@@ -28,20 +30,32 @@ class SearchModel {
     }
   }
 
-  // Future<List<AppUser>> onSearchTextChanged(String s) async {
-  //   List<AppUser> hits = [];
-  //   void internalCall() async {
-  //     hits = await hitsQuery(s);
-  //   }
+  dynamic startAfterQuery(dynamic lastUser) {
+    lastUser as AppUser;
+    if (lastUser.pageIndex == null) {
+      return 0;
+    } else {
+      return lastUser.pageIndex! + 1;
+    }
+  }
 
-  //   if (_debounce?.isActive ?? false) _debounce!.cancel();
-  //   _debounce =
-  //       Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
-  //     if (s != '') {
-  //       internalCall();
-  //     }
-  //   });
-  //   return hits;
-  // }
+  Future<PaginationGetterReturn> getter(
+      int page, String query, bool removeUser) async {
+    //page = page ?? 0;
+    List<AppUser> list = await hitsQuery(query, page: page);
+    //remove current user
+    int offset = 0; //controls end logic
+    if (removeUser) {
+      for (int i = 0; i < list.length; i++) {
+        if (list[i].uid == locator<CurrentUser>().getUID()) {
+          list.removeAt(i);
+          offset = 1;
+          break;
+        }
+      }
+    }
 
+    return PaginationGetterReturn(
+        end: (list.length < (c.usersOnSearch - offset)), payload: list);
+  }
 }

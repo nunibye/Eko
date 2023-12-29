@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:untitled_app/models/users.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart';
@@ -75,10 +73,11 @@ class PostCardController extends ChangeNotifier {
 
   tagPressed(String username) async {
     String? uid = await locator<CurrentUser>().getUidFromUsername(username);
-    if (locator<CurrentUser>().getUID() == uid)
+    if (locator<CurrentUser>().getUID() == uid) {
       context.go("/profile");
-    else
+    } else {
       context.push("/sub_profile/$uid");
+    }
   }
 
   sharePressed() async {

@@ -248,8 +248,9 @@ class ComposePage extends StatelessWidget {
                                               Widget child,
                                               ImageChunkEvent?
                                                   loadingProgress) {
-                                            if (loadingProgress == null)
+                                            if (loadingProgress == null) {
                                               return child;
+                                            }
                                             return Container(
                                               alignment: Alignment.center,
                                               width: 200,

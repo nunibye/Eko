@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/controllers/edit_group_page_controller.dart';
-import 'package:untitled_app/controllers/followers_controller.dart';
 import 'package:untitled_app/controllers/group_members_controller.dart';
-import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/group_handler.dart';
@@ -112,7 +110,7 @@ class GroupSettings extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.person_add_outlined),
+                          icon: const Icon(Icons.person_add_outlined),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
                             Provider.of<EditGroupPageController>(context,
@@ -121,14 +119,14 @@ class GroupSettings extends StatelessWidget {
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.notifications_none),
+                          icon: const Icon(Icons.notifications_none),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
                             // TODO
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.exit_to_app_rounded),
+                          icon: const Icon(Icons.exit_to_app_rounded),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
                             // TODO

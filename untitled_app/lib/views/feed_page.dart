@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/custom_widgets/post_loader.dart';
+import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import '../custom_widgets/pagination.dart';
 import '../custom_widgets/tab_bar.dart';
 import '../controllers/feed_controller.dart';
@@ -88,8 +90,8 @@ class FeedPage extends StatelessWidget {
             card: postCardBuilder,
             startAfterQuery: Provider.of<FeedController>(context, listen: false)
                 .getTimeFromPost,
-            cachedIndex:
-                Provider.of<FeedController>(context, listen: true).index,
+            externalData: locator<FeedPostCache>().postsList[
+                Provider.of<FeedController>(context, listen: true).index],
           ),
 
           //

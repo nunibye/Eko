@@ -6,13 +6,6 @@ import 'package:untitled_app/controllers/group_members_controller.dart';
 import 'package:untitled_app/custom_widgets/selected_user_groups.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/group_handler.dart';
-import 'package:untitled_app/models/users.dart';
-import 'package:untitled_app/utilities/locator.dart';
-import 'package:untitled_app/views/followers.dart';
-import 'package:untitled_app/views/group_members.dart';
-import '../controllers/create_group_page_controller.dart';
-import '../custom_widgets/edit_profile_text_field.dart';
-import '../utilities/constants.dart' as c;
 import 'package:go_router/go_router.dart';
 import '../custom_widgets/searched_user_card.dart';
 
@@ -39,7 +32,7 @@ class EditGroupPage extends StatelessWidget {
               controller:
                   Provider.of<EditGroupPageController>(context, listen: false)
                       .pageController,
-              children: [_GroupSettings(), _AddPeople()],
+              children: const [_GroupSettings(), _AddPeople()],
             ));
       },
     );
@@ -47,7 +40,7 @@ class EditGroupPage extends StatelessWidget {
 }
 
 class _GroupSettings extends StatelessWidget {
-  _GroupSettings();
+  const _GroupSettings();
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +141,7 @@ class _GroupSettings extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.person_add_outlined),
+                          icon: const Icon(Icons.person_add_outlined),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
                             Provider.of<EditGroupPageController>(context,
@@ -160,14 +153,14 @@ class _GroupSettings extends StatelessWidget {
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.notifications_none),
+                          icon: const Icon(Icons.notifications_none),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
                             // TODO
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.exit_to_app_rounded),
+                          icon: const Icon(Icons.exit_to_app_rounded),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
                             // TODO
@@ -202,7 +195,7 @@ class _GroupSettings extends StatelessWidget {
 }
 
 class _AddPeople extends StatelessWidget {
-  _AddPeople();
+  const _AddPeople();
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +228,7 @@ class _AddPeople extends StatelessWidget {
                     Provider.of<EditGroupPageController>(context, listen: false)
                         .updateGroupMembers(),
                 child: Text(
-                    SetEquality()
+                    const SetEquality()
                             .equals(selectedPeople.toSet(), membersList.toSet())
                         ? ""
                         : AppLocalizations.of(context)!.save),

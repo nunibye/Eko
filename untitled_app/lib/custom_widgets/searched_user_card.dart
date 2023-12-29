@@ -12,6 +12,8 @@ Widget searchPageBuilder(dynamic user) {
   return UserCard(user: user);
 }
 
+
+
 class UserCard extends StatelessWidget {
   final bool? initialBool;
   final AppUser user;

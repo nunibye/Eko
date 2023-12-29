@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'controllers/pagination_controller.dart';
+import 'package:untitled_app/models/feed_post_cache.dart' show Cache;
 
 class PaginationPage extends StatelessWidget {
   final Future<PaginationGetterReturn> Function(dynamic) getter;
@@ -12,48 +13,50 @@ class PaginationPage extends StatelessWidget {
   final Widget? emptySetNotice;
   final Widget? loadingWidget;
   final Widget? initialLoadingWidget;
-  final int? cachedIndex;
+
   final bool shrinkWrap;
   final SliverAppBar? appbar;
+  final Cache? externalData;
   //final bool forceLoadingState;
-  const PaginationPage(
-      {super.key,
-      this.shrinkWrap = false,
-      required this.getter,
-      //this.forceLoadingState = false,
-      required this.card,
-      this.appbar,
-      this.extraRefresh,
-      this.header,
-      required this.startAfterQuery,
-      this.emptySetNotice,
-      this.initialLoadingWidget,
-      this.loadingWidget,
-      this.cachedIndex});
+  const PaginationPage({
+    super.key,
+    this.externalData,
+    this.shrinkWrap = false,
+    required this.getter,
+    //this.forceLoadingState = false,
+    required this.card,
+    this.appbar,
+    this.extraRefresh,
+    this.header,
+    required this.startAfterQuery,
+    this.emptySetNotice,
+    this.initialLoadingWidget,
+    this.loadingWidget,
+  });
 
   @override
   Widget build(BuildContext context) {
-  
     return ChangeNotifierProvider.value(
       value: PaginationController(
         //hasAppbar: (appbar != null),
+        externalData: externalData,
         extraRefresh: extraRefresh,
         getter: getter,
         context: context,
         startAfterQuery: startAfterQuery,
-        cacheIndex: cachedIndex,
       ),
       builder: (context, child) {
         return RefreshIndicator(
           child: CustomScrollView(
             shrinkWrap: shrinkWrap,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            physics: ((!Provider.of<PaginationController>(context,
-                              listen: true)
-                          .end) &&
-                      Provider.of<PaginationController>(context, listen: true)
-                          .items
-                          .isEmpty)
+            physics: ((!Provider.of<PaginationController>(context, listen: true)
+                        .data
+                        .end) &&
+                    Provider.of<PaginationController>(context, listen: true)
+                        .data
+                        .items
+                        .isEmpty)
                 ? const NeverScrollableScrollPhysics()
                 : const AlwaysScrollableScrollPhysics(),
             controller:
@@ -70,6 +73,7 @@ class PaginationPage extends StatelessWidget {
               SliverList.builder(
                 itemCount:
                     Provider.of<PaginationController>(context, listen: true)
+                            .data
                             .items
                             .length +
                         2,
@@ -78,20 +82,25 @@ class PaginationPage extends StatelessWidget {
                     //build header
                     return header ?? const SizedBox();
                   } else if (Provider.of<PaginationController>(context, listen: true)
+                          .data
                           .items
                           .isNotEmpty &&
                       index <
                           Provider.of<PaginationController>(context, listen: true)
+                                  .data
                                   .items
                                   .length +
                               1) {
                     //normal case put cards
                     return card(
                         Provider.of<PaginationController>(context, listen: true)
+                            .data
                             .items[index - 1]);
                   } else if (Provider.of<PaginationController>(context, listen: true)
+                          .data
                           .end &&
                       Provider.of<PaginationController>(context, listen: true)
+                          .data
                           .items
                           .isEmpty) {
                     //what to return if dataset is empty
@@ -101,17 +110,20 @@ class PaginationPage extends StatelessWidget {
                                 .nothingToSeeHere));
                   } else if ((!Provider.of<PaginationController>(context,
                               listen: true)
+                          .data
                           .end) &&
                       Provider.of<PaginationController>(context, listen: true)
+                          .data
                           .items
                           .isEmpty) {
                     //what to return if dataset is under initial load sequence
                     return initialLoadingWidget ??
                         const Center(child: CircularProgressIndicator());
-                  } else if (Provider.of<PaginationController>(context,
-                              listen: true)
+                  } else if (Provider.of<PaginationController>(context, listen: true)
+                          .data
                           .end &&
                       Provider.of<PaginationController>(context, listen: true)
+                          .data
                           .items
                           .isNotEmpty) {
                     //end of feed

@@ -7,8 +7,6 @@ import '../models/search_model.dart';
 import 'package:go_router/go_router.dart';
 import '../models/group_handler.dart';
 import '../models/current_user.dart';
-import 'package:untitled_app/localization/generated/app_localizations.dart';
-import '../custom_widgets/warning_dialog.dart';
 
 class EditGroupPageController extends ChangeNotifier {
   String icon = "";

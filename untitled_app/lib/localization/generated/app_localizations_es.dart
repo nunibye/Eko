@@ -2,7 +2,7 @@ import 'app_localizations.dart';
 
 /// The translations for Spanish Castilian (`es`).
 class AppLocalizationsEs extends AppLocalizations {
-  AppLocalizationsEs([String locale = 'es']) : super(locale);
+  AppLocalizationsEs([super.locale = 'es']);
 
   @override
   String get post => 'Publicación';
@@ -251,7 +251,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteAcountTitle => 'Are you sure you want to delete your account?';
 
   @override
-  String get deleteAcountBody => 'All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel';
+  String get deleteAcountBody => 'All account data will be deleted. This action cannot be undone. Press "Go Back" to cancel';
 
   @override
   String get delete => 'Delete';

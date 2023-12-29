@@ -7,7 +7,6 @@ import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
 import 'users.dart';
 import '../custom_widgets/controllers/pagination_controller.dart';
-import '../models/feed_post_cache.dart';
 
 class Post {
   String postId;
@@ -446,11 +445,11 @@ class PostsHandling {
       return Post.fromRaw(raw, user, await countComments(raw.postID),
           hasCache: true);
     }).toList();
-    if (postList.length < c.postsOnRefresh) {
-      locator<FeedPostCache>().postsList[index].end = true;
-    }
+    // if (postList.length < c.postsOnRefresh) {
+    //   locator<FeedPostCache>().postsList[index].end = true;
+    // }
     final listReturn = await Future.wait(postList);
-    locator<FeedPostCache>().postsList[index].posts.addAll(listReturn);
+    //locator<FeedPostCache>().postsList[index].items.addAll(listReturn);
     return PaginationGetterReturn(
         end: (postList.length < c.postsOnRefresh), payload: listReturn);
   }

@@ -54,7 +54,7 @@ class SelectedUser extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 5),
-                    Text(user.name)
+                    Text((user.name != "") ? user.name : user.username)
                   ],
                 ),
               ),

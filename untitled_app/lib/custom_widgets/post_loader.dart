@@ -251,44 +251,47 @@ class CardListItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 7),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(height: 10),
-            Container(
-              width: size.width * 0.55,
-              height: 24,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              Container(
+                width: size.width * 0.55,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              width: size.width * 0.5,
-              height: size.width * 0.4,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
+              const SizedBox(height: 10),
+              Container(
+                width: size.width * 0.5,
+                height: size.width * 0.4,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              width: size.width * 0.7,
-              height: 24,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
+              const SizedBox(height: 10),
+              Container(
+                width: size.width * 0.7,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              width: size.width * 0.6,
-              height: 24,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
+              const SizedBox(height: 10),
+              Container(
+                width: size.width * 0.6,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-            ),
-          ])
+            ],
+          )
         ],
       ),
     );

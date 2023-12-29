@@ -78,6 +78,8 @@ class OtherProfile extends StatelessWidget {
                           listen: false)
                       .getTimeFromPost,
                   header: const _Header(),
+                  externalData: Provider.of<OtherProfileController>(context,
+                          listen: false).loadedPostData,
                   extraRefresh: Provider.of<OtherProfileController>(context,
                           listen: false)
                       .onPageRefresh,
