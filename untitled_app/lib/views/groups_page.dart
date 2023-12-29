@@ -28,8 +28,9 @@ class GroupsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => GroupsPageController(context: context),
       builder: (context, child) {
-        return WillPopScope(
-          onWillPop: () =>
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) =>
               Provider.of<GroupsPageController>(context, listen: false)
                   .onWillPop(),
           child: Scaffold(

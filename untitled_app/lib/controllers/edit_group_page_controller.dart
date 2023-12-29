@@ -55,13 +55,13 @@ class EditGroupPageController extends ChangeNotifier {
   //   _pop();
   // }
 
-  Future<bool> exitPressed() async {
+  void exitPressed() {
     // if (selectedPeople.isEmpty &&
     //     icon == "" &&
     //     nameController.text == "" &&
     //     descriptionController.text == "") {
     _pop();
-    return true;
+
     // } else {
     //   showMyDialog(
     //       AppLocalizations.of(context)!.exitEditProfileTitle,

@@ -19,8 +19,9 @@ class EditGroupPage extends StatelessWidget {
       create: (context) =>
           EditGroupPageController(context: context, group: group),
       builder: (context, child) {
-        return WillPopScope(
-            onWillPop: () =>
+        return PopScope(
+          canPop: false,
+            onPopInvoked: (didPop) =>
                 Provider.of<EditGroupPageController>(context, listen: false)
                     .exitPressed(),
             child: PageView(

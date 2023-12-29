@@ -84,17 +84,21 @@ class EditProfileController extends ChangeNotifier {
     );
   }
 
+  void showWarning() {
+    showMyDialog(
+        AppLocalizations.of(context)!.exitEditProfileTitle,
+        AppLocalizations.of(context)!.exitEditProfileBody,
+        [
+          AppLocalizations.of(context)!.exit,
+          AppLocalizations.of(context)!.stay
+        ],
+        [_popTwice, _pop],
+        context);
+  }
+
   void exitPressed() {
     if (showSave) {
-      showMyDialog(
-          AppLocalizations.of(context)!.exitEditProfileTitle,
-          AppLocalizations.of(context)!.exitEditProfileBody,
-          [
-            AppLocalizations.of(context)!.exit,
-            AppLocalizations.of(context)!.stay
-          ],
-          [_popTwice, _pop],
-          context);
+      showWarning();
     } else {
       _pop();
     }
@@ -114,7 +118,7 @@ class EditProfileController extends ChangeNotifier {
         await _saveUsernameData(usernameController.text.trim());
       } else {
         shouldPop = false;
-       usernameTakenDialog();
+        usernameTakenDialog();
       }
     }
     if (newProfileImage != null) {
@@ -136,7 +140,7 @@ class EditProfileController extends ChangeNotifier {
         context);
   }
 
-void usernameTakenDialog() {
+  void usernameTakenDialog() {
     showMyDialog(
         AppLocalizations.of(context)!.usernameTakenTitle,
         AppLocalizations.of(context)!.usernameTakenBody,

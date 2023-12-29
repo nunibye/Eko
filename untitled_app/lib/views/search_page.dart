@@ -16,8 +16,9 @@ class SearchPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => SearchPageController(context: context),
       builder: (context, child) {
-        return WillPopScope(
-          onWillPop: () =>
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) =>
               Provider.of<SearchPageController>(context, listen: false)
                   .onWillPop(),
           child: GestureDetector(

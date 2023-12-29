@@ -16,8 +16,9 @@ class CreateGroupPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => CreateGroupPageController(context: context),
       builder: (context, child) {
-        return WillPopScope(
-            onWillPop: () =>
+        return PopScope(
+            canPop: false,
+            onPopInvoked: (didPop) =>
                 Provider.of<CreateGroupPageController>(context, listen: false)
                     .exitPressed(),
             child: PageView(

@@ -51,6 +51,7 @@ class CommentCard extends StatelessWidget {
                         width: width * 0.115,
                         child: ClipOval(
                           child: CachedNetworkImage(
+                            fit: BoxFit.fill,
                             imageUrl: post.author.profilePicture,
                             placeholder: (context, url) =>
                                 const LoadingProfileImage(),

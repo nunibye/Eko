@@ -28,8 +28,9 @@ class ComposePage extends StatelessWidget {
       ),
       builder: (context, child) {
         Provider.of<ComposeController>(context, listen: false).initGroup(group);
-        return WillPopScope(
-          onWillPop: () =>
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) =>
               Provider.of<ComposeController>(context, listen: false)
                   .onWillPop(),
           child: GestureDetector(
@@ -117,6 +118,7 @@ class ComposePage extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.115,
                               child: ClipOval(
                                 child: CachedNetworkImage(
+                                  fit: BoxFit.fill,
                                   imageUrl:
                                       locator<CurrentUser>().profilePicture,
                                   placeholder: (context, url) =>

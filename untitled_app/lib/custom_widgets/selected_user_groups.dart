@@ -45,6 +45,7 @@ class SelectedUser extends StatelessWidget {
                       width: 22,
                       child: ClipOval(
                         child: CachedNetworkImage(
+                          fit: BoxFit.fill,
                           imageUrl: user.profilePicture,
                           placeholder: (context, url) =>
                               const LoadingProfileImage(),

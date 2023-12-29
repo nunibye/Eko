@@ -18,12 +18,20 @@ class EditProfile extends StatelessWidget {
       create: (context) => EditProfileController(context: context),
       builder: (context, child) {
         final height = MediaQuery.sizeOf(context).height;
-        return WillPopScope(
-          onWillPop: () async {
-            Provider.of<EditProfileController>(context, listen: false)
-                .exitPressed();
-            return false;
+        return PopScope(
+          canPop: !Provider.of<EditProfileController>(context, listen: true)
+              .showSave,
+          onPopInvoked: (didPop) {
+            if (!didPop) {
+              Provider.of<EditProfileController>(context, listen: false)
+                  .showWarning();
+            }
           },
+          // onWillPop: () async {
+          //   Provider.of<EditProfileController>(context, listen: false)
+          //       .exitPressed();
+          //   return false;
+          // },
           child: GestureDetector(
             onTap: () =>
                 Provider.of<EditProfileController>(context, listen: false)
@@ -101,11 +109,13 @@ class EditProfile extends StatelessWidget {
                                               .newProfileImage !=
                                           null
                                       ? Image.file(
+                                          fit: BoxFit.fill,
                                           Provider.of<EditProfileController>(
                                                   context,
                                                   listen: true)
                                               .newProfileImage!)
                                       : CachedNetworkImage(
+                                          fit: BoxFit.fill,
                                           imageUrl: Provider.of<
                                                       EditProfileController>(
                                                   context,
@@ -121,7 +131,7 @@ class EditProfile extends StatelessWidget {
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       shape: const CircleBorder(),
-                                      padding: const EdgeInsets.all(20)),
+                                      padding: const EdgeInsets.all(15)),
                                   onPressed: () =>
                                       Provider.of<EditProfileController>(
                                               context,
@@ -236,7 +246,6 @@ class EditProfile extends StatelessWidget {
                                           ),
                                           IconButton(
                                               onPressed: () {
-                                                
                                                 Provider.of<EditProfileController>(
                                                         context,
                                                         listen: false)

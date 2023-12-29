@@ -70,7 +70,7 @@ class CreateGroupPageController extends ChangeNotifier {
     _pop();
   }
 
-  Future<bool> exitPressed() async {
+  void exitPressed() {
     if (selectedPeople.isEmpty &&
         icon == "" &&
         nameController.text == "" &&
@@ -87,7 +87,6 @@ class CreateGroupPageController extends ChangeNotifier {
           [_popTwice, _pop],
           context);
     }
-    return false;
   }
 
   void goBack() {

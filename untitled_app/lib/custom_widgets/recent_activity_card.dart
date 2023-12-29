@@ -39,6 +39,7 @@ class ActivityCardWidget extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.115,
                       child: ClipOval(
                           child: CachedNetworkImage(
+                            fit: BoxFit.fill,
                         imageUrl: card.sourceUser!.profilePicture,
                         placeholder: (context, url) =>
                             const LoadingProfileImage(),

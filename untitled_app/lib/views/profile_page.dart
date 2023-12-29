@@ -23,8 +23,9 @@ class ProfilePage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
-        return WillPopScope(
-            onWillPop: () =>
+        return PopScope(
+          canPop: false,
+            onPopInvoked: (didPop) =>
                 Provider.of<ProfileController>(context, listen: false)
                     .onWillPop(),
             child: Scaffold(

@@ -68,9 +68,8 @@ class ComposeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> onWillPop() async {
+  void onWillPop() {
     locator<NavBarController>().goBranch(0);
-    return false;
   }
 
   void onBodyFocusChanged() {

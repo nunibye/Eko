@@ -62,6 +62,7 @@ class ProfileHeader extends StatelessWidget {
                           height: MediaQuery.of(context).size.width * 0.24,
                           child: ClipOval(
                             child: CachedNetworkImage(
+                              fit: BoxFit.fill,
                               imageUrl: profilePic,
                               placeholder: (context, url) =>
                                   const LoadingProfileImage(),
