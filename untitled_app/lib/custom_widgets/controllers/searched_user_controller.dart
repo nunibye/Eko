@@ -56,11 +56,11 @@ class SearchedUserController extends ChangeNotifier {
   void onAddPressed() {
     if (added) {
       adder!(user, false);
-      added = false;
+      //added = false;
     } else {
       adder!(user, true);
-      added = true;
+      //added = true;
     }
-    notifyListeners();
+    //notifyListeners();
   }
 }

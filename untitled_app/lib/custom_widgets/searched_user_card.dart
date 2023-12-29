@@ -78,10 +78,10 @@ class UserCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(user.name,
+                            if(user.name != "")Text(user.name,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold)),
-                            Text(user.username)
+                            Text("@${user.username}")
                           ],
                         ),
                       ),

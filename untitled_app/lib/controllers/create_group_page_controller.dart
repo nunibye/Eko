@@ -32,7 +32,7 @@ class CreateGroupPageController extends ChangeNotifier {
   bool canSwipe = false;
   final searchModel = SearchModel();
   String query = "";
-Cache searchedListData = Cache(items: [], end: false);
+  Cache searchedListData = Cache(items: [], end: false);
 
   CreateGroupPageController({required this.context});
   void goForward() {
@@ -117,6 +117,8 @@ Cache searchedListData = Cache(items: [], end: false);
 
   void onSearchTextChanged(String s) async {
     isLoading = true;
+    searchedListData.end = false;
+    searchedListData.items = [];
     notifyListeners();
 
     if (_debounce?.isActive ?? false) _debounce!.cancel();

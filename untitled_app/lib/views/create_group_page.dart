@@ -163,145 +163,253 @@ class _AddPeople extends StatelessWidget {
         externalData:
             Provider.of<CreateGroupPageController>(context, listen: true)
                 .searchedListData,
-        header: Column(
-          children: [
-            Row(
+
+        appbar: SliverAppBar(
+          toolbarHeight: height * 0.1,
+          floating: true,
+          pinned: false,
+          scrolledUnderElevation: 0.0,
+          centerTitle: true,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          bottom: PreferredSize(
+            //FIXME this may be arbitrary
+            preferredSize: Size.fromHeight(height *
+                (Provider.of<CreateGroupPageController>(context, listen: true)
+                        .selectedPeople
+                        .isNotEmpty
+                    ? 0.1
+                    : 0.05)),
+            child: Column(
               children: [
-                TextButton(
-                    onPressed: () => Provider.of<CreateGroupPageController>(
-                            context,
-                            listen: false)
-                        .goBack(),
-                    child: Text(AppLocalizations.of(context)!.goBack)),
-                const Spacer(),
-                TextButton(
-                  onPressed: () => Provider.of<CreateGroupPageController>(
+                TextField(
+                  cursorColor: Theme.of(context).colorScheme.onBackground,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(height * 0.01),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.all(width * 0.035),
+                      child: Image.asset('images/algolia_logo.png',
+                          width: width * 0.05, height: width * 0.05),
+                    ),
+                    hintText: AppLocalizations.of(context)!.search,
+                    filled: true,
+                    fillColor: Theme.of(context).colorScheme.surface,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  onChanged: (s) => Provider.of<CreateGroupPageController>(
                           context,
                           listen: false)
+                      .onSearchTextChanged(s),
+                  controller: Provider.of<CreateGroupPageController>(context,
+                          listen: false)
+                      .searchTextController,
+                  keyboardType: TextInputType.text,
+                  style: const TextStyle(fontSize: 20),
+                ),
+                Consumer<CreateGroupPageController>(
+                  builder: (context, createGroupPageController, _) {
+                    return Container(
+                      padding: const EdgeInsets.only(top: 5),
+                      height:
+                          createGroupPageController.selectedPeople.isNotEmpty
+                              ? height * 0.05
+                              : 0,
+                      child: ListView.builder(
+                        controller: Provider.of<CreateGroupPageController>(
+                                context,
+                                listen: false)
+                            .selectedPeopleScroll,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount:
+                            createGroupPageController.selectedPeople.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: SelectedUser(
+                              user: createGroupPageController
+                                  .selectedPeople[index],
+                              index: index,
+                              selected: (index ==
+                                  createGroupPageController.selectedToDelete),
+                              setter: Provider.of<CreateGroupPageController>(
+                                      context,
+                                      listen: false)
+                                  .setSelectedToDelete,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
+          leadingWidth: width * 0.4,
+          leading: Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () => Provider.of<CreateGroupPageController>(context,
+                        listen: false)
+                    .goBack(),
+                child: Text(AppLocalizations.of(context)!.goBack),
+              )),
+          actions: [
+            TextButton(
+              onPressed: () =>
+                  Provider.of<CreateGroupPageController>(context, listen: false)
                       .createGroup(),
-                  child: Text(Provider.of<CreateGroupPageController>(context,
-                              listen: true)
+              child: Text(
+                  Provider.of<CreateGroupPageController>(context, listen: true)
                           .selectedPeople
                           .isEmpty
                       ? AppLocalizations.of(context)!.skip
                       : AppLocalizations.of(context)!.done),
-                )
-              ],
-            ),
-            TextField(
-              cursorColor: Theme.of(context).colorScheme.onBackground,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(height * 0.01),
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(width * 0.035),
-                  child: Image.asset('images/algolia_logo.png',
-                      width: width * 0.05, height: width * 0.05),
-                ),
-                hintText: AppLocalizations.of(context)!.search,
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surface,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              onChanged: (s) =>
-                  Provider.of<CreateGroupPageController>(context, listen: false)
-                      .onSearchTextChanged(s),
-              controller:
-                  Provider.of<CreateGroupPageController>(context, listen: false)
-                      .searchTextController,
-              keyboardType: TextInputType.text,
-              style: const TextStyle(fontSize: 20),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 5),
-              height:
-                  Provider.of<CreateGroupPageController>(context, listen: true)
-                          .selectedPeople
-                          .isNotEmpty
-                      ? height * 0.05
-                      : 0,
-              child: ListView.builder(
-                controller: Provider.of<CreateGroupPageController>(context,
-                        listen: true)
-                    .selectedPeopleScroll,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: Provider.of<CreateGroupPageController>(context,
-                        listen: true)
-                    .selectedPeople
-                    .length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SelectedUser(
-                      user: Provider.of<CreateGroupPageController>(context,
-                              listen: true)
-                          .selectedPeople[index],
-                      index: index,
-                      selected: (index ==
-                          Provider.of<CreateGroupPageController>(context,
-                                  listen: true)
-                              .selectedToDelete),
-                      setter: Provider.of<CreateGroupPageController>(context,
-                              listen: false)
-                          .setSelectedToDelete,
-                    ),
-                  );
-                },
-              ),
-            ),
-            // Expanded(
-            //   child: Provider.of<CreateGroupPageController>(context, listen: true)
-            //           .isLoading
-            //       ? const Center(
-            //           child: CircularProgressIndicator(),
-            //         )
-            //       : Provider.of<CreateGroupPageController>(context, listen: true)
-            //               .hits
-            //               .isEmpty
-            //           ? Center(
-            //               child: Text(
-            //                 AppLocalizations.of(context)!.noResultsFound,
-            //                 style: TextStyle(
-            //                     fontSize: 18,
-            //                     color:
-            //                         Theme.of(context).colorScheme.onBackground),
-            //               ),
-            //             )
-            //           : ListView.builder(
-            //               //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            //               itemCount: Provider.of<CreateGroupPageController>(
-            //                       context,
-            //                       listen: true)
-            //                   .hits
-            //                   .length,
-            //               itemBuilder: (BuildContext context, int index) {
-            //                 return UserCard(
-            //                   initialBool: Provider.of<CreateGroupPageController>(
-            //                           context,
-            //                           listen: false)
-            //                       .isUserSelected(
-            //                           Provider.of<CreateGroupPageController>(
-            //                                   context,
-            //                                   listen: true)
-            //                               .hits[index]),
-            //                   adder: Provider.of<CreateGroupPageController>(
-            //                           context,
-            //                           listen: false)
-            //                       .addRemovePersonToList,
-            //                   groupSearch: true,
-            //                   user: Provider.of<CreateGroupPageController>(
-            //                           context,
-            //                           listen: true)
-            //                       .hits[index],
-            //                 );
-            //               },
-            //             ),
-            // ),
+            )
           ],
         ),
+        // header: Column(
+        //   children: [
+        //     Row(
+        //       children: [
+        //         TextButton(
+        //             onPressed: () => Provider.of<CreateGroupPageController>(
+        //                     context,
+        //                     listen: false)
+        //                 .goBack(),
+        //             child: Text(AppLocalizations.of(context)!.goBack)),
+        //         const Spacer(),
+        //         TextButton(
+        //           onPressed: () => Provider.of<CreateGroupPageController>(
+        //                   context,
+        //                   listen: false)
+        //               .createGroup(),
+        //           child: Text(Provider.of<CreateGroupPageController>(context,
+        //                       listen: true)
+        //                   .selectedPeople
+        //                   .isEmpty
+        //               ? AppLocalizations.of(context)!.skip
+        //               : AppLocalizations.of(context)!.done),
+        //         )
+        //       ],
+        //     ),
+        //     TextField(
+        //       cursorColor: Theme.of(context).colorScheme.onBackground,
+        //       decoration: InputDecoration(
+        //         contentPadding: EdgeInsets.all(height * 0.01),
+        //         prefixIcon: Padding(
+        //           padding: EdgeInsets.all(width * 0.035),
+        //           child: Image.asset('images/algolia_logo.png',
+        //               width: width * 0.05, height: width * 0.05),
+        //         ),
+        //         hintText: AppLocalizations.of(context)!.search,
+        //         filled: true,
+        //         fillColor: Theme.of(context).colorScheme.surface,
+        //         border: OutlineInputBorder(
+        //           borderRadius: BorderRadius.circular(10.0),
+        //           borderSide: BorderSide.none,
+        //         ),
+        //       ),
+        //       onChanged: (s) =>
+        //           Provider.of<CreateGroupPageController>(context, listen: false)
+        //               .onSearchTextChanged(s),
+        //       controller:
+        //           Provider.of<CreateGroupPageController>(context, listen: false)
+        //               .searchTextController,
+        //       keyboardType: TextInputType.text,
+        //       style: const TextStyle(fontSize: 20),
+        //     ),
+        //     Container(
+        //       padding: const EdgeInsets.only(top: 5),
+        //       height:
+        //           Provider.of<CreateGroupPageController>(context, listen: true)
+        //                   .selectedPeople
+        //                   .isNotEmpty
+        //               ? height * 0.05
+        //               : 0,
+        //       child: ListView.builder(
+        //         controller: Provider.of<CreateGroupPageController>(context,
+        //                 listen: true)
+        //             .selectedPeopleScroll,
+        //         shrinkWrap: true,
+        //         scrollDirection: Axis.horizontal,
+        //         itemCount: Provider.of<CreateGroupPageController>(context,
+        //                 listen: true)
+        //             .selectedPeople
+        //             .length,
+        //         itemBuilder: (BuildContext context, int index) {
+        //           return Padding(
+        //             padding: const EdgeInsets.only(right: 10),
+        //             child: SelectedUser(
+        //               user: Provider.of<CreateGroupPageController>(context,
+        //                       listen: true)
+        //                   .selectedPeople[index],
+        //               index: index,
+        //               selected: (index ==
+        //                   Provider.of<CreateGroupPageController>(context,
+        //                           listen: true)
+        //                       .selectedToDelete),
+        //               setter: Provider.of<CreateGroupPageController>(context,
+        //                       listen: false)
+        //                   .setSelectedToDelete,
+        //             ),
+        //           );
+        //         },
+        //       ),
+        //     ),
+        //     // Expanded(
+        //     //   child: Provider.of<CreateGroupPageController>(context, listen: true)
+        //     //           .isLoading
+        //     //       ? const Center(
+        //     //           child: CircularProgressIndicator(),
+        //     //         )
+        //     //       : Provider.of<CreateGroupPageController>(context, listen: true)
+        //     //               .hits
+        //     //               .isEmpty
+        //     //           ? Center(
+        //     //               child: Text(
+        //     //                 AppLocalizations.of(context)!.noResultsFound,
+        //     //                 style: TextStyle(
+        //     //                     fontSize: 18,
+        //     //                     color:
+        //     //                         Theme.of(context).colorScheme.onBackground),
+        //     //               ),
+        //     //             )
+        //     //           : ListView.builder(
+        //     //               //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        //     //               itemCount: Provider.of<CreateGroupPageController>(
+        //     //                       context,
+        //     //                       listen: true)
+        //     //                   .hits
+        //     //                   .length,
+        //     //               itemBuilder: (BuildContext context, int index) {
+        //     //                 return UserCard(
+        //     //                   initialBool: Provider.of<CreateGroupPageController>(
+        //     //                           context,
+        //     //                           listen: false)
+        //     //                       .isUserSelected(
+        //     //                           Provider.of<CreateGroupPageController>(
+        //     //                                   context,
+        //     //                                   listen: true)
+        //     //                               .hits[index]),
+        //     //                   adder: Provider.of<CreateGroupPageController>(
+        //     //                           context,
+        //     //                           listen: false)
+        //     //                       .addRemovePersonToList,
+        //     //                   groupSearch: true,
+        //     //                   user: Provider.of<CreateGroupPageController>(
+        //     //                           context,
+        //     //                           listen: true)
+        //     //                       .hits[index],
+        //     //                 );
+        //     //               },
+        //     //             ),
+        //     // ),
+        //   ],
+        // ),
       ),
     );
   }
