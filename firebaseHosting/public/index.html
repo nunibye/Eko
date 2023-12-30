@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 
 <body>
@@ -7,25 +7,28 @@
 </body>
 
 
-</html>
+</html> -->
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Firebase Auth Handlers</title>
   <meta name="robots" content="noindex">
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
   <style>
     body {
-      font-family: Roboto,sans-serif;
+      font-family: Roboto, sans-serif;
     }
+
     i {
       margin-left: -30px;
       cursor: pointer;
     }
+
     .button {
       background-color: #141645;
       border: none;
@@ -39,6 +42,7 @@
       cursor: pointer;
       border-radius: 4px;
     }
+
     input {
       width: 200px;
       padding: 12px 20px;
@@ -48,9 +52,11 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     .red-alert {
       color: #B71C1C;
     }
+
     .center {
       position: absolute;
       left: 50%;
@@ -59,35 +65,51 @@
       transform: translate(-50%, -50%);
       text-align: center;
     }
+
     #cover-spin {
-      position:fixed;
-      width:100%;
-      left:0;right:0;top:0;bottom:0;
-      background-color: rgba(255,255,255,0.7);
-      z-index:9999;
+      position: fixed;
+      width: 100%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.7);
+      z-index: 9999;
     }
 
     @-webkit-keyframes spin {
-      from {-webkit-transform:rotate(0deg);}
-      to {-webkit-transform:rotate(360deg);}
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
     }
 
     @keyframes spin {
-      from {transform:rotate(0deg);}
-      to {transform:rotate(360deg);}
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     #cover-spin::after {
-      content:'';
-      display:block;
-      position:absolute;
-      left:48%;top:40%;
-      width:40px;height:40px;
-      border-style:solid;
-      border-color:black;
-      border-top-color:transparent;
+      content: '';
+      display: block;
+      position: absolute;
+      left: 48%;
+      top: 40%;
+      width: 40px;
+      height: 40px;
+      border-style: solid;
+      border-color: black;
+      border-top-color: transparent;
       border-width: 4px;
-      border-radius:50%;
+      border-radius: 50%;
       -webkit-animation: spin .8s linear infinite;
       animation: spin .8s linear infinite;
     }
@@ -131,7 +153,22 @@
             AuthHandler.handleVerifyEmail()
             break;
           default:
-            AuthHandler.displayErrorMessage(AuthHandler.conf.defaultErrorMessage)
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            console.log("started");
+            if (/android/i.test(userAgent)) {
+              // Redirect to Google Play Store
+
+              window.location.href = "https://play.google.com/store/apps/details?id=com.orderOfTheCone.android.menu_app";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+              // Redirect to Apple App Store
+              console.log("apple");
+              window.location.href = "https://apps.apple.com/us/app/ucsc-menu/id1670523487";
+            } else {
+              // Redirect to website for other devices
+              console.log("window");
+              window.location.href = "https://www.google.com";
+            }
+            // AuthHandler.displayErrorMessage(AuthHandler.conf.defaultErrorMessage)
             break;
         }
       },
@@ -148,9 +185,9 @@
 
           AuthHandler.conf.passwordToggleButton.addEventListener('click', e => {
             AuthHandler.conf.passwordField.setAttribute(
-                    'type',
-                    AuthHandler.conf.passwordField.getAttribute('type') === 'password'
-                            ? 'text' : 'password');
+              'type',
+              AuthHandler.conf.passwordField.getAttribute('type') === 'password'
+                ? 'text' : 'password');
             e.target.classList.toggle('bi-eye');
           });
 
@@ -163,9 +200,9 @@
 
               // Attempt to reset the password.
               AuthHandler.conf.confirmPasswordReset(
-                      AuthHandler.conf.auth,
-                      AuthHandler.conf.oobCode,
-                      AuthHandler.conf.passwordField.value.trim()
+                AuthHandler.conf.auth,
+                AuthHandler.conf.oobCode,
+                AuthHandler.conf.passwordField.value.trim()
               ).then(() => {
                 AuthHandler.hidePasswordResetForm()
                 AuthHandler.hideLoadingSpinner()
@@ -233,17 +270,17 @@
         AuthHandler.conf.passwordHasMinLength.style.display = hasMinLength ? 'none' : ''
 
         /// Checks if password has at least 1 normal char letter matches
-        const hasMinNormalChar = isValidString && password.toUpperCase().match(RegExp('^(.*?[A-Z]){1,}')) !== null
+        const hasMinNormalChar = isValidString && password.match(RegExp('^(.*?[a-z]){1,}')) !== null
         AuthHandler.conf.passwordHasMinNormalChar.style.display = hasMinNormalChar ? 'none' : ''
 
         /// Checks if password has at least 1 uppercase letter matches
         const hasMinUppercase =
-                isValidString && password.match(RegExp('^(.*?[A-Z]){1,}')) !== null
+          isValidString && password.match(RegExp('^(.*?[A-Z]){1,}')) !== null
         AuthHandler.conf.passwordHasMinUppercase.style.display = hasMinUppercase ? 'none' : ''
 
         /// Checks if password has at least 1 numeric character matches
         const hasMinNumericChar =
-                isValidString && password.match(RegExp('^(.*?[0-9]){1,}')) !== null
+          isValidString && password.match(RegExp('^(.*?[0-9]){1,}')) !== null
         AuthHandler.conf.passwordHasMinNumericChar.style.display = hasMinNumericChar ? 'none' : ''
 
         /// Checks if password has at least 1 special character matches
@@ -251,10 +288,10 @@
         AuthHandler.conf.passwordHasMinSpecialChar.style.display = hasMinSpecialChar ? 'none' : ''
 
         const passing = hasMinLength &&
-                hasMinNormalChar &&
-                hasMinUppercase &&
-                hasMinNumericChar &&
-                hasMinSpecialChar
+          hasMinNormalChar &&
+          hasMinUppercase &&
+          hasMinNumericChar &&
+          hasMinSpecialChar
         AuthHandler.conf.passwordIncreaseComplexity.style.display = passing ? 'none' : ''
 
         return passing
@@ -296,86 +333,97 @@
     }
   </script>
 </head>
+
 <body>
-<div class="center">
-  <div id="cover-spin" style="display: none;"></div>
-  <p>
+  <div class="center">
+    <div id="cover-spin" style="display: none;"></div>
+    <!-- <p>
     <image src="https://via.placeholder.com/400x70/000000/FFFFFF?text=Your+Logo"/>
-  </p>
-  <p id="mode-title" style="font-size: 20px; font-weight: bold;"></p>
-  <p id="error" class="red-alert" style="display: none;"></p>
-  <p id="success" style="display: none;"></p>
-  <div id="password-form" style="min-width: 700px; min-height: 300px; display: none;">
-    <label for="password">New Password</label>
-    <input id="password" type="password" minlength="8" maxlength="35" autocomplete="off" placeholder="Enter new password" style="margin-left: 10px;" required>
-    <i class="bi bi-eye-slash" id="toggle-password"></i>
-    <button id="reset-button" type="button" class="button" style="margin-left: 20px;">Reset</button>
-    <p class="red-alert" id="increase-complexity" style="display: none;"><strong>Increase Complexity</strong></p>
-    <p class="red-alert" id="has-min-length" style="display: none;">Minimum 8 characters</p>
-    <p class="red-alert" id="has-min-normal-char" style="display: none;">Minimum 1 normal characters</p>
-    <p class="red-alert" id="has-min-uppercase" style="display: none;">Minimum 1 uppercase characters</p>
-    <p class="red-alert" id="has-min-numeric-char" style="display: none;">Minimum 1 numeric characters</p>
-    <p class="red-alert" id="has-min-special-char" style="display: none;">Minimum 1 special characters</p>
+  </p> -->
+    <p id="mode-title" style="font-size: 20px; font-weight: bold;"></p>
+    <p id="error" class="red-alert" style="display: none;"></p>
+    <p id="success" style="display: none;"></p>
+    <div id="password-form" style="min-width: 700px; min-height: 300px; display: none;">
+      <label for="password">New Password</label>
+      <input id="password" type="password" minlength="8" maxlength="32" autocomplete="off"
+        placeholder="Enter new password" style="margin-left: 10px;" required>
+      <i class="bi bi-eye-slash" id="toggle-password"></i>
+      <button id="reset-button" type="button" class="button" style="margin-left: 20px;">Reset</button>
+      <p class="red-alert" id="increase-complexity" style="display: none;"><strong>Increase Complexity</strong></p>
+      <p class="red-alert" id="has-min-length" style="display: none;">Minimum 8 characters</p>
+      <p class="red-alert" id="has-min-normal-char" style="display: none;">Minimum 1 normal characters</p>
+      <p class="red-alert" id="has-min-uppercase" style="display: none;">Minimum 1 uppercase characters</p>
+      <p class="red-alert" id="has-min-numeric-char" style="display: none;">Minimum 1 numeric characters</p>
+      <p class="red-alert" id="has-min-special-char" style="display: none;">Minimum 1 special characters</p>
+    </div>
   </div>
-</div>
 
-<script type="module">
-  // https://firebase.google.com/docs/web/setup#available-libraries
-  // https://firebase.google.com/docs/web/alt-setup
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js';
-  import {
-    applyActionCode,
-    checkActionCode,
-    confirmPasswordReset,
-    getAuth,
-    sendPasswordResetEmail,
-    verifyPasswordResetCode,
-  } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
-
-  // Replace {} with your firebaseConfig
-  // https://firebase.google.com/docs/web/learn-more#config-object
-  const firebaseConfig = {};
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // Get the mode and oobCode from url params
-    const params = new Proxy(new URLSearchParams(window.location.search), {
-      get: (searchParams, prop) => searchParams.get(prop),
-    });
-
-    AuthHandler.init({
-      app,
-      auth,
+  <script type="module">
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    // https://firebase.google.com/docs/web/alt-setup
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js';
+    import {
       applyActionCode,
       checkActionCode,
       confirmPasswordReset,
       getAuth,
       sendPasswordResetEmail,
       verifyPasswordResetCode,
-      // Used by all modes to display error or success messages
-      error: document.getElementById('error'),
-      success: document.getElementById('success'),
-      // https://firebase.google.com/docs/auth/custom-email-handler#create_the_email_action_handler_page
-      mode: params.mode,
-      oobCode: params.oobCode,
-      modeTitle: document.getElementById('mode-title'),
-      loading: document.getElementById('cover-spin'),
-      // Password reset elements
-      passwordForm: document.getElementById('password-form'),
-      passwordField: document.getElementById('password'),
-      passwordResetButton: document.getElementById('reset-button'),
-      passwordToggleButton: document.getElementById('toggle-password'),
-      passwordHasMinLength: document.getElementById('has-min-length'),
-      passwordHasMinNormalChar: document.getElementById('has-min-normal-char'),
-      passwordHasMinUppercase: document.getElementById('has-min-uppercase'),
-      passwordHasMinNumericChar: document.getElementById('has-min-numeric-char'),
-      passwordHasMinSpecialChar: document.getElementById('has-min-special-char'),
-      passwordIncreaseComplexity: document.getElementById('increase-complexity'),
-      defaultErrorMessage: 'Invalid auth parameters. Please try again.',
+    } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
+
+    // Replace {} with your firebaseConfig
+    // https://firebase.google.com/docs/web/learn-more#config-object
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRyfgREHyjwWxQ1OVtdut-RGpI2iTQZd0",
+      authDomain: "untitled-2832f.firebaseapp.com",
+      projectId: "untitled-2832f",
+      storageBucket: "untitled-2832f.appspot.com",
+      messagingSenderId: "146952619766",
+      appId: "1:146952619766:web:5ca65caf1567c28b2b8ed7",
+      measurementId: "G-N6E5W533RG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get the mode and oobCode from url params
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+
+      AuthHandler.init({
+        app,
+        auth,
+        applyActionCode,
+        checkActionCode,
+        confirmPasswordReset,
+        getAuth,
+        sendPasswordResetEmail,
+        verifyPasswordResetCode,
+        // Used by all modes to display error or success messages
+        error: document.getElementById('error'),
+        success: document.getElementById('success'),
+        // https://firebase.google.com/docs/auth/custom-email-handler#create_the_email_action_handler_page
+        mode: params.mode,
+        oobCode: params.oobCode,
+        modeTitle: document.getElementById('mode-title'),
+        loading: document.getElementById('cover-spin'),
+        // Password reset elements
+        passwordForm: document.getElementById('password-form'),
+        passwordField: document.getElementById('password'),
+        passwordResetButton: document.getElementById('reset-button'),
+        passwordToggleButton: document.getElementById('toggle-password'),
+        passwordHasMinLength: document.getElementById('has-min-length'),
+        passwordHasMinNormalChar: document.getElementById('has-min-normal-char'),
+        passwordHasMinUppercase: document.getElementById('has-min-uppercase'),
+        passwordHasMinNumericChar: document.getElementById('has-min-numeric-char'),
+        passwordHasMinSpecialChar: document.getElementById('has-min-special-char'),
+        passwordIncreaseComplexity: document.getElementById('increase-complexity'),
+        defaultErrorMessage: 'Invalid auth parameters. Please try again.',
+      });
     });
-  });
-</script>
+  </script>
 </body>
-</html> --> 
+
+</html>
