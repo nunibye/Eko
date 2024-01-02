@@ -333,4 +333,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get taggedText => 'tagged you:';
+
+  @override
+  String get badAuthState => 'Request is invalid or has expired. Please try again.';
+
+  @override
+  String get resetPasswordPromt => 'Reset password for:';
+
+  @override
+  String get passwordResetTitle => 'Password Reset Successfuly';
+
+  @override
+  String get passwordResetBody => 'Please continue to login.';
+
+  @override
+  String get setPassword => 'Set Password';
 }

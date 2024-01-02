@@ -66,14 +66,13 @@ class LoginController extends ChangeNotifier {
             TextButton(
               child: Text(AppLocalizations.of(context)!.cancel),
               onPressed: () {
-                Navigator.of(context).pop();
+                _pop();
               },
             ),
             TextButton(
               child: Text(AppLocalizations.of(context)!.sendResetLink),
               onPressed: () {
                 resetPassword(countryCode);
-                _pop();
               },
             ),
           ],
@@ -83,8 +82,9 @@ class LoginController extends ChangeNotifier {
   }
 
   resetPassword(countryCode) async {
+    _pop();
     hideKeyboard();
-    locator<CurrentUser>().email = resetEmailController.text;
+    locator<CurrentUser>().email = resetEmailController.text.trim();
     if (_handleError(
             await locator<CurrentUser>().forgotPassword(countryCode)) ==
         0) {
@@ -112,8 +112,11 @@ class LoginController extends ChangeNotifier {
       loggingIn = true;
       notifyListeners();
 
-      _handleError(
-          await locator<CurrentUser>().signIn(passwordController.text));
+      if (_handleError(
+              await locator<CurrentUser>().signIn(passwordController.text)) ==
+          0) {
+        locator<CurrentUser>().addFCM();
+      }
       
 
       loggingIn = false;
@@ -125,7 +128,6 @@ class LoginController extends ChangeNotifier {
     int errorStatus;
     switch (errorCode) {
       case 'success':
-      locator<CurrentUser>().addFCM();
         errorStatus = 0;
         break;
       case 'invalid-email':

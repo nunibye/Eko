@@ -29,7 +29,7 @@ class CurrentUser extends AppUser {
     return uid;
   }
 
-  Future signUp(password) async {
+  Future<String> signUp(password) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -43,7 +43,7 @@ class CurrentUser extends AppUser {
     }
   }
 
-  Future signIn(password) async {
+  Future<String> signIn(password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -55,12 +55,33 @@ class CurrentUser extends AppUser {
     }
   }
 
-  Future forgotPassword(countryCode) async {
+  Future<String> forgotPassword(countryCode) async {
     await FirebaseAuth.instance.setLanguageCode(countryCode);
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return ("success");
     } on FirebaseAuthException catch (e) {
+      return (e.code);
+    }
+  }
+
+  Future<String> verifyPasswordReset(String code) async {
+    try {
+      return await FirebaseAuth.instance.verifyPasswordResetCode(code);
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
+  Future<String> resetPassword(String code, String password) async {
+    try {
+      print(code);
+      await FirebaseAuth.instance
+          .confirmPasswordReset(code: code, newPassword: password);
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      print("faild here");
       return (e.code);
     }
   }

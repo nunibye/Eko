@@ -752,6 +752,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'tagged you:'**
   String get taggedText;
+
+  /// No description provided for @badAuthState.
+  ///
+  /// In en, this message translates to:
+  /// **'Request is invalid or has expired. Please try again.'**
+  String get badAuthState;
+
+  /// No description provided for @resetPasswordPromt.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password for:'**
+  String get resetPasswordPromt;
+
+  /// No description provided for @passwordResetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Reset Successfuly'**
+  String get passwordResetTitle;
+
+  /// No description provided for @passwordResetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please continue to login.'**
+  String get passwordResetBody;
+
+  /// No description provided for @setPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Password'**
+  String get setPassword;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

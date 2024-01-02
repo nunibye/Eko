@@ -72,7 +72,7 @@ class GetInfo extends StatelessWidget {
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.05),
+          horizontal: width * 0.05),
       child: Center(
         child: ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -248,8 +248,8 @@ class GetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.symmetric(
@@ -355,7 +355,7 @@ class GetPassword extends StatelessWidget {
                 child: Provider.of<SignUpController>(context, listen: true)
                         .loggingIn
                     ? CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       )
                     : Text(
                         AppLocalizations.of(context)!.cont,

@@ -27,6 +27,7 @@ import '../models/group_handler.dart';
 import '../custom_widgets/emoji_picker.dart';
 import '../views/sub_group_page.dart';
 import '../models/group_handler.dart' show Group;
+import '../views/auth_action_interface.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -92,6 +93,14 @@ final goRouter = GoRouter(
             path: 'signup',
             builder: (context, state) {
               return const SignUp();
+            },
+          ),
+          GoRoute(
+            path: 'auth',
+            builder: (context, state) {
+              final url = state.uri.queryParameters;
+              
+              return AuthActionInterface(urlData: url);
             },
           ),
           GoRoute(
@@ -182,10 +191,11 @@ final goRouter = GoRouter(
                     GoRoute(
                       path: 'pick_emoji',
                       name: 'pick_emoji',
-                      pageBuilder:(context, state) {
+                      pageBuilder: (context, state) {
                         return NoTransitionPage(
-                              child: EmojiSelector(onPressed: state.extra! as void Function(String)),
-                            );
+                          child: EmojiSelector(
+                              onPressed: state.extra! as void Function(String)),
+                        );
                       },
                       //builder: (context, state) => EmojiSelector(onPressed: state.extra! as void Function(String)),
                     )

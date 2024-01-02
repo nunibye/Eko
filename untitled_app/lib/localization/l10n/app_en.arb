@@ -131,5 +131,13 @@
     "usernameReqs":"Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.",
 
     "followText":"started following you",
-    "taggedText":"tagged you:"
+    "taggedText":"tagged you:",
+    
+    "badAuthState":"Request is invalid or has expired. Please try again.",
+    "resetPasswordPromt":"Reset password for:",
+
+    "passwordResetTitle":"Password Reset Successfuly",
+    "passwordResetBody":"Please continue to login.",
+    "setPassword":"Set Password"
+
 }
