@@ -11,10 +11,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';
 import 'utilities/locator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import '../models/shared_pref_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
+  usePathUrlStrategy();
+  //usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseHelper.setupFirebase();
   setupLocator();
