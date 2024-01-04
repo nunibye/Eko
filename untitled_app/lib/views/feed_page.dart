@@ -25,7 +25,7 @@ class FeedPage extends StatelessWidget {
         final height = MediaQuery.sizeOf(context).height;
         //begin app bar
         final SliverAppBar appBar = SliverAppBar(
-          toolbarHeight: height * 0.1,
+          toolbarHeight: height * 0.13,
           floating: true,
           pinned: false,
           scrolledUnderElevation: 0.0,
@@ -72,10 +72,10 @@ class FeedPage extends StatelessWidget {
                       .onNotificationButtonPressed(),
             ),
           ],
-          title: SizedBox(
+          title: Padding(padding: const EdgeInsets.only(top: 10),child: SizedBox(
             width: width * 0.3,
             child: Image.asset("images/echo.png"),
-          ),
+          )),
         );
         //end app bar
 

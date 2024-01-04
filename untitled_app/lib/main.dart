@@ -11,10 +11,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'utilities/router.dart';
 import 'utilities/locator.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import '../models/shared_pref_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../models/current_user.dart';
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -28,6 +28,8 @@ Future<void> main() async {
       FirebaseAuth.instance.signOut();
     }
     setBool("NOT_FIRST_INSTALL", true);
+  }else if(FirebaseAuth.instance.currentUser != null){
+    await locator<CurrentUser>().readCurrentUserData();
   }
 
   await NotificationService.initializeNotification();

@@ -52,7 +52,7 @@ class AuthActionInterfaceController extends ChangeNotifier {
 
   void _popTwice() {
     _pop();
-    _pop();
+    context.go("/");
   }
 
   void _popAndGo() {
@@ -61,7 +61,7 @@ class AuthActionInterfaceController extends ChangeNotifier {
   }
 
   void exitOnPagePressed() {
-    _pop();
+    context.go("/");
   }
 
   void showExitWarning() {

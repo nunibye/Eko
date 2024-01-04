@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'locator.dart';
 import '../models/current_user.dart';
 
-
 class RouterNotifier extends ChangeNotifier {
   bool loggedIn = false;
 
@@ -26,11 +25,13 @@ class RouterNotifier extends ChangeNotifier {
     final onAuthPage = state.fullPath == '/auth';
     final onWelcomePage = state.fullPath == '/';
     //print('redirect $loggedIn');
-    if (!loggedIn && !(onSignUpPage || onLoginPage || onWelcomePage || onAuthPage)) {
+    if (!loggedIn &&
+        !(onSignUpPage || onLoginPage || onWelcomePage || onAuthPage)) {
       return '/';
     } else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
-      
-      await locator<CurrentUser>().readCurrentUserData();
+      if (locator<CurrentUser>().username == '') {
+        await locator<CurrentUser>().readCurrentUserData();
+      }
 
       return '/feed';
     }
