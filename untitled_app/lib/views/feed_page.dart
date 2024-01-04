@@ -21,8 +21,8 @@ class FeedPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => FeedController(context: context, rebuild: rebuild),
       builder: (context, child) {
-        double width = MediaQuery.of(context).size.width;
-        double height = MediaQuery.of(context).size.height;
+        final width = c.widthGetter(context);
+        final height = MediaQuery.sizeOf(context).height;
         //begin app bar
         final SliverAppBar appBar = SliverAppBar(
           toolbarHeight: height * 0.1,
@@ -100,68 +100,3 @@ class FeedPage extends StatelessWidget {
     );
   }
 }
-
-// class _Header extends StatelessWidget {
-//   const _Header();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     double width = MediaQuery.of(context).size.width;
-//     double height = MediaQuery.of(context).size.height;
-//     return SizedBox(
-//         // height: 200,
-//         child: Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//       children: [
-//         Stack(
-//           children: [
-//             Align(
-//               alignment: Alignment.center,
-//               child: SizedBox(
-//                 width: width * 0.3,
-//                 //height: height * 0.08,
-//                 child: Image.asset("images/echo.png"),
-//               ),
-//             ),
-//             Align(
-//               alignment: Alignment.centerRight,
-//               child: Container(
-//                 padding: const EdgeInsets.only(right: 10),
-//                 //height: height * 0.08,
-//                 child: IconButton(
-//                   icon: Stack(
-//                     children: [
-//                       const Icon(
-//                         Icons.notifications,
-//                         //size: ,
-//                       ),
-//                       if (Provider.of<FeedController>(context, listen: true)
-//                           .newActivity)
-//                         Positioned(
-//                           right: 0,
-//                           child: Container(
-//                             decoration: BoxDecoration(
-//                                 shape: BoxShape.circle,
-//                                 color: Theme.of(context).colorScheme.error),
-//                             constraints: const BoxConstraints(
-//                               minWidth: 10,
-//                               //minHeight: 10,
-//                             ),
-//                           ),
-//                         )
-//                     ],
-//                   ),
-//                   onPressed: () =>
-//                       Provider.of<FeedController>(context, listen: false)
-//                           .onNotificationButtonPressed(),
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//         const CustomTabBar(),
-//       ],
-//     ));
-//   }
-// }

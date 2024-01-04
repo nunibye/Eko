@@ -3,6 +3,7 @@ import 'package:untitled_app/controllers/feed_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 
 import 'package:provider/provider.dart';
+import '../utilities/constants.dart' as c;
 
 // TODO: I changed it to this does it look fine
 class CustomTabBar extends StatelessWidget {
@@ -12,8 +13,9 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: width,
       //height: 50, // Adjust the height as needed
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -43,9 +45,7 @@ class _Button extends StatelessWidget {
       onTap: () => Provider.of<FeedController>(context, listen: false)
           .onTabPressed(index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, 
-        vertical: 8
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
               ? Theme.of(context).colorScheme.secondary
@@ -55,7 +55,9 @@ class _Button extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: isActive ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.onBackground,
+            color: isActive
+                ? Theme.of(context).colorScheme.onSecondary
+                : Theme.of(context).colorScheme.onBackground,
             fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
           ),
         ),

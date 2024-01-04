@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import '../custom_widgets/searched_user_card.dart';
+import '../utilities/constants.dart' as c;
 
 class GroupSettings extends StatelessWidget {
   final List<dynamic> members;
@@ -14,9 +15,7 @@ class GroupSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.sizeOf(context).width;
+    final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(

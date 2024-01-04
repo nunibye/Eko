@@ -9,6 +9,7 @@ import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
+import '../custom_widgets/profile_avatar.dart';
 
 Widget commentCardBuilder(dynamic post) {
   return CommentCard(post: post);
@@ -21,7 +22,7 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final width = c.widthGetter(context);
 
     return ChangeNotifierProvider.value(
       value: CommentCardController(post: post, context: context),
@@ -42,25 +43,14 @@ class CommentCard extends StatelessWidget {
                   children: [
                     // Display the profile picture as a CircleAvatar
                     IconButton(
-                      onPressed: () => Provider.of<CommentCardController>(
-                              context,
-                              listen: false)
-                          .avatarPressed(),
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      icon: SizedBox(
-                        width: width * 0.115,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl: post.author.profilePicture,
-                            placeholder: (context, url) =>
-                                const LoadingProfileImage(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        ),
-                      ),
-                    ),
+                        onPressed: () => Provider.of<CommentCardController>(
+                                context,
+                                listen: false)
+                            .avatarPressed(),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        icon: ProfileAvatar(
+                            url: post.author.profilePicture,
+                            size: width * 0.115)),
                     const SizedBox(width: 5),
                     Expanded(
                       child: Column(
@@ -123,9 +113,10 @@ class CommentCard extends StatelessWidget {
                                     // This is a username, create a hyperlink
                                     return TextSpan(
                                       text: chunk,
-                                      style: TextStyle(color: Theme.of(context)
-                                                .colorScheme
-                                                .surfaceTint),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .surfaceTint),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () =>
                                             Provider.of<CommentCardController>(

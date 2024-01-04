@@ -4,6 +4,7 @@ import 'profile_picture_loading.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'controllers/selected_user_groups_controller.dart';
 import 'package:provider/provider.dart';
+import '../custom_widgets/profile_avatar.dart';
 
 class SelectedUser extends StatelessWidget {
   final AppUser user;
@@ -41,19 +42,7 @@ class SelectedUser extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: 22,
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          fit: BoxFit.fill,
-                          imageUrl: user.profilePicture,
-                          placeholder: (context, url) =>
-                              const LoadingProfileImage(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                      ),
-                    ),
+                    ProfileAvatar(url: user.profilePicture, size: 22),
                     const SizedBox(width: 5),
                     Text((user.name != "") ? user.name : user.username)
                   ],

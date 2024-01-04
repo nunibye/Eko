@@ -5,6 +5,21 @@ import '../utilities/locator.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import '../utilities/constants.dart' as c;
 
+const List<IconData> _passiveIconList = [
+  Icons.home_outlined,
+  Icons.group_outlined,
+  Icons.add,
+  Icons.search,
+  Icons.person_outline
+];
+const List<IconData> _activeIconList = [
+  Icons.home,
+  Icons.group,
+  Icons.add,
+  Icons.search,
+  Icons.person
+];
+
 class ScaffoldWithNestedNavigation extends StatelessWidget {
   const ScaffoldWithNestedNavigation({
     Key? key,
@@ -19,11 +34,25 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: locator<NavBarController>(),
       builder: (context, child) {
-        return ScaffoldWithNavigationBar(
-          body: navigationShell,
-          selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected:
-              Provider.of<NavBarController>(context, listen: true).goBranch,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxHeight > constraints.maxWidth) {
+              return ScaffoldWithNavigationBar(
+                body: navigationShell,
+                selectedIndex: navigationShell.currentIndex,
+                onDestinationSelected:
+                    Provider.of<NavBarController>(context, listen: false)
+                        .goBranch,
+              );
+            } else {
+              return ScaffoldWithNavigationRail(
+                body: DecoratedBox(decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),child:Center(child:ClipRRect(child: SizedBox(width: c.indealAppWidth,child: navigationShell)))),
+                selectedIndex: navigationShell.currentIndex,
+                onDestinationSelected: Provider.of<NavBarController>(context, listen: false)
+                        .goBranch,
+              );
+            }
+          },
         );
       },
     );
@@ -69,61 +98,73 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                 unselectedItemColor: Theme.of(context).colorScheme.onBackground,
                 selectedItemColor: Theme.of(context).colorScheme.onBackground,
                 backgroundColor: Theme.of(context).colorScheme.background,
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home_outlined,
-                        size: c.navBarIconSize,
-                      ),
-                      activeIcon: Icon(
-                        Icons.home,
-                        size: c.navBarIconSize + c.navBarIconSizeAdder,
-                      ),
-                      label: ''),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.group_outlined,
-                        size: c.navBarIconSize,
-                      ),
-                      activeIcon: Icon(
-                        Icons.group,
-                        size: c.navBarIconSize + c.navBarIconSizeAdder,
-                      ),
-                      label: ''),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.add,
-                        size: c.navBarIconSize,
-                      ),
-                      activeIcon: Icon(
-                        Icons.add,
-                        size: c.navBarIconSize + c.navBarIconSizeAdder,
-                      ),
-                      label: ''),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.search,
-                        size: c.navBarIconSize,
-                      ),
-                      activeIcon: Icon(
-                        Icons.search,
-                        size: c.navBarIconSize + c.navBarIconSizeAdder,
-                      ),
-                      label: ''),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.person_outline,
-                        size: c.navBarIconSize,
-                      ),
-                      activeIcon: Icon(
-                        Icons.person,
-                        size: c.navBarIconSize + c.navBarIconSizeAdder,
-                      ),
-                      label: '')
+                items: [
+                  for (int i = 0; i < _passiveIconList.length; i++)
+                    BottomNavigationBarItem(
+                        icon: Icon(
+                          _passiveIconList[i],
+                          size: c.navBarIconSize,
+                        ),
+                        activeIcon: Icon(
+                          _activeIconList[i],
+                          size: c.navBarIconSize + c.navBarIconSizeAdder,
+                        ),
+                        label: ''),
+                
                 ],
                 onTap: (index) => onDestinationSelected(index),
               ))
           : null,
+    );
+  }
+}
+
+class ScaffoldWithNavigationRail extends StatelessWidget {
+  const ScaffoldWithNavigationRail({
+    super.key,
+    required this.body,
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+  });
+  final Widget body;
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        children: [
+          // Fixed navigation rail on the left (start)
+          NavigationRail(
+            selectedLabelTextStyle: const TextStyle(fontSize: 0),
+            unselectedLabelTextStyle: const TextStyle(fontSize: 0),
+            selectedIndex: selectedIndex,
+            onDestinationSelected: onDestinationSelected,
+            labelType: NavigationRailLabelType.none,
+            destinations: [
+              for (int i = 0; i < _passiveIconList.length; i++)
+                NavigationRailDestination(
+                  label: const Text(""),
+                  icon: Icon(
+                    _passiveIconList[i],
+                    size: c.navBarIconSize,
+                  ),
+                  selectedIcon: Icon(
+                    _activeIconList[i],
+                    size: c.navBarIconSize + c.navBarIconSizeAdder,
+                  ),
+                ),
+
+            ],
+          ),
+          const VerticalDivider(thickness: 1, width: 1),
+          // Main content on the right (end)
+          Expanded(
+            child: body,
+          ),
+        ],
+      ),
     );
   }
 }

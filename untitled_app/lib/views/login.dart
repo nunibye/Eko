@@ -3,14 +3,15 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../controllers/login_controller.dart';
 import '../custom_widgets/login_text_feild.dart';
 import 'package:provider/provider.dart';
+import '../utilities/constants.dart' as c;
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(
       create: (context) => LoginController(context: context),
@@ -59,7 +60,7 @@ class LoginPage extends StatelessWidget {
                             .emailController,
                     inputType: TextInputType.emailAddress,
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.006),
+                  SizedBox(height: height * 0.006),
                   CustomInputFeild(
                     textInputAction: TextInputAction.go,
                     onEditingComplete: () =>
@@ -74,10 +75,10 @@ class LoginPage extends StatelessWidget {
                     inputType: TextInputType.visiblePassword,
                     password: true,
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                  SizedBox(height: height * 0.05),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.width * 0.15,
+                    width: width * 0.9,
+                    height: width * 0.15,
                     child: TextButton(
                         onPressed: () =>
                             Provider.of<LoginController>(context, listen: false)
@@ -105,8 +106,8 @@ class LoginPage extends StatelessWidget {
                         )),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.width * 0.1,
+                    width: width * 0.9,
+                    height: width * 0.1,
                     child: TextButton(
                       onPressed: () =>
                           Provider.of<LoginController>(context, listen: false)

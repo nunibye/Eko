@@ -348,4 +348,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setPassword => 'Set Password';
+
+  @override
+  String get coppiedToClipboard => 'Coppied to Clipboard';
 }

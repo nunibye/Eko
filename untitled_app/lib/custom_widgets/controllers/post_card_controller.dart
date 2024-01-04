@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations_en.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart';
@@ -8,6 +12,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:provider/provider.dart';
 import 'pagination_controller.dart';
 import '../../controllers/view_post_page_controller.dart';
+import '../error_snack_bar.dart';
 
 class PostCardController extends ChangeNotifier {
   BuildContext context;
@@ -81,11 +86,20 @@ class PostCardController extends ChangeNotifier {
   }
 
   sharePressed() async {
-    if (!sharing) {
-      sharing = true;
-      await Share.shareWithResult(
-          'Check out my post on Echo: https://untitled-2832f.web.app/feed/post/${post.postId}');
-      sharing = false;
+    if (kIsWeb) {
+      Clipboard.setData(ClipboardData(
+          text:
+              "Check out my post on Echo: https://untitled-2832f.web.app/feed/post/${post.postId}"));
+      showSnackBar(
+          context: context,
+          text: AppLocalizations.of(context)!.coppiedToClipboard);
+    } else {
+      if (!sharing) {
+        sharing = true;
+        await Share.shareWithResult(
+            'Check out my post on Echo: https://untitled-2832f.web.app/feed/post/${post.postId}');
+        sharing = false;
+      }
     }
   }
 

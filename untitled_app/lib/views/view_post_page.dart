@@ -7,6 +7,7 @@ import '../custom_widgets/searched_user_card.dart';
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
 import '../custom_widgets/pagination.dart';
+import '../utilities/constants.dart' as c;
 
 class ViewPostPage extends StatelessWidget {
   final Post? post;
@@ -15,8 +16,8 @@ class ViewPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-
+    final height = MediaQuery.sizeOf(context).height;
+    final width = c.widthGetter(context);
     return ChangeNotifierProvider(
       create: (context) =>
           PostPageController(passedPost: post, context: context, id: id),
@@ -61,7 +62,6 @@ class ViewPostPage extends StatelessWidget {
                                     Provider.of<PostPageController>(context,
                                             listen: false)
                                         .getTimeFromPost),
-                           
                             Provider.of<PostPageController>(context,
                                         listen: true)
                                     .isLoading
@@ -128,7 +128,7 @@ class ViewPostPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.95,
+                              width: width * 0.95,
                               child: TextField(
                                 textCapitalization:
                                     TextCapitalization.sentences,

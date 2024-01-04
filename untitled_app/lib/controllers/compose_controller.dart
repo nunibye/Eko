@@ -155,7 +155,7 @@ class ComposeController extends ChangeNotifier {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        final double width = MediaQuery.sizeOf(context).width;
+        final double width = c.widthGetter(context);
         return SizedBox(
             child: PaginationPage(
                 header: Column(

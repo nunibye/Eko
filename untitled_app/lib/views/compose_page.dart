@@ -9,6 +9,7 @@ import '../utilities/constants.dart' as c;
 import 'package:cached_network_image/cached_network_image.dart';
 import '../custom_widgets/profile_picture_loading.dart';
 import '../models/group_handler.dart' show Group;
+import '../custom_widgets/profile_avatar.dart';
 
 class ComposePage extends StatelessWidget {
   final Group? group;
@@ -17,8 +18,8 @@ class ComposePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final audiance = AppLocalizations.of(context)!.public;
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(
       create: (context) => ComposeController(
@@ -114,20 +115,9 @@ class ComposePage extends StatelessWidget {
                         SizedBox(height: height * 0.025),
                         Row(
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.115,
-                              child: ClipOval(
-                                child: CachedNetworkImage(
-                                  fit: BoxFit.fill,
-                                  imageUrl:
-                                      locator<CurrentUser>().profilePicture,
-                                  placeholder: (context, url) =>
-                                      const LoadingProfileImage(),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                              ),
-                            ),
+                            ProfileAvatar(
+                                url: locator<CurrentUser>().profilePicture,
+                                size: width * 0.115),
                             const SizedBox(width: 9),
                             OutlinedButton(
                               style: OutlinedButton.styleFrom(
@@ -416,40 +406,39 @@ class ComposePage extends StatelessWidget {
                     child: Column(
                       children: [
                         TextField(
-                            focusNode: Provider.of<ComposeController>(context,
-                                        listen: false)
-                                    .searchFocus,
-                            controller: Provider.of<ComposeController>(context,
-                                        listen: false)
-                                    .searchController,
-                            onChanged: (s) {
-                              Provider.of<ComposeController>(context,
-                                      listen: false)
-                                  .checkAtSymbol(s);
-                            },
-                            textCapitalization: TextCapitalization.sentences,
-                            maxLines: null,
-                            cursorColor:
-                                Theme.of(context).colorScheme.onBackground,
-                            keyboardType: TextInputType.text,
-                            style: TextStyle(
+                          focusNode: Provider.of<ComposeController>(context,
+                                  listen: false)
+                              .searchFocus,
+                          controller: Provider.of<ComposeController>(context,
+                                  listen: false)
+                              .searchController,
+                          onChanged: (s) {
+                            Provider.of<ComposeController>(context,
+                                    listen: false)
+                                .checkAtSymbol(s);
+                          },
+                          textCapitalization: TextCapitalization.sentences,
+                          maxLines: null,
+                          cursorColor:
+                              Theme.of(context).colorScheme.onBackground,
+                          keyboardType: TextInputType.text,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(height * 0.01),
+                            hintText: AppLocalizations.of(context)!.addText,
+                            hintStyle: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.normal,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(height * 0.01),
-                              hintText: AppLocalizations.of(context)!.addText,
-                              hintStyle: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant),
-                              border: InputBorder.none,
-                            ),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
+                            border: InputBorder.none,
                           ),
-                        
+                        ),
                         Expanded(
                           child: Provider.of<ComposeController>(context,
                                       listen: true)
@@ -511,10 +500,11 @@ class ComposePage extends StatelessWidget {
                                                               listen: false)
                                                           .bodyFocus);
                                             },
-                                            user: Provider.of<ComposeController>(
-                                                    context,
-                                                    listen: true)
-                                                .hits[index]);
+                                            user:
+                                                Provider.of<ComposeController>(
+                                                        context,
+                                                        listen: true)
+                                                    .hits[index]);
                                       },
                                     ),
                         )

@@ -42,7 +42,7 @@ class _GetInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
+    final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: Column(
@@ -144,7 +144,7 @@ class _AddPeople extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //print(Provider.of<CreateGroupPageController>(context, listen: true).searchedList);
-    final width = MediaQuery.sizeOf(context).width;
+    final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
     return GestureDetector(
       onPanDown: (details) =>

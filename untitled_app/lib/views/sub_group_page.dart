@@ -15,7 +15,7 @@ class SubGroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
+    final width = c.widthGetter(context);
     return ChangeNotifierProvider(
       create: (context) =>
           SubGroupController(passedGroup: group, context: context, id: id),
@@ -100,54 +100,10 @@ class SubGroupPage extends StatelessWidget {
                   startAfterQuery:
                       Provider.of<SubGroupController>(context, listen: false)
                           .getTimeFromPost,
-                          initialLoadingWidget: const PostLoader(),),
+                  initialLoadingWidget: const PostLoader(),
+                ),
         );
       },
     );
   }
 }
-
-// class _Header extends StatelessWidget {
-//   const _Header();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final width = MediaQuery.sizeOf(context).width;
-//     return Row(
-//       children: [
-//         IconButton(
-//           color: Theme.of(context).colorScheme.onBackground,
-//           onPressed: () => context.pop(),
-//           icon: const Icon(Icons.arrow_back_ios_rounded),
-//         ),
-//         SizedBox(
-//           width: width * 0.13,
-//           height: width * 0.13,
-//           child: FittedBox(
-//             fit: BoxFit.contain,
-//             child: Text(
-//               Provider.of<SubGroupController>(context, listen: true)
-//                   .group!
-//                   .icon,
-//               //style: TextStyle(fontSize: width * 0.25),
-//             ),
-//           ),
-//         ),
-//         //const Spacer(),
-//         SizedBox(
-//             width: width * 0.6,
-//             child: Text(
-//                 Provider.of<SubGroupController>(context, listen: true)
-//                     .group!
-//                     .name,
-//                 style: TextStyle(fontSize: width * 0.06),
-//                 overflow: TextOverflow.ellipsis)),
-//         const Spacer(),
-//         IconButton(
-//           onPressed: () => context.pop(),
-//           icon: const Icon(Icons.create),
-//         ),
-//       ],
-//     );
-//   }
-// }

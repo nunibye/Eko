@@ -11,8 +11,6 @@ class RecentActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
 
     return ChangeNotifierProvider(
       create: (context) => RecentActivtiyController(context: context),
@@ -39,8 +37,7 @@ class RecentActivity extends StatelessWidget {
               getter:
                   Provider.of<RecentActivtiyController>(context, listen: false)
                       .getActivity,
-              card:
-                  recentActivityCardBuilder,
+              card: recentActivityCardBuilder,
               startAfterQuery:
                   Provider.of<RecentActivtiyController>(context, listen: false)
                       .getNextQueryStart),

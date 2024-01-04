@@ -11,9 +11,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../views/following.dart';
 import '../views/followers.dart';
 import 'profile_picture_loading.dart';
-
+import '../custom_widgets/profile_avatar.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import '../utilities/locator.dart';
+import '../utilities/constants.dart' as c;
 
 class ProfileHeader extends StatelessWidget {
   final String username;
@@ -57,20 +58,9 @@ class ProfileHeader extends StatelessWidget {
                               extra: profilePic);
                           locator<NavBarController>().disable();
                         },
-                        icon: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.24,
-                          height: MediaQuery.of(context).size.width * 0.24,
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              fit: BoxFit.fill,
-                              imageUrl: profilePic,
-                              placeholder: (context, url) =>
-                                  const LoadingProfileImage(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                        ),
+                        icon: ProfileAvatar(
+                            size: c.widthGetter(context) * 0.24,
+                            url: profilePic),
                       ),
                     ),
                     Flexible(

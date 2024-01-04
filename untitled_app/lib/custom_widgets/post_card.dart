@@ -7,6 +7,7 @@ import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
+import '../custom_widgets/profile_avatar.dart';
 
 Widget postCardBuilder(dynamic post) {
   return PostCard(
@@ -54,7 +55,6 @@ class PostCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: c.postPaddingHoriz,
@@ -72,20 +72,12 @@ class PostCard extends StatelessWidget {
                                   .avatarPressed()
                               : null,
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          icon: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.115,
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                imageUrl: post.author.profilePicture,
-                                placeholder: (context, url) =>
-                                    const LoadingProfileImage(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ),
+                          icon: ProfileAvatar(
+                            size: c.widthGetter(context) * 0.115,
+                            url: post.author.profilePicture,
                           ),
                         ),
+
                         const SizedBox(width: 5),
                         Expanded(
                           child: Column(
@@ -132,9 +124,10 @@ class PostCard extends StatelessWidget {
                                         // This is a username, create a hyperlink
                                         return TextSpan(
                                           text: chunk,
-                                          style: TextStyle(color: Theme.of(context)
-                                                .colorScheme
-                                                .surfaceTint),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceTint),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
                                               if (!isPreview) {
@@ -193,21 +186,7 @@ class PostCard extends StatelessWidget {
                                               if (loadingProgress == null) {
                                                 return child;
                                               }
-                                              return
-                                                  // ClipRRect(
-                                                  //   borderRadius: BorderRadius.circular(10),
-                                                  //   child: Shimmer.fromColors(
-                                                  //     baseColor: const Color.fromARGB(
-                                                  //         100, 130, 131, 130),
-                                                  //     highlightColor: Colors.white,
-                                                  //     child: Container(
-                                                  //       width: 200,
-                                                  //       height: 150,
-                                                  //       color: Colors.amber,
-                                                  //     ),
-                                                  //   ),
-                                                  // );
-                                                  Container(
+                                              return Container(
                                                 alignment: Alignment.center,
                                                 width: 200,
                                                 height: 150,
@@ -249,9 +228,10 @@ class PostCard extends StatelessWidget {
                                         // This is a username, create a hyperlink
                                         return TextSpan(
                                           text: chunk,
-                                          style: TextStyle(color: Theme.of(context)
-                                                .colorScheme
-                                                .surfaceTint),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceTint),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
                                               if (!isPreview) {

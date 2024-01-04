@@ -5,6 +5,8 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'profile_picture_loading.dart';
+import '../custom_widgets/profile_avatar.dart';
+import '../utilities/constants.dart' as c;
 
 Widget recentActivityCardBuilder(dynamic data) {
   return ActivityCardWidget(card: data);
@@ -16,6 +18,8 @@ class ActivityCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
     final bool hasUser = card.sourceUser != null;
     return InkWell(
       onTap: () {
@@ -26,45 +30,33 @@ class ActivityCardWidget extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.sizeOf(context).height * 0.01),
+        padding: EdgeInsets.symmetric(vertical: height * 0.01),
         child: Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.03,
-                  right: MediaQuery.of(context).size.width * 0.015),
+              padding:
+                  EdgeInsets.only(left: width * 0.03, right: width * 0.015),
               child: hasUser
-                  ? SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.115,
-                      child: ClipOval(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                        imageUrl: card.sourceUser!.profilePicture,
-                        placeholder: (context, url) =>
-                            const LoadingProfileImage(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      )),
-                    )
+                  ? ProfileAvatar(
+                      url: card.sourceUser!.profilePicture, size: width * 0.115)
                   : Container(
                       alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.width * 0.14,
-                      width: MediaQuery.of(context).size.width * 0.14,
+                      height: width * 0.14,
+                      width: width * 0.14,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Theme.of(context).colorScheme.surface),
                       child: Icon(
                         Icons.comment,
-                        size: MediaQuery.of(context).size.width * 0.08,
+                        size: width * 0.08,
                       ),
                     ),
             ),
             Column(children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
+                  width: width * 0.8,
                   child: card.type == "follow"
-                      ?  Text(
+                      ? Text(
                           "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.followText}",
                           softWrap: true,
                         )
@@ -78,7 +70,7 @@ class ActivityCardWidget extends StatelessWidget {
                               softWrap: true,
                             )),
               Container(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: width * 0.8,
                 alignment: Alignment.centerLeft,
                 child: TimeStamp(
                   time: card.time,

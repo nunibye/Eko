@@ -782,6 +782,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set Password'**
   String get setPassword;
+
+  /// No description provided for @coppiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Coppied to Clipboard'**
+  String get coppiedToClipboard;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

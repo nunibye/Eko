@@ -6,14 +6,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/edit_profile_controller.dart';
 import 'package:provider/provider.dart';
 import '../utilities/constants.dart' as c;
+import '../custom_widgets/profile_avatar.dart';
 
 class EditProfile extends StatelessWidget {
   const EditProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+
     return ChangeNotifierProvider(
       create: (context) => EditProfileController(context: context),
       builder: (context, child) {
@@ -100,33 +101,26 @@ class EditProfile extends StatelessWidget {
                             alignment: Alignment.bottomRight,
                             children: [
                               SizedBox(
-                                height: MediaQuery.sizeOf(context).width * 0.4,
-                                width: MediaQuery.sizeOf(context).width * 0.4,
+                                height: width * 0.4,
+                                width: width * 0.4,
                                 child: ClipOval(
-                                  child: Provider.of<EditProfileController>(
-                                                  context,
-                                                  listen: true)
-                                              .newProfileImage !=
-                                          null
-                                      ? Image.file(
-                                          fit: BoxFit.fill,
-                                          Provider.of<EditProfileController>(
-                                                  context,
-                                                  listen: true)
-                                              .newProfileImage!)
-                                      : CachedNetworkImage(
-                                          fit: BoxFit.fill,
-                                          imageUrl: Provider.of<
-                                                      EditProfileController>(
-                                                  context,
-                                                  listen: true)
-                                              .profileImage,
-                                          placeholder: (context, url) =>
-                                              const LoadingProfileImage(),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        ),
-                                ),
+                                    child: Provider.of<EditProfileController>(
+                                                    context,
+                                                    listen: true)
+                                                .newProfileImage !=
+                                            null
+                                        ? Image.file(
+                                            fit: BoxFit.fill,
+                                            Provider.of<EditProfileController>(
+                                                    context,
+                                                    listen: true)
+                                                .newProfileImage!)
+                                        : ProfileAvatar(
+                                            url: Provider.of<
+                                                        EditProfileController>(
+                                                    context,
+                                                    listen: true)
+                                                .profileImage)),
                               ),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(

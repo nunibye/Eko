@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'controllers/login_text_feild_controller.dart';
+import '../utilities/constants.dart' as c;
 
 class CustomInputFeild extends StatelessWidget {
   final int? maxLen;
@@ -43,7 +44,7 @@ class CustomInputFeild extends StatelessWidget {
     double feildWidth;
 
     if (width == null) {
-      feildWidth = MediaQuery.of(context).size.width * 0.9;
+      feildWidth = c.widthGetter(context) * 0.9;
     } else {
       feildWidth = width!;
     }

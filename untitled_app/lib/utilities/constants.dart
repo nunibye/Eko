@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+double widthGetter(BuildContext context) {
+  final realWidth = MediaQuery.sizeOf(context).width;
+  return realWidth > indealAppWidth ? indealAppWidth : realWidth;
+}
+
 ColorScheme lightThemeColors(context) {
   return const ColorScheme(
     brightness: Brightness.light,
@@ -72,42 +77,6 @@ ColorScheme darkThemeColors(context) {
   );
 }
 
-// //Light Mode setup
-// ColorScheme lightThemeColors(context) {
-//   return const ColorScheme(
-//     brightness: Brightness.light,
-//     primary: Color(0xff000000),
-//     onPrimary: Color(0xFF505050),
-//     secondary: Color.fromARGB(255, 137, 136, 218),
-//     onSecondary: Color.fromARGB(255, 56, 34, 34),
-//     tertiary: Color.fromARGB(255, 0, 0, 0),
-//     error: Color(0xFFF32424),
-//     onError: Color(0xFFF32424),
-//     background: Color(0xFFFFFFFF),
-//     onBackground: Color.fromARGB(255, 200, 200, 243),
-//     surface: Color.fromARGB(255, 255, 255, 255),
-//     onSurface: Color.fromARGB(255, 0, 0, 0),
-//   );
-// }
-
-// //Dark
-// ColorScheme darkThemeColors(context) {
-//   return const ColorScheme(
-//     brightness: Brightness.dark,
-//     primary: Color(0xFFFFFFFF),
-//     onPrimary: Color.fromARGB(255, 139, 139, 139),
-//     secondary: Color(0xFF1F6C60),
-//     onSecondary: Color(0xFFEAEAEA),
-//     tertiary: Color(0xffffffff),
-//     error: Color(0xFFF32424),
-//     onError: Color(0xFFF32424),
-//     background: Color.fromARGB(255, 12, 12, 12),
-//     onBackground: Color(0xFF202020),
-//     surface: Color.fromARGB(255, 0, 0, 0),
-//     onSurface: Color(0xFFFFFFFF),
-//   );
-// }
-
 //Button Style
 ButtonStyle buttonStyle(context) {
   return ButtonStyle(
@@ -149,3 +118,4 @@ const int minGroupName = 3;
 const int maxGroupDesc = 300;
 const String userNameReqs = r'^[a-z0-9_]{3,24}$';
 const double dividerWidth = 0.5;
+const double indealAppWidth = 500;

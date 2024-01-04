@@ -8,23 +8,26 @@ import '../custom_widgets/pagination.dart';
 import '../custom_widgets/post_card.dart';
 import '../utilities/constants.dart' as c;
 import 'package:flutter/services.dart';
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Theme.of(context).colorScheme.background,
-     // set Status bar color in Android devices
-    statusBarIconBrightness: (Theme.of(context).brightness == Brightness.dark) ? Brightness.light:Brightness.dark, // set Status bar icons color in Android devices
-    statusBarBrightness: Theme.of(context).brightness, // set Status bar icon color in iOS
-  )
-); 
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Theme.of(context).colorScheme.background,
+      // set Status bar color in Android devices
+      statusBarIconBrightness: (Theme.of(context).brightness == Brightness.dark)
+          ? Brightness.light
+          : Brightness.dark, // set Status bar icons color in Android devices
+      statusBarBrightness:
+          Theme.of(context).brightness, // set Status bar icon color in iOS
+    ));
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
         return PopScope(
-          canPop: false,
+            canPop: false,
             onPopInvoked: (didPop) =>
                 Provider.of<ProfileController>(context, listen: false)
                     .onWillPop(),
@@ -52,6 +55,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
     return Column(
       children: [
         Consumer<ProfileController>(
@@ -76,7 +80,6 @@ class _Header extends StatelessWidget {
                               .settingsButtonPressed(),
                       icon: const Icon(
                         Icons.settings_outlined,
-                        
                         size: 25,
                         weight: 10,
                       ),
@@ -102,8 +105,8 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.width * 0.1,
+                width: width * 0.4,
+                height: width * 0.1,
                 child: TextButton(
                   style: TextButton.styleFrom(
                     side: BorderSide(

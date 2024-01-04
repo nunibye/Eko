@@ -4,14 +4,15 @@ import 'package:untitled_app/custom_widgets/pagination.dart';
 import '../controllers/search_page_controller.dart';
 import '../custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import '../utilities/constants.dart' as c;
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(
       create: (context) => SearchPageController(context: context),
@@ -29,38 +30,46 @@ class SearchPage extends StatelessWidget {
                 Provider.of<SearchPageController>(context, listen: false)
                     .hideKeyboard(),
             child: Scaffold(
-                body: Padding(padding: EdgeInsets.all(height * 0.01),child:PaginationPage(
+              body: Padding(
+                padding: EdgeInsets.all(height * 0.01),
+                child: PaginationPage(
                   //forceLoadingState: true,
-              getter: Provider.of<SearchPageController>(context, listen: true).getter,
-              card: searchPageBuilder,
-              startAfterQuery: Provider.of<SearchPageController>(context, listen: false).startAfterQuery,
-              header: TextField(
-                cursorColor: Theme.of(context).colorScheme.onBackground,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(height * 0.01),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.all(width * 0.035),
-                    child: Image.asset('images/algolia_logo.png',
-                        width: width * 0.05, height: width * 0.05),
-                  ),
-                  hintText: AppLocalizations.of(context)!.search,
-                  filled: true,
-                  fillColor: Theme.of(context).colorScheme.surface,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none,
+                  getter:
+                      Provider.of<SearchPageController>(context, listen: true)
+                          .getter,
+                  card: searchPageBuilder,
+                  startAfterQuery:
+                      Provider.of<SearchPageController>(context, listen: false)
+                          .startAfterQuery,
+                  header: TextField(
+                    cursorColor: Theme.of(context).colorScheme.onBackground,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(height * 0.01),
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(width * 0.035),
+                        child: Image.asset('images/algolia_logo.png',
+                            width: width * 0.05, height: width * 0.05),
+                      ),
+                      hintText: AppLocalizations.of(context)!.search,
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.surface,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    onChanged: (s) => Provider.of<SearchPageController>(context,
+                            listen: false)
+                        .onSearchTextChanged(s),
+                    controller: Provider.of<SearchPageController>(context,
+                            listen: false)
+                        .searchTextController,
+                    keyboardType: TextInputType.text,
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
-                onChanged: (s) =>
-                    Provider.of<SearchPageController>(context, listen: false)
-                        .onSearchTextChanged(s),
-                controller:
-                    Provider.of<SearchPageController>(context, listen: false)
-                        .searchTextController,
-                keyboardType: TextInputType.text,
-                style: const TextStyle(fontSize: 20),
               ),
-            ),),),
+            ),
           ),
         );
       },

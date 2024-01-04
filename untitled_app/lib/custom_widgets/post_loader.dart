@@ -6,9 +6,11 @@ class PostLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height,
+      width: width,
+      height: height,
       child: const ExampleUiLoadingAnimation(),
     );
   }
@@ -236,15 +238,15 @@ class CardListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
+    final width = c.widthGetter(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: size.width * 0.115,
-            height: size.width * 0.115,
+            width: width * 0.115,
+            height: width * 0.115,
             decoration: const BoxDecoration(
               color: Colors.black,
               shape: BoxShape.circle,
@@ -256,7 +258,7 @@ class CardListItem extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
               Container(
-                width: size.width * 0.55,
+                width: width * 0.55,
                 height: 24,
                 decoration: BoxDecoration(
                   color: Colors.black,
@@ -265,8 +267,8 @@ class CardListItem extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Container(
-                width: size.width * 0.5,
-                height: size.width * 0.4,
+                width: width * 0.5,
+                height: width * 0.4,
                 decoration: BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(16),
@@ -274,7 +276,7 @@ class CardListItem extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Container(
-                width: size.width * 0.7,
+                width: width * 0.7,
                 height: 24,
                 decoration: BoxDecoration(
                   color: Colors.black,
@@ -283,7 +285,7 @@ class CardListItem extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Container(
-                width: size.width * 0.6,
+                width: width * 0.6,
                 height: 24,
                 decoration: BoxDecoration(
                   color: Colors.black,

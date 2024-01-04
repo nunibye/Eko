@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import '../utilities/constants.dart' as c;
 
 class ProfileInputFeild extends StatelessWidget {
   final String label;
@@ -22,7 +22,7 @@ class ProfileInputFeild extends StatelessWidget {
   final void Function()? onEditingComplete;
   const ProfileInputFeild(
       {required this.label,
-       this.controller,
+      this.controller,
       this.onChanged,
       this.onTap,
       this.onTapOutside,
@@ -41,9 +41,10 @@ class ProfileInputFeild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = c.widthGetter(context);
     double feildWidth;
     if (width == null) {
-      feildWidth = MediaQuery.of(context).size.width * 0.9;
+      feildWidth = screenWidth * 0.9;
     } else {
       feildWidth = width!;
     }
@@ -83,7 +84,8 @@ class ProfileInputFeild extends StatelessWidget {
             fontWeight: FontWeight.normal,
             color: Theme.of(context).colorScheme.onBackground,
           ),
-          fillColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
+          fillColor:
+              Theme.of(context).colorScheme.onBackground.withOpacity(0.2),
           filled: true,
           enabledBorder: OutlineInputBorder(
             borderSide:
@@ -92,8 +94,8 @@ class ProfileInputFeild extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
-              borderSide:
-                  BorderSide(color: Theme.of(context).colorScheme.onBackground)),
+              borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.onBackground)),
         ),
       ),
     );

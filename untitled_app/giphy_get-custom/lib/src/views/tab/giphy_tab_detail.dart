@@ -90,11 +90,11 @@ class _GiphyTabDetailState extends State<GiphyTabDetail> {
     _appBarProvider.addListener(_listenerQuery);
 
     // Set items count responsive
-    _crossAxisCount = (MediaQuery.of(context).size.width / _gifWidth).round();
+    _crossAxisCount = (MediaQuery.sizeOf(context).width / _gifWidth).round();
 
     // Set vertical max items count
     int _mainAxisCount =
-        ((MediaQuery.of(context).size.height - 30) / _gifWidth).round();
+        ((MediaQuery.sizeOf(context).height - 30) / _gifWidth).round();
 
     _limit = _crossAxisCount * _mainAxisCount;
     if (_limit > 100) _limit = 100;

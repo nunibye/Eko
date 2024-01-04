@@ -17,14 +17,13 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.sizeOf(context).width;
+    final double width = c.widthGetter(context);
     return InkWell(
         onTap: () => (onPressedSearched == null)
             ? context.push("/groups/sub_group/${group.id}", extra: group)
             : onPressedSearched!(group),
         child: Column(
           children: [
-            
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
@@ -68,7 +67,8 @@ class GroupCard extends StatelessWidget {
                           children: [
                             Text(
                               group.name,
-                              style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  fontSize: 19, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               group.description,

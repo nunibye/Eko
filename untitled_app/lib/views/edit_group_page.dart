@@ -8,6 +8,7 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import 'package:go_router/go_router.dart';
 import '../custom_widgets/searched_user_card.dart';
+import '../utilities/constants.dart' as c;
 
 class EditGroupPage extends StatelessWidget {
   Group group;
@@ -20,7 +21,7 @@ class EditGroupPage extends StatelessWidget {
           EditGroupPageController(context: context, group: group),
       builder: (context, child) {
         return PopScope(
-          canPop: false,
+            canPop: false,
             onPopInvoked: (didPop) =>
                 Provider.of<EditGroupPageController>(context, listen: false)
                     .exitPressed(),
@@ -45,9 +46,7 @@ class _GroupSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double width = MediaQuery.of(context).size.width;
-    // double height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.sizeOf(context).width;
+    final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(
@@ -200,7 +199,7 @@ class _AddPeople extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
+    final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
     final membersList =
         Provider.of<EditGroupPageController>(context).getMembersList();
@@ -228,11 +227,10 @@ class _AddPeople extends StatelessWidget {
                 onPressed: () =>
                     Provider.of<EditGroupPageController>(context, listen: false)
                         .updateGroupMembers(),
-                child: Text(
-                    const SetEquality()
-                            .equals(selectedPeople.toSet(), membersList.toSet())
-                        ? ""
-                        : AppLocalizations.of(context)!.save),
+                child: Text(const SetEquality()
+                        .equals(selectedPeople.toSet(), membersList.toSet())
+                    ? ""
+                    : AppLocalizations.of(context)!.save),
               )
             ],
           ),

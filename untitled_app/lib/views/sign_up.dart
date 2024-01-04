@@ -66,13 +66,12 @@ class GetInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
         body: Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: width * 0.05),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
       child: Center(
         child: ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -107,8 +106,7 @@ class GetInfo extends StatelessWidget {
                   .nameController,
               inputType: TextInputType.text,
             ),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * c.loginPadding),
+            SizedBox(height: height * c.loginPadding),
             CustomInputFeild(
               onChanged: (s) =>
                   Provider.of<SignUpController>(context, listen: false)
@@ -178,7 +176,9 @@ class GetInfo extends StatelessWidget {
                                   },
                                   child: Icon(
                                     Icons.help_outline_outlined,
-                                    color: Theme.of(context).colorScheme.onBackground,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ))
                             ],
                           ),
@@ -188,8 +188,7 @@ class GetInfo extends StatelessWidget {
 
             // ElevatedButton(onPressed:()=> Provider.of<SignUpController>(context, listen: false)
             //       .isUsernameAvailable(), child: Text("check")),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * c.loginPadding),
+            SizedBox(height: height * c.loginPadding),
             CustomInputFeild(
               label: AppLocalizations.of(context)!.email,
               focus: Provider.of<SignUpController>(context, listen: false)
@@ -217,8 +216,8 @@ class GetInfo extends StatelessWidget {
               height: height * 0.1,
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.width * 0.15,
+              width: width * 0.9,
+              height: width * 0.15,
               child: TextButton(
                 onPressed: () =>
                     Provider.of<SignUpController>(context, listen: false)
@@ -248,12 +247,11 @@ class GetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
         body: Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.05),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.05),
       child: Center(
         child: ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -278,8 +276,7 @@ class GetPassword extends StatelessWidget {
               height: height * 0.05,
             ),
 
-            SizedBox(
-                height: MediaQuery.of(context).size.height * c.loginPadding),
+            SizedBox(height: height * c.loginPadding),
             CustomInputFeild(
               onChanged: (s) =>
                   Provider.of<SignUpController>(context, listen: false)
@@ -296,8 +293,7 @@ class GetPassword extends StatelessWidget {
               inputType: TextInputType.visiblePassword,
               password: true,
             ),
-            SizedBox(
-                height: MediaQuery.of(context).size.height * c.loginPadding),
+            SizedBox(height: height * c.loginPadding),
             CustomInputFeild(
               onChanged: (s) =>
                   Provider.of<SignUpController>(context, listen: false)
@@ -316,7 +312,7 @@ class GetPassword extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * c.loginPadding,
+                vertical: height * c.loginPadding,
               ),
               child: LinearProgressIndicator(
                 minHeight: 12,
@@ -344,8 +340,8 @@ class GetPassword extends StatelessWidget {
               height: height * 0.05,
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.width * 0.15,
+              width: width * 0.9,
+              height: width * 0.15,
               child: TextButton(
                 onPressed: () =>
                     Provider.of<SignUpController>(context, listen: false)
@@ -368,7 +364,7 @@ class GetPassword extends StatelessWidget {
                       ),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            SizedBox(height: height * 0.03),
           ],
         ),
       ),

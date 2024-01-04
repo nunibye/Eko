@@ -79,12 +79,14 @@ class OtherProfile extends StatelessWidget {
                       .getTimeFromPost,
                   header: const _Header(),
                   externalData: Provider.of<OtherProfileController>(context,
-                          listen: false).loadedPostData,
+                          listen: false)
+                      .loadedPostData,
                   extraRefresh: Provider.of<OtherProfileController>(context,
                           listen: false)
                       .onPageRefresh,
-                      initialLoadingWidget: const PostLoader(),),
-                      
+                  initialLoadingWidget: const PostLoader(),
+                ),
+
           // FeedBuilder(
           //   user: AppUser(
           //       username:
@@ -125,6 +127,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
     return Column(
       children: [
         Consumer<OtherProfileController>(
@@ -151,8 +154,8 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.width * 0.1,
+                width: width * 0.4,
+                height: width * 0.1,
                 child: Provider.of<OtherProfileController>(context,
                                 listen: true)
                             .loadedUser ==

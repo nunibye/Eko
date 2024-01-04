@@ -138,6 +138,8 @@
 
     "passwordResetTitle":"Password Reset Successfuly",
     "passwordResetBody":"Please continue to login.",
-    "setPassword":"Set Password"
+    "setPassword":"Set Password",
+
+    "coppiedToClipboard":"Coppied to Clipboard"
 
 }

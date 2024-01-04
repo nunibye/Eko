@@ -7,12 +7,12 @@ import '../utilities/locator.dart';
 import 'profile_picture_loading.dart';
 import 'package:provider/provider.dart';
 import 'controllers/searched_user_controller.dart';
+import '../custom_widgets/profile_avatar.dart';
+import '../utilities/constants.dart' as c;
 
 Widget searchPageBuilder(dynamic user) {
   return UserCard(user: user);
 }
-
-
 
 class UserCard extends StatelessWidget {
   final bool? initialBool;
@@ -32,6 +32,8 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
     return ChangeNotifierProvider.value(
         value: SearchedUserController(
             user: user,
@@ -53,35 +55,23 @@ class UserCard extends StatelessWidget {
               }
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.sizeOf(context).height * 0.01),
+              padding: EdgeInsets.symmetric(vertical: height * 0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.115,
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            fit: BoxFit.fill,
-                            imageUrl: user.profilePicture,
-                            placeholder: (context, url) =>
-                                const LoadingProfileImage(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        ),
-                      ),
+                      ProfileAvatar(
+                          url: user.profilePicture, size: width * 0.115),
                       Padding(
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.02),
+                        padding: EdgeInsets.all(width * 0.02),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if(user.name != "")Text(user.name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
+                            if (user.name != "")
+                              Text(user.name,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
                             Text("@${user.username}")
                           ],
                         ),

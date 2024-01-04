@@ -52,13 +52,14 @@ class _InvalidPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: MediaQuery.sizeOf(context).width * 0.8,
+              width: width * 0.8,
               child: Text(
                 AppLocalizations.of(context)!.badAuthState,
                 textAlign: TextAlign.center,
@@ -92,8 +93,8 @@ class _ResetPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = c.widthGetter(context);
+    final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.05),
@@ -128,8 +129,7 @@ class _ResetPasswordPage extends StatelessWidget {
                     fontSize: 20),
               ),
 
-              SizedBox(
-                  height: MediaQuery.of(context).size.height * c.loginPadding),
+              SizedBox(height: height * c.loginPadding),
               CustomInputFeild(
                 onChanged: (s) => Provider.of<AuthActionInterfaceController>(
                         context,
@@ -150,8 +150,7 @@ class _ResetPasswordPage extends StatelessWidget {
                 inputType: TextInputType.visiblePassword,
                 password: true,
               ),
-              SizedBox(
-                  height: MediaQuery.of(context).size.height * c.loginPadding),
+              SizedBox(height: height * c.loginPadding),
               CustomInputFeild(
                 onChanged: (s) => Provider.of<AuthActionInterfaceController>(
                         context,
@@ -174,7 +173,7 @@ class _ResetPasswordPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * c.loginPadding,
+                  vertical: height * c.loginPadding,
                 ),
                 child: LinearProgressIndicator(
                   minHeight: 12,
@@ -203,8 +202,8 @@ class _ResetPasswordPage extends StatelessWidget {
                 height: height * 0.05,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.width * 0.15,
+                width: width * 0.9,
+                height: width * 0.15,
                 child: TextButton(
                   onPressed: () => Provider.of<AuthActionInterfaceController>(
                           context,
@@ -243,7 +242,7 @@ class _ResetPasswordPage extends StatelessWidget {
                         listen: false)
                     .showExitWarning(),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+              SizedBox(height: height * 0.03),
             ],
           ),
         ),
