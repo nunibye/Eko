@@ -100,7 +100,7 @@ class UserCard extends StatelessWidget {
                           backgroundColor: Provider.of<SearchedUserController>(
                                       context,
                                       listen: true)
-                                  .isFollowing
+                                  .following
                               ? Theme.of(context).colorScheme.surface
                               : Theme.of(context).colorScheme.primaryContainer,
                           shape: RoundedRectangleBorder(
@@ -114,7 +114,7 @@ class UserCard extends StatelessWidget {
                         child: Text(
                           Provider.of<SearchedUserController>(context,
                                       listen: true)
-                                  .isFollowing
+                                  .following
                               ? AppLocalizations.of(context)!.following
                               : AppLocalizations.of(context)!.follow,
                           style: TextStyle(

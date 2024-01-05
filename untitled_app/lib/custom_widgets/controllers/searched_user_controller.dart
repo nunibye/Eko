@@ -8,7 +8,8 @@ class SearchedUserController extends ChangeNotifier {
   final AppUser user;
   final BuildContext context;
   AppUser? loadedUser;
-  late bool isFollowing;
+  late bool following;
+  bool isFollowing = false;
   final bool groupSearch;
   final bool? initialBool;
   late bool added;
@@ -28,7 +29,7 @@ class SearchedUserController extends ChangeNotifier {
     if (groupSearch) {
       added = initialBool!;
     } else {
-      isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+      following = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
     }
 
     notifyListeners();
@@ -38,20 +39,55 @@ class SearchedUserController extends ChangeNotifier {
     context.push("/sub_profile/${user.uid}", extra: user);
   }
 
+  // onFollowPressed() async {
+  //   if (following) {
+  //     if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {
+  //       following = false;
+  //       loadedUser!.followers.remove(locator<CurrentUser>().uid);
+  //     }
+  //   } else {
+  //     if (await locator<CurrentUser>().addFollower(loadedUser!.uid)) {
+  //       following = true;
+  //       loadedUser!.followers.add(locator<CurrentUser>().uid);
+  //     }
+  //   }
+  //   notifyListeners();
+  // }
+
   onFollowPressed() async {
-    if (isFollowing) {
-      if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {
-        isFollowing = false;
-        loadedUser!.followers.remove(locator<CurrentUser>().uid);
-      }
-    } else {
-      if (await locator<CurrentUser>().addFollower(loadedUser!.uid)) {
+    if (loadedUser!.uid != locator<CurrentUser>().uid) {
+      if (!isFollowing) {
         isFollowing = true;
-        loadedUser!.followers.add(locator<CurrentUser>().uid);
+        following = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+        if (following) {
+          following = false;
+          loadedUser!.followers
+              .remove(locator<CurrentUser>().getUID()); //subtract;
+          notifyListeners();
+          if (!(await locator<CurrentUser>().removeFollower(loadedUser!.uid))) {
+            following = true;
+            loadedUser!.followers
+                .add(locator<CurrentUser>().getUID()); //subtract;
+            notifyListeners();
+          }
+        } else {
+          following = true;
+          loadedUser!.followers
+              .add(locator<CurrentUser>().getUID()); //subtract;
+          notifyListeners();
+          if (!(await locator<CurrentUser>().addFollower(loadedUser!.uid))) {
+            following = false;
+            loadedUser!.followers
+                .remove(locator<CurrentUser>().getUID()); //subtract;
+            notifyListeners();
+          }
+        }
+
+        isFollowing = false;
       }
     }
-    notifyListeners();
   }
+
 
   void onAddPressed() {
     if (added) {

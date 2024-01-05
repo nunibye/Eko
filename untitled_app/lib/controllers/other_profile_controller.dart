@@ -15,8 +15,8 @@ class OtherProfileController extends ChangeNotifier {
   Cache loadedPostData = Cache(items: [], end: false);
 
   AppUser? loadedUser;
-  late bool isFollowing;
-
+  late bool following;
+  bool isFollowing = false;
   OtherProfileController({
     required this.context,
     required this.passedUser,
@@ -36,24 +36,41 @@ class OtherProfileController extends ChangeNotifier {
     if (loadedUser!.uid == locator<CurrentUser>().getUID()) {
       context.go("/profile");
     }
-    isFollowing = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+    following = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
     notifyListeners();
   }
 
   onFollowPressed() async {
-    if (loadedUser!.username != "") {
-      if (isFollowing) {
-        if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {
-          isFollowing = false;
-          loadedUser!.followers.remove(locator<CurrentUser>().uid);
+    if ((loadedUser!.username != "") && (loadedUser!.uid != locator<CurrentUser>().uid)) {
+      if (!isFollowing) {
+        isFollowing = true;
+        following = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+        if (following) {
+          following = false;
+          loadedUser!.followers
+              .remove(locator<CurrentUser>().getUID()); //subtract;
+          notifyListeners();
+          if (!(await locator<CurrentUser>().removeFollower(loadedUser!.uid))) {
+            following = true;
+            loadedUser!.followers
+                .add(locator<CurrentUser>().getUID()); //subtract;
+            notifyListeners();
+          }
+        } else {
+          following = true;
+          loadedUser!.followers
+              .add(locator<CurrentUser>().getUID()); //subtract;
+          notifyListeners();
+          if (!(await locator<CurrentUser>().addFollower(loadedUser!.uid))) {
+            following = false;
+            loadedUser!.followers
+                .remove(locator<CurrentUser>().getUID()); //subtract;
+            notifyListeners();
+          }
         }
-      } else {
-        if (await locator<CurrentUser>().addFollower(loadedUser!.uid)) {
-          isFollowing = true;
-          loadedUser!.followers.add(locator<CurrentUser>().uid);
-        }
+
+        isFollowing = false;
       }
-      notifyListeners();
     }
   }
 
@@ -66,6 +83,9 @@ class OtherProfileController extends ChangeNotifier {
   }
 
   onPageRefresh() {
-    //TODO Add code to pull user data from database
+    if (loadedUser != null) {
+      loadedUser!.readUserData(null);
+      notifyListeners();
+    }
   }
 }

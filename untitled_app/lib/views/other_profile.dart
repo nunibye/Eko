@@ -175,7 +175,7 @@ class _Header extends StatelessWidget {
                         child: Text(
                           Provider.of<OtherProfileController>(context,
                                       listen: true)
-                                  .isFollowing
+                                  .following
                               ? AppLocalizations.of(context)!.following
                               : AppLocalizations.of(context)!.follow,
                           style: TextStyle(

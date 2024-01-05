@@ -49,9 +49,9 @@ class AppUser {
         following: json['profileData']['following']);
   }
 
-  Future<Map<String, dynamic>?> readUserData(String passedUid,
+  Future<Map<String, dynamic>?> readUserData(String? passedUid,
       {AppUser? user}) async {
-    uid = passedUid;
+    uid = passedUid ?? uid;
     //checks if post author is the current user because then data can be saved by not getting there info. Must have toggle so that profile doesn't try to save data.
     if (user != null) {
       if (passedUid == user.uid) {
