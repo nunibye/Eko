@@ -54,6 +54,7 @@ class FeedController extends ChangeNotifier {
   bool newActivity = false;
 
   FeedController({required this.context, required this.rebuild}) {
+    
     NotificationService notificationService = NotificationService();
     if (rebuild) {
       rebuildFunction();

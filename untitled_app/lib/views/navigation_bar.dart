@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../utilities/locator.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import '../utilities/constants.dart' as c;
+import '../custom_widgets/get_app_fab.dart';
 
 const List<IconData> _passiveIconList = [
   Icons.home_outlined,
@@ -38,7 +39,11 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
           builder: (context, constraints) {
             if (constraints.maxHeight > constraints.maxWidth) {
               return ScaffoldWithNavigationBar(
-                body: navigationShell,
+                body: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(width: c.indealAppWidth, child: navigationShell)
+                    ]),
                 selectedIndex: navigationShell.currentIndex,
                 onDestinationSelected:
                     Provider.of<NavBarController>(context, listen: false)
@@ -46,9 +51,14 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
               );
             } else {
               return ScaffoldWithNavigationRail(
-                body: DecoratedBox(decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),child:Center(child:ClipRRect(child: SizedBox(width: c.indealAppWidth,child: navigationShell)))),
+                body: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(width: c.indealAppWidth, child: navigationShell)
+                    ]),
                 selectedIndex: navigationShell.currentIndex,
-                onDestinationSelected: Provider.of<NavBarController>(context, listen: false)
+                onDestinationSelected:
+                    Provider.of<NavBarController>(context, listen: false)
                         .goBranch,
               );
             }
@@ -73,18 +83,20 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: getAppFabBuilder(),
       body: body,
       bottomNavigationBar: Provider.of<NavBarController>(context, listen: true)
               .enabled
           ? Container(
               height: c.navBarHeight,
               decoration: BoxDecoration(
-                  border: Border(
-                top: BorderSide(
-                  color: Theme.of(context).colorScheme.outline,
-                  width: 0.5,
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(context).colorScheme.outline,
+                    width: 0.5,
+                  ),
                 ),
-              )),
+              ),
               child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 currentIndex: selectedIndex,
@@ -110,7 +122,6 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                           size: c.navBarIconSize + c.navBarIconSizeAdder,
                         ),
                         label: ''),
-                
                 ],
                 onTap: (index) => onDestinationSelected(index),
               ))
@@ -133,6 +144,7 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: getAppFabBuilder(),
       body: Row(
         children: [
           // Fixed navigation rail on the left (start)
@@ -155,7 +167,6 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                     size: c.navBarIconSize + c.navBarIconSizeAdder,
                   ),
                 ),
-
             ],
           ),
           const VerticalDivider(thickness: 1, width: 1),

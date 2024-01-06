@@ -4,6 +4,7 @@ import '../controllers/login_controller.dart';
 import '../custom_widgets/login_text_feild.dart';
 import 'package:provider/provider.dart';
 import '../utilities/constants.dart' as c;
+import '../custom_widgets/get_app_fab.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -20,6 +21,7 @@ class LoginPage extends StatelessWidget {
           onTap: () => Provider.of<LoginController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
+            floatingActionButton: getAppFabBuilder(),
             backgroundColor: Theme.of(context).colorScheme.background,
             extendBodyBehindAppBar: true,
             body: SingleChildScrollView(

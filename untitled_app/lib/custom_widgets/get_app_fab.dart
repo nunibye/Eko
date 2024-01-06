@@ -1,26 +1,34 @@
-import "package:flutter/material.dart"
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 
-class GetAppFabWrapper extends StatelessWidget {
-final Widget? child;
-  const GetAppFabWrapper({ super.key, this.child });
+Widget? getAppFabBuilder() {
+  if (kIsWeb) return const GetAppFab();
+  return null;
+}
+
+class GetAppFab extends StatelessWidget {
+  const GetAppFab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: child, floatingActionButton: OutlinedButton(
-      // Set the button style
+    return OutlinedButton(
       style: ButtonStyle(
-        // Set the background color
-        backgroundColor: MaterialStateProperty.all(Colors.blue),
-        // Set the border color and width
-        side: MaterialStateProperty.all(BorderSide(color: Colors.white, width: 2)),
+
+        backgroundColor:
+            MaterialStateProperty.all(Theme.of(context).colorScheme.primary),
+         side: MaterialStateProperty.all(
+            BorderSide.none),
         // Set the shape of the button
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+        shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       ),
       // Set the button label
-      child: Text('Get the App', style: TextStyle(color: Colors.white)),
+      child: Text(AppLocalizations.of(context)!.getTheApp,
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
       // Set the button action
-      onPressed: (){},
-    ));
+      onPressed: () => context.go("/download"),
+    );
   }
 }
-

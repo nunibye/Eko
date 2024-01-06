@@ -140,6 +140,8 @@
     "passwordResetBody":"Please continue to login.",
     "setPassword":"Set Password",
 
-    "coppiedToClipboard":"Coppied to Clipboard"
+    "coppiedToClipboard":"Coppied to Clipboard",
+    "download":"Download",
+    "getTheApp":"Get the App"
 
 }

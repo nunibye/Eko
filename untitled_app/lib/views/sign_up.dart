@@ -4,6 +4,7 @@ import 'package:untitled_app/controllers/sign_up_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/login_text_feild.dart';
 import '../utilities/constants.dart' as c;
+import '../custom_widgets/get_app_fab.dart';
 
 class _BackButton extends StatelessWidget {
   const _BackButton();
@@ -44,6 +45,7 @@ class SignUp extends StatelessWidget {
           onTap: () => Provider.of<SignUpController>(context, listen: false)
               .hideKeyboard(),
           child: Scaffold(
+            floatingActionButton: getAppFabBuilder(),
             body: PageView(
               physics: const NeverScrollableScrollPhysics(),
               controller: Provider.of<SignUpController>(context, listen: false)

@@ -24,9 +24,10 @@ class RouterNotifier extends ChangeNotifier {
     final onSignUpPage = state.fullPath == '/signup';
     final onAuthPage = state.fullPath == '/auth';
     final onWelcomePage = state.fullPath == '/';
+    final onDownloadPage = state.fullPath == '/download';
     //print('redirect $loggedIn');
     if (!loggedIn &&
-        !(onSignUpPage || onLoginPage || onWelcomePage || onAuthPage)) {
+        !(onSignUpPage || onLoginPage || onWelcomePage || onAuthPage || onDownloadPage)) {
       return '/';
     } else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
       if (locator<CurrentUser>().username == '') {

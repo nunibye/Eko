@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/welcome_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../utilities/constants.dart' as c;
+import '../custom_widgets/get_app_fab.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -16,6 +17,7 @@ class WelcomePage extends StatelessWidget {
       create: (context) => WelcomeController(context: context),
       builder: (context, child) {
         return Scaffold(
+          floatingActionButton: getAppFabBuilder(),
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           body: Align(

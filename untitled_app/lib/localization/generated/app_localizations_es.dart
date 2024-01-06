@@ -351,4 +351,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get coppiedToClipboard => 'Coppied to Clipboard';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get getTheApp => 'Get the App';
 }

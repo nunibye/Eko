@@ -788,6 +788,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coppied to Clipboard'**
   String get coppiedToClipboard;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// No description provided for @getTheApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the App'**
+  String get getTheApp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

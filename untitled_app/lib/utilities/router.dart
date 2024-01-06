@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/users.dart';
+import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
 import 'package:untitled_app/views/login.dart';
 //import 'package:untitled_app/views/root_page.dart';
@@ -43,7 +44,7 @@ final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
-  initialLocation: '/',
+  initialLocation: '/', 
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -107,6 +108,12 @@ final goRouter = GoRouter(
             path: 'login',
             builder: (context, state) {
               return const LoginPage();
+            },
+          ),
+          GoRoute(
+            path: 'download',
+            builder: (context, state) {
+              return const DownloadPage();
             },
           ),
         ]),

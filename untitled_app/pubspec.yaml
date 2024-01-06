@@ -46,7 +46,10 @@ dependencies:
     sdk: flutter
   intl: any
   get_it: ^7.6.4
+  flutter_svg: ^2.0.9
+  qr_flutter: ^4.1.0
   cloud_firestore: ^4.13.3
+  url_launcher: ^6.2.2
   firebase_in_app_messaging: ^0.7.4+6
   overlay_support: ^2.1.0
   share_plus: ^7.2.1
@@ -70,6 +73,7 @@ dependencies:
   flutter_hooks: ^0.20.3
   #idk if this does anything
   flutter_native_splash: ^2.3.7
+  universal_html: ^2.2.4
 dev_dependencies:
   
   # flutter_test:
