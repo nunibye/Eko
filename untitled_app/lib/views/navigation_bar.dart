@@ -31,6 +31,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
     locator<NavBarController>().navigationShell = navigationShell;
     return ChangeNotifierProvider.value(
       value: locator<NavBarController>(),
@@ -39,11 +40,13 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
           builder: (context, constraints) {
             if (constraints.maxHeight > constraints.maxWidth) {
               return ScaffoldWithNavigationBar(
-                body: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(width: c.indealAppWidth, child: navigationShell)
-                    ]),
+                body:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(
+                      width:
+                          (width < c.indealAppWidth) ? width : c.indealAppWidth,
+                      child: navigationShell)
+                ]),
                 selectedIndex: navigationShell.currentIndex,
                 onDestinationSelected:
                     Provider.of<NavBarController>(context, listen: false)
@@ -51,11 +54,13 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
               );
             } else {
               return ScaffoldWithNavigationRail(
-                body: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(width: c.indealAppWidth, child: navigationShell)
-                    ]),
+                body:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(
+                      width:
+                          (width < c.indealAppWidth) ? width : c.indealAppWidth,
+                      child: navigationShell)
+                ]),
                 selectedIndex: navigationShell.currentIndex,
                 onDestinationSelected:
                     Provider.of<NavBarController>(context, listen: false)

@@ -36,6 +36,8 @@ class AppUser {
         following: user.following);
   }
 
+
+
   static AppUser fromJson(Map<String, dynamic> json, {int? page}) {
     return AppUser(
         pageIndex: page,
@@ -83,4 +85,10 @@ class AppUser {
     //print(username);
     return userData;
   }
+
+  // Future<List<AppUser>> userListGetter(List<dynamic> users){
+
+
+
+  // }
 }

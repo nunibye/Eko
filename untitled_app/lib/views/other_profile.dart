@@ -133,6 +133,7 @@ class _Header extends StatelessWidget {
         Consumer<OtherProfileController>(
           builder: (context, otherProfileController, _) => ProfileHeader(
             //FIXME make object oriented
+            user: otherProfileController.loadedUser!,
             username: otherProfileController.loadedUser!.username,
             profilePic: otherProfileController.loadedUser!.profilePicture,
             likes: otherProfileController.loadedUser!.likes,

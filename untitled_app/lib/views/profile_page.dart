@@ -88,6 +88,7 @@ class _Header extends StatelessWidget {
                 ),
               ),
               ProfileHeader(
+                user: profileController.user,
                 username: profileController.user.username,
                 profilePic: profileController.user.profilePicture,
                 likes: profileController.user.likes,

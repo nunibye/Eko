@@ -279,8 +279,8 @@ final goRouter = GoRouter(
                     path: 'following',
                     name: 'following',
                     builder: (context, state) {
-                      List<dynamic> following = state.extra as List<dynamic>;
-                      return Following(following: following);
+                      AppUser following = state.extra as AppUser;
+                      return Following(user: following);
                     }),
               ],
             ),
