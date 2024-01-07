@@ -16,7 +16,7 @@ class FollowersController extends ChangeNotifier {
 
   Future<PaginationGetterReturn> userGetter(dynamic passedIndex) async {
     List<AppUser> returnList = [];
-    int startIndex = passedIndex ?? 0;
+    int startIndex = (passedIndex ?? -1) + 1;
     final bool end = (rootUser.followers.length < startIndex + c.usersOnSearch);
 
     for (int i = startIndex;
