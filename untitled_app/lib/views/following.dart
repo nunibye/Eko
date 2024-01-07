@@ -17,68 +17,74 @@ class Following extends StatelessWidget {
     final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(
-        create: (context) => FollowingController(context: context, rootUser: user),
-        builder: (context, child) {
-          // FollowingController controller =
-          //     Provider.of<FollowingController>(context);
+      create: (context) =>
+          FollowingController(context: context, rootUser: user),
+      builder: (context, child) {
+        // FollowingController controller =
+        //     Provider.of<FollowingController>(context);
 
-          // if (controller.followingList.isEmpty) {
-          //   return const Center(
-          //     child: SizedBox(
-          //       width: 50,
-          //       height: 50,
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   );
-          // } else {
-          return Scaffold(
-            appBar: AppBar(
-              surfaceTintColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded,
-                    color: Theme.of(context).colorScheme.onBackground),
-                onPressed: () => context.pop("poped"),
-              ),
-              backgroundColor: Theme.of(context).colorScheme.background,
-              title: Text(
-                AppLocalizations.of(context)!.following,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontFamily: 'Lato',
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
+        // if (controller.followingList.isEmpty) {
+        //   return const Center(
+        //     child: SizedBox(
+        //       width: 50,
+        //       height: 50,
+        //       child: CircularProgressIndicator(),
+        //     ),
+        //   );
+        // } else {
+        return Scaffold(
+          appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios_rounded,
+                  color: Theme.of(context).colorScheme.onBackground),
+              onPressed: () => context.pop("poped"),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.background,
+            title: Text(
+              AppLocalizations.of(context)!.following,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Lato',
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
-            body: PaginationPage(
+          ),
+          body: Padding(
+            padding: EdgeInsets.all(height * 0.02),
+            child: PaginationPage(
                 getter: Provider.of<FollowingController>(context, listen: false)
                     .userGetter,
                 card: searchPageBuilder,
-                startAfterQuery: Provider.of<FollowingController>(context, listen: false)
-                    .startAfterQuery),
-            // Padding(
-            //   padding: EdgeInsets.all(height * 0.02),
-            //   child:
+                startAfterQuery:
+                    Provider.of<FollowingController>(context, listen: false)
+                        .startAfterQuery),
+          ),
+          // Padding(
+          //   padding: EdgeInsets.all(height * 0.02),
+          //   child:
 
-            //   Column(
-            //     children: [
-            //       Expanded(
-            //         child: ListView.builder(
-            //           itemCount: Provider.of<FollowingController>(context,
-            //                   listen: true)
-            //               .followingList
-            //               .length,
-            //           itemBuilder: (BuildContext context, int index) {
-            //             return UserCard(
-            //                 user: Provider.of<FollowingController>(context,
-            //                         listen: true)
-            //                     .followingList[index]);
-            //           },
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          );
-        });
+          //   Column(
+          //     children: [
+          //       Expanded(
+          //         child: ListView.builder(
+          //           itemCount: Provider.of<FollowingController>(context,
+          //                   listen: true)
+          //               .followingList
+          //               .length,
+          //           itemBuilder: (BuildContext context, int index) {
+          //             return UserCard(
+          //                 user: Provider.of<FollowingController>(context,
+          //                         listen: true)
+          //                     .followingList[index]);
+          //           },
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+        );
+      },
+    );
   }
 }

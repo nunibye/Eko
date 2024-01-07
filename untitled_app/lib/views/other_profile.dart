@@ -132,7 +132,7 @@ class _Header extends StatelessWidget {
       children: [
         Consumer<OtherProfileController>(
           builder: (context, otherProfileController, _) => ProfileHeader(
-            //FIXME make object oriented
+           
             user: otherProfileController.loadedUser!,
            
             
