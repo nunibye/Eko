@@ -134,18 +134,8 @@ class _Header extends StatelessWidget {
           builder: (context, otherProfileController, _) => ProfileHeader(
             //FIXME make object oriented
             user: otherProfileController.loadedUser!,
-            username: otherProfileController.loadedUser!.username,
-            profilePic: otherProfileController.loadedUser!.profilePicture,
-            likes: otherProfileController.loadedUser!.likes,
-            following: otherProfileController.loadedUser!.following,
-            followers: otherProfileController.loadedUser!.followers,
-            profileBio: otherProfileController.loadedUser!.bio,
-            name: Provider.of<OtherProfileController>(context, listen: true)
-                        .loadedUser!
-                        .username !=
-                    ""
-                ? otherProfileController.loadedUser!.name
-                : AppLocalizations.of(context)!.userNotFound,
+           
+            
           ),
         ),
         //TODO style

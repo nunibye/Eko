@@ -4,11 +4,13 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../custom_widgets/searched_user_card.dart';
+import '../custom_widgets/pagination.dart';
+import 'package:untitled_app/models/users.dart';
 
 class Followers extends StatelessWidget {
-  final List<dynamic> followers;
+  final AppUser user;
 
-  const Followers({required this.followers, super.key});
+  const Followers({required this.user, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +19,11 @@ class Followers extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (context) =>
-          FollowersController(context: context, followers: followers),
+          FollowersController(context: context, rootUser: user),
       builder: (context, child) {
-        FollowersController controller =
-            Provider.of<FollowersController>(context);
+        
 
-        if (controller.followersList.isEmpty) {
-          return const Center(
-            child: SizedBox(
-              width: 50,
-              height: 50,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else {
+        
           return Scaffold(
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
@@ -51,28 +44,33 @@ class Followers extends StatelessWidget {
             ),
             body: Padding(
               padding: EdgeInsets.all(height * 0.02),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: Provider.of<FollowersController>(context,
-                              listen: true)
-                          .followersList
-                          .length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return UserCard(
-                            user: Provider.of<FollowersController>(context,
-                                    listen: true)
-                                .followersList[index]);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+               child: PaginationPage(
+                getter: Provider.of<FollowersController>(context, listen: false)
+                    .userGetter,
+                card: searchPageBuilder,
+                startAfterQuery: Provider.of<FollowersController>(context, listen: false)
+                    .startAfterQuery),
+              // Column(
+              //   children: [
+              //     Expanded(
+              //       child: ListView.builder(
+              //         itemCount: Provider.of<FollowersController>(context,
+              //                 listen: true)
+              //             .followersList
+              //             .length,
+              //         itemBuilder: (BuildContext context, int index) {
+              //           return UserCard(
+              //               user: Provider.of<FollowersController>(context,
+              //                       listen: true)
+              //                   .followersList[index]);
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ),
           );
         }
-      },
     );
   }
 }
