@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled_app/custom_widgets/post_loader.dart';
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
@@ -40,7 +40,7 @@ class ProfilePage extends StatelessWidget {
                       Provider.of<ProfileController>(context, listen: false)
                           .getTimeFromPost,
                   header: const _Header(),
-                  initialLoadingWidget: const PostLoader(),
+                  initialLoadingWidget: const FeedLoader(),
                   extraRefresh:
                       Provider.of<ProfileController>(context, listen: false)
                           .onPageRefresh),

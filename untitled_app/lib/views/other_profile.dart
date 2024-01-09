@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:untitled_app/custom_widgets/post_loader.dart';
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
 import 'package:untitled_app/custom_widgets/profile_page_header.dart';
 import 'package:untitled_app/models/users.dart' show AppUser;
 import '../controllers/other_profile_controller.dart';
@@ -84,7 +84,7 @@ class OtherProfile extends StatelessWidget {
                   extraRefresh: Provider.of<OtherProfileController>(context,
                           listen: false)
                       .onPageRefresh,
-                  initialLoadingWidget: const PostLoader(),
+                  initialLoadingWidget: const FeedLoader(),
                 ),
 
           // FeedBuilder(
