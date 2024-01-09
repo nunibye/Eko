@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/groups_page_controller.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/constants.dart' as c;
 import '../models/users.dart';
@@ -33,48 +35,8 @@ class EditGroupPageController extends ChangeNotifier {
         curve: Curves.decelerate);
   }
 
-  // void _pop() {
-  //   context.pop();
-  // }
-
-  // void updateCanSwipe() {
-  //   if (nameController.text.length < c.minGroupName) {
-  //     if (canSwipe) {
-  //       canSwipe = false;
-  //       notifyListeners();
-  //     }
-  //   } else {
-  //     if (!canSwipe) {
-  //       canSwipe = true;
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
-
-  // void _popTwice() {
-  //   _pop();
-  //   _pop();
-  // }
-
   void exitPressed() {
-    // if (selectedPeople.isEmpty &&
-    //     icon == "" &&
-    //     nameController.text == "" &&
-    //     descriptionController.text == "") {
     goBack();
-
-    // } else {
-    //   showMyDialog(
-    //       AppLocalizations.of(context)!.exitEditProfileTitle,
-    //       AppLocalizations.of(context)!.exitEditProfileBody,
-    //       [
-    //         AppLocalizations.of(context)!.exit,
-    //         AppLocalizations.of(context)!.stay
-    //       ],
-    //       [_popTwice, _pop],
-    //       context);
-    // }
-    // return false;
   }
 
   void goBack() {
@@ -194,5 +156,15 @@ class EditGroupPageController extends ChangeNotifier {
 
   Group getGroup() {
     return group;
+  }
+
+  void leaveGroup() {
+    context.pop();
+    context.pop();
+    membersList
+        .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
+    List<String> members = (membersList.map((e) => e.uid).toList());
+    GroupHandler().updateGroupMembers(group, members);
+    // TODO: needs to reload the groups page
   }
 }

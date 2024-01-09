@@ -5,6 +5,7 @@ import 'package:untitled_app/controllers/edit_group_page_controller.dart';
 import 'package:untitled_app/controllers/group_members_controller.dart';
 import 'package:untitled_app/custom_widgets/selected_user_groups.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/users.dart';
@@ -164,7 +165,9 @@ class _GroupSettings extends StatelessWidget {
                           icon: const Icon(Icons.exit_to_app_rounded),
                           color: Theme.of(context).colorScheme.onBackground,
                           onPressed: () {
-                            // TODO
+                            Provider.of<EditGroupPageController>(context,
+                                    listen: false)
+                                .leaveGroup();
                           },
                         ),
                       ],
@@ -215,20 +218,6 @@ class _AddPeople extends StatelessWidget {
             children: [
               TextButton(
                   onPressed: () => {
-                        Provider.of<EditGroupPageController>(context,
-                                listen: false)
-                            .selectedPeople
-                            .addAll(Provider.of<EditGroupPageController>(
-                                    context,
-                                    listen: false)
-                                .membersList),
-                        for (AppUser user
-                            in Provider.of<EditGroupPageController>(context,
-                                    listen: false)
-                                .selectedPeople)
-                          {
-                            print(user.name),
-                          },
                         Provider.of<EditGroupPageController>(context,
                                 listen: false)
                             .exitPressed(),
