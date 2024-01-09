@@ -7,6 +7,7 @@ import 'package:untitled_app/custom_widgets/selected_user_groups.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/users.dart';
 import '../custom_widgets/searched_user_card.dart';
 import '../utilities/constants.dart' as c;
 
@@ -201,11 +202,6 @@ class _AddPeople extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
-    final membersList =
-        Provider.of<EditGroupPageController>(context).getMembersList();
-    final selectedPeople =
-        Provider.of<EditGroupPageController>(context, listen: true)
-            .selectedPeople;
 
     return GestureDetector(
       onPanDown: (details) =>
@@ -218,17 +214,39 @@ class _AddPeople extends StatelessWidget {
           Row(
             children: [
               TextButton(
-                  onPressed: () => Provider.of<EditGroupPageController>(context,
-                          listen: false)
-                      .exitPressed(),
+                  onPressed: () => {
+                        Provider.of<EditGroupPageController>(context,
+                                listen: false)
+                            .selectedPeople
+                            .addAll(Provider.of<EditGroupPageController>(
+                                    context,
+                                    listen: false)
+                                .membersList),
+                        for (AppUser user
+                            in Provider.of<EditGroupPageController>(context,
+                                    listen: false)
+                                .selectedPeople)
+                          {
+                            print(user.name),
+                          },
+                        Provider.of<EditGroupPageController>(context,
+                                listen: false)
+                            .exitPressed(),
+                      },
                   child: Text(AppLocalizations.of(context)!.cancel)),
               const Spacer(),
               TextButton(
                 onPressed: () =>
                     Provider.of<EditGroupPageController>(context, listen: false)
                         .updateGroupMembers(),
-                child: Text(const SetEquality()
-                        .equals(selectedPeople.toSet(), membersList.toSet())
+                child: Text(const SetEquality().equals(
+                        Provider.of<EditGroupPageController>(context,
+                                listen: true)
+                            .selectedPeople
+                            .toSet(),
+                        Provider.of<EditGroupPageController>(context)
+                            .getMembersList()
+                            .toSet())
                     ? ""
                     : AppLocalizations.of(context)!.save),
               )

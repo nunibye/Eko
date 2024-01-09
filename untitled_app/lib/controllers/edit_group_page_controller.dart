@@ -16,6 +16,7 @@ class EditGroupPageController extends ChangeNotifier {
   List<AppUser> selectedPeople = [];
   List<AppUser> hits = [];
   List<AppUser> membersList = [];
+  List<AppUser> addedMembers = [];
   bool isLoading = false;
   bool showEmojiKeyboard = false;
   Timer? _debounce;
@@ -32,9 +33,9 @@ class EditGroupPageController extends ChangeNotifier {
         curve: Curves.decelerate);
   }
 
-  void _pop() {
-    context.pop();
-  }
+  // void _pop() {
+  //   context.pop();
+  // }
 
   // void updateCanSwipe() {
   //   if (nameController.text.length < c.minGroupName) {
@@ -60,7 +61,7 @@ class EditGroupPageController extends ChangeNotifier {
     //     icon == "" &&
     //     nameController.text == "" &&
     //     descriptionController.text == "") {
-    _pop();
+    goBack();
 
     // } else {
     //   showMyDialog(
@@ -116,12 +117,18 @@ class EditGroupPageController extends ChangeNotifier {
         return true;
       }
     }
+    for (AppUser slectedUser in membersList) {
+      if (user.uid == slectedUser.uid) {
+        return true;
+      }
+    }
     return false;
   }
 
   void addRemovePersonToList(AppUser user, bool add) {
     if (add) {
       selectedPeople.add(user);
+      addedMembers.add(user);
       Timer(const Duration(milliseconds: 50), () {
         selectedPeopleScroll.animateTo(
           selectedPeopleScroll.position.maxScrollExtent,
@@ -130,9 +137,10 @@ class EditGroupPageController extends ChangeNotifier {
         );
       });
     } else {
-      selectedPeople.removeWhere((element) => element.uid == user.uid);
+      if (addedMembers.contains(user)) {
+        selectedPeople.removeWhere((element) => element.uid == user.uid);
+      }
     }
-
     notifyListeners();
   }
 
@@ -148,7 +156,7 @@ class EditGroupPageController extends ChangeNotifier {
   }
 
   void initializeSearch() {
-    selectedPeople = [...membersList];
+    selectedPeople = [...addedMembers];
   }
 
   void loadMembersList(List<AppUser> list) {
@@ -161,6 +169,7 @@ class EditGroupPageController extends ChangeNotifier {
 
   void updateGroupMembers() {
     context.pop();
+    selectedPeople.addAll(membersList);
     List<String> members = (selectedPeople.map((e) => e.uid).toList());
     GroupHandler().updateGroupMembers(group, members);
   }
