@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/custom_widgets/post_loader.dart';
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
 import '../models/group_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -100,7 +100,7 @@ class SubGroupPage extends StatelessWidget {
                   startAfterQuery:
                       Provider.of<SubGroupController>(context, listen: false)
                           .getTimeFromPost,
-                  initialLoadingWidget: const PostLoader(),
+                  initialLoadingWidget: const FeedLoader(),
                 ),
         );
       },

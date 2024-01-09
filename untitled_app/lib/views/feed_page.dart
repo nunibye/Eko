@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/custom_widgets/post_loader.dart';
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
 import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../custom_widgets/pagination.dart';
@@ -81,7 +81,7 @@ class FeedPage extends StatelessWidget {
 
         return Scaffold(
           body: PaginationPage(
-            initialLoadingWidget: const PostLoader(),
+            initialLoadingWidget: const FeedLoader(),
             appbar: appBar,
             extraRefresh:
                 Provider.of<FeedController>(context, listen: false).onRefresh,

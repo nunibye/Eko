@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/pagination.dart';
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show SearchLoader;
 import '../controllers/search_page_controller.dart';
 import '../custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../utilities/constants.dart' as c;
+
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -33,6 +35,7 @@ class SearchPage extends StatelessWidget {
               body: Padding(
                 padding: EdgeInsets.all(height * 0.01),
                 child: PaginationPage(
+                  initialLoadingWidget: const SearchLoader(),
                   //forceLoadingState: true,
                   getter:
                       Provider.of<SearchPageController>(context, listen: true)

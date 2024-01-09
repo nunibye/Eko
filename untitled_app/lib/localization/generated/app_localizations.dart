@@ -800,6 +800,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get the App'**
   String get getTheApp;
+
+  /// No description provided for @gifLoadingError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load'**
+  String get gifLoadingError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

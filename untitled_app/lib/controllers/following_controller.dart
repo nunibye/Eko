@@ -14,7 +14,7 @@ class FollowingController extends ChangeNotifier {
 
   Future<PaginationGetterReturn> userGetter(dynamic passedIndex) async {
     List<AppUser> returnList = [];
-    int startIndex = passedIndex ?? 0;
+    int startIndex = (passedIndex ?? -1) + 1;
     final bool end = (rootUser.following.length < startIndex + c.usersOnSearch);
 
     for (int i = startIndex;
@@ -33,6 +33,10 @@ class FollowingController extends ChangeNotifier {
   dynamic startAfterQuery(dynamic user) {
     user as AppUser;
     return user.pageIndex;
+  }
+
+  void onRefresh() async {
+    await rootUser.readUserData(rootUser.uid);
   }
 
 //   Future <void> initUser() async {

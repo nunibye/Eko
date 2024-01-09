@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
@@ -118,7 +119,6 @@ class PostCard extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 8.0),
-
                               if (post.title != null)
                                 RichText(
                                   text: TextSpan(
@@ -157,7 +157,6 @@ class PostCard extends StatelessWidget {
                                     }).toList(),
                                   ),
                                 ),
-
                               if (post.gifURL != null)
                                 InkWell(
                                   onDoubleTap: () {
@@ -181,6 +180,11 @@ class PostCard extends StatelessWidget {
                                           child: Image.network(
                                             post.gifURL!,
                                             fit: BoxFit.fill,
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    Text(AppLocalizations.of(
+                                                            context)!
+                                                        .gifLoadingError),
                                             loadingBuilder:
                                                 (BuildContext context,
                                                     Widget child,
@@ -261,33 +265,6 @@ class PostCard extends StatelessWidget {
                                     }).toList(),
                                   ),
                                 ),
-                              // Visibility(
-                              //   visible: !isPostPage && !isPreview,
-                              //   child: TextButton(
-                              //     onPressed: () {
-                              //       if (!isPreview && !isPostPage) {
-                              //         Provider.of<PostCardController>(context,
-                              //                 listen: false)
-                              //             .postPressed();
-                              //       }
-                              //     },
-                              //     style: TextButton.styleFrom(
-                              //       padding: EdgeInsets.zero,
-                              //       minimumSize: const Size(0, 0),
-                              //       tapTargetSize:
-                              //           MaterialTapTargetSize.shrinkWrap,
-                              //     ),
-                              //     child: Text(
-                              //       "View post", //FIXME
-                              //       style: TextStyle(
-                              //         fontSize: 16,
-                              //         fontWeight: FontWeight.normal,
-                              //         color:
-                              //             Theme.of(context).colorScheme.outline,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // )
                             ],
                           ),
                         ),

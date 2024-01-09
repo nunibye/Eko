@@ -142,6 +142,8 @@
 
     "coppiedToClipboard":"Coppied to Clipboard",
     "download":"Download",
-    "getTheApp":"Get the App"
+    "getTheApp":"Get the App",
+
+    "gifLoadingError":"Failed to load"
 
 }

@@ -403,6 +403,7 @@ class CurrentUser extends AppUser {
       'email': email,
       'username': username,
       'name': name,
+      'fcmTokens': [],
       'profileData': {
         'bio': '',
         'followers': [],
@@ -419,6 +420,7 @@ class CurrentUser extends AppUser {
         .collection("arrays")
         .doc("likes")
         .set({"likes": []});
+    await locator<CurrentUser>().addFCM();
   }
 
   Future<void> addFCM() async {

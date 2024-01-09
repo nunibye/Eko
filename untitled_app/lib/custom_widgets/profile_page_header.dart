@@ -1,44 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:untitled_app/controllers/followers_controller.dart';
-import 'package:untitled_app/controllers/following_controller.dart';
-
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:untitled_app/models/users.dart';
-import '../views/following.dart';
-import '../views/followers.dart';
-import 'profile_picture_loading.dart';
 import '../custom_widgets/profile_avatar.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import '../utilities/locator.dart';
 import '../utilities/constants.dart' as c;
-import 'package:go_router/go_router.dart';
 
 class ProfileHeader extends StatelessWidget {
-  //FIXME reduce params
-  final String username;
-  final String profilePic;
-  final String profileBio;
-  final String name;
-  final int likes;
-  final List<dynamic> following;
-  final List<dynamic> followers;
   final AppUser user;
 
   const ProfileHeader({
     super.key,
     required this.user,
-    required this.username,
-    required this.profilePic,
-    required this.likes,
-    required this.following,
-    required this.followers,
-    required this.profileBio,
-    required this.name,
   });
 
   @override
@@ -60,12 +35,12 @@ class ProfileHeader extends StatelessWidget {
                       child: IconButton(
                         onPressed: () {
                           context.pushNamed("profile_picture_detail",
-                              extra: profilePic);
+                              extra: user.profilePicture);
                           locator<NavBarController>().disable();
                         },
                         icon: ProfileAvatar(
                             size: c.widthGetter(context) * 0.24,
-                            url: profilePic),
+                            url: user.profilePicture),
                       ),
                     ),
                     Flexible(
@@ -78,18 +53,18 @@ class ProfileHeader extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 _ProfilePageTopNumberDisplay(
-                                  number: followers.length,
+                                  number: user.followers.length,
                                   label:
                                       AppLocalizations.of(context)!.followers,
-                                  onPressed: () =>
-                                      goFollowers(context, followers),
+                                  onPressed: () => context
+                                      .push("/profile/followers", extra: user),
                                 ),
                                 _ProfilePageTopNumberDisplay(
-                                  number: following.length,
+                                  number: user.following.length,
                                   label:
                                       AppLocalizations.of(context)!.following,
-                                  onPressed: () =>
-                                      context.push("/profile/following", extra: user),
+                                  onPressed: () => context
+                                      .push("/profile/following", extra: user),
                                 ),
                               ],
                             ),
@@ -104,7 +79,8 @@ class ProfileHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      user.username != ""? user.name:AppLocalizations.of(context)!.userNotFound,
+                      //user.name,
                       style: TextStyle(
                         fontSize: 16,
                         letterSpacing: 1,
@@ -113,7 +89,7 @@ class ProfileHeader extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      profileBio,
+                      user.bio,
                     )
                   ],
                 ),
@@ -164,37 +140,37 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
   }
 }
 
-goFollowing(context, List<dynamic> following) async {
-  locator<NavBarController>().disable();
-  context.pop("/profile/following");
-  // Navigator.push(
-  //   context,
-  //   MaterialPageRoute(
-  //     builder: (context) => ChangeNotifierProvider(
-  //       create: (context) =>
-  //           FollowingController(context: context, following: following),
-  //       child: Following(
-  //         following: following,
-  //       ),
-  //     ),
-  //   ),
-  // );
-  locator<NavBarController>().enable();
-}
+// goFollowing(context, List<dynamic> following) async {
+//   locator<NavBarController>().disable();
+//   context.pop("/profile/following");
+//   // Navigator.push(
+//   //   context,
+//   //   MaterialPageRoute(
+//   //     builder: (context) => ChangeNotifierProvider(
+//   //       create: (context) =>
+//   //           FollowingController(context: context, following: following),
+//   //       child: Following(
+//   //         following: following,
+//   //       ),
+//   //     ),
+//   //   ),
+//   // );
+//   locator<NavBarController>().enable();
+// }
 
-goFollowers(context, List<dynamic> followers) async {
-  locator<NavBarController>().disable();
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => ChangeNotifierProvider(
-        create: (context) =>
-            FollowersController(context: context, followers: followers),
-        child: Followers(
-          followers: followers,
-        ),
-      ),
-    ),
-  );
-  locator<NavBarController>().enable();
-}
+// goFollowers(context, List<dynamic> followers) async {
+//   locator<NavBarController>().disable();
+//   await Navigator.push(
+//     context,
+//     MaterialPageRoute(
+//       builder: (context) => ChangeNotifierProvider(
+//         create: (context) =>
+//             FollowersController(context: context, followers: followers),
+//         child: Followers(
+//           followers: followers,
+//         ),
+//       ),
+//     ),
+//   );
+//   locator<NavBarController>().enable();
+// }

@@ -357,4 +357,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get getTheApp => 'Get the App';
+
+  @override
+  String get gifLoadingError => 'Failed to load';
 }
