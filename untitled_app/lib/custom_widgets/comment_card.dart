@@ -211,7 +211,7 @@ class CommentCard extends StatelessWidget {
                             .liked),
                         likeBuilder: (isLiked) {
                           return Icon(
-                            size: c.postIconSize,
+                            size: c.commentIconSize,
                             isLiked
                                 ? CupertinoIcons.heart_solid
                                 : CupertinoIcons.heart,

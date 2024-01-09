@@ -113,6 +113,7 @@ const double navBarIconSize = 27;
 const double navBarIconSizeAdder = 4;
 const double navBarHeight = navBarIconSize + 20;
 const double postIconSize = 23;
+const double commentIconSize = 17;
 const int maxGroupName = 50;
 const int minGroupName = 3;
 const int maxGroupDesc = 300;

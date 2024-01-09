@@ -280,6 +280,7 @@ class PostCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
+
                           onPressed: () {
                             if (!isPreview && !isPostPage) {
                               Provider.of<PostCardController>(context,
@@ -396,6 +397,7 @@ class PostCard extends StatelessWidget {
                         //   ),
                         // ),
                         IconButton(
+                          iconSize: c.postIconSize,
                           onPressed: () => isPreview ? null : {},
                           icon: Row(
                             children: [
@@ -412,7 +414,6 @@ class PostCard extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onBackground,
-                                  size: c.postIconSize,
                                 ),
                               ),
 
