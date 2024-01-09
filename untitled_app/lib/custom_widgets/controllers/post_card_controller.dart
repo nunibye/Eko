@@ -24,6 +24,7 @@ class PostCardController extends ChangeNotifier {
   bool sharing = false;
   double _opacity = 0;
   double get opacity => _opacity;
+  late bool isSelf;
 
   final bool isBuiltFromId;
   PostCardController(
@@ -39,10 +40,15 @@ class PostCardController extends ChangeNotifier {
 
     comments = post.commentCount;
 
+    isSelf = post.author.uid == locator<CurrentUser>().getUID();
+
+
     ///comments = await locator<PostsHandling>().countComments(post.postId);
 
     notifyListeners();
   }
+
+  
 
 //FIXME could be optomized
   void rebuildFeed() {
@@ -145,12 +151,12 @@ class PostCardController extends ChangeNotifier {
           }
         } else {
           // animation
-          _opacity = 1;
-          notifyListeners();
-          Future.delayed(const Duration(milliseconds: 500), () {
-            _opacity = 0;
-            notifyListeners();
-          });
+          // _opacity = 1;
+          // notifyListeners();
+          // Future.delayed(const Duration(milliseconds: 500), () {
+          //   _opacity = 0;
+          //   notifyListeners();
+          // });
 
           liked = true;
           //locator<FeedPostCache>().updateLikes(post.postId, 1);
