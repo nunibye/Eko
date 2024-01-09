@@ -127,6 +127,7 @@ func PostNewActivity(ctx context.Context, e FirestoreEvent) error {
 				"sourceUid": uid,
 				"time":      post.Time.StringValue,
 				"type":      "post",
+				"tags":      "public",
 			})
 			if err != nil {
 				log.Fatalf("Failed to add activity: %v", err)
@@ -169,6 +170,7 @@ func PostNewActivity(ctx context.Context, e FirestoreEvent) error {
 					"sourceUid": uid,
 					"time":      post.Time.StringValue,
 					"type":      "post",
+					"tags":      post.Tags.ArrayValue.Values[0].StringValue,
 				})
 				if err != nil {
 					log.Fatalf("Failed to add activity: %v", err)
