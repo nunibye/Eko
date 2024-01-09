@@ -249,7 +249,7 @@ class PostsHandling {
       await addActivty(
           time: time,
           type: "comment",
-          content: comment["body"],
+          content: comment["body"] ?? 'Click to see gif',
           path: path,
           user: rootAuthor);
     }

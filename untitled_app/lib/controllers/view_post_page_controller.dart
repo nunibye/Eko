@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:giphy_get/giphy_get.dart';
 import '../models/search_model.dart';
 import '../models/users.dart';
 import '../utilities/constants.dart' as c;
@@ -12,6 +14,8 @@ import 'package:go_router/go_router.dart';
 import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
 import '../models/feed_post_cache.dart';
+import 'bottom_nav_bar_controller.dart';
+import '../secrets/secrets.dart' as secrets;
 
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
@@ -27,6 +31,7 @@ class PostPageController extends ChangeNotifier {
   bool isLoading = false;
   List<AppUser> hits = [];
   Timer? _debounce;
+  GiphyGif? gif;
 
   bool builtFromID = false;
   PostPageController({
@@ -149,25 +154,41 @@ class PostPageController extends ChangeNotifier {
 
   //TODO add more content like a preview of a post.
   Future<void> postCommentPressed() async {
-    commentFeild.text = commentFeild.text.trim();
-    updateCount(commentFeild.text);
+    if (gif == null) {
+      commentFeild.text = commentFeild.text.trim();
+      updateCount(commentFeild.text);
 
-    if (chars > c.maxCommentChars) {
-      showSnackBar(
-          text: AppLocalizations.of(context)!.tooManyChar, context: context);
-    } else if (commentFeild.text == "") {
-      commentFeildFocus.requestFocus();
-      showSnackBar(
-          text: AppLocalizations.of(context)!.emptyFieldError,
-          context: context);
+      if (chars > c.maxCommentChars) {
+        showSnackBar(
+            text: AppLocalizations.of(context)!.tooManyChar, context: context);
+      } else if (commentFeild.text == "") {
+        commentFeildFocus.requestFocus();
+        showSnackBar(
+            text: AppLocalizations.of(context)!.emptyFieldError,
+            context: context);
+      } else {
+        String comment = commentFeild.text;
+        commentFeild.text = "";
+        hideKeyboard();
+        await locator<PostsHandling>().createComment(
+            {"body": comment}, post!.postId, post!.author.uid, post!.postId);
+        // int tempComments = post!.commentCount;
+        // print(tempComments);
+        if (post!.hasCache) {
+          locator<FeedPostCache>().updateComments(post!.postId, 1);
+          if (builtFromID) {
+            post!.commentCount++;
+          }
+        } else {
+          post!.commentCount++;
+        }
+        notifyListeners();
+      }
     } else {
-      String comment = commentFeild.text;
-      commentFeild.text = "";
-      hideKeyboard();
-      await locator<PostsHandling>().createComment(
-          {"body": comment}, post!.postId, post!.author.uid, post!.postId);
-      // int tempComments = post!.commentCount;
-      // print(tempComments);
+      await locator<PostsHandling>().createComment({
+        "gifUrl": gif!.images!.fixedWidth.url,
+        "gifSource": gif!.url
+      }, post!.postId, post!.author.uid, post!.postId);
       if (post!.hasCache) {
         locator<FeedPostCache>().updateComments(post!.postId, 1);
         if (builtFromID) {
@@ -178,5 +199,24 @@ class PostPageController extends ChangeNotifier {
       }
       notifyListeners();
     }
+  }
+
+  addGifPressed() async {
+    locator<NavBarController>().disable();
+    GiphyGif? newGif = await GiphyGet.getGif(
+      context: context,
+      apiKey: secrets.Secrets.GIPHY_API_KEY,
+      lang: GiphyLanguage.english,
+      //randomID: "abcd", // Optional - An ID/proxy for a specific user.
+      tabColor: Colors.teal,
+      debounceTimeInMilliseconds: 350,
+    );
+    //only update gif a gif was selected
+    if (newGif != null) {
+      gif = newGif;
+      postCommentPressed();
+    }
+    notifyListeners();
+    locator<NavBarController>().enable();
   }
 }

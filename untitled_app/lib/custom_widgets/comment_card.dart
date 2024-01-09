@@ -141,6 +141,42 @@ class CommentCard extends StatelessWidget {
                                 }).toList(),
                               ),
                             ),
+                          if (post.gifURL != null)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                post.gifURL!,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Text(AppLocalizations.of(context)!
+                                        .gifLoadingError),
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    height: 150,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           const SizedBox(height: 4.0),
                           TextButton(
                             onPressed: () => Provider.of<PostPageController>(

@@ -165,13 +165,26 @@ class ViewPostPage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: BorderSide.none,
                                   ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      Provider.of<PostPageController>(context,
-                                              listen: false)
-                                          .postCommentPressed();
-                                    },
-                                    icon: const Icon(Icons.send),
+                                  suffixIcon: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Provider.of<PostPageController>(context,
+                                                  listen: false)
+                                              .addGifPressed();
+                                        },
+                                        icon: const Icon(Icons.gif_box_outlined),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          Provider.of<PostPageController>(context,
+                                                  listen: false)
+                                              .postCommentPressed();
+                                        },
+                                        icon: const Icon(Icons.send),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
