@@ -8,12 +8,12 @@ class PaginationGetterReturn {
   PaginationGetterReturn({required this.end, required this.payload});
 }
 
+
 class PaginationController extends ChangeNotifier {
   final Future<PaginationGetterReturn> Function(dynamic) getter;
   final dynamic Function(dynamic) startAfterQuery;
   final Function()? extraRefresh;
   final BuildContext context;
-
 
   bool loading = false;
 
@@ -27,7 +27,6 @@ class PaginationController extends ChangeNotifier {
     required this.getter,
     required this.context,
     required this.startAfterQuery,
-
   }) {
     init();
   }
@@ -75,7 +74,7 @@ class PaginationController extends ChangeNotifier {
 
   Future<void> onRefresh() async {
     if (extraRefresh != null) {
-      extraRefresh!();
+      await extraRefresh!();
     }
     data.end = false;
     data.items.clear();

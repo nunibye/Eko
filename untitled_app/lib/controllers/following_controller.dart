@@ -35,6 +35,10 @@ class FollowingController extends ChangeNotifier {
     return user.pageIndex;
   }
 
+  void onRefresh() async {
+    await rootUser.readUserData(rootUser.uid);
+  }
+
 //   Future <void> initUser() async {
 //   if (_isInitUserRunning) {
 //     return;

@@ -8,6 +8,11 @@ import 'package:giphy_get/src/client/models/type.dart';
 import 'package:giphy_get/src/providers/app_bar_provider.dart';
 import 'package:giphy_get/src/providers/tab_provider.dart';
 import 'package:provider/provider.dart';
+//
+double widthGetter(BuildContext context) {
+  final realWidth = MediaQuery.sizeOf(context).width;
+  return realWidth > 500 ? 500 : realWidth;
+}
 
 class GiphyTabDetail extends StatefulWidget {
   final String type;
@@ -90,7 +95,7 @@ class _GiphyTabDetailState extends State<GiphyTabDetail> {
     _appBarProvider.addListener(_listenerQuery);
 
     // Set items count responsive
-    _crossAxisCount = (MediaQuery.sizeOf(context).width / _gifWidth).round();
+    _crossAxisCount = (widthGetter(context) / _gifWidth).round();
 
     // Set vertical max items count
     int _mainAxisCount =

@@ -58,7 +58,9 @@ class Following extends StatelessWidget {
                 card: searchPageBuilder,
                 startAfterQuery:
                     Provider.of<FollowingController>(context, listen: false)
-                        .startAfterQuery),
+                        .startAfterQuery, extraRefresh:
+                      Provider.of<FollowingController>(context, listen: false)
+                          .onRefresh),
           ),
           // Padding(
           //   padding: EdgeInsets.all(height * 0.02),

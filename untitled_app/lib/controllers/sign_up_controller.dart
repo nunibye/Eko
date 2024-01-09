@@ -205,7 +205,8 @@ class SignUpController extends ChangeNotifier {
             .isUsernameAvailable(usernameController.text.trim())) {
           if (_handleError(
               await locator<CurrentUser>().signUp(passwordController.text))) {
-            locator<CurrentUser>().addUserDataToFirestore();
+             locator<CurrentUser>().addUserDataToFirestore();
+            
           }
         } else {
           _handleError("username-taken");

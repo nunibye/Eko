@@ -64,6 +64,7 @@ dependencies:
   shared_preferences: ^2.2.0
   firebase_messaging: ^14.7.1
   extended_image: ^8.2.0
+  loading_indicator: ^3.1.1
   permission_handler: ^11.0.1
   cloud_functions: ^4.5.2
   flutter_local_notifications: ^16.1.0

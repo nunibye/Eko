@@ -14,16 +14,12 @@ class Followers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final height = MediaQuery.sizeOf(context).height;
 
     return ChangeNotifierProvider(
-      create: (context) =>
-          FollowersController(context: context, rootUser: user),
-      builder: (context, child) {
-        
-
-        
+        create: (context) =>
+            FollowersController(context: context, rootUser: user),
+        builder: (context, child) {
           return Scaffold(
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
@@ -44,12 +40,18 @@ class Followers extends StatelessWidget {
             ),
             body: Padding(
               padding: EdgeInsets.all(height * 0.02),
-               child: PaginationPage(
-                getter: Provider.of<FollowersController>(context, listen: false)
-                    .userGetter,
-                card: searchPageBuilder,
-                startAfterQuery: Provider.of<FollowersController>(context, listen: false)
-                    .startAfterQuery),
+              child: PaginationPage(
+                  getter:
+                      Provider.of<FollowersController>(context, listen: false)
+                          .userGetter,
+                  card: searchPageBuilder,
+                  startAfterQuery:
+                      Provider.of<FollowersController>(context, listen: false)
+                          .startAfterQuery,
+                  extraRefresh:
+                      Provider.of<FollowersController>(context, listen: false)
+                          .onRefresh),
+
               // Column(
               //   children: [
               //     Expanded(
@@ -70,7 +72,6 @@ class Followers extends StatelessWidget {
               // ),
             ),
           );
-        }
-    );
+        });
   }
 }

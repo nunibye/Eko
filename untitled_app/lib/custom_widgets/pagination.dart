@@ -3,6 +3,30 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'controllers/pagination_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart' show Cache;
+import 'package:loading_indicator/loading_indicator.dart';
+import '../utilities/constants.dart' as c;
+
+class _DefaultInitialLoader extends StatelessWidget {
+  const _DefaultInitialLoader();
+
+  @override
+  Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: SizedBox(
+          width: width * 0.2,
+          child: LoadingIndicator(
+            indicatorType: Indicator.ballSpinFadeLoader,
+            colors: [Theme.of(context).colorScheme.primary],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class PaginationPage extends StatelessWidget {
   final Future<PaginationGetterReturn> Function(dynamic) getter;
@@ -70,6 +94,15 @@ class PaginationPage extends StatelessWidget {
               //   floating: true,
               //   pinned: false,
               // ),
+              // if ((!Provider.of<PaginationController>(context, listen: true)
+              //         .data
+              //         .end) &&
+              //     Provider.of<PaginationController>(context, listen: true)
+              //         .data
+              //         .items
+              //         .isEmpty)
+              //   SizedBox()
+              // else
               SliverList.builder(
                 itemCount:
                     Provider.of<PaginationController>(context, listen: true)
@@ -118,7 +151,7 @@ class PaginationPage extends StatelessWidget {
                           .isEmpty) {
                     //what to return if dataset is under initial load sequence
                     return initialLoadingWidget ??
-                        const Center(child: CircularProgressIndicator());
+                        const _DefaultInitialLoader();
                   } else if (Provider.of<PaginationController>(context, listen: true)
                           .data
                           .end &&
