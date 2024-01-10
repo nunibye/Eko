@@ -146,6 +146,11 @@
     "getTheApp":"Get the App",
 
     "gifLoadingError":"Failed to load",
-    "viewLikes":"See Likes"
+    "viewLikes":"See Likes",
+
+    "updateRequiredTitle":"Update Required",
+    "updateRequiredBody":"Please download the latest update to continue.",
+    "updateAvailable":"Upadate Available",
+    "update":"Update"
 
 }

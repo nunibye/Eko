@@ -366,4 +366,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewLikes => 'See Likes';
+
+  @override
+  String get updateRequiredTitle => 'Update Required';
+
+  @override
+  String get updateRequiredBody => 'Please download the latest update to continue.';
+
+  @override
+  String get updateAvailable => 'Upadate Available';
+
+  @override
+  String get update => 'Update';
 }

@@ -30,6 +30,7 @@ import '../models/group_handler.dart' show Group;
 import '../views/auth_action_interface.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import '../views/view_likes_page.dart';
+import '../views/update_required_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -114,6 +115,13 @@ final goRouter = GoRouter(
               return const DownloadPage();
             },
           ),
+          GoRoute(
+            path: 'update',
+            name: 'update',
+            builder: (context, state) {
+              return const UpdateRequiredPage();
+            },
+          ),
         ]),
 
     StatefulShellRoute.indexedStack(
@@ -160,7 +168,9 @@ final goRouter = GoRouter(
                       name: 'likes',
                       builder: (context, state) {
                         String postId = state.extra as String;
-                        return ViewLikesPage(postId: postId,);
+                        return ViewLikesPage(
+                          postId: postId,
+                        );
                       },
                     ),
                   ],

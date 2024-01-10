@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/version_control.dart';
 import 'locator.dart';
 import '../models/current_user.dart';
 
@@ -26,8 +28,14 @@ class RouterNotifier extends ChangeNotifier {
     final onWelcomePage = state.fullPath == '/';
     final onDownloadPage = state.fullPath == '/download';
     //print('redirect $loggedIn');
-    if (!loggedIn &&
-        !(onSignUpPage || onLoginPage || onWelcomePage || onAuthPage || onDownloadPage)) {
+    if (locator<Version>().lessThanMin && !kIsWeb) {
+      return '/update';
+    } else if (!loggedIn &&
+        !(onSignUpPage ||
+            onLoginPage ||
+            onWelcomePage ||
+            onAuthPage ||
+            onDownloadPage)) {
       return '/';
     } else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
       if (locator<CurrentUser>().username == '') {

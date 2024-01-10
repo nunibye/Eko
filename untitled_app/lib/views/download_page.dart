@@ -6,6 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import "../utilities/constants.dart" as c;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import '../models/uri_launcher.dart';
 
 class DownloadPage extends StatelessWidget {
   const DownloadPage({super.key});
@@ -53,9 +54,7 @@ class DownloadPage extends StatelessWidget {
                     height: 5,
                   ),
                   InkWell(
-                    onTap: () => Provider.of<DownloadPageController>(context,
-                            listen: false)
-                        .launchPlayStore(),
+                    onTap: () => UriLauncher.launchPlayStore(),
                     child: SvgPicture.asset(
                       'images/playStoreButton.svg',
                       width: width * 0.45,
@@ -65,9 +64,7 @@ class DownloadPage extends StatelessWidget {
                     height: 5,
                   ),
                   InkWell(
-                    onTap: () => Provider.of<DownloadPageController>(context,
-                            listen: false)
-                        .launchAppStore(),
+                    onTap: () => UriLauncher.launchAppStore(),
                     child: SvgPicture.asset(
                       'images/appStoreButton.svg',
                       width: width * 0.45,

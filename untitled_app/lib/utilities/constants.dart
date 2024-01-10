@@ -121,5 +121,5 @@ const String userNameReqs = r'^[a-z0-9_]{3,24}$';
 const double dividerWidth = 0.5;
 const double indealAppWidth = 500;
 const String appURL = "https://untitled-2832f.web.app";
-const String playStoreURL = "https://play.google.com/store/apps/details?id=com.orderOfTheCone.android.menu_app";
+const String playStoreURL = "https://play.google.com/store/apps/details?id=com.echo.android";
 const String appStoreURL = "https://apps.apple.com/us/app/ucsc-menu/id1670523487";

@@ -8,9 +8,9 @@ Future<void> showMyDialog(String title, String message, List<String> buttons,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(title),
-        content: SingleChildScrollView(
+        content: (message != "") ? SingleChildScrollView(
           child: Text(message),
-        ),
+        ):null,
         actions: <Widget>[
           for (int i = 0; i < buttons.length; i++)
             TextButton(

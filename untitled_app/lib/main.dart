@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
+import 'package:untitled_app/models/version_control.dart';
 import 'utilities/themes/dark_theme_provider.dart';
 import 'utilities/themes/dark_theme_styles.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +17,6 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import '../models/shared_pref_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/current_user.dart';
-
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -32,8 +33,9 @@ Future<void> main() async {
   } else if (FirebaseAuth.instance.currentUser != null) {
     await locator<CurrentUser>().readCurrentUserData();
   }
-  
+
   await NotificationService.initializeNotification();
+  if(!kIsWeb)await locator<Version>().init();
   runApp(const MyApp());
 }
 

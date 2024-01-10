@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:url_launcher/url_launcher.dart';
 import "../utilities/constants.dart" as c;
 import 'package:universal_html/html.dart' as html;
 
@@ -29,13 +28,5 @@ class DownloadPageController extends ChangeNotifier {
     // }
   }
 //these open in new tab
-  void launchAppStore() async {
-    final Uri appStoreUrl = Uri.parse(c.appStoreURL);
-    await launchUrl(appStoreUrl);
-  }
-
-  void launchPlayStore() async {
-    final Uri playStoreUrl = Uri.parse(c.playStoreURL);
-    await launchUrl(playStoreUrl);
-  }
+ 
 }
