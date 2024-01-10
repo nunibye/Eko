@@ -4,7 +4,6 @@ import 'package:untitled_app/models/users.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
 import 'package:untitled_app/views/login.dart';
-//import 'package:untitled_app/views/root_page.dart';
 import 'package:untitled_app/views/sign_up.dart';
 import 'package:untitled_app/views/user_settings.dart';
 import '../views/compose_page.dart';
@@ -30,6 +29,7 @@ import '../views/sub_group_page.dart';
 import '../models/group_handler.dart' show Group;
 import '../views/auth_action_interface.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import '../views/view_likes_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -149,12 +149,21 @@ final goRouter = GoRouter(
                 GoRoute(
                   path: 'post/:id',
                   name: 'post',
-                  //name: 'post_screen',
                   builder: (context, state) {
                     Post? post = state.extra as Post?;
                     String id = state.pathParameters["id"]!;
                     return ViewPostPage(post: post, id: id);
                   },
+                  routes: [
+                    GoRoute(
+                      path: 'likes',
+                      name: 'likes',
+                      builder: (context, state) {
+                        String postId = state.extra as String;
+                        return ViewLikesPage(postId: postId,);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -57,6 +57,7 @@
 
     "close":"Close",
     "likes":"Likes",
+    "comments":"Comments",
     "follow":"Follow",
     "followers":"Followers",
     "following":"Following",
@@ -144,6 +145,7 @@
     "download":"Download",
     "getTheApp":"Get the App",
 
-    "gifLoadingError":"Failed to load"
+    "gifLoadingError":"Failed to load",
+    "viewLikes":"See Likes"
 
 }

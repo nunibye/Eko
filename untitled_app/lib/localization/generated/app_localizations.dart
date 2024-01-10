@@ -357,6 +357,12 @@ abstract class AppLocalizations {
   /// **'Likes'**
   String get likes;
 
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
   /// No description provided for @follow.
   ///
   /// In en, this message translates to:
@@ -806,6 +812,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to load'**
   String get gifLoadingError;
+
+  /// No description provided for @viewLikes.
+  ///
+  /// In en, this message translates to:
+  /// **'See Likes'**
+  String get viewLikes;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

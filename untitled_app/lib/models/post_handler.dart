@@ -353,6 +353,38 @@ class PostsHandling {
     return (post as Post).time;
   }
 
+  //people who like a post
+  Future<PaginationGetterReturn> getPostLikes(
+      dynamic uid, String postId) async {
+    late QuerySnapshot<Map<String, dynamic>> snapshot;
+    if(uid == null)print(postId);
+
+    if (uid == null) {
+      //initial data
+      snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where("arrays.likes.likes", arrayContains: "test")
+          .limit(c.usersOnSearch)
+          .get();
+    } else {
+      snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where("followers", arrayContains: "aeqYkJn2YXU5yp0AMYD71mxCZDP2")
+          .orderBy('uid', descending: true)
+          .startAfter([uid])
+          .limit(c.usersOnSearch)
+          .get();
+    }
+    final userList = snapshot.docs.map<AppUser>((doc) {
+      var data = doc.data();
+      print("t");
+      return AppUser.fromJson(data);
+    }).toList();
+
+    return PaginationGetterReturn(
+        end: (userList.length < c.usersOnSearch), payload: userList);
+  }
+
 //user profile
   Future<PaginationGetterReturn> getProfilePosts(dynamic time) async {
     final user = FirebaseAuth.instance.currentUser!.uid;
@@ -384,8 +416,7 @@ class PostsHandling {
         .map<Future<Post>>((raw) async {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
-      return Post.fromRaw(raw, user,
-          await countComments(raw.postID));
+      return Post.fromRaw(raw, user, await countComments(raw.postID));
     }).toList();
     return PaginationGetterReturn(
         end: (postList.length < c.postsOnRefresh),

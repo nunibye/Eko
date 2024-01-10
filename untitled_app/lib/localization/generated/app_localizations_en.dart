@@ -137,6 +137,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get likes => 'Likes';
 
   @override
+  String get comments => 'Comments';
+
+  @override
   String get follow => 'Follow';
 
   @override
@@ -360,4 +363,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gifLoadingError => 'Failed to load';
+
+  @override
+  String get viewLikes => 'See Likes';
 }

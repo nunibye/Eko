@@ -185,10 +185,11 @@ class PostPageController extends ChangeNotifier {
         notifyListeners();
       }
     } else {
-      await locator<PostsHandling>().createComment({
-        "gifUrl": gif!.images!.fixedWidth.url,
-        "gifSource": gif!.url
-      }, post!.postId, post!.author.uid, post!.postId);
+      await locator<PostsHandling>().createComment(
+          {"gifUrl": gif!.images!.fixedWidth.url, "gifSource": gif!.url},
+          post!.postId,
+          post!.author.uid,
+          post!.postId);
       if (post!.hasCache) {
         locator<FeedPostCache>().updateComments(post!.postId, 1);
         if (builtFromID) {

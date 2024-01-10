@@ -290,7 +290,7 @@ class LikeButtonState extends State<LikeButton> with TickerProviderStateMixin {
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(right: 5),
         child: result,
       ),
     );

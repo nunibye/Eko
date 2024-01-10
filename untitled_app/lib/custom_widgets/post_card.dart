@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'controllers/post_card_controller.dart';
@@ -48,130 +49,139 @@ class PostCard extends StatelessWidget {
           post: post, context: context, isBuiltFromId: isBuiltFromId),
       builder: (context, child) {
         return Consumer<PostCardController>(
-            builder: (context, notifier, child) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: InkWell(
-              onTap: () => (!isPreview && !isPostPage)
-                  ? Provider.of<PostCardController>(context, listen: false)
-                      .postPressed()
-                  : null,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: c.postPaddingHoriz,
-                      vertical: c.postPaddingVert,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Display the profile picture as a CircleAvatar
-                        IconButton(
-                          onPressed: () => (!isPreview && !isOnProfile)
-                              ? Provider.of<PostCardController>(context,
-                                      listen: false)
-                                  .avatarPressed()
-                              : null,
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          icon: ProfileAvatar(
-                            size: c.widthGetter(context) * 0.115,
-                            url: post.author.profilePicture,
+          builder: (context, notifier, child) {
+            // print(post.body);
+            final width = c.widthGetter(context);
+            final likeCommentTextStyle = TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant);
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: InkWell(
+                onTap: () => (!isPreview && !isPostPage)
+                    ? Provider.of<PostCardController>(context, listen: false)
+                        .postPressed()
+                    : null,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: c.postPaddingHoriz,
+                        vertical: c.postPaddingVert,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Display the profile picture as a CircleAvatar
+                          IconButton(
+                            onPressed: () => (!isPreview && !isOnProfile)
+                                ? Provider.of<PostCardController>(context,
+                                        listen: false)
+                                    .avatarPressed()
+                                : null,
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            icon: ProfileAvatar(
+                              size: width * 0.115,
+                              url: post.author.profilePicture,
+                            ),
                           ),
-                        ),
 
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        (!isPreview && !isOnProfile)
-                                            ? Provider.of<PostCardController>(
-                                                    context,
-                                                    listen: false)
-                                                .avatarPressed()
-                                            : null,
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      minimumSize: const Size(0, 0),
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                    child: Text(
-                                      "@${post.author.username}",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          (!isPreview && !isOnProfile)
+                                              ? Provider.of<PostCardController>(
+                                                      context,
+                                                      listen: false)
+                                                  .avatarPressed()
+                                              : null,
+                                      style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: const Size(0, 0),
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: Text(
+                                        "@${post.author.username}",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  if (!isPreview) TimeStamp(time: post.time)
-                                ],
-                              ),
-                              const SizedBox(height: 8.0),
-                              if (post.title != null)
-                                RichText(
-                                  text: TextSpan(
-                                    children: post.title!.map((chunk) {
-                                      if (chunk.startsWith('@')) {
-                                        // This is a username, create a hyperlink
-                                        return TextSpan(
-                                          text: chunk,
-                                          style: TextStyle(
+                                    if (!isPreview) TimeStamp(time: post.time)
+                                  ],
+                                ),
+                                const SizedBox(height: 6.0),
+                                if (post.title?.isNotEmpty ?? false)
+                                  RichText(
+                                    text: TextSpan(
+                                      children: post.title!.map((chunk) {
+                                        if (chunk.startsWith('@')) {
+                                          // This is a username, create a hyperlink
+                                          return TextSpan(
+                                            text: chunk,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceTint),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                if (!isPreview) {
+                                                  Provider.of<
+                                                      PostCardController>(
+                                                    context,
+                                                    listen: false,
+                                                  ).tagPressed(
+                                                      chunk.substring(1));
+                                                }
+                                              },
+                                          );
+                                        } else {
+                                          // This is a normal text, create a TextSpan
+                                          return TextSpan(
+                                            text: chunk,
+                                            style: TextStyle(
+                                              fontSize: 14,
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .surfaceTint),
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () {
-                                              if (!isPreview) {
-                                                Provider.of<PostCardController>(
-                                                  context,
-                                                  listen: false,
-                                                ).tagPressed(
-                                                    chunk.substring(1));
-                                              }
-                                            },
-                                        );
-                                      } else {
-                                        // This is a normal text, create a TextSpan
-                                        return TextSpan(
-                                          text: chunk,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                          ),
-                                        );
-                                      }
-                                    }).toList(),
+                                                  .onBackground,
+                                            ),
+                                          );
+                                        }
+                                      }).toList(),
+                                    ),
                                   ),
-                                ),
-                              if (post.gifURL != null)
-                                InkWell(
-                                  onDoubleTap: () {
-                                    if (!isPreview) {
-                                      if (!Provider.of<PostCardController>(
-                                              context,
-                                              listen: false)
-                                          .liked) {
-                                        Provider.of<PostCardController>(context,
+                                const SizedBox(height: 6.0),
+                                if (post.gifURL != null)
+                                  InkWell(
+                                    onDoubleTap: () {
+                                      if (!isPreview) {
+                                        if (!Provider.of<PostCardController>(
+                                                context,
                                                 listen: false)
-                                            .likePressed();
+                                            .liked) {
+                                          Provider.of<PostCardController>(
+                                                  context,
+                                                  listen: false)
+                                              .likePressed();
+                                        }
                                       }
-                                    }
-                                  },
-                                  child: Stack(
+                                    },
+                                    child: Stack(
+                                      fit: StackFit.loose,
                                       alignment: Alignment.center,
                                       children: [
                                         ClipRRect(
@@ -215,233 +225,276 @@ class PostCard extends StatelessWidget {
                                             },
                                           ),
                                         ),
-                                        // Opacity(
-                                        //   opacity: notifier.opacity,
-                                        //   child: Icon(
-                                        //     Icons.favorite,
-                                        //     color: Theme.of(context)
-                                        //         .colorScheme
-                                        //         .onBackground,
-                                        //     size: 80.0,
-                                        //   ),
-                                        // ),
-                                      ]),
-                                ),
-                              if (post.body != null)
-                                RichText(
-                                  text: TextSpan(
-                                    children: post.body!.map((chunk) {
-                                      if (chunk.startsWith('@')) {
-                                        // This is a username, create a hyperlink
-                                        return TextSpan(
-                                          text: chunk,
-                                          style: TextStyle(
+                                      ],
+                                    ),
+                                  ),
+                                if (post.body?.isNotEmpty ??
+                                    false) //&& post.body != []
+                                  RichText(
+                                    text: TextSpan(
+                                      children: post.body!.map((chunk) {
+                                        if (chunk.startsWith('@')) {
+                                          // This is a username, create a hyperlink
+                                          return TextSpan(
+                                            text: chunk,
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceTint),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                if (!isPreview) {
+                                                  Provider.of<
+                                                      PostCardController>(
+                                                    context,
+                                                    listen: false,
+                                                  ).tagPressed(
+                                                      chunk.substring(1));
+                                                }
+                                              },
+                                          );
+                                        } else {
+                                          // This is a normal text, create a TextSpan
+                                          return TextSpan(
+                                            text: chunk,
+                                            style: TextStyle(
+                                              fontSize: 14,
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .surfaceTint),
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () {
-                                              if (!isPreview) {
-                                                Provider.of<PostCardController>(
-                                                  context,
-                                                  listen: false,
-                                                ).tagPressed(
-                                                    chunk.substring(1));
-                                              }
-                                            },
-                                        );
-                                      } else {
-                                        // This is a normal text, create a TextSpan
-                                        return TextSpan(
-                                          text: chunk,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
-                                          ),
-                                        );
-                                      }
-                                    }).toList(),
+                                                  .onBackground,
+                                            ),
+                                          );
+                                        }
+                                      }).toList(),
+                                    ),
                                   ),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: c.postPaddingHoriz,
-                      //vertical: c.postPaddingVert-8,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-
-                          onPressed: () {
-                            if (!isPreview && !isPostPage) {
-                              Provider.of<PostCardController>(context,
-                                      listen: false)
-                                  .commentPressed();
-                            }
-                          },
-                          icon: Row(
-                            children: [
-                              Icon(
-                                CupertinoIcons.chat_bubble,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: c.postPaddingHoriz,
+                        //vertical: c.postPaddingVert-8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(width: width * 0.115 + 8),
+                          LikeButton(
+                            isLiked: Provider.of<PostCardController>(context,
+                                    listen: true)
+                                .liked,
+                            likeBuilder: (isLiked) {
+                              return Icon(
                                 size: c.postIconSize,
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                '${Provider.of<PostCardController>(context, listen: true).comments}',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        LikeButton(
-                          isLiked: Provider.of<PostCardController>(context,
-                                  listen: true)
-                              .liked,
-                          likeBuilder: (isLiked) {
-                            return Icon(
-                              size: c.postIconSize,
-                              isLiked
-                                  ? CupertinoIcons.heart_solid
-                                  : CupertinoIcons.heart,
-                              color: isLiked
-                                  ? const Color(0xFFff3040)
-                                  : Theme.of(context).colorScheme.onBackground,
-                            );
-                          },
-                          onTap: (isLiked) async {
-                            if (!isPreview &&
-                                !Provider.of<PostCardController>(context,
+                                isLiked
+                                    ? CupertinoIcons.heart_solid
+                                    : CupertinoIcons.heart,
+                                color: isLiked
+                                    ? const Color(0xFFff3040)
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                              );
+                            },
+                            onTap: (isLiked) async {
+                              if (!isPreview &&
+                                  !Provider.of<PostCardController>(context,
+                                          listen: false)
+                                      .isSelf) {
+                                Provider.of<PostCardController>(context,
                                         listen: false)
-                                    .isSelf) {
-                              Provider.of<PostCardController>(context,
-                                      listen: false)
-                                  .likePressed();
-                              return !isLiked;
-                            }
-                            return isLiked;
-                          },
-                          likeCount: Provider.of<PostCardController>(context,
-                                  listen: true)
-                              .likes,
-                          countBuilder:
-                              (int? count, bool isLiked, String text) {
-                            return Text(
-                              text,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground),
-                            );
-                          },
-                          likeCountAnimationType: LikeCountAnimationType.none,
-                          circleSize: 0,
-                          animationDuration: const Duration(milliseconds: 600),
-                          bubblesSize: 25,
-                          bubblesColor: const BubblesColor(
-                              dotPrimaryColor:
-                                  Color.fromARGB(255, 52, 105, 165),
-                              dotSecondaryColor:
-                                  Color.fromARGB(255, 65, 43, 161),
-                              dotThirdColor: Color.fromARGB(255, 196, 68, 211),
-                              dotLastColor: Color(0xFFff3040)),
-                        ),
+                                    .likePressed();
+                                return !isLiked;
+                              }
+                              return isLiked;
+                            },
+                            likeCount: null,
 
-                        // IconButton(
-                        // onPressed: () => isPreview
-                        //     ? null
-                        //     : Provider.of<PostCardController>(context,
-                        //             listen: false)
-                        //         .likePressed(),
-                        //   icon: Row(
-                        //     children: [
-                        //       Icon(
-                        //         (Provider.of<PostCardController>(context,
-                        //                     listen: true)
-                        //                 .liked)
-                        //             ? Icons.favorite
-                        //             : Icons.favorite_border,
-                        //         color: (Provider.of<PostCardController>(context,
-                        //                     listen: true)
-                        //                 .liked)
-                        // ? Color(0xFFff3040)
-                        // : Theme.of(context)
-                        //     .colorScheme
-                        //     .onBackground,
-                        //         size: c.postIconSize,
-                        //       ),
-                        //       const SizedBox(width: 5),
-                        //       Text(
-                        //         '${Provider.of<PostCardController>(context, listen: true).likes}',
-                        //         style: TextStyle(
-                        //             color: Theme.of(context)
-                        //                 .colorScheme
-                        //                 .onBackground),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        IconButton(
-                          iconSize: c.postIconSize,
-                          onPressed: () => isPreview ? null : {},
-                          icon: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => isPreview
-                                    ? null
-                                    : Provider.of<PostCardController>(context,
-                                            listen: false)
-                                        .sharePressed(),
-                                icon: Icon(
-                                  Platform.isIOS
-                                      ? CupertinoIcons.share
-                                      : Icons.share,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                              ),
-
-                              const SizedBox(width: 5),
-                              // Text(
-                              //   '0',
-                              //   style: TextStyle(
-                              //       color:
-                              //           Theme.of(context).colorScheme.onBackground),
-                              // ),
-                            ],
+                            // Provider.of<PostCardController>(context,
+                            //         listen: true)
+                            //     .likes,
+                            // countBuilder:
+                            //     (int? count, bool isLiked, String text) {
+                            //   return Text(
+                            //     text,
+                            //     style: TextStyle(
+                            //         color: Theme.of(context)
+                            //             .colorScheme
+                            //             .onBackground),
+                            //   );
+                            // },
+                            likeCountAnimationType: LikeCountAnimationType.none,
+                            circleSize: 0,
+                            animationDuration:
+                                const Duration(milliseconds: 600),
+                            bubblesSize: 25,
+                            bubblesColor: const BubblesColor(
+                                dotPrimaryColor:
+                                    Color.fromARGB(255, 52, 105, 165),
+                                dotSecondaryColor:
+                                    Color.fromARGB(255, 65, 43, 161),
+                                dotThirdColor:
+                                    Color.fromARGB(255, 196, 68, 211),
+                                dotLastColor: Color(0xFFff3040)),
                           ),
+                          InkWell(
+                            onTap: () {
+                              if (!isPreview && !isPostPage) {
+                                Provider.of<PostCardController>(context,
+                                        listen: false)
+                                    .commentPressed();
+                              }
+                            },
+                            child: Icon(
+                              CupertinoIcons.chat_bubble,
+                              color: Theme.of(context).colorScheme.onBackground,
+                              size: c.postIconSize,
+                            ),
+
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.start,
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     Icon(
+                            //       CupertinoIcons.chat_bubble,
+                            //       color:
+                            //           Theme.of(context).colorScheme.onBackground,
+                            //       size: c.postIconSize,
+                            //     ),
+                            //     const SizedBox(width: 6),
+                            //     Text(
+                            //       '${Provider.of<PostCardController>(context, listen: true).comments}',
+                            //       style: TextStyle(
+                            //         color: Theme.of(context)
+                            //             .colorScheme
+                            //             .onBackground,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                          ),
+
+                          const SizedBox(width: 12),
+
+                          // IconButton(
+                          // onPressed: () => isPreview
+                          //     ? null
+                          //     : Provider.of<PostCardController>(context,
+                          //             listen: false)
+                          //         .likePressed(),
+                          //   icon: Row(
+                          //     children: [
+                          //       Icon(
+                          //         (Provider.of<PostCardController>(context,
+                          //                     listen: true)
+                          //                 .liked)
+                          //             ? Icons.favorite
+                          //             : Icons.favorite_border,
+                          //         color: (Provider.of<PostCardController>(context,
+                          //                     listen: true)
+                          //                 .liked)
+                          // ? Color(0xFFff3040)
+                          // : Theme.of(context)
+                          //     .colorScheme
+                          //     .onBackground,
+                          //         size: c.postIconSize,
+                          //       ),
+                          //       const SizedBox(width: 5),
+                          //       Text(
+                          //         '${Provider.of<PostCardController>(context, listen: true).likes}',
+                          //         style: TextStyle(
+                          //             color: Theme.of(context)
+                          //                 .colorScheme
+                          //                 .onBackground),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          InkWell(
+                            //iconSize: c.postIconSize,
+
+                            onTap: () => isPreview
+                                ? null
+                                : Provider.of<PostCardController>(context,
+                                        listen: false)
+                                    .sharePressed(),
+                            child: Icon(
+                              Platform.isIOS
+                                  ? CupertinoIcons.share
+                                  : CupertinoIcons.arrowshape_turn_up_right,
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                            // Row(
+                            //   children: [
+                            //     IconButton(
+                            //       onPressed: () => isPreview
+                            //           ? null
+                            //           : Provider.of<PostCardController>(context,
+                            //                   listen: false)
+                            //               .sharePressed(),
+                            //       icon: Icon(
+                            //         Platform.isIOS
+                            //             ? CupertinoIcons.share
+                            //             : CupertinoIcons.arrowshape_turn_up_right,
+                            //         color: Theme.of(context)
+                            //             .colorScheme
+                            //             .onBackground,
+                            //       ),
+                            //     ),
+
+                            //     const SizedBox(width: 5),
+                            //     // Text(
+                            //     //   '0',
+                            //     //   style: TextStyle(
+                            //     //       color:
+                            //     //           Theme.of(context).colorScheme.onBackground),
+                            //     // ),
+                            //   ],
+                            // ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: c.postPaddingHoriz + width * 0.115 + 8,
+                          bottom: 9),
+                      child: RichText(
+                        text: TextSpan(
+                          style: likeCommentTextStyle,
+                          children: [
+                            TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context.push("/feed/post/${post.postId}/likes", extra: post.postId);
+                                  },
+                                text:
+                                    "${Provider.of<PostCardController>(context, listen: true).likes} ${AppLocalizations.of(context)!.likes} • "),
+                            TextSpan(
+                                text:
+                                    "${Provider.of<PostCardController>(context, listen: true).comments} ${AppLocalizations.of(context)!.comments}")
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
-                    child: Divider(
-                      color: Theme.of(context).colorScheme.outline,
-                      height: c.dividerWidth,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Divider(
+                        color: Theme.of(context).colorScheme.outline,
+                        height: c.dividerWidth,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          },
+        );
       },
     );
   }
