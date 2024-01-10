@@ -12,6 +12,7 @@ class ViewLikesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
     return ChangeNotifierProvider(
       create: (context) => ViewLikesPageController(postId: postId),
       builder: (context, child) {
@@ -26,14 +27,17 @@ class ViewLikesPage extends StatelessWidget {
             ),
             backgroundColor: Theme.of(context).colorScheme.background,
           ),
-          body: PaginationPage(
-              getter:
-                  Provider.of<ViewLikesPageController>(context, listen: false)
-                      .getter,
-              card: searchPageBuilder,
-              startAfterQuery:
-                  Provider.of<ViewLikesPageController>(context, listen: false)
-                      .startAfterQuery),
+          body: Padding(
+            padding: EdgeInsets.all(height * 0.02),
+            child: PaginationPage(
+                getter:
+                    Provider.of<ViewLikesPageController>(context, listen: false)
+                        .getter,
+                card: searchPageBuilder,
+                startAfterQuery:
+                    Provider.of<ViewLikesPageController>(context, listen: false)
+                        .startAfterQuery),
+          ),
         );
       },
     );

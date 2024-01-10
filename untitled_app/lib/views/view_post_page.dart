@@ -210,7 +210,7 @@ class _Header extends StatelessWidget {
       children: [
         PostCard(
           isPostPage: true,
-          post: Provider.of<PostPageController>(context, listen: false).post!,
+          post: Provider.of<PostPageController>(context, listen: true).post!,
           isBuiltFromId: Provider.of<PostPageController>(context, listen: false)
               .builtFromID,
         ),
