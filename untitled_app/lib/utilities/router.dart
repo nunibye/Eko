@@ -29,6 +29,7 @@ import '../custom_widgets/emoji_picker.dart';
 import '../views/sub_group_page.dart';
 import '../models/group_handler.dart' show Group;
 import '../views/auth_action_interface.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorFeedKey = GlobalKey<NavigatorState>(debugLabel: 'Feed');
@@ -42,9 +43,12 @@ final _shellNavigatorGroupsKey =
     GlobalKey<NavigatorState>(debugLabel: 'Groups');
 final routerNotifier = RouterNotifier();
 final goRouter = GoRouter(
+  observers: [
+    FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+  ],
   refreshListenable: routerNotifier,
   redirect: routerNotifier.redirect,
-  initialLocation: '/', 
+  initialLocation: '/',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -100,7 +104,7 @@ final goRouter = GoRouter(
             path: 'auth',
             builder: (context, state) {
               final url = state.uri.queryParameters;
-              
+
               return AuthActionInterface(urlData: url);
             },
           ),
