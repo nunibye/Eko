@@ -54,7 +54,6 @@ class FeedController extends ChangeNotifier {
   bool newActivity = false;
 
   FeedController({required this.context, required this.rebuild}) {
-    
     NotificationService notificationService = NotificationService();
     if (rebuild) {
       rebuildFunction();
@@ -78,7 +77,27 @@ class FeedController extends ChangeNotifier {
       notificationService.postNotification(context, message);
       rebuildFunction();
     });
+   //copyArray();
   }
+
+  // void copyArray() async {
+  //   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  //   final CollectionReference users = _firestore.collection('users');
+
+  //   final QuerySnapshot allUsersSnapshot = await users.get();
+  //   final List<DocumentSnapshot> allUsers = allUsersSnapshot.docs;
+
+  //   for (var user in allUsers) {
+  //     final String id = user.id;
+  //     print("id");
+  //     final DocumentSnapshot likesDoc =
+  //         await users.doc(id).collection('arrays').doc('likes').get();
+  //     final List<String> friends = List<String>.from(likesDoc.get('likes'));
+
+  //     await users.doc(id).update({'profileData.likedPosts': friends});
+  //   }
+  // }
+
   void checkNewActivity() {
     newActivity = locator<CurrentUser>().newActivity;
     // notifyListeners();

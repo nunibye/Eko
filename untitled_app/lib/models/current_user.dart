@@ -86,22 +86,23 @@ class CurrentUser extends AppUser {
     }
   }
 
-  Future<void> _readLikedPosts() async {
-    final user = getUID();
-    final data = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user)
-        .collection("arrays")
-        .doc("likes")
-        .get();
-    likedPosts = (data.exists) ? data["likes"] : [];
-  }
+  // Future<void> _readLikedPosts() async {
+  //   final user = getUID();
+  //   final data = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(user)
+  //       .collection("arrays")
+  //       .doc("likes")
+  //       .get();
+  //   likedPosts = (data.exists) ? data["likes"] : [];
+  // }
 
   Future<void> readCurrentUserData() async {
     final user = getUID();
     final userData = await readUserData(user); //uses function from parent class
     if (userData != null) {
       email = userData["email"] ?? "";
+      likedPosts = userData["profileData"]["likedPosts"] ?? [];
       //print(userData["newActivty"] ?? false);
       newActivity = userData["newActivity"] ?? false;
       List<dynamic>? fcmTokens = userData["fcmTokens"];
@@ -109,7 +110,7 @@ class CurrentUser extends AppUser {
         addFCM();
       }
     }
-    await _readLikedPosts();
+    //await _readLikedPosts();
   }
 
 //TODO consolidate liking/following functions
@@ -191,13 +192,8 @@ class CurrentUser extends AppUser {
       try {
         final firestore = FirebaseFirestore.instance;
         final user = getUID();
-        await firestore
-            .collection("users")
-            .doc(user)
-            .collection("arrays")
-            .doc("likes")
-            .update({
-          "likes": FieldValue.arrayUnion([postId])
+        await firestore.collection("users").doc(user).update({
+          "profileData.likedPosts": FieldValue.arrayUnion([postId])
         });
         if (commentId == null) {
           await firestore
@@ -232,13 +228,8 @@ class CurrentUser extends AppUser {
       try {
         final firestore = FirebaseFirestore.instance;
         final user = getUID();
-        await firestore
-            .collection("users")
-            .doc(user)
-            .collection("arrays")
-            .doc("likes")
-            .update({
-          "likes": FieldValue.arrayRemove([postId])
+        await firestore.collection("users").doc(user).update({
+          "profileData.likedPosts": FieldValue.arrayRemove([postId])
         });
         if (commentId == null) {
           await firestore
@@ -405,6 +396,7 @@ class CurrentUser extends AppUser {
       'name': name,
       'fcmTokens': [],
       'profileData': {
+        'likedPosts': [],
         'bio': '',
         'followers': [],
         'following': [],
@@ -414,12 +406,12 @@ class CurrentUser extends AppUser {
       }
     };
     await firestore.collection('users').doc(user).set(userData);
-    await firestore
-        .collection('users')
-        .doc(user)
-        .collection("arrays")
-        .doc("likes")
-        .set({"likes": []});
+    // await firestore
+    //     .collection('users')
+    //     .doc(user)
+    //     .collection("arrays")
+    //     .doc("likes")
+    //     .set({"likes": []});
     await locator<CurrentUser>().addFCM();
   }
 

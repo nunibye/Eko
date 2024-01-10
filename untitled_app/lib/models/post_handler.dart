@@ -363,13 +363,13 @@ class PostsHandling {
       //initial data
       snapshot = await FirebaseFirestore.instance
           .collection('users')
-          .where("arrays.likes.likes", arrayContains: "test")
+          .where("profileData.likedPosts", arrayContains: postId)
           .limit(c.usersOnSearch)
           .get();
     } else {
       snapshot = await FirebaseFirestore.instance
           .collection('users')
-          .where("followers", arrayContains: "aeqYkJn2YXU5yp0AMYD71mxCZDP2")
+          .where("profileData.likedPosts", arrayContains: postId)
           .orderBy('uid', descending: true)
           .startAfter([uid])
           .limit(c.usersOnSearch)
@@ -377,7 +377,6 @@ class PostsHandling {
     }
     final userList = snapshot.docs.map<AppUser>((doc) {
       var data = doc.data();
-      print("t");
       return AppUser.fromJson(data);
     }).toList();
 
