@@ -22,8 +22,6 @@ class PostCardController extends ChangeNotifier {
   late bool liked;
   bool liking = false;
   bool sharing = false;
-  double _opacity = 0;
-  double get opacity => _opacity;
   late bool isSelf;
 
   final bool isBuiltFromId;

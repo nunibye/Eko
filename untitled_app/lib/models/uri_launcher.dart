@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utilities/constants.dart' as c;
 
 class UriLauncher {
   static void launchCorrectStore() async {
-    if (Platform.isIOS) {
+    if (kIsWeb) {
+      await launchPlayStore();
+    } else if (Platform.isIOS) {
       await launchAppStore();
     } else {
       await launchPlayStore();

@@ -13,6 +13,7 @@ import 'profile_picture_loading.dart';
 import '../custom_widgets/profile_avatar.dart';
 import 'dart:io' show Platform;
 import 'package:like_button/like_button.dart';
+import 'package:flutter/foundation.dart';
 
 Widget postCardBuilder(dynamic post) {
   return PostCard(
@@ -381,40 +382,7 @@ class PostCard extends StatelessWidget {
 
                           const SizedBox(width: 12),
 
-                          // IconButton(
-                          // onPressed: () => isPreview
-                          //     ? null
-                          //     : Provider.of<PostCardController>(context,
-                          //             listen: false)
-                          //         .likePressed(),
-                          //   icon: Row(
-                          //     children: [
-                          //       Icon(
-                          //         (Provider.of<PostCardController>(context,
-                          //                     listen: true)
-                          //                 .liked)
-                          //             ? Icons.favorite
-                          //             : Icons.favorite_border,
-                          //         color: (Provider.of<PostCardController>(context,
-                          //                     listen: true)
-                          //                 .liked)
-                          // ? Color(0xFFff3040)
-                          // : Theme.of(context)
-                          //     .colorScheme
-                          //     .onBackground,
-                          //         size: c.postIconSize,
-                          //       ),
-                          //       const SizedBox(width: 5),
-                          //       Text(
-                          //         '${Provider.of<PostCardController>(context, listen: true).likes}',
-                          //         style: TextStyle(
-                          //             color: Theme.of(context)
-                          //                 .colorScheme
-                          //                 .onBackground),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
+                          
                           InkWell(
                             //iconSize: c.postIconSize,
 
@@ -424,38 +392,14 @@ class PostCard extends StatelessWidget {
                                         listen: false)
                                     .sharePressed(),
                             child: Icon(
-                              Platform.isIOS
-                                  ? CupertinoIcons.share
-                                  : CupertinoIcons.arrowshape_turn_up_right,
+                              kIsWeb
+                                  ? CupertinoIcons.arrowshape_turn_up_right
+                                  : Platform.isIOS
+                                      ? CupertinoIcons.share
+                                      : CupertinoIcons.arrowshape_turn_up_right,
                               color: Theme.of(context).colorScheme.onBackground,
                             ),
-                            // Row(
-                            //   children: [
-                            //     IconButton(
-                            //       onPressed: () => isPreview
-                            //           ? null
-                            //           : Provider.of<PostCardController>(context,
-                            //                   listen: false)
-                            //               .sharePressed(),
-                            //       icon: Icon(
-                            //         Platform.isIOS
-                            //             ? CupertinoIcons.share
-                            //             : CupertinoIcons.arrowshape_turn_up_right,
-                            //         color: Theme.of(context)
-                            //             .colorScheme
-                            //             .onBackground,
-                            //       ),
-                            //     ),
-
-                            //     const SizedBox(width: 5),
-                            //     // Text(
-                            //     //   '0',
-                            //     //   style: TextStyle(
-                            //     //       color:
-                            //     //           Theme.of(context).colorScheme.onBackground),
-                            //     // ),
-                            //   ],
-                            // ),
+                           
                           ),
                         ],
                       ),
@@ -471,7 +415,9 @@ class PostCard extends StatelessWidget {
                             TextSpan(
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    context.push("/feed/post/${post.postId}/likes", extra: post.postId);
+                                    context.push(
+                                        "/feed/post/${post.postId}/likes",
+                                        extra: post.postId);
                                   },
                                 text:
                                     "${Provider.of<PostCardController>(context, listen: true).likes} ${AppLocalizations.of(context)!.likes} • "),

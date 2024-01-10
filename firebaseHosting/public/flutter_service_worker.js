@@ -7,7 +7,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "fabf4098be9d7d2aa683be1558bf40c5
 "assets/AssetManifest.bin.json": "e5f71991185fe2c665c28085631a1c3d",
 "assets/AssetManifest.json": "70ea5f9c5ddaafc7b01d926bb69281c0",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/fonts/MaterialIcons-Regular.otf": "3ac2034b77ace01fa069b2d407588a1b",
+"assets/fonts/MaterialIcons-Regular.otf": "52c67d4f9d173e5795c2ac8e4c4a07d4",
 "assets/images/algolia_logo.png": "9daf5a50eaf53f373ffdc2df4b3426ea",
 "assets/images/appStoreButton.svg": "a111d9769165e4f4559f20e6303ce781",
 "assets/images/default.jpg": "9ab9f081424b64495304a35fcfcf5b65",
@@ -16,8 +16,8 @@ const RESOURCES = {"assets/AssetManifest.bin": "fabf4098be9d7d2aa683be1558bf40c5
 "assets/images/fog1.gif": "3faf2ad88042763950b847f2064fb83e",
 "assets/images/playStoreButton.svg": "14e64817189d24de31256a9117d038f5",
 "assets/images/welcome_backround.png": "496c1a0f11aa180cf98ad5dfc6b10814",
-"assets/NOTICES": "2f033f6126e9443960df709388121af3",
-"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "89ed8f4e49bcdfc0b5bfc9b24591e347",
+"assets/NOTICES": "ae56e1ee9f4738bf8daa94efda69cbe7",
+"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6e2c3a886b8c2be4b975e91477bb7152",
 "assets/packages/giphy_get/assets/img/GIPHY_dark.png": "13139c9681ad6a03a0f4a45030aee388",
 "assets/packages/giphy_get/assets/img/GIPHY_light.png": "7c7ed0e459349435c6694a720236d5f4",
 "assets/packages/giphy_get/assets/img/poweredby_dark.png": "e4fe68503ab5d004deb31e43636a0a7c",
@@ -36,11 +36,11 @@ const RESOURCES = {"assets/AssetManifest.bin": "fabf4098be9d7d2aa683be1558bf40c5
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "f38214e0ef182ec2abcba071e5e78b3a",
-"/": "f38214e0ef182ec2abcba071e5e78b3a",
-"main.dart.js": "7d874583a0bcd6aa76ea328bd3bd8aa6",
+"index.html": "f65cd6607482e13127c0cccfab0ea0e2",
+"/": "f65cd6607482e13127c0cccfab0ea0e2",
+"main.dart.js": "61365c0110adee22c0c9dabba9dc013c",
 "manifest.json": "bc7d18ebf3eba36993c18c7569e97bb4",
-"version.json": "c9fb3d4a72fb884d96b0d8afdf38ba0d"};
+"version.json": "e2f82c3d455c999b0f86933807cd6742"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
