@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:untitled_app/utilities/firebase_options.dart';
 
 class FirebaseHelper {
@@ -36,6 +36,7 @@ class FirebaseHelper {
       badge: false,
       sound: false,
     );
+    await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   }
 
   static Future<void> subscribeToTopic(String topic) async {

@@ -69,39 +69,31 @@ final goRouter = GoRouter(
     ),
     GoRoute(
       path: '/sub_profile/:id',
-      // name: 'sub_profile',
+      name: 'sub_profile',
       builder: (context, state) {
         AppUser? user = state.extra as AppUser?;
         String id = state.pathParameters["id"]!;
         return OtherProfile(user: user, id: id);
       },
-      // routes: [
-      //   GoRoute(
-      //     path: 'post/:id',
-      //     name: 'post_screen',
-      //     builder: (context, state) {
-      //       Post? post = state.extra as Post?;
-      //       String id = state.pathParameters["id"]!;
-      //       return ViewPostPage(post: post, id: id);
-      //     },
-      //   ),
-      // ],
     ),
 
     GoRoute(
         path: '/',
+        name: 'root',
         builder: (context, state) {
           return const WelcomePage();
         },
         routes: [
           GoRoute(
             path: 'signup',
+            name: 'signup',
             builder: (context, state) {
               return const SignUp();
             },
           ),
           GoRoute(
             path: 'auth',
+            name: 'auth',
             builder: (context, state) {
               final url = state.uri.queryParameters;
 
@@ -110,12 +102,14 @@ final goRouter = GoRouter(
           ),
           GoRoute(
             path: 'login',
+            name: 'login',
             builder: (context, state) {
               return const LoginPage();
             },
           ),
           GoRoute(
             path: 'download',
+            name: 'download',
             builder: (context, state) {
               return const DownloadPage();
             },
@@ -146,7 +140,7 @@ final goRouter = GoRouter(
               routes: [
                 GoRoute(
                   path: 'recent',
-                  //name: 'recent',
+                  name: 'recent',
                   //name: 'post_screen',
                   builder: (context, state) {
                     return const RecentActivity();
@@ -154,6 +148,7 @@ final goRouter = GoRouter(
                 ),
                 GoRoute(
                   path: 'post/:id',
+                  name: 'post',
                   //name: 'post_screen',
                   builder: (context, state) {
                     Post? post = state.extra as Post?;
@@ -237,6 +232,7 @@ final goRouter = GoRouter(
           routes: [
             GoRoute(
               path: '/search',
+              name: 'search',
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: SearchPage(),
               ),
@@ -253,15 +249,6 @@ final goRouter = GoRouter(
                 child: ProfilePage(),
               ),
               routes: [
-                // GoRoute(
-                //   path: 'post/:id',
-                //   //name: 'post_screen',
-                //   builder: (context, state) {
-                //     Post? post = state.extra as Post?;
-                //     String id = state.pathParameters["id"]!;
-                //     return ViewPostPage(post: post, id: id);
-                //   },
-                // ),
                 GoRoute(
                   path: 'edit_profile',
                   name: 'edit_profile',
@@ -280,12 +267,13 @@ final goRouter = GoRouter(
                       return Followers(user: user);
                     }),
                 GoRoute(
-                    path: 'following',
-                    name: 'following',
-                    builder: (context, state) {
-                      AppUser user = state.extra as AppUser;
-                      return Following(user: user);
-                    }),
+                  path: 'following',
+                  name: 'following',
+                  builder: (context, state) {
+                    AppUser user = state.extra as AppUser;
+                    return Following(user: user);
+                  },
+                ),
               ],
             ),
           ],

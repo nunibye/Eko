@@ -15,7 +15,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import '../models/shared_pref_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/current_user.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -32,7 +32,7 @@ Future<void> main() async {
   } else if (FirebaseAuth.instance.currentUser != null) {
     await locator<CurrentUser>().readCurrentUserData();
   }
-  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+  
   await NotificationService.initializeNotification();
   runApp(const MyApp());
 }

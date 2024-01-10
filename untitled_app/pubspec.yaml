@@ -39,7 +39,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_core: ^2.15.0
-  firebase_analytics: ^10.4.4
+  firebase_analytics: ^10.8.0
   # firebase_auth: ^4.7.1
   firebase_auth: ^4.10.1
   flutter_localizations:
@@ -72,8 +72,7 @@ dependencies:
     path: ./giphy_get-custom/
   emoji_picker_flutter: ^1.6.3
   flutter_hooks: ^0.20.3
-  #idk if this does anything
-  flutter_native_splash: ^2.3.7
+
   universal_html: ^2.2.4
   like_button: 
     path: ./like_button-custom/
@@ -92,9 +91,6 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 #idk if this does anything
-flutter_native_splash:
-  color: "#42a5f5"
-  android_12:  "#42a5f5"
 # The following section is specific to Flutter packages.
 flutter:
   generate: true
