@@ -12,9 +12,12 @@ class CommentCardController extends ChangeNotifier {
   late int likes;
   late bool liked;
   bool liking = false;
+  late bool isSelf;
+
   CommentCardController({required this.context, required this.post}) {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
     likes = post.likes;
+    isSelf = post.author.uid == locator<CurrentUser>().getUID();
 
     notifyListeners();
   }

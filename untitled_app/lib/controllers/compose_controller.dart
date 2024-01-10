@@ -247,7 +247,6 @@ class ComposeController extends ChangeNotifier {
     }
   }
 
-//TODO add more content like a preview of a post.
   postPressed(BuildContext context) {
     final List<String> tags = [
       (groupEndPoint != null) ? groupEndPoint!.id : "public"

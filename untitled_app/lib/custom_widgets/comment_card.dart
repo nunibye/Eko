@@ -10,6 +10,8 @@ import '../models/post_handler.dart' show Post;
 import 'package:provider/provider.dart';
 import 'profile_picture_loading.dart';
 import '../custom_widgets/profile_avatar.dart';
+import 'package:like_button/like_button.dart';
+import 'package:flutter/cupertino.dart';
 
 Widget commentCardBuilder(dynamic post) {
   return CommentCard(post: post);
@@ -139,6 +141,42 @@ class CommentCard extends StatelessWidget {
                                 }).toList(),
                               ),
                             ),
+                          if (post.gifURL != null)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                post.gifURL!,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Text(AppLocalizations.of(context)!
+                                        .gifLoadingError),
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    width: 200,
+                                    height: 150,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           const SizedBox(height: 4.0),
                           TextButton(
                             onPressed: () => Provider.of<PostPageController>(
@@ -166,33 +204,81 @@ class CommentCard extends StatelessWidget {
 
                     Column(children: [
                       TimeStamp(time: post.time),
-                      IconButton(
-                        onPressed: () => Provider.of<CommentCardController>(
-                                context,
-                                listen: false)
-                            .likePressed(),
-                        icon: Row(
-                          children: [
-                            Icon(
-                              (Provider.of<CommentCardController>(context,
-                                          listen: true)
-                                      .liked)
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: Theme.of(context).colorScheme.onBackground,
-                              size: c.postIconSize,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              '${Provider.of<CommentCardController>(context, listen: true).likes}',
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground),
-                            ),
-                          ],
-                        ),
+
+                      LikeButton(
+                        isLiked: (Provider.of<CommentCardController>(context,
+                                listen: true)
+                            .liked),
+                        likeBuilder: (isLiked) {
+                          return Icon(
+                            size: c.commentIconSize,
+                            isLiked
+                                ? CupertinoIcons.heart_solid
+                                : CupertinoIcons.heart,
+                            color: isLiked
+                                ? const Color(0xFFff3040)
+                                : Theme.of(context).colorScheme.onBackground,
+                          );
+                        },
+                        onTap: (isLiked) async {
+                          if (!Provider.of<CommentCardController>(context,
+                                  listen: false)
+                              .isSelf) {
+                            Provider.of<CommentCardController>(context,
+                                    listen: false)
+                                .likePressed();
+                            return !isLiked;
+                          }
+                          return isLiked;
+                        },
+                        likeCount: Provider.of<CommentCardController>(context,
+                                listen: true)
+                            .likes,
+                        countBuilder: (int? count, bool isLiked, String text) {
+                          return Text(
+                            text,
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                          );
+                        },
+                        likeCountAnimationType: LikeCountAnimationType.none,
+                        circleSize: 0,
+                        animationDuration: const Duration(milliseconds: 600),
+                        bubblesSize: 25,
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: Color.fromARGB(255, 52, 105, 165),
+                            dotSecondaryColor: Color.fromARGB(255, 65, 43, 161),
+                            dotThirdColor: Color.fromARGB(255, 196, 68, 211),
+                            dotLastColor: Color(0xFFff3040)),
                       ),
+                      // IconButton(
+                      //   onPressed: () => Provider.of<CommentCardController>(
+                      //           context,
+                      //           listen: false)
+                      //       .likePressed(),
+                      //   icon: Row(
+                      //     children: [
+                      //       Icon(
+                      // (Provider.of<CommentCardController>(context,
+                      //             listen: true)
+                      //         .liked)
+                      //             ? Icons.favorite
+                      //             : Icons.favorite_border,
+                      //         color: Theme.of(context).colorScheme.onBackground,
+                      //         size: c.postIconSize,
+                      //       ),
+                      //       const SizedBox(width: 5),
+                      //       Text(
+                      //         '${Provider.of<CommentCardController>(context, listen: true).likes}',
+                      //         style: TextStyle(
+                      //             color: Theme.of(context)
+                      //                 .colorScheme
+                      //                 .onBackground),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ])
                   ],
                 ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/groups_page_controller.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/constants.dart' as c;
 import '../models/users.dart';
@@ -16,6 +18,7 @@ class EditGroupPageController extends ChangeNotifier {
   List<AppUser> selectedPeople = [];
   List<AppUser> hits = [];
   List<AppUser> membersList = [];
+  List<AppUser> addedMembers = [];
   bool isLoading = false;
   bool showEmojiKeyboard = false;
   Timer? _debounce;
@@ -32,48 +35,8 @@ class EditGroupPageController extends ChangeNotifier {
         curve: Curves.decelerate);
   }
 
-  void _pop() {
-    context.pop();
-  }
-
-  // void updateCanSwipe() {
-  //   if (nameController.text.length < c.minGroupName) {
-  //     if (canSwipe) {
-  //       canSwipe = false;
-  //       notifyListeners();
-  //     }
-  //   } else {
-  //     if (!canSwipe) {
-  //       canSwipe = true;
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
-
-  // void _popTwice() {
-  //   _pop();
-  //   _pop();
-  // }
-
   void exitPressed() {
-    // if (selectedPeople.isEmpty &&
-    //     icon == "" &&
-    //     nameController.text == "" &&
-    //     descriptionController.text == "") {
-    _pop();
-
-    // } else {
-    //   showMyDialog(
-    //       AppLocalizations.of(context)!.exitEditProfileTitle,
-    //       AppLocalizations.of(context)!.exitEditProfileBody,
-    //       [
-    //         AppLocalizations.of(context)!.exit,
-    //         AppLocalizations.of(context)!.stay
-    //       ],
-    //       [_popTwice, _pop],
-    //       context);
-    // }
-    // return false;
+    goBack();
   }
 
   void goBack() {
@@ -116,12 +79,18 @@ class EditGroupPageController extends ChangeNotifier {
         return true;
       }
     }
+    for (AppUser slectedUser in membersList) {
+      if (user.uid == slectedUser.uid) {
+        return true;
+      }
+    }
     return false;
   }
 
   void addRemovePersonToList(AppUser user, bool add) {
     if (add) {
       selectedPeople.add(user);
+      addedMembers.add(user);
       Timer(const Duration(milliseconds: 50), () {
         selectedPeopleScroll.animateTo(
           selectedPeopleScroll.position.maxScrollExtent,
@@ -130,9 +99,10 @@ class EditGroupPageController extends ChangeNotifier {
         );
       });
     } else {
-      selectedPeople.removeWhere((element) => element.uid == user.uid);
+      if (addedMembers.contains(user)) {
+        selectedPeople.removeWhere((element) => element.uid == user.uid);
+      }
     }
-
     notifyListeners();
   }
 
@@ -148,7 +118,7 @@ class EditGroupPageController extends ChangeNotifier {
   }
 
   void initializeSearch() {
-    selectedPeople = [...membersList];
+    selectedPeople = [...addedMembers];
   }
 
   void loadMembersList(List<AppUser> list) {
@@ -161,6 +131,7 @@ class EditGroupPageController extends ChangeNotifier {
 
   void updateGroupMembers() {
     context.pop();
+    selectedPeople.addAll(membersList);
     List<String> members = (selectedPeople.map((e) => e.uid).toList());
     GroupHandler().updateGroupMembers(group, members);
   }
@@ -185,5 +156,15 @@ class EditGroupPageController extends ChangeNotifier {
 
   Group getGroup() {
     return group;
+  }
+
+  void leaveGroup() {
+    context.pop();
+    context.pop();
+    membersList
+        .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
+    List<String> members = (membersList.map((e) => e.uid).toList());
+    GroupHandler().updateGroupMembers(group, members);
+    // TODO: needs to reload the groups page
   }
 }

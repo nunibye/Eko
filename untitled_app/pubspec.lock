@@ -684,6 +684,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+  like_button:
+    dependency: "direct main"
+    description:
+      path: like_button-custom
+      relative: true
+    source: path
+    version: "2.0.5"
   lints:
     dependency: transitive
     description:
