@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
-import 'package:untitled_app/models/version_control.dart';
+import '../models/version_control.dart';
 import 'locator.dart';
 import '../models/current_user.dart';
 

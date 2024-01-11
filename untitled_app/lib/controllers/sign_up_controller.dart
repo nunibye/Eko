@@ -7,6 +7,7 @@ import '../custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import "package:go_router/go_router.dart";
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 
 // TODO add presubmission error checking
 class SignUpController extends ChangeNotifier {
@@ -193,8 +194,7 @@ class SignUpController extends ChangeNotifier {
     if (passwordController.text == '') {
       passwordFocus.requestFocus();
     } else {
-      //TODO delete || controller2.text == "password" before production
-      if (goodPassword || passwordController.text == "password") {
+      if (goodPassword || (passwordController.text == "password" && kDebugMode)) {
         loggingIn = true;
         notifyListeners();
         locator<CurrentUser>().email = emailController.text.trim();

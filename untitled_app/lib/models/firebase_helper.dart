@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:untitled_app/utilities/firebase_options.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 class FirebaseHelper {
   const FirebaseHelper._();
@@ -13,9 +14,9 @@ class FirebaseHelper {
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   static Future<void> setupFirebase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    
+    
+
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

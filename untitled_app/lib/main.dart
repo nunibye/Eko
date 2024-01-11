@@ -17,11 +17,26 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import '../models/shared_pref_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/current_user.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:untitled_app/utilities/firebase_options.dart';
 
 Future<void> main() async {
   usePathUrlStrategy();
   //usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider:
+        kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
+    //appleProvider: AppleProvider.debug,
+  );
+  print("init");
   await FirebaseHelper.setupFirebase();
   setupLocator();
 
@@ -35,7 +50,7 @@ Future<void> main() async {
   }
 
   await NotificationService.initializeNotification();
-  if(!kIsWeb)await locator<Version>().init();
+  if (!kIsWeb) await locator<Version>().init();
   runApp(const MyApp());
 }
 

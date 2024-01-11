@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:untitled_app/models/notification_service.dart';
-import 'package:untitled_app/utilities/router_notifier.dart';
+import '../models/notification_service.dart';
+import '../utilities/router_notifier.dart';
 import '../models/current_user.dart';
 import '../models/post_handler.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
