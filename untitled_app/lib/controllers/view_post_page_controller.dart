@@ -29,6 +29,7 @@ class PostPageController extends ChangeNotifier {
   int chars = 0;
   bool isAtSymbolTyped = false;
   bool isLoading = false;
+  bool postNotFound = false;
   List<AppUser> hits = [];
   Timer? _debounce;
   GiphyGif? gif;
@@ -42,14 +43,22 @@ class PostPageController extends ChangeNotifier {
     _init();
   }
   void _init() async {
+    print("ran");
     if (passedPost != null) {
       post = passedPost!;
       notifyListeners();
     } else {
-      post ??= (await locator<PostsHandling>()
-          .getPostFromId(id))!; //FIXME might break if opening deleted post
-      builtFromID = true;
-      post!.hasCache = true;
+      if (post == null) {
+        final readPost = await locator<PostsHandling>().getPostFromId(id);
+        if (readPost != null) {
+          post = readPost;
+          builtFromID = true;
+          post!.hasCache = true;
+        } else {
+          postNotFound = true;
+        }
+      }
+
       notifyListeners();
     }
   }

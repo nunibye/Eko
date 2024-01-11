@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled_app/custom_widgets/loading_spinner.dart';
 import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
 import '../models/group_handler.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +35,7 @@ class SubGroupPage extends StatelessWidget {
           ),
           body: (Provider.of<SubGroupController>(context, listen: true).group ==
                   null)
-              ? const CircularProgressIndicator()
+              ? const Center(child: LoadingSpinner())
               : PaginationPage(
                   appbar: SliverAppBar(
                     automaticallyImplyLeading: false,

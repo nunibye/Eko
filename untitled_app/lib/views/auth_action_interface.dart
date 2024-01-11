@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "package:untitled_app/custom_widgets/loading_spinner.dart";
 import '../custom_widgets/login_text_feild.dart';
 
 import "package:provider/provider.dart";
@@ -43,7 +44,7 @@ class _LoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const Center(child:  LoadingSpinner());
   }
 }
 

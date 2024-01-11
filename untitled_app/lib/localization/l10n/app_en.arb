@@ -151,6 +151,12 @@
     "updateRequiredTitle":"Update Required",
     "updateRequiredBody":"Please download the latest update to continue.",
     "updateAvailable":"Upadate Available",
-    "update":"Update"
+    "update":"Update",
+    "postNotFound":"Post Not Found",
+
+    "leaveGroupWarningTitle":"Are you sure you want to leave the group?",
+    "leaveGroupWarningBody":"A group member will need to re-add you should you want to join again."
+
+    
 
 }

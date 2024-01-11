@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/custom_widgets/loading_spinner.dart';
 import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
 import 'package:untitled_app/custom_widgets/profile_page_header.dart';
 import 'package:untitled_app/models/users.dart' show AppUser;
@@ -25,7 +26,7 @@ class OtherProfile extends StatelessWidget {
           body: Provider.of<OtherProfileController>(context, listen: true)
                       .loadedUser ==
                   null
-              ? const CircularProgressIndicator()
+              ? const Center(child: LoadingSpinner())
               : PaginationPage(
                   appbar: Provider.of<OtherProfileController>(context,
                                   listen: true)

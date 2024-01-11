@@ -378,4 +378,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get update => 'Update';
+
+  @override
+  String get postNotFound => 'Post Not Found';
+
+  @override
+  String get leaveGroupWarningTitle => 'Are you sure you want to leave the group?';
+
+  @override
+  String get leaveGroupWarningBody => 'A group member will need to re-add you should you want to join again.';
 }

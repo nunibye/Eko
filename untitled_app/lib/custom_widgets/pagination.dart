@@ -5,24 +5,17 @@ import 'controllers/pagination_controller.dart';
 import 'package:untitled_app/models/feed_post_cache.dart' show Cache;
 import 'package:loading_indicator/loading_indicator.dart';
 import '../utilities/constants.dart' as c;
+import 'loading_spinner.dart';
 
 class _DefaultInitialLoader extends StatelessWidget {
   const _DefaultInitialLoader();
 
   @override
   Widget build(BuildContext context) {
-    final width = c.widthGetter(context);
-
-    return Center(
+    return const Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 12),
-        child: SizedBox(
-          width: width * 0.2,
-          child: LoadingIndicator(
-            indicatorType: Indicator.ballSpinFadeLoader,
-            colors: [Theme.of(context).colorScheme.primary],
-          ),
-        ),
+        padding: EdgeInsets.only(top: 12),
+        child: LoadingSpinner(),
       ),
     );
   }

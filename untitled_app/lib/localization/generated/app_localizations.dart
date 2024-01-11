@@ -842,6 +842,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update'**
   String get update;
+
+  /// No description provided for @postNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Not Found'**
+  String get postNotFound;
+
+  /// No description provided for @leaveGroupWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave the group?'**
+  String get leaveGroupWarningTitle;
+
+  /// No description provided for @leaveGroupWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A group member will need to re-add you should you want to join again.'**
+  String get leaveGroupWarningBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

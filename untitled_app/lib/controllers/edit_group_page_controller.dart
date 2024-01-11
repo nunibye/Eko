@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/groups_page_controller.dart';
+import 'package:untitled_app/custom_widgets/warning_dialog.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations_en.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/constants.dart' as c;
 import '../models/users.dart';
@@ -158,13 +161,28 @@ class EditGroupPageController extends ChangeNotifier {
     return group;
   }
 
-  void leaveGroup() {
+  void _pop(){
+    context.pop();
+  }
+
+  void _leaveGroup(){ //FIXME
+    context.pop();
     context.pop();
     context.pop();
     membersList
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
     GroupHandler().updateGroupMembers(group, members);
+  }
+
+  void leaveGroup() {
+    showMyDialog(
+        AppLocalizations.of(context)!.leaveGroupWarningTitle,
+        AppLocalizations.of(context)!.leaveGroupWarningTitle,
+        [AppLocalizations.of(context)!.cancel, AppLocalizations.of(context)!.exit],
+        [_pop, _leaveGroup],
+        context);
+    
     // TODO: needs to reload the groups page
   }
 }
