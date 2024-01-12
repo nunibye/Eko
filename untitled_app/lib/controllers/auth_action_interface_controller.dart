@@ -156,8 +156,7 @@ class AuthActionInterfaceController extends ChangeNotifier {
 
   setPasswordPressed() async {
     hideKeyboard();
-    print(await locator<CurrentUser>()
-        .resetPassword(urlData["oobCode"] ?? "", ""));
+   
 
     if (passwordController.text == '') {
       passwordFocus.requestFocus();

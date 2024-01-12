@@ -16,6 +16,5 @@ class LoadingSpinner extends StatelessWidget {
         colors: [Theme.of(context).colorScheme.primary],
       ),
     );
-    ;
   }
 }

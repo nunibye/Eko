@@ -81,8 +81,7 @@ class CurrentUser extends AppUser {
           .confirmPasswordReset(code: code, newPassword: password);
       return "success";
     } on FirebaseAuthException catch (e) {
-      print(e.code);
-      print("faild here");
+
       return (e.code);
     }
   }

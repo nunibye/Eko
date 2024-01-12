@@ -357,7 +357,7 @@ class PostsHandling {
   Future<PaginationGetterReturn> getPostLikes(
       dynamic uid, String postId) async {
     late QuerySnapshot<Map<String, dynamic>> snapshot;
-    if(uid == null)print(postId);
+
 
     if (uid == null) {
       //initial data
