@@ -187,7 +187,8 @@ class CreateGroupPageController extends ChangeNotifier {
         name: nameController.text,
         createdOn: DateTime.now().toUtc().toIso8601String(),
         lastActivity: DateTime.now().toUtc().toIso8601String(),
-        members: members);
+        members: members,
+        notSeen: []);
     GroupHandler().createGroup(newGroup);
   }
 

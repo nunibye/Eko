@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/current_user.dart';
 import '../models/group_handler.dart';
 import '../custom_widgets/time_stamp.dart';
 import '../utilities/constants.dart' as c;
+import '../utilities/locator.dart';
 
 Widget groupCardBuilder(dynamic group) {
   return GroupCard(
@@ -18,10 +21,22 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = c.widthGetter(context);
+    String currentUserId = locator<CurrentUser>().uid;
+    bool unseen = group.notSeen.contains(currentUserId);
+
     return InkWell(
-        onTap: () => (onPressedSearched == null)
-            ? context.push("/groups/sub_group/${group.id}", extra: group)
-            : onPressedSearched!(group),
+        onTap: () async {
+          if (onPressedSearched == null) {
+            context.push("/groups/sub_group/${group.id}", extra: group);
+
+            final firestore = FirebaseFirestore.instance;
+            await firestore.collection('groups').doc(group.id).update({
+              'notSeen': FieldValue.arrayRemove([currentUserId])
+            });
+          } else {
+            onPressedSearched!(group);
+          }
+        },
         child: Column(
           children: [
             Padding(
@@ -67,12 +82,20 @@ class GroupCard extends StatelessWidget {
                           children: [
                             Text(
                               group.name,
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: unseen
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
                             ),
                             Text(
                               group.description,
-                              style: const TextStyle(fontSize: 15),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: unseen
+                                      ? FontWeight.bold
+                                      : FontWeight.w300),
                             ),
                           ])),
 
@@ -88,6 +111,10 @@ class GroupCard extends StatelessWidget {
                   //   ),
                   // ),
                   const Spacer(),
+                  unseen ? const Icon(Icons.circle, size: 10, color: Color(0xFF0095f6),) : Container(),
+                  SizedBox(
+                    width: width * 0.02,
+                  ),
                   if (onPressedSearched == null)
                     TimeStamp(
                       time: group.lastActivity,

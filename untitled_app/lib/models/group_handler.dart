@@ -12,6 +12,7 @@ class Group {
   final String createdOn;
   final String icon;
   final List<String> members;
+  final List<String> notSeen;
   
 
   Group({
@@ -22,6 +23,7 @@ class Group {
     required this.icon,
    
     required this.members,
+    required this.notSeen,
     required this.description,
   });
   Map<String, dynamic> toMap() {
@@ -43,6 +45,7 @@ class Group {
         lastActivity: json["lastActivity"],
         icon: json["icon"],
         members: json["members"].cast<String>(),
+        notSeen: (json["notSeen"] ?? []).cast<String>(),
         description: json["description"],
         id: id);
   }

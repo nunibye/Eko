@@ -186,14 +186,15 @@ final goRouter = GoRouter(
               path: '/groups',
               name: 'groups',
               pageBuilder: (context, state) {
-                bool? reload = state.extra as bool?;
-                return NoTransitionPage(
-                  child: reload == null
-                      ? const GroupsPage()
-                      : GroupsPage(
-                          rebuild: reload,
-                        ),
-                );
+                return const NoTransitionPage(child: GroupsPage());
+                // bool? reload = state.extra as bool?;
+                // return NoTransitionPage(
+                //   child: reload == null
+                //       ? const GroupsPage()
+                //       : GroupsPage(
+                //           rebuild: reload,
+                //         ),
+                // );
               },
               routes: [
                 GoRoute(
