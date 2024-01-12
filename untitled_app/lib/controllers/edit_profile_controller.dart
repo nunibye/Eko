@@ -72,16 +72,7 @@ class EditProfileController extends ChangeNotifier {
   }
 
   void _showLoadingDialog() {
-    showGeneralDialog(
-      context: context,
-      barrierColor: Theme.of(context).colorScheme.background,
-      barrierDismissible: false,
-      barrierLabel: 'Dialog',
-      transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (context, __, ___) {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
+    showLoadingDialog(context);
   }
 
   void showWarning() {

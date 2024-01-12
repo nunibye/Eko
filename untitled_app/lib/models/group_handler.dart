@@ -55,7 +55,7 @@ class GroupHandler {
     await firestore.collection('groups').add(group.toMap());
   }
 
-  void updateGroupMembers(Group group, List<String> members) async {
+  Future<void> updateGroupMembers(Group group, List<String> members) async {
   final firestore = FirebaseFirestore.instance;
   final groupMap = group.toMap();
 

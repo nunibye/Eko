@@ -161,28 +161,37 @@ class EditGroupPageController extends ChangeNotifier {
     return group;
   }
 
-  void _pop(){
+  void _pop() {
     context.pop();
   }
 
-  void _leaveGroup(){ //FIXME
+  
+
+  void _leaveGroup() async {
     context.pop();
-    context.pop();
-    context.pop();
+    showLoadingDialog(context);
     membersList
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
-    GroupHandler().updateGroupMembers(group, members);
+    GroupHandler().updateGroupMembers(group, members).then(
+      (v) {
+        _pop();
+        context.go("/groups", extra: true);
+      },
+    );
   }
 
   void leaveGroup() {
     showMyDialog(
         AppLocalizations.of(context)!.leaveGroupWarningTitle,
         AppLocalizations.of(context)!.leaveGroupWarningTitle,
-        [AppLocalizations.of(context)!.cancel, AppLocalizations.of(context)!.exit],
+        [
+          AppLocalizations.of(context)!.cancel,
+          AppLocalizations.of(context)!.exit
+        ],
         [_pop, _leaveGroup],
         context);
-    
+
     // TODO: needs to reload the groups page
   }
 }

@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 
+void showLoadingDialog(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierColor: Theme.of(context).colorScheme.background,
+      barrierDismissible: false,
+      barrierLabel: 'Dialog',
+      transitionDuration: const Duration(milliseconds: 0),
+      pageBuilder: (context, __, ___) {
+        return const PopScope(canPop:false, child: Center(child: CircularProgressIndicator()));
+      },
+    );
+  }
+
 Future<void> showMyDialog(String title, String message, List<String> buttons,
     List<VoidCallback> actions, BuildContext context) async {
   return showDialog<void>(

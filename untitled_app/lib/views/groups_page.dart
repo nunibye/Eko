@@ -21,12 +21,13 @@ import '../utilities/constants.dart' as c;
 // }
 
 class GroupsPage extends StatelessWidget {
-  const GroupsPage({super.key});
+  final bool rebuild;
+  const GroupsPage({super.key, this.rebuild = false});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GroupsPageController(context: context),
+      create: (context) => GroupsPageController(context: context, rebuild: rebuild),
       builder: (context, child) {
         return PopScope(
           canPop: false,
@@ -73,4 +74,3 @@ class GroupsPage extends StatelessWidget {
     );
   }
 }
-
