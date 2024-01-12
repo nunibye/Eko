@@ -184,6 +184,24 @@ class PostsHandling {
         .add(post)
         .then((documentSnapshot) => documentSnapshot.id);
 
+    // groups handling
+    if (post['tags'] != null && !post['tags'].contains('public')) {
+      for (String tag in post['tags']) {
+        String groupID = tag;
+        DocumentSnapshot groupSnapshot =
+            await firestore.collection('groups').doc(groupID).get();
+        Map<String, dynamic> groupData =
+            groupSnapshot.data()! as Map<String, dynamic>;
+        List<String> members = List<String>.from(groupData['members']);
+        members.remove(user.uid);
+        await firestore.collection('groups').doc(groupID).update({
+          'lastActivity': time,
+          'notSeen': members,
+        });
+      }
+    }
+
+    // tags handling
     List<String> parsedTitle = Post.parseText(post["title"]);
     List<String> parsedBody = Post.parseText(post["body"]);
     Set<String> taggedUsers = {};
@@ -357,7 +375,7 @@ class PostsHandling {
   Future<PaginationGetterReturn> getPostLikes(
       dynamic uid, String postId) async {
     late QuerySnapshot<Map<String, dynamic>> snapshot;
-    if(uid == null)print(postId);
+    if (uid == null) print(postId);
 
     if (uid == null) {
       //initial data
