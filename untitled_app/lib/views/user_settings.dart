@@ -29,7 +29,7 @@ class UserSettings extends StatelessWidget {
               AppLocalizations.of(context)!.settings,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Lato',
+                
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),

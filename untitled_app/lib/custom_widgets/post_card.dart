@@ -54,6 +54,7 @@ class PostCard extends StatelessWidget {
             // print(post.body);
             final width = c.widthGetter(context);
             final likeCommentTextStyle = TextStyle(
+                fontFamily: DefaultTextStyle.of(context).style.fontFamily,
                 color: Theme.of(context).colorScheme.onSurfaceVariant);
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
@@ -129,6 +130,11 @@ class PostCard extends StatelessWidget {
                                 if (post.title?.isNotEmpty ?? false)
                                   RichText(
                                     text: TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: DefaultTextStyle.of(context)
+                                            .style
+                                            .fontFamily,
+                                      ),
                                       children: post.title!.map((chunk) {
                                         if (chunk.startsWith('@')) {
                                           // This is a username, create a hyperlink
@@ -233,6 +239,11 @@ class PostCard extends StatelessWidget {
                                     false) //&& post.body != []
                                   RichText(
                                     text: TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: DefaultTextStyle.of(context)
+                                            .style
+                                            .fontFamily,
+                                      ),
                                       children: post.body!.map((chunk) {
                                         if (chunk.startsWith('@')) {
                                           // This is a username, create a hyperlink
@@ -315,20 +326,6 @@ class PostCard extends StatelessWidget {
                               return isLiked;
                             },
                             likeCount: null,
-
-                            // Provider.of<PostCardController>(context,
-                            //         listen: true)
-                            //     .likes,
-                            // countBuilder:
-                            //     (int? count, bool isLiked, String text) {
-                            //   return Text(
-                            //     text,
-                            //     style: TextStyle(
-                            //         color: Theme.of(context)
-                            //             .colorScheme
-                            //             .onBackground),
-                            //   );
-                            // },
                             likeCountAnimationType: LikeCountAnimationType.none,
                             circleSize: 0,
                             animationDuration:
@@ -356,33 +353,8 @@ class PostCard extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onBackground,
                               size: c.postIconSize,
                             ),
-
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.start,
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     Icon(
-                            //       CupertinoIcons.chat_bubble,
-                            //       color:
-                            //           Theme.of(context).colorScheme.onBackground,
-                            //       size: c.postIconSize,
-                            //     ),
-                            //     const SizedBox(width: 6),
-                            //     Text(
-                            //       '${Provider.of<PostCardController>(context, listen: true).comments}',
-                            //       style: TextStyle(
-                            //         color: Theme.of(context)
-                            //             .colorScheme
-                            //             .onBackground,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
                           ),
-
                           const SizedBox(width: 12),
-
-                          
                           InkWell(
                             //iconSize: c.postIconSize,
 
@@ -399,7 +371,6 @@ class PostCard extends StatelessWidget {
                                       : CupertinoIcons.arrowshape_turn_up_right,
                               color: Theme.of(context).colorScheme.onBackground,
                             ),
-                           
                           ),
                         ],
                       ),

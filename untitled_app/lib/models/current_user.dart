@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -416,7 +417,7 @@ class CurrentUser extends AppUser {
   }
 
   Future<void> addFCM() async {
-    // TODO: eventually needs to support timestamp
+    if(!kIsWeb){// TODO: eventually needs to support timestamp
     final user = getUID();
     final DocumentReference userDocRef =
         FirebaseFirestore.instance.collection("users").doc(user);
@@ -448,11 +449,11 @@ class CurrentUser extends AppUser {
       }
     } catch (e) {
       // TODO: Handle the error as needed
-    }
+    }}
   }
 
   Future<void> removeFCM() async {
-    // TODO: eventually needs to support timestamp
+   if(!kIsWeb){ // TODO: eventually needs to support timestamp
     final user = getUID();
     final DocumentReference userDocRef =
         FirebaseFirestore.instance.collection("users").doc(user);
@@ -475,7 +476,7 @@ class CurrentUser extends AppUser {
       }
     } catch (e) {
       // TODO: Handle the error as needed
-    }
+    }}
   }
 
   void clearVariables() {

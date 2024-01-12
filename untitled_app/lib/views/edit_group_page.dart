@@ -131,7 +131,7 @@ class _GroupSettings extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Lato',
+                            
                             color: Theme.of(context).colorScheme.onBackground,
                           ),
                         ),

@@ -28,7 +28,7 @@ class RecentActivity extends StatelessWidget {
               AppLocalizations.of(context)!.recentActivity,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Lato',
+                
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),

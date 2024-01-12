@@ -110,12 +110,14 @@ class CommentCard extends StatelessWidget {
                           if (post.body != null)
                             RichText(
                               text: TextSpan(
+                                style: TextStyle(fontFamily: DefaultTextStyle.of(context).style.fontFamily,),
                                 children: post.body!.map((chunk) {
                                   if (chunk.startsWith('@')) {
                                     // This is a username, create a hyperlink
                                     return TextSpan(
                                       text: chunk,
                                       style: TextStyle(
+                                        
                                           color: Theme.of(context)
                                               .colorScheme
                                               .surfaceTint),
