@@ -76,8 +76,9 @@ class AuthActionInterfaceController extends ChangeNotifier {
         context);
   }
 
-  void backPressed() {
-    if (pageController.page == Page.invalid.index) {
+  void backPressed({bool? didPop}) {
+    didPop ??= false;
+    if (pageController.page == Page.invalid.index && !didPop) {
       _pop();
     } else if (pageController.page == Page.resetPassword.index) {
       showExitWarning();
@@ -156,7 +157,6 @@ class AuthActionInterfaceController extends ChangeNotifier {
 
   setPasswordPressed() async {
     hideKeyboard();
-   
 
     if (passwordController.text == '') {
       passwordFocus.requestFocus();

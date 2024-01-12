@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/groups_page_controller.dart';
+import 'package:untitled_app/custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations_en.dart';
 import 'package:untitled_app/utilities/locator.dart';
+import '../custom_widgets/controllers/pagination_controller.dart';
+import '../models/feed_post_cache.dart';
 import '../utilities/constants.dart' as c;
 import '../models/users.dart';
 import 'dart:async';
@@ -26,11 +29,12 @@ class EditGroupPageController extends ChangeNotifier {
   bool showEmojiKeyboard = false;
   Timer? _debounce;
   int? selectedToDelete;
-  BuildContext context;
+  final BuildContext context;
   bool canSwipe = false;
-
+  Cache searchedListData = Cache(items: [], end: false);
+  String query = "";
   Group group;
-
+  final searchModel = SearchModel();
   EditGroupPageController({required this.context, required this.group}) {
     init();
   }
@@ -52,17 +56,14 @@ class EditGroupPageController extends ChangeNotifier {
         curve: Curves.decelerate);
   }
 
-  void exitPressed() {
-    goBack();
-  }
-
-  void goBack() {
+  void goBack({bool? didPop}) {
+    didPop ??= false;
     hideKeyboard();
     if (pageController.page != 0.0) {
       pageController.previousPage(
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
-    } else {
+    } else if (!didPop) {
       context.pop();
     }
   }
@@ -71,27 +72,44 @@ class EditGroupPageController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  void onSearchTextChanged(String s) async {
-    if (s == '') {
-      hits = [];
-
-      isLoading = false;
-      notifyListeners();
+  Future<PaginationGetterReturn> getter(dynamic page) async {
+    if (isLoading) {
+      //forces loading animation
+      return PaginationGetterReturn(end: false, payload: []);
     } else {
-      isLoading = true;
-      notifyListeners();
+      page = page ?? 0;
+      return searchModel.getter(page, query, true);
     }
+  }
+
+  Widget groupSearchPageBuilder(dynamic user) {
+    return UserCard(
+      user: user,
+      initialBool: isUserSelected(user),
+      groupSearch: true,
+      adder: addRemovePersonToList,
+    );
+  }
+
+  dynamic startAfterQuery(dynamic lastUser) {
+    return searchModel.startAfterQuery(lastUser);
+  }
+
+  void onSearchTextChanged(String s) async {
+    isLoading = true;
+    searchedListData.end = false;
+    searchedListData.items = [];
+    notifyListeners();
+
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce =
-        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
-      if (s != '') {
-        hits = await SearchModel().hitsQuery(s);
-        hits.removeWhere(
-            (element) => element.uid == locator<CurrentUser>().getUID());
+    _debounce = Timer(
+      const Duration(milliseconds: c.searchPageDebounce),
+      () async {
+        query = s;
         isLoading = false;
         notifyListeners();
-      }
-    });
+      },
+    );
   }
 
   bool isUserSelected(AppUser user) {
@@ -149,6 +167,7 @@ class EditGroupPageController extends ChangeNotifier {
     List<String> members = (membersList.map((e) => e.uid).toList());
     group.members = members;
     GroupHandler().updateGroupMembers(group, members);
+    notifyListeners();
   }
 
   void pickEmoji() async {
@@ -173,13 +192,10 @@ class EditGroupPageController extends ChangeNotifier {
     context.pop();
     showLoadingDialog(context);
 
-    List<String> bean = (membersList.map((e) => e.uid).toList());
-    print(bean);
-    print(membersList.length);
     membersList
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
-    print(members);
+
     GroupHandler().updateGroupMembers(group, members).then(
       (v) {
         _pop();

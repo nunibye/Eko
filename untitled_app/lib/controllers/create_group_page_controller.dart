@@ -28,7 +28,7 @@ class CreateGroupPageController extends ChangeNotifier {
   bool showEmojiKeyboard = false;
   Timer? _debounce;
   int? selectedToDelete;
-  BuildContext context;
+  final BuildContext context;
   bool canSwipe = false;
   final searchModel = SearchModel();
   String query = "";
