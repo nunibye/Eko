@@ -6,14 +6,13 @@ import '../utilities/constants.dart' as c;
 
 class Group {
   final String id;
-  final String name;
-  final String description;
-  final String lastActivity;
+  String name;
+  String description;
+  String lastActivity;
   final String createdOn;
-  final String icon;
-  final List<String> members;
-  final List<String> notSeen;
-  
+  String icon;
+  List<String> members;
+  List<String> notSeen;
 
   Group({
     this.id = "",
@@ -21,7 +20,6 @@ class Group {
     required this.name,
     required this.lastActivity,
     required this.icon,
-   
     required this.members,
     required this.notSeen,
     required this.description,
@@ -30,7 +28,7 @@ class Group {
     Map<String, dynamic> map = {};
     map["name"] = name;
     map["lastActivity"] = lastActivity;
-  
+
     map["members"] = members;
     map["description"] = description;
     map["icon"] = icon;
@@ -52,47 +50,33 @@ class Group {
 }
 
 class GroupHandler {
-
   void createGroup(Group group) async {
     final firestore = FirebaseFirestore.instance;
     await firestore.collection('groups').add(group.toMap());
   }
 
   Future<void> updateGroupMembers(Group group, List<String> members) async {
-  final firestore = FirebaseFirestore.instance;
-  final groupMap = group.toMap();
+    final firestore = FirebaseFirestore.instance;
 
-  // Query the to find the document with the matching group
-  QuerySnapshot querySnapshot = await firestore
-      .collection('groups')
-      .where(groupMap.keys.first, isEqualTo: groupMap.values.first)
-      .limit(1)
-      .get();
-
-  if (querySnapshot.docs.isNotEmpty) {
     // Get the first document (there should be only one)
-    DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
 
     // Update the 'members' field in the document
-    await firestore.collection('groups').doc(documentSnapshot.id).update({
+    await firestore.collection('groups').doc(group.id).update({
       'members': members,
     });
 
     print('Group members updated successfully.');
-  } else {
-    print('No matching group found.');
   }
-}
 
   Future<Group?> getGroupFromId(String id) async {
-  final data =
-      await FirebaseFirestore.instance.collection("posts").doc(id).get();
-  final postData = data.data();
-  if (postData != null) {
-    return Group.fromJson(postData, data.id);
+    final data =
+        await FirebaseFirestore.instance.collection("posts").doc(id).get();
+    final postData = data.data();
+    if (postData != null) {
+      return Group.fromJson(postData, data.id);
+    }
+    return null;
   }
-  return null;
-}
 
   Future<PaginationGetterReturn> getGroups(dynamic time) async {
     final user = FirebaseAuth.instance.currentUser!.uid;

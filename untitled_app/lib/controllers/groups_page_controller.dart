@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/utilities/locator.dart';
@@ -9,15 +8,18 @@ import '../custom_widgets/controllers/pagination_controller.dart'
 
 class GroupsPageController extends ChangeNotifier {
   final BuildContext context;
-  final bool rebuild;
-  GroupsPageController({required this.context, this.rebuild = false}) {
+  final bool reload;
+  GroupsPageController({required this.context, required this.reload}) {
     _init();
   }
-
-  _init() {
-    if (rebuild) {
-      notifyListeners();
+  void _init() {
+    if (reload) {
+      rebuild();
     }
+  }
+
+  void rebuild() {
+    notifyListeners();
   }
 
   void createGroupPressed() {

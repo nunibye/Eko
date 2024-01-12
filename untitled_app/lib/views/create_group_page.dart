@@ -43,7 +43,7 @@ class _GetInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = c.widthGetter(context);
-    final height = MediaQuery.sizeOf(context).height;
+
     return Scaffold(
       body: Column(
         children: [
@@ -146,7 +146,7 @@ class _AddPeople extends StatelessWidget {
     //print(Provider.of<CreateGroupPageController>(context, listen: true).searchedList);
     final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
-    return GestureDetector(
+    return GestureDetector( 
       onPanDown: (details) =>
           Provider.of<CreateGroupPageController>(context, listen: false)
               .hideKeyboard(),
@@ -154,6 +154,8 @@ class _AddPeople extends StatelessWidget {
           Provider.of<CreateGroupPageController>(context, listen: false)
               .hideKeyboard(),
       child: PaginationPage(
+        header: Provider.of<CreateGroupPageController>(context,
+                          listen: true).selectedPeople.isEmpty ? SizedBox(height: height * 0.05):null,
         getter: Provider.of<CreateGroupPageController>(context, listen: true)
             .getter,
         card: Provider.of<CreateGroupPageController>(context, listen: false)

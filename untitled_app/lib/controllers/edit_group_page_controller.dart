@@ -31,7 +31,21 @@ class EditGroupPageController extends ChangeNotifier {
 
   Group group;
 
-  EditGroupPageController({required this.context, required this.group});
+  EditGroupPageController({required this.context, required this.group}) {
+    init();
+  }
+
+  init() async {
+    for (var uid in group.members) {
+      AppUser user = AppUser();
+      Map<String, dynamic>? userData = await user.readUserData(uid);
+      if (userData != null) {
+        membersList.add(AppUser.fromJson(userData));
+      }
+    }
+    notifyListeners();
+  }
+
   void goForward() {
     pageController.nextPage(
         duration: const Duration(milliseconds: c.signUpAnimationDuration),
@@ -44,9 +58,13 @@ class EditGroupPageController extends ChangeNotifier {
 
   void goBack() {
     hideKeyboard();
-    pageController.previousPage(
-        duration: const Duration(milliseconds: c.signUpAnimationDuration),
-        curve: Curves.decelerate);
+    if (pageController.page != 0.0) {
+      pageController.previousPage(
+          duration: const Duration(milliseconds: c.signUpAnimationDuration),
+          curve: Curves.decelerate);
+    } else {
+      context.pop();
+    }
   }
 
   void hideKeyboard() {
@@ -124,18 +142,12 @@ class EditGroupPageController extends ChangeNotifier {
     selectedPeople = [...addedMembers];
   }
 
-  void loadMembersList(List<AppUser> list) {
-    membersList = list;
-  }
-
-  List<AppUser> getMembersList() {
-    return membersList;
-  }
-
   void updateGroupMembers() {
-    context.pop();
-    selectedPeople.addAll(membersList);
-    List<String> members = (selectedPeople.map((e) => e.uid).toList());
+    pageController.previousPage(
+        duration: Duration(milliseconds: 200), curve: Curves.decelerate);
+    membersList.addAll(selectedPeople);
+    List<String> members = (membersList.map((e) => e.uid).toList());
+    group.members = members;
     GroupHandler().updateGroupMembers(group, members);
   }
 
@@ -153,26 +165,21 @@ class EditGroupPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<dynamic> getMembers() {
-    return group.members;
-  }
-
-  Group getGroup() {
-    return group;
-  }
-
   void _pop() {
     context.pop();
   }
 
-  
-
   void _leaveGroup() async {
     context.pop();
     showLoadingDialog(context);
+
+    List<String> bean = (membersList.map((e) => e.uid).toList());
+    print(bean);
+    print(membersList.length);
     membersList
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
+    print(members);
     GroupHandler().updateGroupMembers(group, members).then(
       (v) {
         _pop();

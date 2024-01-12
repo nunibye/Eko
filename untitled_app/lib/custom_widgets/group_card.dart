@@ -6,6 +6,8 @@ import '../models/group_handler.dart';
 import '../custom_widgets/time_stamp.dart';
 import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
+import 'package:provider/provider.dart';
+import '../controllers/groups_page_controller.dart';
 
 Widget groupCardBuilder(dynamic group) {
   return GroupCard(
@@ -27,13 +29,13 @@ class GroupCard extends StatelessWidget {
     return InkWell(
         onTap: () async {
           if (onPressedSearched == null) {
-            context.push("/groups/sub_group/${group.id}", extra: group);
-
-            final firestore = FirebaseFirestore.instance;
-            await firestore.collection('groups').doc(group.id).update({
-              'notSeen': FieldValue.arrayRemove([currentUserId])
-            });
+            context.push("/groups/sub_group/${group.id}", extra: group).then(
+                (value) => unseen
+                    ? Provider.of<GroupsPageController>(context, listen: false)
+                        .rebuild()
+                    : null);
           } else {
+            //if in compose page
             onPressedSearched!(group);
           }
         },
@@ -111,7 +113,13 @@ class GroupCard extends StatelessWidget {
                   //   ),
                   // ),
                   const Spacer(),
-                  unseen ? const Icon(Icons.circle, size: 10, color: Color(0xFF0095f6),) : Container(),
+                  unseen
+                      ? const Icon(
+                          Icons.circle,
+                          size: 10,
+                          color: Color(0xFF0095f6),
+                        )
+                      : Container(),
                   SizedBox(
                     width: width * 0.02,
                   ),

@@ -51,150 +51,144 @@ class _GroupSettings extends StatelessWidget {
     final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
 
-    return ChangeNotifierProvider(
-      create: (context) => GroupMembersController(
-          context: context,
-          members: Provider.of<EditGroupPageController>(context, listen: false)
-              .getMembers()),
-      builder: (context, child) {
-        GroupMembersController controller =
-            Provider.of<GroupMembersController>(context);
-        Group group =
-            Provider.of<EditGroupPageController>(context, listen: false)
-                .getGroup();
-        Provider.of<EditGroupPageController>(context, listen: false)
-            .loadMembersList(
-                Provider.of<GroupMembersController>(context, listen: false)
-                    .membersList);
-
-        if (controller.membersList.isEmpty) {
-          return const Center(
-            child: SizedBox(
-              width: 50,
-              height: 50,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              surfaceTintColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded,
-                    color: Theme.of(context).colorScheme.onBackground),
-                onPressed: () => context.pop("poped"),
-              ),
-              backgroundColor: Theme.of(context).colorScheme.background,
-            ),
-            body: Padding(
-              padding:
-                  EdgeInsets.only(left: height * 0.02, right: height * 0.02),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        (group.icon != '')
-                            ? SizedBox(
-                                width: width * 0.4,
-                                height: width * 0.4,
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Text(
-                                    group.icon,
-                                    style: TextStyle(fontSize: width * 0.15),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).colorScheme.surface,
-                                ),
-                                width: width * 0.3,
-                                height: width * 0.3,
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Text(
-                                    group.name[0],
-                                    style: TextStyle(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontSize: width * 0.15,
-                                    ),
-                                  ),
+    if (Provider.of<EditGroupPageController>(context, listen: true)
+        .membersList
+        .isEmpty) {
+      return const Center(
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded,
+                color: Theme.of(context).colorScheme.onBackground),
+            onPressed: () => context.pop("poped"),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.background,
+        ),
+        body: Padding(
+          padding: EdgeInsets.only(left: height * 0.02, right: height * 0.02),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    (Provider.of<EditGroupPageController>(context,
+                                    listen: false)
+                                .group
+                                .icon !=
+                            '')
+                        ? SizedBox(
+                            width: width * 0.4,
+                            height: width * 0.4,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                Provider.of<EditGroupPageController>(context,
+                                        listen: false)
+                                    .group
+                                    .icon,
+                                style: TextStyle(fontSize: width * 0.15),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
+                            width: width * 0.3,
+                            height: width * 0.3,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Text(
+                                Provider.of<EditGroupPageController>(context,
+                                        listen: false)
+                                    .group
+                                    .name[0],
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: width * 0.15,
                                 ),
                               ),
-                        //FIXME: how can i get there to be less padding between the emoji and title
-                        Text(
-                          group.name,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            
-                            color: Theme.of(context).colorScheme.onBackground,
+                            ),
                           ),
-                        ),
-                      ],
+                    //FIXME: how can i get there to be less padding between the emoji and title
+                    Text(
+                      Provider.of<EditGroupPageController>(context,
+                              listen: false)
+                          .group
+                          .name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
                     ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.person_add_outlined),
-                          color: Theme.of(context).colorScheme.onBackground,
-                          onPressed: () {
-                            Provider.of<EditGroupPageController>(context,
-                                    listen: false)
-                                .initializeSearch();
-                            Provider.of<EditGroupPageController>(context,
-                                    listen: false)
-                                .goForward();
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.notifications_none),
-                          color: Theme.of(context).colorScheme.onBackground,
-                          onPressed: () {
-                            // TODO
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.exit_to_app_rounded),
-                          color: Theme.of(context).colorScheme.onBackground,
-                          onPressed: () {
-                            Provider.of<EditGroupPageController>(context,
-                                    listen: false)
-                                .leaveGroup();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return UserCard(
-                          user: Provider.of<GroupMembersController>(context,
-                                  listen: true)
-                              .membersList[index],
-                        );
-                      },
-                      childCount: Provider.of<GroupMembersController>(context,
-                              listen: true)
-                          .membersList
-                          .length,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-      },
-    );
+              SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.person_add_outlined),
+                      color: Theme.of(context).colorScheme.onBackground,
+                      onPressed: () {
+                        Provider.of<EditGroupPageController>(context,
+                                listen: false)
+                            .initializeSearch();
+                        Provider.of<EditGroupPageController>(context,
+                                listen: false)
+                            .goForward();
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.notifications_none),
+                      color: Theme.of(context).colorScheme.onBackground,
+                      onPressed: () {
+                        // TODO
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.exit_to_app_rounded),
+                      color: Theme.of(context).colorScheme.onBackground,
+                      onPressed: () {
+                        Provider.of<EditGroupPageController>(context,
+                                listen: false)
+                            .leaveGroup();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return UserCard(
+                      user: Provider.of<EditGroupPageController>(context,
+                              listen: true)
+                          .membersList[index],
+                    );
+                  },
+                  childCount: Provider.of<EditGroupPageController>(context,
+                          listen: true)
+                      .membersList
+                      .length,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }
 
@@ -224,21 +218,13 @@ class _AddPeople extends StatelessWidget {
                       },
                   child: Text(AppLocalizations.of(context)!.cancel)),
               const Spacer(),
-              TextButton(
+              if(Provider.of<EditGroupPageController>(context,
+                                listen: true).selectedPeople.isNotEmpty)TextButton(
                 onPressed: () =>
                     Provider.of<EditGroupPageController>(context, listen: false)
                         .updateGroupMembers(),
-                child: Text(const SetEquality().equals(
-                        Provider.of<EditGroupPageController>(context,
-                                listen: true)
-                            .selectedPeople
-                            .toSet(),
-                        Provider.of<EditGroupPageController>(context)
-                            .getMembersList()
-                            .toSet())
-                    ? ""
-                    : AppLocalizations.of(context)!.save),
-              )
+                child: Text(AppLocalizations.of(context)!.save)),
+              
             ],
           ),
           TextField(

@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/groups_page_controller.dart';
+import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
@@ -20,16 +24,26 @@ class SubGroupController extends ChangeNotifier {
   }
 
   Future<void> _init() async {
+
+
     if (passedGroup != null) {
       group = passedGroup!;
-      notifyListeners();
     } else {
       group ??= await GroupHandler()
           .getGroupFromId(id); //FIXME might break if opening deleted group
       // builtFromID = true;
       // post!.hasCache = true;
-      notifyListeners();
     }
+
+    if (group!.notSeen.contains(locator<CurrentUser>().getUID())) {
+      final firestore = FirebaseFirestore.instance;
+      await firestore.collection('groups').doc(group!.id).update({
+        'notSeen': FieldValue.arrayRemove([locator<CurrentUser>().getUID()])
+      });
+      // ignore: use_build_context_synchronously
+      
+    }
+    notifyListeners();
   }
 
   Future<PaginationGetterReturn> getGroupPosts(dynamic time) {
@@ -43,7 +57,8 @@ class SubGroupController extends ChangeNotifier {
   void addPost() {
     context.go('/compose', extra: group);
   }
-void editGroup() {
+
+  void editGroup() {
     context.push('/groups/sub_group/${group?.id}/edit_group', extra: group);
   }
 }
