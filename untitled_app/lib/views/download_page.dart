@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../controllers/download_page_controller.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_flutter_new/qr_flutter.dart';
 import "../utilities/constants.dart" as c;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -40,12 +40,16 @@ class DownloadPage extends StatelessWidget {
                   SizedBox(
                     width: width * 0.8,
                     child: QrImageView(
-                      gapless: false,
+                      //gapless: true,
                       data: "${c.appURL}/download",
-                      backgroundColor: Theme.of(context).colorScheme.surface,
+                       backgroundColor: Theme.of(context).colorScheme.surface,
                       dataModuleStyle: QrDataModuleStyle(
-                          color: Theme.of(context).colorScheme.onSurface),
+                           borderRadius: 4,
+
+                           color: Theme.of(context).colorScheme.onSurface
+                          ),
                       eyeStyle: QrEyeStyle(
+                          borderRadius: 4,
                           color: Theme.of(context).colorScheme.onSurface,
                           eyeShape: QrEyeShape.square),
                     ),

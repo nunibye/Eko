@@ -45,7 +45,7 @@ class Following extends StatelessWidget {
               AppLocalizations.of(context)!.following,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                fontFamily: 'Lato',
+                
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),

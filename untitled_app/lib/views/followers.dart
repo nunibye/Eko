@@ -33,7 +33,7 @@ class Followers extends StatelessWidget {
                 AppLocalizations.of(context)!.followers,
                 style: TextStyle(
                   fontWeight: FontWeight.normal,
-                  fontFamily: 'Lato',
+                  
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),

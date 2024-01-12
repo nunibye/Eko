@@ -64,7 +64,7 @@ class EditProfile extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
-                            fontFamily: 'Lato',
+                            
                             color: Theme.of(context).colorScheme.onBackground,
                           ),
                         ),
@@ -78,7 +78,7 @@ class EditProfile extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: 'Lato',
+                                
                                 color:
                                     Theme.of(context).colorScheme.onBackground,
                               ),

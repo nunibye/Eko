@@ -49,7 +49,7 @@ Future<void> main() async {
     await locator<CurrentUser>().readCurrentUserData();
   }
 
-  await NotificationService.initializeNotification();
+  if(!kIsWeb){await NotificationService.initializeNotification();}
   if (!kIsWeb) await locator<Version>().init();
   runApp(const MyApp());
 }

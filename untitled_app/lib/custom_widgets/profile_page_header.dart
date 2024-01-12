@@ -126,11 +126,11 @@ class _ProfilePageTopNumberDisplay extends StatelessWidget {
             style: TextStyle(
                 color: Theme.of(context).colorScheme.onBackground,
                 fontWeight: FontWeight.normal,
+                fontFamily: DefaultTextStyle.of(context).style.fontFamily,
                 fontSize: 17),
             children: [
               TextSpan(
                 text: "\n$label",
-                style: const TextStyle(fontWeight: FontWeight.normal),
               )
             ],
           ),

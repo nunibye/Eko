@@ -47,7 +47,7 @@ class GroupSettings extends StatelessWidget {
               //   group.name,
               //   style: TextStyle(
               //     fontWeight: FontWeight.normal,
-              //     fontFamily: 'Lato',
+              //     : 'Lato',
               //     color: Theme.of(context).colorScheme.onBackground,
               //   ),
               // ),
@@ -97,7 +97,7 @@ class GroupSettings extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Lato',
+                            
                             color: Theme.of(context).colorScheme.onBackground,
                           ),
                         ),
