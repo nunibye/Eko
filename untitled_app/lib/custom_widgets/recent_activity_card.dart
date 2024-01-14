@@ -26,7 +26,7 @@ class ActivityCardWidget extends StatelessWidget {
         if (card.type == "comment" || card.type == "tag") {
           context.push("/feed/post/${card.path}");
         } else if (card.type == "follow") {
-          context.push("/sub_profile/${card.path}");
+          context.push("/feed/sub_profile/${card.path}");
         }
       },
       child: Padding(

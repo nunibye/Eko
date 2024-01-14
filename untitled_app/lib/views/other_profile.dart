@@ -37,7 +37,7 @@ class OtherProfile extends StatelessWidget {
                           floating: true,
                           pinned: false,
                           scrolledUnderElevation: 0.0,
-                          centerTitle: true,
+                          centerTitle: false,
                           leading: IconButton(
                               icon: Icon(Icons.arrow_back_ios_rounded,
                                   color: Theme.of(context)
@@ -47,12 +47,13 @@ class OtherProfile extends StatelessWidget {
                           backgroundColor:
                               Theme.of(context).colorScheme.background,
                           title: Text(
-                            Provider.of<OtherProfileController>(context,
+                           "@${Provider.of<OtherProfileController>(context,
                                     listen: true)
                                 .loadedUser!
-                                .username,
+                                .username}",
                             style: TextStyle(
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
                               color: Theme.of(context).colorScheme.onBackground,
                             ),
                           ),
