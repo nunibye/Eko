@@ -117,6 +117,8 @@ class PostCard extends StatelessWidget {
                                         "@${post.author.username}",
                                         style: TextStyle(
                                           fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 1,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onBackground,
@@ -131,6 +133,8 @@ class PostCard extends StatelessWidget {
                                   RichText(
                                     text: TextSpan(
                                       style: TextStyle(
+                                        fontSize: 15,
+                                        //fontWeight: FontWeight.bold,
                                         fontFamily: DefaultTextStyle.of(context)
                                             .style
                                             .fontFamily,
@@ -161,7 +165,7 @@ class PostCard extends StatelessWidget {
                                           return TextSpan(
                                             text: chunk,
                                             style: TextStyle(
-                                              fontSize: 14,
+                                              
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onBackground,
@@ -235,6 +239,7 @@ class PostCard extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                   if (post.gifURL != null)const SizedBox(height: 6.0),
                                 if (post.body?.isNotEmpty ??
                                     false) //&& post.body != []
                                   RichText(
@@ -377,7 +382,7 @@ class PostCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: c.postPaddingHoriz + width * 0.115 + 8,
+                          left: c.postPaddingHoriz + width * 0.115 + 14,
                           bottom: 9),
                       child: RichText(
                         text: TextSpan(

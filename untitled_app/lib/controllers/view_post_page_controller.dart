@@ -43,7 +43,7 @@ class PostPageController extends ChangeNotifier {
     _init();
   }
   void _init() async {
-    print("ran");
+
     if (passedPost != null) {
       post = passedPost!;
       notifyListeners();

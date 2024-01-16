@@ -21,13 +21,13 @@ import '../utilities/constants.dart' as c;
 // }
 
 class GroupsPage extends StatelessWidget {
-  final bool rebuild;
-  const GroupsPage({super.key, this.rebuild = false});
+  final bool reload;
+  const GroupsPage({super.key, this.reload = false});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GroupsPageController(context: context, rebuild: rebuild),
+      create: (context) => GroupsPageController(context: context, reload:reload),
       builder: (context, child) {
         return PopScope(
           canPop: false,
@@ -36,7 +36,7 @@ class GroupsPage extends StatelessWidget {
                   .onWillPop(),
           child: Scaffold(
             body: PaginationPage(
-              getter: Provider.of<GroupsPageController>(context, listen: false)
+              getter: Provider.of<GroupsPageController>(context, listen: true)
                   .getGroups,
               card: groupCardBuilder,
               startAfterQuery:

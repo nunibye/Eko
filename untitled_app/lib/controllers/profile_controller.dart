@@ -61,6 +61,11 @@ class ProfileController extends ChangeNotifier {
     await context.push('/profile/user_settings');
     locator<NavBarController>().enable();
   }
+    qrButtonPressed() async {
+    locator<NavBarController>().disable();
+    await context.push('/profile/share_profile');
+    locator<NavBarController>().enable();
+  }
 
   String getUID() {
     return locator<CurrentUser>().getUID();

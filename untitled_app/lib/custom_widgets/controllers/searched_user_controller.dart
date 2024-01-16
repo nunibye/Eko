@@ -36,7 +36,7 @@ class SearchedUserController extends ChangeNotifier {
   }
 
   void onCardPressed() {
-    context.push("/sub_profile/${user.uid}", extra: user);
+    context.push("/feed/sub_profile/${user.uid}", extra: user);
   }
 
   // onFollowPressed() async {
@@ -87,7 +87,6 @@ class SearchedUserController extends ChangeNotifier {
       }
     }
   }
-
 
   void onAddPressed() {
     if (added) {

@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'pagination_controller.dart';
 import '../../controllers/view_post_page_controller.dart';
 import '../error_snack_bar.dart';
+import '../../utilities/constants.dart' as c;
 
 class PostCardController extends ChangeNotifier {
   BuildContext context;
@@ -40,13 +41,10 @@ class PostCardController extends ChangeNotifier {
 
     isSelf = post.author.uid == locator<CurrentUser>().getUID();
 
-
     ///comments = await locator<PostsHandling>().countComments(post.postId);
 
     notifyListeners();
   }
-
-  
 
 //FIXME could be optomized
   void rebuildFeed() {
@@ -67,7 +65,8 @@ class PostCardController extends ChangeNotifier {
 
   avatarPressed() async {
     if (post.author.uid != locator<CurrentUser>().getUID()) {
-      await context.push("/sub_profile/${post.author.uid}", extra: post.author);
+      await context.push("/feed/sub_profile/${post.author.uid}",
+          extra: post.author);
       //update post liked in sub menu
       final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
       if (liked != newvalue) {
@@ -85,7 +84,7 @@ class PostCardController extends ChangeNotifier {
     if (locator<CurrentUser>().getUID() == uid) {
       context.go("/profile");
     } else {
-      context.push("/sub_profile/$uid");
+      context.push("/feed/sub_profile/$uid");
     }
   }
 
@@ -93,7 +92,7 @@ class PostCardController extends ChangeNotifier {
     if (kIsWeb) {
       Clipboard.setData(ClipboardData(
           text:
-              "Check out my post on Echo: https://untitled-2832f.web.app/feed/post/${post.postId}"));
+              "Check out my post on Echo: ${c.appURL}/feed/post/${post.postId}"));
       showSnackBar(
           context: context,
           text: AppLocalizations.of(context)!.coppiedToClipboard);
@@ -101,7 +100,7 @@ class PostCardController extends ChangeNotifier {
       if (!sharing) {
         sharing = true;
         await Share.shareWithResult(
-            'Check out my post on Echo: https://untitled-2832f.web.app/feed/post/${post.postId}');
+            'Check out my post on Echo: ${c.appURL}/feed/post/${post.postId}');
         sharing = false;
       }
     }

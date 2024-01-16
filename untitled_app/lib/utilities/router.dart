@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:untitled_app/models/users.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
 import 'package:untitled_app/views/login.dart';
+import 'package:untitled_app/views/share_profile_page.dart';
 import 'package:untitled_app/views/sign_up.dart';
 import 'package:untitled_app/views/user_settings.dart';
 import '../views/compose_page.dart';
@@ -68,15 +70,6 @@ final goRouter = GoRouter(
         return ProfilePictureDetail(imageURL: url);
       },
     ),
-    GoRoute(
-      path: '/sub_profile/:id',
-      name: 'sub_profile',
-      builder: (context, state) {
-        AppUser? user = state.extra as AppUser?;
-        String id = state.pathParameters["id"]!;
-        return OtherProfile(user: user, id: id);
-      },
-    ),
 
     GoRoute(
         path: '/',
@@ -136,16 +129,24 @@ final goRouter = GoRouter(
               path: '/feed',
               name: 'feed',
               pageBuilder: (context, state) {
-                bool? reload = state.extra as bool?;
+                 bool reload = false;
+                if (state.extra is bool) reload = state.extra as bool;
                 return NoTransitionPage(
-                  child: reload == null
-                      ? const FeedPage()
-                      : FeedPage(
+                  child: FeedPage(
                           rebuild: reload,
                         ),
                 );
               },
               routes: [
+                GoRoute(
+                  path: 'sub_profile/:id',
+                  name: 'sub_profile',
+                  builder: (context, state) {
+                    AppUser? user = state.extra as AppUser?;
+                    String id = state.pathParameters["id"]!;
+                    return OtherProfile(user: user, id: id);
+                  },
+                ),
                 GoRoute(
                   path: 'recent',
                   name: 'recent',
@@ -186,15 +187,18 @@ final goRouter = GoRouter(
               path: '/groups',
               name: 'groups',
               pageBuilder: (context, state) {
-                return const NoTransitionPage(child: GroupsPage());
-                // bool? reload = state.extra as bool?;
-                // return NoTransitionPage(
-                //   child: reload == null
-                //       ? const GroupsPage()
-                //       : GroupsPage(
-                //           rebuild: reload,
-                //         ),
-                // );
+                //return const NoTransitionPage(child: GroupsPage());
+                bool? reload;
+                if (state.extra is bool) {
+                  reload = state.extra as bool?;
+                }
+                return NoTransitionPage(
+                  child: reload == null
+                      ? const GroupsPage()
+                      : GroupsPage(
+                          reload: reload,
+                        ),
+                );
               },
               routes: [
                 GoRoute(
@@ -276,6 +280,11 @@ final goRouter = GoRouter(
                 child: ProfilePage(),
               ),
               routes: [
+                GoRoute(
+                  path: 'share_profile',
+                  name: 'share_profile',
+                  builder: (context, state) => const ShareProfile(),
+                ),
                 GoRoute(
                   path: 'edit_profile',
                   name: 'edit_profile',

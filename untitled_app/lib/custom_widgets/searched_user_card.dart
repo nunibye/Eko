@@ -35,101 +35,100 @@ class UserCard extends StatelessWidget {
     final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
     return ChangeNotifierProvider.value(
-        value: SearchedUserController(
-            user: user,
-            context: context,
-            groupSearch: groupSearch,
-            adder: adder,
-            initialBool: initialBool),
-        builder: (context, child) {
-          return InkWell(
-            onTap: () {
-              if (groupSearch) {
-                Provider.of<SearchedUserController>(context, listen: false)
-                    .onAddPressed();
-              } else if (tagSearch) {
-                onCardTap!(user.username);
-              } else {
-                Provider.of<SearchedUserController>(context, listen: false)
-                    .onCardPressed();
-              }
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: height * 0.01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      ProfileAvatar(
-                          url: user.profilePicture, size: width * 0.115),
-                      Padding(
-                        padding: EdgeInsets.all(width * 0.02),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (user.name != "")
-                              Text(user.name,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                            Text("@${user.username}")
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (user.uid == locator<CurrentUser>().getUID())
-                    Container()
-                  else if (groupSearch)
+      value: SearchedUserController(
+          user: user,
+          context: context,
+          groupSearch: groupSearch,
+          adder: adder,
+          initialBool: initialBool),
+      builder: (context, child) {
+        return InkWell(
+          onTap: () {
+            if (groupSearch) {
+              Provider.of<SearchedUserController>(context, listen: false)
+                  .onAddPressed();
+            } else if (tagSearch) {
+              onCardTap!(user.username);
+            } else {
+              Provider.of<SearchedUserController>(context, listen: false)
+                  .onCardPressed();
+            }
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: height * 0.01),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ProfileAvatar(
+                        url: user.profilePicture, size: width * 0.115),
                     Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: Provider.of<SearchedUserController>(context,
+                      padding: EdgeInsets.all(width * 0.02),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (user.name != "")
+                            Text(user.name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                          Text("@${user.username}")
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                if (user.uid == locator<CurrentUser>().getUID())
+                  Container()
+                else if (groupSearch)
+                  Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Provider.of<SearchedUserController>(context,
+                                  listen: true)
+                              .added
+                          ? const Icon(Icons.check_circle)
+                          : const Icon(Icons.circle_outlined))
+                else if (tagSearch)
+                  Container()
+                else
+                  InkWell(
+                    onTap: () => Provider.of<SearchedUserController>(context,
+                            listen: false)
+                        .onFollowPressed(),
+                    child: Container(
+                      width: width * 0.35,
+                      height: width * 0.1,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
+                        color: Provider.of<SearchedUserController>(context,
                                     listen: true)
-                                .added
-                            ? const Icon(Icons.check_circle)
-                            : const Icon(Icons.circle_outlined))
-                  else if (tagSearch)
-                    Container()
-                  else
-                    SizedBox(
-                      width: 120, //FIXME make dynamic
-                      height: 35,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          side: BorderSide.none,
-                          backgroundColor: Provider.of<SearchedUserController>(
-                                      context,
-                                      listen: true)
-                                  .following
-                              ? Theme.of(context).colorScheme.surface
-                              : Theme.of(context).colorScheme.primaryContainer,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        onPressed: () => Provider.of<SearchedUserController>(
-                                context,
-                                listen: false)
-                            .onFollowPressed(),
-                        child: Text(
-                          Provider.of<SearchedUserController>(context,
-                                      listen: true)
-                                  .following
-                              ? AppLocalizations.of(context)!.following
-                              : AppLocalizations.of(context)!.follow,
-                          style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.normal,
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
+                                .following
+                            ? Theme.of(context).colorScheme.surface
+                            : Theme.of(context).colorScheme.primaryContainer,
+                      ),
+                      child: Text(
+                        Provider.of<SearchedUserController>(context,
+                                    listen: true)
+                                .following
+                            ? AppLocalizations.of(context)!.following
+                            : AppLocalizations.of(context)!.follow,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 14,
+                          //letterSpacing: 1,
+                          //fontWeight: FontWeight.normal,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     ),
-                ],
-              ),
+                  )
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

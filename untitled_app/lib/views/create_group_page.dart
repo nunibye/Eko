@@ -43,7 +43,7 @@ class _GetInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = c.widthGetter(context);
-    final height = MediaQuery.sizeOf(context).height;
+
     return Scaffold(
       body: Column(
         children: [
@@ -146,7 +146,7 @@ class _AddPeople extends StatelessWidget {
     //print(Provider.of<CreateGroupPageController>(context, listen: true).searchedList);
     final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
-    return GestureDetector(
+    return GestureDetector( 
       onPanDown: (details) =>
           Provider.of<CreateGroupPageController>(context, listen: false)
               .hideKeyboard(),
@@ -154,6 +154,8 @@ class _AddPeople extends StatelessWidget {
           Provider.of<CreateGroupPageController>(context, listen: false)
               .hideKeyboard(),
       child: PaginationPage(
+        header: Provider.of<CreateGroupPageController>(context,
+                          listen: true).selectedPeople.isEmpty ? SizedBox(height: height * 0.05):null,
         getter: Provider.of<CreateGroupPageController>(context, listen: true)
             .getter,
         card: Provider.of<CreateGroupPageController>(context, listen: false)
@@ -272,145 +274,7 @@ class _AddPeople extends StatelessWidget {
             )
           ],
         ),
-        // header: Column(
-        //   children: [
-        //     Row(
-        //       children: [
-        //         TextButton(
-        //             onPressed: () => Provider.of<CreateGroupPageController>(
-        //                     context,
-        //                     listen: false)
-        //                 .goBack(),
-        //             child: Text(AppLocalizations.of(context)!.goBack)),
-        //         const Spacer(),
-        //         TextButton(
-        //           onPressed: () => Provider.of<CreateGroupPageController>(
-        //                   context,
-        //                   listen: false)
-        //               .createGroup(),
-        //           child: Text(Provider.of<CreateGroupPageController>(context,
-        //                       listen: true)
-        //                   .selectedPeople
-        //                   .isEmpty
-        //               ? AppLocalizations.of(context)!.skip
-        //               : AppLocalizations.of(context)!.done),
-        //         )
-        //       ],
-        //     ),
-        //     TextField(
-        //       cursorColor: Theme.of(context).colorScheme.onBackground,
-        //       decoration: InputDecoration(
-        //         contentPadding: EdgeInsets.all(height * 0.01),
-        //         prefixIcon: Padding(
-        //           padding: EdgeInsets.all(width * 0.035),
-        //           child: Image.asset('images/algolia_logo.png',
-        //               width: width * 0.05, height: width * 0.05),
-        //         ),
-        //         hintText: AppLocalizations.of(context)!.search,
-        //         filled: true,
-        //         fillColor: Theme.of(context).colorScheme.surface,
-        //         border: OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide.none,
-        //         ),
-        //       ),
-        //       onChanged: (s) =>
-        //           Provider.of<CreateGroupPageController>(context, listen: false)
-        //               .onSearchTextChanged(s),
-        //       controller:
-        //           Provider.of<CreateGroupPageController>(context, listen: false)
-        //               .searchTextController,
-        //       keyboardType: TextInputType.text,
-        //       style: const TextStyle(fontSize: 20),
-        //     ),
-        //     Container(
-        //       padding: const EdgeInsets.only(top: 5),
-        //       height:
-        //           Provider.of<CreateGroupPageController>(context, listen: true)
-        //                   .selectedPeople
-        //                   .isNotEmpty
-        //               ? height * 0.05
-        //               : 0,
-        //       child: ListView.builder(
-        //         controller: Provider.of<CreateGroupPageController>(context,
-        //                 listen: true)
-        //             .selectedPeopleScroll,
-        //         shrinkWrap: true,
-        //         scrollDirection: Axis.horizontal,
-        //         itemCount: Provider.of<CreateGroupPageController>(context,
-        //                 listen: true)
-        //             .selectedPeople
-        //             .length,
-        //         itemBuilder: (BuildContext context, int index) {
-        //           return Padding(
-        //             padding: const EdgeInsets.only(right: 10),
-        //             child: SelectedUser(
-        //               user: Provider.of<CreateGroupPageController>(context,
-        //                       listen: true)
-        //                   .selectedPeople[index],
-        //               index: index,
-        //               selected: (index ==
-        //                   Provider.of<CreateGroupPageController>(context,
-        //                           listen: true)
-        //                       .selectedToDelete),
-        //               setter: Provider.of<CreateGroupPageController>(context,
-        //                       listen: false)
-        //                   .setSelectedToDelete,
-        //             ),
-        //           );
-        //         },
-        //       ),
-        //     ),
-        //     // Expanded(
-        //     //   child: Provider.of<CreateGroupPageController>(context, listen: true)
-        //     //           .isLoading
-        //     //       ? const Center(
-        //     //           child: CircularProgressIndicator(),
-        //     //         )
-        //     //       : Provider.of<CreateGroupPageController>(context, listen: true)
-        //     //               .hits
-        //     //               .isEmpty
-        //     //           ? Center(
-        //     //               child: Text(
-        //     //                 AppLocalizations.of(context)!.noResultsFound,
-        //     //                 style: TextStyle(
-        //     //                     fontSize: 18,
-        //     //                     color:
-        //     //                         Theme.of(context).colorScheme.onBackground),
-        //     //               ),
-        //     //             )
-        //     //           : ListView.builder(
-        //     //               //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        //     //               itemCount: Provider.of<CreateGroupPageController>(
-        //     //                       context,
-        //     //                       listen: true)
-        //     //                   .hits
-        //     //                   .length,
-        //     //               itemBuilder: (BuildContext context, int index) {
-        //     //                 return UserCard(
-        //     //                   initialBool: Provider.of<CreateGroupPageController>(
-        //     //                           context,
-        //     //                           listen: false)
-        //     //                       .isUserSelected(
-        //     //                           Provider.of<CreateGroupPageController>(
-        //     //                                   context,
-        //     //                                   listen: true)
-        //     //                               .hits[index]),
-        //     //                   adder: Provider.of<CreateGroupPageController>(
-        //     //                           context,
-        //     //                           listen: false)
-        //     //                       .addRemovePersonToList,
-        //     //                   groupSearch: true,
-        //     //                   user: Provider.of<CreateGroupPageController>(
-        //     //                           context,
-        //     //                           listen: true)
-        //     //                       .hits[index],
-        //     //                 );
-        //     //               },
-        //     //             ),
-        //     // ),
-        //   ],
-        // ),
+        
       ),
     );
   }

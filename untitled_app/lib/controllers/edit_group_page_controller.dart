@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/groups_page_controller.dart';
+import 'package:untitled_app/custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations_en.dart';
 import 'package:untitled_app/utilities/locator.dart';
+import '../custom_widgets/controllers/pagination_controller.dart';
+import '../models/feed_post_cache.dart';
 import '../utilities/constants.dart' as c;
 import '../models/users.dart';
 import 'dart:async';
@@ -26,54 +29,87 @@ class EditGroupPageController extends ChangeNotifier {
   bool showEmojiKeyboard = false;
   Timer? _debounce;
   int? selectedToDelete;
-  BuildContext context;
+  final BuildContext context;
   bool canSwipe = false;
-
+  Cache searchedListData = Cache(items: [], end: false);
+  String query = "";
   Group group;
+  final searchModel = SearchModel();
+  EditGroupPageController({required this.context, required this.group}) {
+    init();
+  }
 
-  EditGroupPageController({required this.context, required this.group});
+  init() async {
+    for (var uid in group.members) {
+      AppUser user = AppUser();
+      Map<String, dynamic>? userData = await user.readUserData(uid);
+      if (userData != null) {
+        membersList.add(AppUser.fromJson(userData));
+      }
+    }
+    notifyListeners();
+  }
+
   void goForward() {
     pageController.nextPage(
         duration: const Duration(milliseconds: c.signUpAnimationDuration),
         curve: Curves.decelerate);
   }
 
-  void exitPressed() {
-    goBack();
-  }
-
-  void goBack() {
+  void goBack({bool? didPop}) {
+    didPop ??= false;
     hideKeyboard();
-    pageController.previousPage(
-        duration: const Duration(milliseconds: c.signUpAnimationDuration),
-        curve: Curves.decelerate);
+    if (pageController.page != 0.0) {
+      pageController.previousPage(
+          duration: const Duration(milliseconds: c.signUpAnimationDuration),
+          curve: Curves.decelerate);
+    } else if (!didPop) {
+      context.pop();
+    }
   }
 
   void hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  void onSearchTextChanged(String s) async {
-    if (s == '') {
-      hits = [];
-
-      isLoading = false;
-      notifyListeners();
+  Future<PaginationGetterReturn> getter(dynamic page) async {
+    if (isLoading) {
+      //forces loading animation
+      return PaginationGetterReturn(end: false, payload: []);
     } else {
-      isLoading = true;
-      notifyListeners();
+      page = page ?? 0;
+      return searchModel.getter(page, query, true);
     }
+  }
+
+  Widget groupSearchPageBuilder(dynamic user) {
+    return UserCard(
+      user: user,
+      initialBool: isUserSelected(user),
+      groupSearch: true,
+      adder: addRemovePersonToList,
+    );
+  }
+
+  dynamic startAfterQuery(dynamic lastUser) {
+    return searchModel.startAfterQuery(lastUser);
+  }
+
+  void onSearchTextChanged(String s) async {
+    isLoading = true;
+    searchedListData.end = false;
+    searchedListData.items = [];
+    notifyListeners();
+
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce =
-        Timer(const Duration(milliseconds: c.searchPageDebounce), () async {
-      if (s != '') {
-        hits = await SearchModel().hitsQuery(s);
-        hits.removeWhere(
-            (element) => element.uid == locator<CurrentUser>().getUID());
+    _debounce = Timer(
+      const Duration(milliseconds: c.searchPageDebounce),
+      () async {
+        query = s;
         isLoading = false;
         notifyListeners();
-      }
-    });
+      },
+    );
   }
 
   bool isUserSelected(AppUser user) {
@@ -124,19 +160,14 @@ class EditGroupPageController extends ChangeNotifier {
     selectedPeople = [...addedMembers];
   }
 
-  void loadMembersList(List<AppUser> list) {
-    membersList = list;
-  }
-
-  List<AppUser> getMembersList() {
-    return membersList;
-  }
-
   void updateGroupMembers() {
-    context.pop();
-    selectedPeople.addAll(membersList);
-    List<String> members = (selectedPeople.map((e) => e.uid).toList());
+    pageController.previousPage(
+        duration: Duration(milliseconds: 200), curve: Curves.decelerate);
+    membersList.addAll(selectedPeople);
+    List<String> members = (membersList.map((e) => e.uid).toList());
+    group.members = members;
     GroupHandler().updateGroupMembers(group, members);
+    notifyListeners();
   }
 
   void pickEmoji() async {
@@ -153,26 +184,18 @@ class EditGroupPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<dynamic> getMembers() {
-    return group.members;
-  }
-
-  Group getGroup() {
-    return group;
-  }
-
   void _pop() {
     context.pop();
   }
 
-  
-
   void _leaveGroup() async {
     context.pop();
     showLoadingDialog(context);
+
     membersList
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
+
     GroupHandler().updateGroupMembers(group, members).then(
       (v) {
         _pop();

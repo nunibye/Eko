@@ -22,7 +22,7 @@ class AuthActionInterface extends StatelessWidget {
             onPopInvoked: (didPop) =>
                 Provider.of<AuthActionInterfaceController>(context,
                         listen: false)
-                    .backPressed(),
+                    .backPressed(didPop: didPop),
             child: PageView(
               controller: Provider.of<AuthActionInterfaceController>(context,
                       listen: false)

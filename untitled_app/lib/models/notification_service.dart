@@ -136,7 +136,7 @@ class NotificationService extends ChangeNotifier {
         locator<NavBarController>().enable();
         break;
       case 'follow':
-        context.push("/sub_profile/$path");
+        context.push("/feed/sub_profile/$path");
         break;
     }
   }

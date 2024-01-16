@@ -387,4 +387,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get leaveGroupWarningBody => 'A group member will need to re-add you should you want to join again.';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get copyLink => 'Copy Link';
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get shareProfile => 'Share Profile';
 }

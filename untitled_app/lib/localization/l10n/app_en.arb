@@ -155,7 +155,12 @@
     "postNotFound":"Post Not Found",
 
     "leaveGroupWarningTitle":"Are you sure you want to leave the group?",
-    "leaveGroupWarningBody":"A group member will need to re-add you should you want to join again."
+    "leaveGroupWarningBody":"A group member will need to re-add you should you want to join again.",
+
+    "share":"Share",
+    "copyLink":"Copy Link",
+    "copied":"Copied",
+    "shareProfile":"Share Profile"
 
     
 
