@@ -20,6 +20,7 @@ import '../models/current_user.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:untitled_app/utilities/firebase_options.dart';
+import 'secrets/secrets.dart' as s;
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -30,7 +31,8 @@ Future<void> main() async {
   );
 
   await FirebaseAppCheck.instance.activate(
-    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    webProvider:
+        ReCaptchaV3Provider(s.reCaptcha),
     androidProvider:
         kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
@@ -49,7 +51,9 @@ Future<void> main() async {
     await locator<CurrentUser>().readCurrentUserData();
   }
 
-  if(!kIsWeb){await NotificationService.initializeNotification();}
+  if (!kIsWeb) {
+    await NotificationService.initializeNotification();
+  }
   if (!kIsWeb) await locator<Version>().init();
   runApp(const MyApp());
 }

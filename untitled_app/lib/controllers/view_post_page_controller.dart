@@ -15,7 +15,7 @@ import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
 import '../models/feed_post_cache.dart';
 import 'bottom_nav_bar_controller.dart';
-import '../secrets/secrets.dart' as secrets;
+import '../secrets/secrets.dart' as s;
 
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
@@ -215,7 +215,7 @@ class PostPageController extends ChangeNotifier {
     locator<NavBarController>().disable();
     GiphyGif? newGif = await GiphyGet.getGif(
       context: context,
-      apiKey: secrets.Secrets.GIPHY_API_KEY,
+      apiKey: s.GIPHY_API_KEY,
       lang: GiphyLanguage.english,
       //randomID: "abcd", // Optional - An ID/proxy for a specific user.
       tabColor: Colors.teal,
