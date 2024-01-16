@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:untitled_app/models/users.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
 import 'package:untitled_app/views/login.dart';
+import 'package:untitled_app/views/re_auth_page.dart';
 import 'package:untitled_app/views/share_profile_page.dart';
 import 'package:untitled_app/views/sign_up.dart';
 import 'package:untitled_app/views/user_settings.dart';
@@ -129,12 +129,12 @@ final goRouter = GoRouter(
               path: '/feed',
               name: 'feed',
               pageBuilder: (context, state) {
-                 bool reload = false;
+                bool reload = false;
                 if (state.extra is bool) reload = state.extra as bool;
                 return NoTransitionPage(
                   child: FeedPage(
-                          rebuild: reload,
-                        ),
+                    rebuild: reload,
+                  ),
                 );
               },
               routes: [
@@ -291,10 +291,16 @@ final goRouter = GoRouter(
                   builder: (context, state) => const EditProfile(),
                 ),
                 GoRoute(
-                  path: 'user_settings',
-                  name: 'user_settings',
-                  builder: (context, state) => const UserSettings(),
-                ),
+                    path: 'user_settings',
+                    name: 'user_settings',
+                    builder: (context, state) => const UserSettings(),
+                    routes: [
+                      GoRoute(
+                        path: 're_auth',
+                        name: 're_auth',
+                        builder: (context, state) => const ReAuthPage(),
+                      ),
+                    ]),
                 GoRoute(
                     path: 'followers',
                     name: 'followers',

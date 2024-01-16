@@ -70,7 +70,7 @@ class _GroupSettings extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded,
                 color: Theme.of(context).colorScheme.onBackground),
-            onPressed: () => context.pop("poped"),
+            onPressed: () => context.pop(),
           ),
           backgroundColor: Theme.of(context).colorScheme.background,
         ),

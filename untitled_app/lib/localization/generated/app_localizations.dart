@@ -884,6 +884,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share Profile'**
   String get shareProfile;
+
+  /// No description provided for @deleteAcountReAuthWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted.'**
+  String get deleteAcountReAuthWarning;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

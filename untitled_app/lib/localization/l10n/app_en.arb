@@ -160,7 +160,9 @@
     "share":"Share",
     "copyLink":"Copy Link",
     "copied":"Copied",
-    "shareProfile":"Share Profile"
+    "shareProfile":"Share Profile",
+
+    "deleteAcountReAuthWarning":"Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted."
 
     
 

@@ -399,4 +399,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shareProfile => 'Share Profile';
+
+  @override
+  String get deleteAcountReAuthWarning => 'Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted.';
 }

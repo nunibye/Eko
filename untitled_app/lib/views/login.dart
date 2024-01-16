@@ -49,8 +49,8 @@ class LoginPage extends StatelessWidget {
                             .previousPressed(),
                   ),
                   SizedBox(
-                    height: height * .35,
-                    width: width,
+                     height: height * .25,
+                    width: width * 0.7,
                     child: Image.asset((Theme.of(context).brightness == Brightness.light)?'images/eko_logo_light.png':'images/eko_logo.png'),
                   ),
                   CustomInputFeild(
