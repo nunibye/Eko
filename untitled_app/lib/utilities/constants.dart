@@ -8,11 +8,11 @@ double widthGetter(BuildContext context) {
 ColorScheme lightThemeColors(context) {
   return const ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xFF5056A9),
+    primary: Color.fromARGB(255, 68, 72, 131),
     onPrimary: Color(0xFFFFFFFF),
-    primaryContainer: Color(0xFFE0E0FF),
-    onPrimaryContainer: Color(0xFF050865),
-    secondary: Color(0xFF5C5D72),
+    primaryContainer: Color.fromARGB(255, 134, 134, 218),
+    onPrimaryContainer: Color.fromARGB(255, 239, 239, 239),
+    secondary: Color.fromARGB(255, 57, 62, 159),
     onSecondary: Color(0xFFFFFFFF),
     secondaryContainer: Color(0xFFE1E0F9),
     onSecondaryContainer: Color(0xFF191A2C),
@@ -25,12 +25,12 @@ ColorScheme lightThemeColors(context) {
     onError: Color(0xFFFFFFFF),
     onErrorContainer: Color(0xFF410002),
     background: Color(0xFFFFFBFF),
-    onBackground: Color(0xFF1B1B1F),
-    surface: Color(0xFFFFFBFF),
+    onBackground: Color.fromARGB(255, 0, 0, 0),
+    surface: Color.fromARGB(255, 240, 239, 239),
     onSurface: Color(0xFF1B1B1F),
     surfaceVariant: Color(0xFFE3E1EC),
     onSurfaceVariant: Color(0xFF46464F),
-    outline: Color(0xFF777680),
+    outline: Color.fromARGB(255, 196, 196, 196),
     onInverseSurface: Color(0xFFF3EFF4),
     inverseSurface: Color(0xFF303034),
     inversePrimary: Color(0xFFBEC2FF),
@@ -77,6 +77,18 @@ ColorScheme darkThemeColors(context) {
   );
 }
 
+const List<Color> lightModeGradient = [
+  Color.fromARGB(255, 223, 223, 223),
+  Color.fromARGB(255, 197, 197, 197),
+  Color.fromARGB(255, 222, 222, 222),
+];
+
+const List<Color> darkModeGradient = [
+  Color.fromARGB(255, 88, 88, 89),
+  Color.fromARGB(255, 103, 102, 102),
+  Color.fromARGB(255, 88, 88, 89),
+];
+
 //Button Style
 ButtonStyle buttonStyle(context) {
   return ButtonStyle(
@@ -121,5 +133,7 @@ const String userNameReqs = r'^[a-z0-9_]{3,24}$';
 const double dividerWidth = 0.5;
 const double indealAppWidth = 500;
 const String appURL = "https://untitled-2832f.web.app";
-const String playStoreURL = "https://play.google.com/store/apps/details?id=com.echo.android";
-const String appStoreURL = "https://apps.apple.com/us/app/ucsc-menu/id1670523487";
+const String playStoreURL =
+    "https://play.google.com/store/apps/details?id=com.echo.android";
+const String appStoreURL =
+    "https://apps.apple.com/us/app/ucsc-menu/id1670523487";

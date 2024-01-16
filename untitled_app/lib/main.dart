@@ -39,7 +39,7 @@ Future<void> main() async {
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
     //appleProvider: AppleProvider.debug,
   );
-  print("init");
+
   await FirebaseHelper.setupFirebase();
   setupLocator();
 
@@ -57,15 +57,7 @@ Future<void> main() async {
   }
   if (!kIsWeb) await locator<Version>().init();
   runApp(const MyApp());
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   statusBarColor: Colors.black, // Set this to the color you want
-  //   statusBarIconBrightness: Brightness
-  //       .dark, // Set this to Brightness.light or Brightness.dark as needed
-  //   statusBarBrightness: Brightness
-  //       .dark, // Set this to Brightness.light or Brightness.dark as needed
-  //   systemNavigationBarColor: Colors.black,
-  //   systemNavigationBarIconBrightness: Brightness.dark,
-  // ));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -92,7 +84,7 @@ class MyApp extends StatelessWidget {
               child: SafeArea(
                 child: OverlaySupport(
                   child: MaterialApp.router(
-                    title: 'Untitled',
+                    title: 'Eko',
                     debugShowCheckedModeBanner: false,
                     theme: Styles.themeData(
                         themeChangeProvider.darkTheme, context),

@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import '../utilities/constants.dart' as c;
 
+
+
+LinearGradient getLinearGradient(BuildContext context){
+  return LinearGradient(
+
+
+  colors: Theme.of(context).brightness == Brightness.dark ?c.darkModeGradient : c.lightModeGradient,
+  stops: const [
+    0.1,
+    0.3,
+    0.4,
+  ],
+  begin: const Alignment(-1.0, -0.3),
+  end: const Alignment(1.0, 0.3),
+  tileMode: TileMode.clamp,
+);
+}
+
 class FeedLoader extends StatelessWidget {
   const FeedLoader({super.key});
 
@@ -28,7 +46,7 @@ class _FeedLoadingAnimationState extends State<_FeedLoadingAnimation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _Shimmer(
-        linearGradient: _shimmerGradient,
+        linearGradient: getLinearGradient(context),
         child: ListView(
           //mainAxisSize: MainAxisSize.min,
           shrinkWrap: true,
@@ -90,7 +108,7 @@ class _SearchLoaderAnimationState extends State<_SearchLoaderAnimation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _Shimmer(
-        linearGradient: _shimmerGradient,
+        linearGradient: getLinearGradient(context),
         child: ListView.builder(
           //mainAxisSize: MainAxisSize.min,
           shrinkWrap: true,
@@ -234,21 +252,7 @@ class _UserCardListItem extends StatelessWidget {
 
 //help
 
-const _shimmerGradient = LinearGradient(
-  colors: [
-    Color.fromARGB(255, 88, 88, 89),
-    Color.fromARGB(255, 103, 102, 102),
-    Color.fromARGB(255, 88, 88, 89),
-  ],
-  stops: [
-    0.1,
-    0.3,
-    0.4,
-  ],
-  begin: Alignment(-1.0, -0.3),
-  end: Alignment(1.0, 0.3),
-  tileMode: TileMode.clamp,
-);
+
 
 class _Shimmer extends StatefulWidget {
   static _ShimmerState? of(BuildContext context) {

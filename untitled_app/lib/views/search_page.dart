@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/pagination.dart';
-import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show SearchLoader;
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart'
+    show SearchLoader;
 import '../controllers/search_page_controller.dart';
 import '../custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../utilities/constants.dart' as c;
-
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -50,8 +51,12 @@ class SearchPage extends StatelessWidget {
                       contentPadding: EdgeInsets.all(height * 0.01),
                       prefixIcon: Padding(
                         padding: EdgeInsets.all(width * 0.035),
-                        child: Image.asset('images/algolia_logo.png',
-                            width: width * 0.05, height: width * 0.05),
+                        child: Image.asset(
+                            (Theme.of(context).brightness == Brightness.dark)
+                                ? 'images/algolia_logo_white.png'
+                                : 'images/algolia_logo_blue.png',
+                            width: width * 0.05,
+                            height: width * 0.05),
                       ),
                       hintText: AppLocalizations.of(context)!.search,
                       filled: true,

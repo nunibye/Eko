@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/edit_group_page_controller.dart';
 import 'package:untitled_app/controllers/group_members_controller.dart';
@@ -27,7 +28,7 @@ class EditGroupPage extends StatelessWidget {
             canPop: false,
             onPopInvoked: (didPop) =>
                 Provider.of<EditGroupPageController>(context, listen: false)
-                    .goBack(didPop:didPop),
+                    .goBack(didPop: didPop),
             child: PageView(
               physics:
                   Provider.of<EditGroupPageController>(context, listen: true)
@@ -246,8 +247,12 @@ class _AddPeople extends StatelessWidget {
                     contentPadding: EdgeInsets.all(height * 0.01),
                     prefixIcon: Padding(
                       padding: EdgeInsets.all(width * 0.035),
-                      child: Image.asset('images/algolia_logo.png',
-                          width: width * 0.05, height: width * 0.05),
+                      child: Image.asset(
+                          (Theme.of(context).brightness == Brightness.dark)
+                              ? 'images/algolia_logo_white.png'
+                              : 'images/algolia_logo_blue.png',
+                          width: width * 0.05,
+                          height: width * 0.05),
                     ),
                     hintText: AppLocalizations.of(context)!.search,
                     filled: true,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/selected_user_groups.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
@@ -190,7 +191,7 @@ class _AddPeople extends StatelessWidget {
                     contentPadding: EdgeInsets.all(height * 0.01),
                     prefixIcon: Padding(
                       padding: EdgeInsets.all(width * 0.035),
-                      child: Image.asset('images/algolia_logo.png',
+                      child:  Image.asset((Theme.of(context).brightness == Brightness.dark)? 'images/algolia_logo_white.png':'images/algolia_logo_blue.png',
                           width: width * 0.05, height: width * 0.05),
                     ),
                     hintText: AppLocalizations.of(context)!.search,

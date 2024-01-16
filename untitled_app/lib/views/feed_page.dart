@@ -74,7 +74,7 @@ class FeedPage extends StatelessWidget {
           ],
           title: Padding(padding: const EdgeInsets.only(top: 10),child: SizedBox(
             width: width * 0.3,
-            child: Image.asset("images/echo.png"),
+            child: Image.asset((Theme.of(context).brightness == Brightness.light)?'images/eko_logo_light.png':'images/eko_logo.png'),
           )),
         );
         //end app bar
