@@ -3,6 +3,7 @@ package OnUserDelete
 import (
 	"context"
 	"log"
+	"time"
 
 	"cloud.google.com/go/firestore"
 )
@@ -16,24 +17,10 @@ type FirestoreEvent struct {
 }
 
 type FirestoreValue struct {
-	CreateTime string     `json:"createTime"`
-	Fields     UserFields `json:"fields"`
-	Name       string     `json:"name"`
-	UpdateTime string     `json:"updateTime"`
-}
-
-type UserFields struct {
-	UID         ValueWrapper `json:"uid"`
-	ProfileData ProfileData  `json:"profileData"`
-}
-
-type ProfileData struct {
-	Followers []ValueWrapper `json:"followers"`
-	Following []ValueWrapper `json:"following"`
-}
-
-type ValueWrapper struct {
-	StringValue string `json:"stringValue"`
+	CreateTime time.Time              `json:"createTime"`
+	Fields     map[string]interface{} `json:"fields"`
+	Name       string                 `json:"name"`
+	UpdateTime time.Time              `json:"updateTime"`
 }
 
 func OnUserDelete(ctx context.Context, e FirestoreEvent) error {
@@ -45,50 +32,45 @@ func OnUserDelete(ctx context.Context, e FirestoreEvent) error {
 	}
 	defer client.Close()
 
-	// Log the entire Firestore event data
-	eventData, _ := json.Marshal(e)
-	log.Printf("Event data: %s", eventData)
+	// Load eleted user data
+	fields := e.OldValue.Fields
 
-	// Load user data into user
-	user := e.OldValue.Fields
+	// save uid
+	uid := fields["uid"].(map[string]interface{})["stringValue"].(string)
 
-	log.Printf("User data: %v", user)
+	// save followers and following into lists
 
-	// Get the user's document ID from the 'uid' field
-	userId := user.Uid.StringValue
+	profileData := fields["profileData"].(map[string]interface{})["mapValue"].(map[string]interface{})["fields"].(map[string]interface{})
 
-	// Get the 'followers' and 'following' arrays from the 'profileData' map
-	followers := user.ProfileData.Followers
-	following := user.ProfileData.Following
+	var followers, following []string
 
-	log.Printf("Followers: %v", followers)
-	log.Printf("Following: %v", following)
+	if followersRaw, ok := profileData["followers"].(map[string]interface{})["arrayValue"].(map[string]interface{})["values"].([]interface{}); ok {
+		for _, followerRaw := range followersRaw {
+			follower := followerRaw.(map[string]interface{})["stringValue"].(string)
+			followers = append(followers, follower)
+		}
+	}
+
+	if followingRaw, ok := profileData["following"].(map[string]interface{})["arrayValue"].(map[string]interface{})["values"].([]interface{}); ok {
+		for _, followingRaw := range followingRaw {
+			follows := followingRaw.(map[string]interface{})["stringValue"].(string)
+			following = append(following, follows)
+		}
+	}
 
 	// For each user that the deleted user is following, remove the deleted user from their followers
 	for _, followedUserId := range following {
-		_, err := client.Collection("users").Doc(followedUserId).Update(ctx, []firestore.Update{
-			{Path: "profileData.followers", Value: firestore.ArrayRemove(userId)},
+		client.Collection("users").Doc(followedUserId).Update(ctx, []firestore.Update{
+			{Path: "profileData.followers", Value: firestore.ArrayRemove(uid)},
 		})
-		if err != nil {
-			log.Printf("Failed to update document: %v", err)
-		} else {
-			log.Printf("Removed %s from the followers of %s", userId, followedUserId)
-		}
 	}
 
 	// For each follower of the deleted user, remove the deleted user from their following
 	for _, followerUserId := range followers {
-		_, err := client.Collection("users").Doc(followerUserId).Update(ctx, []firestore.Update{
-			{Path: "profileData.following", Value: firestore.ArrayRemove(userId)},
+		client.Collection("users").Doc(followerUserId).Update(ctx, []firestore.Update{
+			{Path: "profileData.following", Value: firestore.ArrayRemove(uid)},
 		})
-		if err != nil {
-			log.Printf("Failed to update document: %v", err)
-		} else {
-			log.Printf("Removed %s from the following of %s", userId, followerUserId)
-		}
 	}
 
 	return nil
 }
-
-// gcloud functions deploy OnUserDelete --runtime go121 --trigger-event "providers/cloud.firestore/eventTypes/document.delete" --trigger-resource "projects/untitled-2832f/databases/(default)/documents/users/{uid}"

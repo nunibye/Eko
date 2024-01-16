@@ -2,10 +2,7 @@ module example.com
 
 go 1.21.0
 
-require (
-	cloud.google.com/go/firestore v1.14.0
-	cloud.google.com/go/functions v1.13.0
-)
+require cloud.google.com/go/firestore v1.14.0
 
 require (
 	cloud.google.com/go v0.110.2 // indirect
