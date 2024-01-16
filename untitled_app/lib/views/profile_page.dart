@@ -15,15 +15,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Theme.of(context).colorScheme.background,
-      // set Status bar color in Android devices
-      statusBarIconBrightness: (Theme.of(context).brightness == Brightness.dark)
-          ? Brightness.light
-          : Brightness.dark, // set Status bar icons color in Android devices
-      statusBarBrightness:
-          Theme.of(context).brightness, // set Status bar icon color in iOS
-    ));
     return ChangeNotifierProvider(
       create: (context) => ProfileController(context: context),
       builder: (context, child) {
@@ -85,18 +76,20 @@ class _Header extends StatelessWidget {
                         weight: 10,
                       ),
                     ),
-                    Padding(padding: EdgeInsets.all(10),child:InkWell(
-                      
-                      onTap: () =>
-                          Provider.of<ProfileController>(context, listen: false)
-                              .settingsButtonPressed(),
-                      child:  Icon(
-                        Icons.settings_outlined,
-                        color: Theme.of(context).colorScheme.onBackground,
-                        size: 25,
-                        weight: 10,
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: InkWell(
+                        onTap: () => Provider.of<ProfileController>(context,
+                                listen: false)
+                            .settingsButtonPressed(),
+                        child: Icon(
+                          Icons.settings_outlined,
+                          color: Theme.of(context).colorScheme.onBackground,
+                          size: 25,
+                          weight: 10,
+                        ),
                       ),
-                    ),),
+                    ),
                   ],
                 ),
               ),

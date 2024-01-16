@@ -20,6 +20,7 @@ import '../models/current_user.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:untitled_app/utilities/firebase_options.dart';
+import 'package:untitled_app/utilities/constants.dart' as c;
 
 Future<void> main() async {
   usePathUrlStrategy();
@@ -49,9 +50,20 @@ Future<void> main() async {
     await locator<CurrentUser>().readCurrentUserData();
   }
 
-  if(!kIsWeb){await NotificationService.initializeNotification();}
+  if (!kIsWeb) {
+    await NotificationService.initializeNotification();
+  }
   if (!kIsWeb) await locator<Version>().init();
   runApp(const MyApp());
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarColor: Colors.black, // Set this to the color you want
+  //   statusBarIconBrightness: Brightness
+  //       .dark, // Set this to Brightness.light or Brightness.dark as needed
+  //   statusBarBrightness: Brightness
+  //       .dark, // Set this to Brightness.light or Brightness.dark as needed
+  //   systemNavigationBarColor: Colors.black,
+  //   systemNavigationBarIconBrightness: Brightness.dark,
+  // ));
 }
 
 class MyApp extends StatelessWidget {
@@ -73,26 +85,31 @@ class MyApp extends StatelessWidget {
           ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
-            return SafeArea(
+            return DecoratedBox(
+              decoration: BoxDecoration(color: themeChangeProvider.darkTheme ? c.darkThemeColors(context).background : c.lightThemeColors(context).background),
+              child: SafeArea(
                 child: OverlaySupport(
-              child: MaterialApp.router(
-                title: 'Untitled',
-                debugShowCheckedModeBanner: false,
-                theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-                themeMode: ThemeMode.dark,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('en'), // English
-                  Locale('es'), // Spanish
-                ],
-                routerConfig: goRouter,
+                  child: MaterialApp.router(
+                    title: 'Untitled',
+                    debugShowCheckedModeBanner: false,
+                    theme: Styles.themeData(
+                        themeChangeProvider.darkTheme, context),
+                    themeMode: ThemeMode.dark,
+                    localizationsDelegates: const [
+                      AppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    supportedLocales: const [
+                      Locale('en'), // English
+                      Locale('es'), // Spanish
+                    ],
+                    routerConfig: goRouter,
+                  ),
+                ),
               ),
-            ));
+            );
           },
         );
       },
