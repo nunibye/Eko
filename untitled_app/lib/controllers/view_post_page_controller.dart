@@ -207,6 +207,7 @@ class PostPageController extends ChangeNotifier {
       } else {
         post!.commentCount++;
       }
+      gif = null;
       notifyListeners();
     }
   }
@@ -224,7 +225,7 @@ class PostPageController extends ChangeNotifier {
     //only update gif a gif was selected
     if (newGif != null) {
       gif = newGif;
-      postCommentPressed();
+      postCommentPressed(); 
     }
     notifyListeners();
     locator<NavBarController>().enable();
