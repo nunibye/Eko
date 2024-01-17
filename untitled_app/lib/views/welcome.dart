@@ -44,8 +44,8 @@ class WelcomePage extends StatelessWidget {
                                     .onBackground)),
                       )),
                   SizedBox(
-                    height: height * .35,
-                    width: width,
+                    //height: height * .35,
+                    width: width *0.7,
                     child: Image.asset('images/eko_logo.png'),
                   ),
                   SizedBox(

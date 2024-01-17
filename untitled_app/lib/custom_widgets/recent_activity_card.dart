@@ -57,16 +57,16 @@ class ActivityCardWidget extends StatelessWidget {
                   width: width * 0.8,
                   child: card.type == "follow"
                       ? Text(
-                          "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.followText}",
+                          "${(hasUser && card.sourceUser!.username != "") ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.followText}",
                           softWrap: true,
                         )
                       : card.type == "tag"
                           ? Text(
-                              "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.taggedText} ${card.content}",
+                              "${(hasUser && card.sourceUser!.username != "") ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.taggedText} ${card.content}",
                               softWrap: true,
                             )
                           : Text(
-                              "${hasUser ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.commentText} ${card.content}",
+                              "${(hasUser && card.sourceUser!.username != "") ? "@${card.sourceUser!.username}" : AppLocalizations.of(context)!.someone} ${AppLocalizations.of(context)!.commentText} ${card.content}",
                               softWrap: true,
                             )),
               Container(

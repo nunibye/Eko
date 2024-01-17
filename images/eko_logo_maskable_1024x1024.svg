@@ -9,10 +9,10 @@
    id="svg12769"
    xml:space="preserve"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
-   sodipodi:docname="eko_logo_1024x1024.svg"
-   inkscape:export-filename="eko_logo_192x192.png"
-   inkscape:export-xdpi="18"
-   inkscape:export-ydpi="18"
+   sodipodi:docname="eko_logo_maskable_1024x1024.svg"
+   inkscape:export-filename="maskable 512.png"
+   inkscape:export-xdpi="48"
+   inkscape:export-ydpi="48"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -65,8 +65,8 @@
        x="-271.25351"
        y="-77.035202"
        transform="rotate(-26.787795)" /><image
-       width="202.33344"
-       height="115.75353"
+       width="165.38574"
+       height="94.61602"
        preserveAspectRatio="none"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAa4AAAD2CAYAAACOX2O0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAA
 GXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAIABJREFUeJzsvXtwXNd95/n9nXNu
@@ -754,5 +754,5 @@ Cq9D3yKmG8T+/s89B6ATxE4KOwH+D2C3AvidpGdzudzW0fw3jjX/C4hJkX1nlEMbAAAAAElFTkSu
 QmCC
 "
        id="image14443"
-       x="34.29995"
-       y="66.477386" /></g></svg>
+       x="52.773796"
+       y="74.914886" /></g></svg>

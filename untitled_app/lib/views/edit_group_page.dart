@@ -70,7 +70,7 @@ class _GroupSettings extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded,
                 color: Theme.of(context).colorScheme.onBackground),
-            onPressed: () => context.pop("poped"),
+            onPressed: () => context.pop(),
           ),
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
@@ -358,12 +358,7 @@ class _AddPeople extends StatelessWidget {
       //     ),
       //     TextField(
       //       cursorColor: Theme.of(context).colorScheme.onBackground,
-      //       decoration: InputDecoration(
-      //         contentPadding: EdgeInsets.all(height * 0.01),
-      //         prefixIcon: Padding(
-      //           padding: EdgeInsets.all(width * 0.035),
-      //           child: Image.asset('images/algolia_logo.png',
-      //               width: width * 0.05, height: width * 0.05),
+      //       d
       //         ),
       //         hintText: AppLocalizations.of(context)!.search,
       //         filled: true,

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/models/current_user.dart';
@@ -36,10 +37,16 @@ class SettingsController extends ChangeNotifier {
     context.pop();
   }
 
-  void _delete() {
+  void _delete() async {
     _pop();
-    locator<CurrentUser>().deleteAccount();
-    locator<NavBarController>().enable();
+    try {
+      await locator<CurrentUser>().deleteAccount();
+      locator<NavBarController>().enable();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        context.pushNamed("re_auth");
+      }
+    }
   }
 
   toggleActivityNotification(value) async {
@@ -60,7 +67,7 @@ class SettingsController extends ChangeNotifier {
       locator<CurrentUser>().removeFCM();
       activityNotification = false;
     }
-    
+
     notifyListeners();
   }
 

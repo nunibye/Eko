@@ -20,7 +20,11 @@ class CurrentUser extends AppUser {
   bool stateIsLiking = false;
   bool stateIsFollowing = false;
   CurrentUser(
-      {this.email = '', this.likedPosts = const [], this.newActivity = false});
+      {this.email = '', this.likedPosts = const [], this.newActivity = false}) {
+    if (likedPosts.isEmpty) {
+      likedPosts = [];
+    }
+  }
 
 //gets uid making sure it is current. idk if this is neccesary but it will be easy to remove.
   String getUID() {
@@ -49,7 +53,6 @@ class CurrentUser extends AppUser {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       uid = FirebaseAuth.instance.currentUser!.uid;
-      // await addFCM();
       return ("success");
     } on FirebaseAuthException catch (e) {
       return (e.code);
@@ -81,7 +84,6 @@ class CurrentUser extends AppUser {
           .confirmPasswordReset(code: code, newPassword: password);
       return "success";
     } on FirebaseAuthException catch (e) {
-
       return (e.code);
     }
   }
@@ -416,66 +418,70 @@ class CurrentUser extends AppUser {
   }
 
   Future<void> addFCM() async {
-    if(!kIsWeb){// TODO: eventually needs to support timestamp
-    final user = getUID();
-    final DocumentReference userDocRef =
-        FirebaseFirestore.instance.collection("users").doc(user);
+    if (!kIsWeb) {
+      // TODO: eventually needs to support timestamp
+      final user = getUID();
+      final DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection("users").doc(user);
 
-    try {
-      // Get the current data
-      final DocumentSnapshot userSnapshot = await userDocRef.get();
-      if (userSnapshot.exists) {
-        final String currentDeviceToken =
-            await FirebaseMessaging.instance.getToken() ?? "";
-        // Retrieve the FCM tokens array
-        // TODO: will change when in a collection
-        if (userSnapshot.data().toString().contains('fcmTokens')) {
-          List<String> fcmTokens =
-              List<String>.from(userSnapshot['fcmTokens'] ?? []);
+      try {
+        // Get the current data
+        final DocumentSnapshot userSnapshot = await userDocRef.get();
+        if (userSnapshot.exists) {
+          final String currentDeviceToken =
+              await FirebaseMessaging.instance.getToken() ?? "";
+          // Retrieve the FCM tokens array
+          // TODO: will change when in a collection
+          if (userSnapshot.data().toString().contains('fcmTokens')) {
+            List<String> fcmTokens =
+                List<String>.from(userSnapshot['fcmTokens'] ?? []);
 
-          // check to see if contained in array
-          if (!fcmTokens.contains(currentDeviceToken)) {
+            // check to see if contained in array
+            if (!fcmTokens.contains(currentDeviceToken)) {
+              fcmTokens.add(currentDeviceToken);
+            }
+            // Update the Firestore document with the modified FCM tokens array
+            await userDocRef.update({'fcmTokens': fcmTokens});
+          } else {
+            List<String> fcmTokens = [];
             fcmTokens.add(currentDeviceToken);
+            userDocRef.update({'fcmTokens': fcmTokens});
           }
-          // Update the Firestore document with the modified FCM tokens array
-          await userDocRef.update({'fcmTokens': fcmTokens});
-        } else {
-          List<String> fcmTokens = [];
-          fcmTokens.add(currentDeviceToken);
-          userDocRef.update({'fcmTokens': fcmTokens});
+          setActivityNotification(true);
         }
-        setActivityNotification(true);
+      } catch (e) {
+        // TODO: Handle the error as needed
       }
-    } catch (e) {
-      // TODO: Handle the error as needed
-    }}
+    }
   }
 
   Future<void> removeFCM() async {
-   if(!kIsWeb){ // TODO: eventually needs to support timestamp
-    final user = getUID();
-    final DocumentReference userDocRef =
-        FirebaseFirestore.instance.collection("users").doc(user);
+    if (!kIsWeb) {
+      // TODO: eventually needs to support timestamp
+      final user = getUID();
+      final DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection("users").doc(user);
 
-    try {
-      // Get the current data
-      final DocumentSnapshot userSnapshot = await userDocRef.get();
-      if (userSnapshot.exists) {
-        // Retrieve the FCM tokens array
-        List<String> fcmTokens =
-            List<String>.from(userSnapshot['fcmTokens'] ?? []);
-        final String? currentDeviceToken =
-            await FirebaseMessaging.instance.getToken();
-        // Remove the current device's FCM token from the array
-        fcmTokens.remove(currentDeviceToken);
+      try {
+        // Get the current data
+        final DocumentSnapshot userSnapshot = await userDocRef.get();
+        if (userSnapshot.exists) {
+          // Retrieve the FCM tokens array
+          List<String> fcmTokens =
+              List<String>.from(userSnapshot['fcmTokens'] ?? []);
+          final String? currentDeviceToken =
+              await FirebaseMessaging.instance.getToken();
+          // Remove the current device's FCM token from the array
+          fcmTokens.remove(currentDeviceToken);
 
-        // Update the Firestore document with the modified FCM tokens array
-        await userDocRef.update({'fcmTokens': fcmTokens});
-        setActivityNotification(false);
+          // Update the Firestore document with the modified FCM tokens array
+          await userDocRef.update({'fcmTokens': fcmTokens});
+          setActivityNotification(false);
+        }
+      } catch (e) {
+        // TODO: Handle the error as needed
       }
-    } catch (e) {
-      // TODO: Handle the error as needed
-    }}
+    }
   }
 
   void clearVariables() {
@@ -484,12 +490,12 @@ class CurrentUser extends AppUser {
     name = '';
     likes = 0;
     bio = '';
-    followers = const [];
-    following = const [];
+    followers = [];
+    following = [];
     username = '';
 
     email = '';
-    likedPosts = const [];
+    likedPosts = [];
     profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c";
   }
@@ -502,8 +508,8 @@ class CurrentUser extends AppUser {
     FirebaseAuth.instance.signOut();
   }
 
-  deleteAccount() {
-    FirebaseAuth.instance.currentUser?.delete();
+  Future<void> deleteAccount() async {
+    await FirebaseAuth.instance.currentUser?.delete();
     clearVariables();
   }
 }

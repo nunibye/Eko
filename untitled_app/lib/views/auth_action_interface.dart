@@ -18,22 +18,27 @@ class AuthActionInterface extends StatelessWidget {
           AuthActionInterfaceController(context: context, urlData: urlData),
       builder: (context, child) {
         return PopScope(
-            canPop: false,
-            onPopInvoked: (didPop) =>
-                Provider.of<AuthActionInterfaceController>(context,
+          canPop: false,
+          onPopInvoked: (didPop) =>
+              Provider.of<AuthActionInterfaceController>(context, listen: false)
+                  .backPressed(didPop: didPop),
+          child: Center(
+            child: SizedBox(
+              width: c.widthGetter(context),
+              child: PageView(
+                controller: Provider.of<AuthActionInterfaceController>(context,
                         listen: false)
-                    .backPressed(didPop: didPop),
-            child: PageView(
-              controller: Provider.of<AuthActionInterfaceController>(context,
-                      listen: false)
-                  .pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const <Widget>[
-                _LoadingPage(),
-                _InvalidPage(),
-                _ResetPasswordPage(),
-              ],
-            ));
+                    .pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: const <Widget>[
+                  _LoadingPage(),
+                  _InvalidPage(),
+                  _ResetPasswordPage(),
+                ],
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -44,7 +49,7 @@ class _LoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child:  LoadingSpinner());
+    return const Center(child: LoadingSpinner());
   }
 }
 
