@@ -8,14 +8,14 @@ class Cache {
 
 class FeedPostCache {
   List<Cache> postsList =
-      List.generate(4, (index) => Cache(items: [], end: false));
+      List.generate(3, (index) => Cache(items: [], end: false));
 
   addPost(int index, Post post) {
     postsList[index].items.insert(0, post);
   }
 
   clearCache() {
-    postsList = List.generate(4, (index) => Cache(items: [], end: false));
+    postsList = List.generate(3, (index) => Cache(items: [], end: false));
   }
 
   //TODO review, considor other solutions

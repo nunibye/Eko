@@ -316,6 +316,9 @@ class ComposeController extends ChangeNotifier {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.post),
                 onPressed: () async {
+                  titleController.text = "";
+                  bodyController.text = "";
+                  gif = null;
                   context.pop();
 
                   final postID =
@@ -341,9 +344,7 @@ class ComposeController extends ChangeNotifier {
                     _goToPage(group: groupEndPoint);
                     //refine cases later for more complicated tag system
                   }
-                  titleController.text = "";
-                  bodyController.text = "";
-                  gif = null;
+                  
                   notifyListeners();
                 },
               ),

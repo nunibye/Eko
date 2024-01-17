@@ -21,9 +21,10 @@ class CustomTabBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _Button(text: AppLocalizations.of(context)!.followingTab, index: 0),
-          _Button(text: AppLocalizations.of(context)!.popularTab, index: 1),
-          _Button(text: AppLocalizations.of(context)!.newTab, index: 2),
-          _Button(text: AppLocalizations.of(context)!.oldTab, index: 3),
+          _Button(text: AppLocalizations.of(context)!.newTab, index: 1),
+          _Button(text: AppLocalizations.of(context)!.popularTab, index: 2),
+
+          //_Button(text: AppLocalizations.of(context)!.oldTab, index: 3),
         ],
       ),
     );
@@ -38,30 +39,38 @@ class _Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
     final isActive =
         Provider.of<FeedController>(context, listen: true).index == index;
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => Provider.of<FeedController>(context, listen: false)
           .onTabPressed(index),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isActive
-              ? Theme.of(context).colorScheme.secondary
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: isActive
-                ? Theme.of(context).colorScheme.onSecondary
-                : Theme.of(context).colorScheme.onBackground,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
-          ),
-        ),
-      ),
+      child: SizedBox(
+          width: width * 0.3,
+          child: Center(
+              child: Container(
+            width: width * 0.24,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? Theme.of(context).colorScheme.secondary
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: isActive
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Theme.of(context).colorScheme.onBackground,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
+              ),
+            ),
+          ))),
     );
   }
 }
