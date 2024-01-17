@@ -167,6 +167,8 @@
     "deleteAcountReAuthWarning":"Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted.",
 
     "logIntoApp":"Log in required",
-    "logInRequired":"Please log in to access all features of Eko."
+    "logInRequired":"Please log in to access all features of Eko.",
+    
+    "notInGroup":"You are no longer a member of this group."
 
 }

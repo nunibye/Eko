@@ -100,7 +100,7 @@ class OtherProfile extends StatelessWidget {
                     getter: Provider.of<OtherProfileController>(context,
                             listen: false)
                         .getPosts,
-                    card: profilePostCardBuilder,
+                    card: otherProfilePostCardBuilder,
                     startAfterQuery: Provider.of<OtherProfileController>(
                             context,
                             listen: false)

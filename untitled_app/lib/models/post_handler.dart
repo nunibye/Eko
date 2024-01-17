@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/models/current_user.dart';
+import 'package:untitled_app/models/group_handler.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../utilities/constants.dart' as c;
 import 'package:collection/collection.dart';
@@ -11,7 +12,6 @@ import '../custom_widgets/controllers/pagination_controller.dart';
 class Post {
   String postId;
   bool hasCache;
-
   final AppUser author;
   final String? gifURL;
   final String? gifSource;
@@ -21,6 +21,7 @@ class Post {
   final List<String> tags;
   int likes;
   int commentCount;
+  final Group? group;
 
   //for comments
   final String? rootPostId;
@@ -34,12 +35,14 @@ class Post {
       this.title,
       required this.author,
       this.body,
+      this.group,
       required this.likes,
       this.commentCount = 0,
       this.hasCache = false,
       this.rootPostId});
+
   static Post fromRaw(RawPostObject rawPost, AppUser user, int commentCount,
-      {String? rootPostId, bool hasCache = false}) {
+      {String? rootPostId, bool hasCache = false, Group? group}) {
     return Post(
         tags: rawPost.tags,
         hasCache: hasCache,
@@ -52,7 +55,8 @@ class Post {
         time: rawPost.time,
         likes: rawPost.likes,
         commentCount: commentCount,
-        rootPostId: rootPostId);
+        rootPostId: rootPostId,
+        group: group);
   }
 
   static List<String> parseText(String? text) {
@@ -412,7 +416,10 @@ class PostsHandling {
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       return Post.fromRaw(raw, AppUser.fromCurrent(locator<CurrentUser>()),
-          await countComments(raw.postID));
+          await countComments(raw.postID),
+          group: (raw.tags.contains("public"))
+              ? null
+              : await GroupHandler().getGroupFromId(raw.tags.first));
     }).toList();
     return PaginationGetterReturn(
         end: (postList.length < c.postsOnRefresh),
@@ -421,7 +428,7 @@ class PostsHandling {
 
   //groups
   Future<PaginationGetterReturn> getGroupPosts(dynamic time, String id) async {
-    final user = FirebaseAuth.instance.currentUser!.uid;
+    //final user = FirebaseAuth.instance.currentUser!.uid;
     final postList = (await newGetPosts(
             time,
             FirebaseFirestore.instance

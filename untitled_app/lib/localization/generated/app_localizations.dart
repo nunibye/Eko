@@ -914,6 +914,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please log in to access all features of Eko.'**
   String get logInRequired;
+
+  /// No description provided for @notInGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'You are no longer a member of this group.'**
+  String get notInGroup;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

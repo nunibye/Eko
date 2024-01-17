@@ -20,7 +20,7 @@ Future<void> showMyDialog(String title, String message, List<String> buttons,
     barrierDismissible: dismissable, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(title),
+        title: (title != "")?Text(title):null,
         content: (message != "") ? SingleChildScrollView(
           child: Text(message),
         ):null,

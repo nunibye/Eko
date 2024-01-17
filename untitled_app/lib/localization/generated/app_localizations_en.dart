@@ -414,4 +414,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logInRequired => 'Please log in to access all features of Eko.';
+
+  @override
+  String get notInGroup => 'You are no longer a member of this group.';
 }

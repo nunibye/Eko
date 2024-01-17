@@ -70,7 +70,7 @@ class GroupHandler {
 
   Future<Group?> getGroupFromId(String id) async {
     final data =
-        await FirebaseFirestore.instance.collection("posts").doc(id).get();
+        await FirebaseFirestore.instance.collection("groups").doc(id).get();
     final postData = data.data();
     if (postData != null) {
       return Group.fromJson(postData, data.id);

@@ -6,6 +6,7 @@ import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations_en.dart';
+import 'package:untitled_app/models/group_handler.dart';
 import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
@@ -27,6 +28,7 @@ class PostCardController extends ChangeNotifier {
   bool liking = false;
   bool sharing = false;
   late bool isSelf;
+  // Group? group;
 
   final bool isBuiltFromId;
   PostCardController(
@@ -36,22 +38,35 @@ class PostCardController extends ChangeNotifier {
     _init();
   }
   _init() async {
+    //print("test");
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
-
     likes = post.likes;
-
     comments = post.commentCount;
-
     isSelf = post.author.uid == locator<CurrentUser>().getUID();
-
-    ///comments = await locator<PostsHandling>().countComments(post.postId);
-
     notifyListeners();
+    // if (!post.tags.contains("public")) {
+    //   group = await GroupHandler().getGroupFromId(post.tags.first);
+    //   print(group?.name);
+    //   notifyListeners();
+    // }
   }
 
 //FIXME could be optomized
   void rebuildFeed() {
     Provider.of<PaginationController>(context, listen: false).rebuildFunction();
+  }
+
+  void groupBannerPressed() {
+    final group = post.group;
+    if (group != null) {
+      if (group.members.contains(locator<CurrentUser>().getUID())) {
+        context.push("/groups/sub_group/${group.id}", extra: group);
+      } else {
+        showMyDialog(AppLocalizations.of(context)!.notInGroup, "",
+            [AppLocalizations.of(context)!.ok], [_pop], context,
+            dismissable: true);
+      }
+    }
   }
 
   postPressed() {

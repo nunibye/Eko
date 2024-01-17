@@ -21,10 +21,18 @@ Widget postCardBuilder(dynamic post) {
   );
 }
 
+Widget otherProfilePostCardBuilder(dynamic post) {
+  return PostCard(
+    post: post,
+    isOnProfile: true,
+  );
+}
+
 Widget profilePostCardBuilder(dynamic post) {
   return PostCard(
     post: post,
     isOnProfile: true,
+    showGroup: true,
   );
 }
 
@@ -34,6 +42,7 @@ class PostCard extends StatelessWidget {
   final bool isPostPage;
   final bool isBuiltFromId;
   final bool isOnProfile;
+  final bool showGroup;
 
   const PostCard(
       {super.key,
@@ -41,7 +50,8 @@ class PostCard extends StatelessWidget {
       this.isPreview = false,
       this.isPostPage = false,
       this.isBuiltFromId = false,
-      this.isOnProfile = false});
+      this.isOnProfile = false,
+      this.showGroup = false});
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +79,40 @@ class PostCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (showGroup && post.group != null)
+                      Padding(
+                        padding: EdgeInsets.only(left: width * 0.115 + 20),
+                        child: InkWell(
+                          onTap: () => Provider.of<PostCardController>(context,
+                                  listen: false)
+                              .groupBannerPressed(),
+                          child: Container(
+                              padding: const EdgeInsets.only(
+                                  bottom: 0, left: 6, right: 6),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.group,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer,
+                                ),
+                                const SizedBox(width: 2),
+                                Text(
+                                  post.group!.name,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer),
+                                ),
+                              ])),
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: c.postPaddingHoriz,
