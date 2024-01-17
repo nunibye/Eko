@@ -45,10 +45,15 @@ class CommentCard extends StatelessWidget {
                   children: [
                     // Display the profile picture as a CircleAvatar
                     IconButton(
-                        onPressed: () => Provider.of<CommentCardController>(
-                                context,
-                                listen: false)
-                            .avatarPressed(),
+                        onPressed: () {
+                          if (Provider.of<CommentCardController>(context,
+                                  listen: false)
+                              .isLoggedIn()) {
+                            Provider.of<CommentCardController>(context,
+                                    listen: false)
+                                .avatarPressed();
+                          }
+                        },
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         icon: ProfileAvatar(
                             url: post.author.profilePicture,
@@ -61,10 +66,16 @@ class CommentCard extends StatelessWidget {
                           Row(
                             children: [
                               TextButton(
-                                onPressed: () =>
+                                onPressed: () {
+                                  if (Provider.of<CommentCardController>(
+                                          context,
+                                          listen: false)
+                                      .isLoggedIn()) {
                                     Provider.of<CommentCardController>(context,
                                             listen: false)
-                                        .avatarPressed(),
+                                        .avatarPressed();
+                                  }
+                                },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   minimumSize: const Size(0, 0),
@@ -83,10 +94,16 @@ class CommentCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 8.0),
                               TextButton(
-                                onPressed: () =>
+                                onPressed: () {
+                                  if (Provider.of<CommentCardController>(
+                                          context,
+                                          listen: false)
+                                      .isLoggedIn()) {
                                     Provider.of<CommentCardController>(context,
                                             listen: false)
-                                        .avatarPressed(),
+                                        .avatarPressed();
+                                  }
+                                },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   minimumSize: const Size(0, 0),
@@ -110,14 +127,17 @@ class CommentCard extends StatelessWidget {
                           if (post.body != null)
                             RichText(
                               text: TextSpan(
-                                style: TextStyle(fontFamily: DefaultTextStyle.of(context).style.fontFamily,),
+                                style: TextStyle(
+                                  fontFamily: DefaultTextStyle.of(context)
+                                      .style
+                                      .fontFamily,
+                                ),
                                 children: post.body!.map((chunk) {
                                   if (chunk.startsWith('@')) {
                                     // This is a username, create a hyperlink
                                     return TextSpan(
                                       text: chunk,
                                       style: TextStyle(
-                                        
                                           color: Theme.of(context)
                                               .colorScheme
                                               .surfaceTint),
@@ -181,10 +201,15 @@ class CommentCard extends StatelessWidget {
                             ),
                           const SizedBox(height: 4.0),
                           TextButton(
-                            onPressed: () => Provider.of<PostPageController>(
-                                    context,
-                                    listen: false)
-                                .replyPressed(post.author.username),
+                            onPressed: () {
+                              if (Provider.of<CommentCardController>(context,
+                                      listen: false)
+                                  .isLoggedIn()) {
+                                Provider.of<PostPageController>(context,
+                                        listen: false)
+                                    .replyPressed(post.author.username);
+                              }
+                            },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,
                               minimumSize: const Size(0, 0),
@@ -223,15 +248,19 @@ class CommentCard extends StatelessWidget {
                           );
                         },
                         onTap: (isLiked) async {
-                          if (!Provider.of<CommentCardController>(context,
+                          if (Provider.of<CommentCardController>(context,
                                   listen: false)
-                              .isSelf) {
-                            Provider.of<CommentCardController>(context,
+                              .isLoggedIn()) {
+                            if (!Provider.of<CommentCardController>(context,
                                     listen: false)
-                                .likePressed();
-                            return !isLiked;
+                                .isSelf) {
+                              Provider.of<CommentCardController>(context,
+                                      listen: false)
+                                  .likePressed();
+                              return !isLiked;
+                            }
+                            return isLiked;
                           }
-                          return isLiked;
                         },
                         likeCount: Provider.of<CommentCardController>(context,
                                 listen: true)

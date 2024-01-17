@@ -110,6 +110,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUp => 'Sign Up';
 
   @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signInToComment => 'Sign in to comment...';
+
+  @override
   String get forgotPassword => 'Forgot Password?';
 
   @override
@@ -221,7 +227,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get darkMode => 'Dark Mode';
 
   @override
-  String get addComment => 'Add a comment';
+  String get addComment => 'Add a comment...';
 
   @override
   String get settings => 'Settings';
@@ -399,6 +405,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareProfile => 'Share Profile';
+
+  @override
+  String get logIntoApp => 'Log in required';
+
+  @override
+  String get logInRequired => 'Please log in to access all features of Eko.';
 
   @override
   String get deleteAcountReAuthWarning => 'Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted.';

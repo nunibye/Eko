@@ -303,6 +303,18 @@ abstract class AppLocalizations {
   /// **'Sign Up'**
   String get signUp;
 
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// No description provided for @signInToComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to comment...'**
+  String get signInToComment;
+
   /// No description provided for @forgotPassword.
   ///
   /// In en, this message translates to:
@@ -528,7 +540,7 @@ abstract class AppLocalizations {
   /// No description provided for @addComment.
   ///
   /// In en, this message translates to:
-  /// **'Add a comment'**
+  /// **'Add a comment...'**
   String get addComment;
 
   /// No description provided for @settings.
@@ -884,6 +896,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share Profile'**
   String get shareProfile;
+
+  /// No description provided for @logIntoApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in required'**
+  String get logIntoApp;
+
+  /// No description provided for @logInRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in to access all features of Eko.'**
+  String get logInRequired;
 
   /// No description provided for @deleteAcountReAuthWarning.
   ///

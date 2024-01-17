@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/models/notification_service.dart';
 import 'package:untitled_app/models/uri_launcher.dart';
@@ -58,45 +60,48 @@ class FeedController extends ChangeNotifier {
   bool newActivity = false;
 
   FeedController({required this.context, required this.rebuild}) {
-    NotificationService notificationService = NotificationService();
-    if (rebuild) {
-      rebuildFunction();
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (locator<Version>().lessThanTarget) {
-        showMyDialog(
-            AppLocalizations.of(context)!.updateAvailable,
-            "",
-            [
-              AppLocalizations.of(context)!.ok,
-              AppLocalizations.of(context)!.update
-            ],
-            [context.pop, UriLauncher.launchCorrectStore],
-            context);
+    if (checkLoggedIn()) {
+      NotificationService notificationService = NotificationService();
+      if (rebuild) {
+        rebuildFunction();
       }
-    });
 
-    checkNewActivity();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (locator<Version>().lessThanTarget) {
+          showMyDialog(
+              AppLocalizations.of(context)!.updateAvailable,
+              "",
+              [
+                AppLocalizations.of(context)!.ok,
+                AppLocalizations.of(context)!.update
+              ],
+              [context.pop, UriLauncher.launchCorrectStore],
+              context);
+        }
+      });
+      checkNewActivity();
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      NotificationService.onMessage(message, context);
-      // showOverlayNote(context, message);
-    });
-
-    // Handling the initial message received when the app is launched from dead (killed state)
-    // When the app is killed and a new notification arrives when user clicks on it
-    // It gets the data to which screen to open
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
+      // Handling the initial message received when the app is launched from dead (killed state)
+      // When the app is killed and a new notification arrives when user clicks on it
+      // It gets the data to which screen to open
+      FirebaseMessaging.instance.getInitialMessage().then((message) {
+        if (message != null) {
+          notificationService.postNotification(context, message);
+        }
+      });
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         notificationService.postNotification(context, message);
-      }
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      notificationService.postNotification(context, message);
-      rebuildFunction();
-    });
-    //copyArray();
+        rebuildFunction();
+      });
+      //copyArray();
+    }
+  }
+
+  bool checkLoggedIn() {
+    if (locator<CurrentUser>().getUID() == '') {
+      return false;
+    }
+    return true;
   }
 
   // void copyArray() async {
@@ -116,8 +121,6 @@ class FeedController extends ChangeNotifier {
   //     await users.doc(id).update({'profileData.likedPosts': friends});
   //   }
   // }
-
-  
 
   void checkNewActivity() {
     newActivity = locator<CurrentUser>().newActivity;

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations_en.dart';
 import '../../models/current_user.dart';
@@ -61,6 +62,35 @@ class PostCardController extends ChangeNotifier {
 
   commentPressed() {
     postPressed();
+  }
+
+  bool isLoggedIn() {
+    if (locator<CurrentUser>().getUID() == '') {
+      showLogInDialog();
+      return false;
+    }
+    return true;
+  }
+
+  void showLogInDialog() {
+    showMyDialog(
+        AppLocalizations.of(context)!.logIntoApp,
+        AppLocalizations.of(context)!.logInRequired,
+        [
+          AppLocalizations.of(context)!.goBack,
+          AppLocalizations.of(context)!.signIn
+        ],
+        [_pop, _goToLogin],
+        context,
+        dismissable: true);
+  }
+
+  void _pop() {
+    context.pop();
+  }
+
+  void _goToLogin() {
+    context.go('/');
   }
 
   avatarPressed() async {

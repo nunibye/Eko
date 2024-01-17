@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart'
+    show FeedLoader;
+import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../custom_widgets/pagination.dart';
@@ -72,13 +74,18 @@ class FeedPage extends StatelessWidget {
                       .onNotificationButtonPressed(),
             ),
           ],
-          title: Padding(padding: const EdgeInsets.only(top: 10),child: SizedBox(
-            width: width * 0.3,
-            child: Image.asset((Theme.of(context).brightness == Brightness.light)?'images/eko_logo_light.png':'images/eko_logo.png'),
-          )),
+          title: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: SizedBox(
+                width: width * 0.3,
+                child: Image.asset(
+                    (Theme.of(context).brightness == Brightness.light)
+                        ? 'images/eko_logo_light.png'
+                        : 'images/eko_logo.png'),
+              )),
         );
         //end app bar
-
+        
         return Scaffold(
           body: PaginationPage(
             initialLoadingWidget: const FeedLoader(),
@@ -93,8 +100,6 @@ class FeedPage extends StatelessWidget {
             externalData: locator<FeedPostCache>().postsList[
                 Provider.of<FeedController>(context, listen: true).index],
           ),
-
-          //
         );
       },
     );
