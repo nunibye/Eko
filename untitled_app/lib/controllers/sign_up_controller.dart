@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
+import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
 import '../models/current_user.dart';
@@ -86,6 +89,7 @@ class SignUpController extends ChangeNotifier {
   void _returnToWelcome() {
     _pop();
     context.go("/");
+    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
   }
 
   void hideKeyboard() {
@@ -194,7 +198,8 @@ class SignUpController extends ChangeNotifier {
     if (passwordController.text == '') {
       passwordFocus.requestFocus();
     } else {
-      if (goodPassword || (passwordController.text == "password" && kDebugMode)) {
+      if (goodPassword ||
+          (passwordController.text == "password" && kDebugMode)) {
         loggingIn = true;
         notifyListeners();
         locator<CurrentUser>().email = emailController.text.trim();
@@ -205,8 +210,7 @@ class SignUpController extends ChangeNotifier {
             .isUsernameAvailable(usernameController.text.trim())) {
           if (_handleError(
               await locator<CurrentUser>().signUp(passwordController.text))) {
-             locator<CurrentUser>().addUserDataToFirestore();
-            
+            locator<CurrentUser>().addUserDataToFirestore();
           }
         } else {
           _handleError("username-taken");

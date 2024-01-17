@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:giphy_get/giphy_get.dart';
+import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/models/current_user.dart';
+import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 import '../models/search_model.dart';
 import '../models/users.dart';
 import '../utilities/constants.dart' as c;
@@ -97,6 +99,7 @@ class PostPageController extends ChangeNotifier {
 
   void _goToLogin() {
     context.go('/');
+    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
   }
 
   void hideKeyboard() {

@@ -10,10 +10,12 @@ import '../utilities/constants.dart' as c;
 
 class ProfileHeader extends StatelessWidget {
   final AppUser user;
+  final bool loggedIn;
 
   const ProfileHeader({
     super.key,
     required this.user,
+    this.loggedIn = true,
   });
 
   @override
@@ -34,9 +36,11 @@ class ProfileHeader extends StatelessWidget {
                       tag: 'profileImage',
                       child: IconButton(
                         onPressed: () {
-                          context.pushNamed("profile_picture_detail",
-                              extra: user.profilePicture);
-                          locator<NavBarController>().disable();
+                          if (loggedIn) {
+                            context.pushNamed("profile_picture_detail",
+                                extra: user.profilePicture);
+                            locator<NavBarController>().disable();
+                          }
                         },
                         icon: ProfileAvatar(
                             size: c.widthGetter(context) * 0.24,
@@ -56,15 +60,23 @@ class ProfileHeader extends StatelessWidget {
                                   number: user.followers.length,
                                   label:
                                       AppLocalizations.of(context)!.followers,
-                                  onPressed: () => context
-                                      .push("/profile/followers", extra: user),
+                                  onPressed: () {
+                                    if (loggedIn) {
+                                      context.push("/profile/followers",
+                                          extra: user);
+                                    }
+                                  },
                                 ),
                                 _ProfilePageTopNumberDisplay(
                                   number: user.following.length,
                                   label:
                                       AppLocalizations.of(context)!.following,
-                                  onPressed: () => context
-                                      .push("/profile/following", extra: user),
+                                  onPressed: () {
+                                    if (loggedIn) {
+                                      context.push("/profile/following",
+                                          extra: user);
+                                    }
+                                  },
                                 ),
                               ],
                             ),
@@ -79,7 +91,9 @@ class ProfileHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user.username != ""? user.name:AppLocalizations.of(context)!.userNotFound,
+                      user.username != ""
+                          ? user.name
+                          : AppLocalizations.of(context)!.userNotFound,
                       //user.name,
                       style: TextStyle(
                         fontSize: 16,

@@ -32,8 +32,7 @@ Future<void> main() async {
   );
 
   await FirebaseAppCheck.instance.activate(
-    webProvider:
-        ReCaptchaV3Provider(s.reCaptcha),
+    webProvider: ReCaptchaV3Provider(s.reCaptcha),
     androidProvider:
         kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
@@ -57,7 +56,6 @@ Future<void> main() async {
   }
   if (!kIsWeb) await locator<Version>().init();
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -82,6 +80,8 @@ class MyApp extends StatelessWidget {
             return DecoratedBox(
               decoration: BoxDecoration(color: themeChangeProvider.darkTheme ? c.darkThemeColors(context).background : c.lightThemeColors(context).background),
               child: SafeArea(
+                top: !kIsWeb ? !themeChangeProvider.onWelcomePage : true,
+                bottom: !kIsWeb ?  !themeChangeProvider.onWelcomePage : true,
                 child: OverlaySupport(
                   child: MaterialApp.router(
                     title: 'Eko',

@@ -71,8 +71,8 @@ class SettingsController extends ChangeNotifier {
     notifyListeners();
   }
 
-  signOut() {
-    locator<CurrentUser>().signOut();
+  signOut() async {
+    await locator<CurrentUser>().signOut();
     locator<NavBarController>().enable();
   }
 

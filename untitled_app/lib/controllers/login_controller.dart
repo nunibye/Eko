@@ -1,5 +1,8 @@
+import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/custom_widgets/login_text_feild.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 
 import '../models/current_user.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +47,7 @@ class LoginController extends ChangeNotifier {
   void previousPressed() {
     hideKeyboard();
     context.go("/");
+    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
   }
 
   void forgotPasswordPressed(countryCode) {

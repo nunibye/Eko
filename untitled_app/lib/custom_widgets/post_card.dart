@@ -59,7 +59,10 @@ class PostCard extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: InkWell(
-                onTap: () => (!isPreview && !isPostPage)
+                onTap: () => (!isPreview &&
+                        !isPostPage &&
+                        Provider.of<PostCardController>(context, listen: false)
+                            .isLoggedIn())
                     ? Provider.of<PostCardController>(context, listen: false)
                         .postPressed()
                     : null,
@@ -125,16 +128,77 @@ class PostCard extends StatelessWidget {
                                         tapTargetSize:
                                             MaterialTapTargetSize.shrinkWrap,
                                       ),
-                                      child: Text(
-                                        "@${post.author.username}",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                        ),
+                                      child: Row(
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              if (Provider.of<
+                                                          PostCardController>(
+                                                      context,
+                                                      listen: false)
+                                                  .isLoggedIn()) {
+                                                (!isPreview && !isOnProfile)
+                                                    ? Provider.of<
+                                                                PostCardController>(
+                                                            context,
+                                                            listen: false)
+                                                        .avatarPressed()
+                                                    : null;
+                                              }
+                                            },
+                                            style: TextButton.styleFrom(
+                                              padding: EdgeInsets.zero,
+                                              minimumSize: const Size(0, 0),
+                                              tapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                            ),
+                                            child: Text(
+                                              post.author.name,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onBackground,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8.0),
+                                          TextButton(
+                                            onPressed: () {
+                                              if (Provider.of<
+                                                          PostCardController>(
+                                                      context,
+                                                      listen: false)
+                                                  .isLoggedIn()) {
+                                                (!isPreview && !isOnProfile)
+                                                    ? Provider.of<
+                                                                PostCardController>(
+                                                            context,
+                                                            listen: false)
+                                                        .avatarPressed()
+                                                    : null;
+                                              }
+                                            },
+                                            style: TextButton.styleFrom(
+                                              padding: EdgeInsets.zero,
+                                              minimumSize: const Size(0, 0),
+                                              tapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                            ),
+                                            child: Text(
+                                              "@${post.author.username}",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onBackground,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     if (!isPreview) TimeStamp(time: post.time)

@@ -9,6 +9,7 @@ import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/custom_widgets/comment_card.dart';
 import 'package:untitled_app/utilities/locator.dart';
+import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 import '../custom_widgets/searched_user_card.dart';
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
@@ -100,6 +101,10 @@ class ViewPostPage extends StatelessWidget {
                                     TextButton(
                                         onPressed: () {
                                           context.go('/');
+                                          Provider.of<DarkThemeProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .toggleWelcome(true);
                                         },
                                         child: Text(
                                             AppLocalizations.of(context)!
@@ -218,9 +223,11 @@ class ViewPostPage extends StatelessWidget {
                                                     context,
                                                     listen: false)
                                                 .isLoggedIn()) {
-                                              Provider.of<PostPageController>(context, listen: false).showLogInDialog();
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .showLogInDialog();
                                             }
-                                            else {Provider.of<PostPageController>(context, listen: false).showLogInDialog();}
                                           },
                                           onChanged: (s) {
                                             Provider.of<PostPageController>(
@@ -267,9 +274,11 @@ class ViewPostPage extends StatelessWidget {
                                                                 context,
                                                                 listen: false)
                                                             .addGifPressed();
-                                                      }
-                                                      else {
-                                                        Provider.of<PostPageController>(context, listen: false).showLogInDialog();
+                                                      } else {
+                                                        Provider.of<PostPageController>(
+                                                                context,
+                                                                listen: false)
+                                                            .showLogInDialog();
                                                       }
                                                     },
                                                     icon: const Icon(
@@ -286,8 +295,12 @@ class ViewPostPage extends StatelessWidget {
                                                                 context,
                                                                 listen: false)
                                                             .postCommentPressed();
+                                                      } else {
+                                                        Provider.of<PostPageController>(
+                                                                context,
+                                                                listen: false)
+                                                            .showLogInDialog();
                                                       }
-                                                      else {Provider.of<PostPageController>(context, listen: false).showLogInDialog();}
                                                     },
                                                     icon:
                                                         const Icon(Icons.send),
