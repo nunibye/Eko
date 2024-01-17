@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:giphy_get/giphy_get.dart';
+import 'package:untitled_app/custom_widgets/warning_dialog.dart';
+import 'package:untitled_app/models/current_user.dart';
 import '../models/search_model.dart';
 import '../models/users.dart';
 import '../utilities/constants.dart' as c;
@@ -43,7 +45,6 @@ class PostPageController extends ChangeNotifier {
     _init();
   }
   void _init() async {
-
     if (passedPost != null) {
       post = passedPost!;
       notifyListeners();
@@ -61,10 +62,41 @@ class PostPageController extends ChangeNotifier {
 
       notifyListeners();
     }
+    if (!isLoggedIn()) {
+      locator<NavBarController>().disable();
+    }
+  }
+
+  bool isLoggedIn() {
+    if (locator<CurrentUser>().getUID() == '') {
+      return false;
+    }
+    return true;
   }
 
   dynamic getTimeFromPost(dynamic post) {
     return locator<PostsHandling>().getTimeFromPost(post);
+  }
+
+  void showLogInDialog() {
+    showMyDialog(
+        AppLocalizations.of(context)!.logIntoApp,
+        AppLocalizations.of(context)!.logInRequired,
+        [
+          AppLocalizations.of(context)!.goBack,
+          AppLocalizations.of(context)!.signIn
+        ],
+        [_pop, _goToLogin],
+        context,
+        dismissable: true);
+  }
+
+  void _pop() {
+    context.pop();
+  }
+
+  void _goToLogin() {
+    context.go('/');
   }
 
   void hideKeyboard() {

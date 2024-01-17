@@ -14,10 +14,10 @@ void showLoadingDialog(BuildContext context) {
   }
 
 Future<void> showMyDialog(String title, String message, List<String> buttons,
-    List<VoidCallback> actions, BuildContext context) async {
+    List<VoidCallback> actions, BuildContext context, {bool dismissable = false}) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // user must tap button!
+    barrierDismissible: dismissable, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(title),

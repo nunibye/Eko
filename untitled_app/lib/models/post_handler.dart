@@ -376,7 +376,6 @@ class PostsHandling {
       dynamic uid, String postId) async {
     late QuerySnapshot<Map<String, dynamic>> snapshot;
 
-
     if (uid == null) {
       //initial data
       snapshot = await FirebaseFirestore.instance

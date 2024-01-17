@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import '../models/version_control.dart';
 import 'locator.dart';
 import '../models/current_user.dart';
@@ -27,9 +28,12 @@ class RouterNotifier extends ChangeNotifier {
     final onAuthPage = state.fullPath == '/auth';
     final onWelcomePage = state.fullPath == '/';
     final onDownloadPage = state.fullPath == '/download';
+    final onFeedPage = state.fullPath == '/feed/post/:id';
     //print('redirect $loggedIn');
     if (locator<Version>().lessThanMin && !kIsWeb) {
       return '/update';
+    } else if (!loggedIn && onFeedPage) {
+      return null;
     } else if (!loggedIn &&
         !(onSignUpPage ||
             onLoginPage ||
@@ -41,10 +45,8 @@ class RouterNotifier extends ChangeNotifier {
       if (locator<CurrentUser>().username == '') {
         await locator<CurrentUser>().readCurrentUserData();
       }
-
       return '/feed';
     }
-
     return null;
   }
 }

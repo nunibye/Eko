@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/custom_widgets/warning_dialog.dart';
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../../models/current_user.dart';
 import '../../utilities/locator.dart';
 import '../../models/post_handler.dart' show Post;
@@ -39,12 +41,43 @@ class CommentCardController extends ChangeNotifier {
   }
 
   tagPressed(String username) async {
-    String? uid = await locator<CurrentUser>().getUidFromUsername(username);
-    if (locator<CurrentUser>().getUID() == uid) {
-      context.go("/profile");
-    } else {
-      context.push("/feed/sub_profile/$uid");
+    if (isLoggedIn()) {
+      String? uid = await locator<CurrentUser>().getUidFromUsername(username);
+      if (locator<CurrentUser>().getUID() == uid) {
+        context.go("/profile");
+      } else {
+        context.push("/feed/sub_profile/$uid");
+      }
     }
+  }
+
+  bool isLoggedIn() {
+    if (locator<CurrentUser>().getUID() == '') {
+      showLogInDialog();
+      return false;
+    }
+    return true;
+  }
+
+  void showLogInDialog() {
+    showMyDialog(
+        AppLocalizations.of(context)!.logIntoApp,
+        AppLocalizations.of(context)!.logInRequired,
+        [
+          AppLocalizations.of(context)!.goBack,
+          AppLocalizations.of(context)!.signIn
+        ],
+        [_pop, _goToLogin],
+        context,
+        dismissable: true);
+  }
+
+  void _pop() {
+    context.pop();
+  }
+
+  void _goToLogin() {
+    context.go('/');
   }
 
   likePressed() async {
@@ -81,7 +114,6 @@ class CommentCardController extends ChangeNotifier {
             notifyListeners();
           }
         }
-
         liking = false;
       }
     }

@@ -77,11 +77,17 @@ class PostCard extends StatelessWidget {
                         children: [
                           // Display the profile picture as a CircleAvatar
                           IconButton(
-                            onPressed: () => (!isPreview && !isOnProfile)
-                                ? Provider.of<PostCardController>(context,
-                                        listen: false)
-                                    .avatarPressed()
-                                : null,
+                            onPressed: () {
+                              if (Provider.of<PostCardController>(context,
+                                      listen: false)
+                                  .isLoggedIn()) {
+                                (!isPreview && !isOnProfile)
+                                    ? Provider.of<PostCardController>(context,
+                                            listen: false)
+                                        .avatarPressed()
+                                    : null;
+                              }
+                            },
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             icon: ProfileAvatar(
                               size: width * 0.115,
@@ -100,13 +106,19 @@ class PostCard extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                      onPressed: () =>
+                                      onPressed: () {
+                                        if (Provider.of<PostCardController>(
+                                                context,
+                                                listen: false)
+                                            .isLoggedIn()) {
                                           (!isPreview && !isOnProfile)
                                               ? Provider.of<PostCardController>(
                                                       context,
                                                       listen: false)
                                                   .avatarPressed()
-                                              : null,
+                                              : null;
+                                        }
+                                      },
                                       style: TextButton.styleFrom(
                                         padding: EdgeInsets.zero,
                                         minimumSize: const Size(0, 0),
@@ -165,7 +177,6 @@ class PostCard extends StatelessWidget {
                                           return TextSpan(
                                             text: chunk,
                                             style: TextStyle(
-                                              
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onBackground,
@@ -239,7 +250,8 @@ class PostCard extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                   if (post.gifURL != null)const SizedBox(height: 6.0),
+                                if (post.gifURL != null)
+                                  const SizedBox(height: 6.0),
                                 if (post.body?.isNotEmpty ??
                                     false) //&& post.body != []
                                   RichText(
@@ -319,16 +331,21 @@ class PostCard extends StatelessWidget {
                               );
                             },
                             onTap: (isLiked) async {
-                              if (!isPreview &&
-                                  !Provider.of<PostCardController>(context,
+                              if (Provider.of<PostCardController>(context,
+                                      listen: false)
+                                  .isLoggedIn()) {
+                                if (!isPreview &&
+                                    !Provider.of<PostCardController>(context,
+                                            listen: false)
+                                        .isSelf) {
+                                  Provider.of<PostCardController>(context,
                                           listen: false)
-                                      .isSelf) {
-                                Provider.of<PostCardController>(context,
-                                        listen: false)
-                                    .likePressed();
-                                return !isLiked;
+                                      .likePressed();
+                                  return !isLiked;
+                                }
+                                return isLiked;
                               }
-                              return isLiked;
+                              return false;
                             },
                             likeCount: null,
                             likeCountAnimationType: LikeCountAnimationType.none,
@@ -347,10 +364,14 @@ class PostCard extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              if (!isPreview && !isPostPage) {
-                                Provider.of<PostCardController>(context,
-                                        listen: false)
-                                    .commentPressed();
+                              if (Provider.of<PostCardController>(context,
+                                      listen: false)
+                                  .isLoggedIn()) {
+                                if (!isPreview && !isPostPage) {
+                                  Provider.of<PostCardController>(context,
+                                          listen: false)
+                                      .commentPressed();
+                                }
                               }
                             },
                             child: Icon(
@@ -362,12 +383,17 @@ class PostCard extends StatelessWidget {
                           const SizedBox(width: 12),
                           InkWell(
                             //iconSize: c.postIconSize,
-
-                            onTap: () => isPreview
-                                ? null
-                                : Provider.of<PostCardController>(context,
-                                        listen: false)
-                                    .sharePressed(),
+                            onTap: () {
+                              if (Provider.of<PostCardController>(context,
+                                      listen: false)
+                                  .isLoggedIn()) {
+                                isPreview
+                                    ? null
+                                    : Provider.of<PostCardController>(context,
+                                            listen: false)
+                                        .sharePressed();
+                              }
+                            },
                             child: Icon(
                               kIsWeb
                                   ? CupertinoIcons.arrowshape_turn_up_right
@@ -391,9 +417,13 @@ class PostCard extends StatelessWidget {
                             TextSpan(
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    context.push(
-                                        "/feed/post/${post.postId}/likes",
-                                        extra: post.postId);
+                                    if (Provider.of<PostCardController>(context,
+                                            listen: false)
+                                        .isLoggedIn()) {
+                                      context.push(
+                                          "/feed/post/${post.postId}/likes",
+                                          extra: post.postId);
+                                    }
                                   },
                                 text:
                                     "${Provider.of<PostCardController>(context, listen: true).likes} ${AppLocalizations.of(context)!.likes} • "),

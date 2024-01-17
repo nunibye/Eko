@@ -46,6 +46,8 @@
     "goBack":"Go Back",
     "tryAgain":"Try Again",
     "signUp":"Sign Up",
+    "signIn":"Sign In",
+    "signInToComment":"Sign in to comment...",
     "forgotPassword":"Forgot Password?",
 
     "passwordLen":"Between 8 and 32 characters.",
@@ -91,7 +93,7 @@
     "logOut":"Log Out",
     "deleteAccount":"Delete Account",
     "darkMode":"Dark Mode",
-    "addComment":"Add a comment",
+    "addComment":"Add a comment...",
     "settings":"Settings",
     "welcome":"Welcome",
     "welcomeTo":"Welcome to",
@@ -160,8 +162,9 @@
     "share":"Share",
     "copyLink":"Copy Link",
     "copied":"Copied",
-    "shareProfile":"Share Profile"
+    "shareProfile":"Share Profile",
 
-    
+    "logIntoApp":"Log in required",
+    "logInRequired":"Please log in to access all features of Eko."
 
 }

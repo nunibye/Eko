@@ -110,6 +110,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signUp => 'Crear cuenta';
 
   @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signInToComment => 'Sign in to comment...';
+
+  @override
   String get forgotPassword => 'Contraseña olvidada?';
 
   @override
@@ -399,4 +405,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shareProfile => 'Share Profile';
+
+  @override
+  String get logIntoApp => 'Log in required';
+
+  @override
+  String get logInRequired => 'Please log in to access all features of Eko.';
 }
