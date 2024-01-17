@@ -46,15 +46,21 @@ class SignUp extends StatelessWidget {
               .hideKeyboard(),
           child: Scaffold(
             floatingActionButton: getAppFabBuilder(),
-            body: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: Provider.of<SignUpController>(context, listen: false)
-                  .pageController,
-              children: const <Widget>[
-                GetInfo(),
-                GetPassword(),
-                Placeholder(), //FIXME for some reson this stops everything from breaking
-              ],
+            body: Center(
+              child: SizedBox(
+                width: c.widthGetter(context),
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller:
+                      Provider.of<SignUpController>(context, listen: false)
+                          .pageController,
+                  children: const <Widget>[
+                    GetInfo(),
+                    GetPassword(),
+                    Placeholder(), //FIXME for some reson this stops everything from breaking
+                  ],
+                ),
+              ),
             ),
           ),
         );

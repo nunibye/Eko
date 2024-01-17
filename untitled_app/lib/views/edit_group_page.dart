@@ -358,12 +358,7 @@ class _AddPeople extends StatelessWidget {
       //     ),
       //     TextField(
       //       cursorColor: Theme.of(context).colorScheme.onBackground,
-      //       decoration: InputDecoration(
-      //         contentPadding: EdgeInsets.all(height * 0.01),
-      //         prefixIcon: Padding(
-      //           padding: EdgeInsets.all(width * 0.035),
-      //           child: Image.asset('images/algolia_logo.png',
-      //               width: width * 0.05, height: width * 0.05),
+      //       d
       //         ),
       //         hintText: AppLocalizations.of(context)!.search,
       //         filled: true,
