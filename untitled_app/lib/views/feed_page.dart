@@ -34,7 +34,7 @@ class FeedPage extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.background,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(30),
+            preferredSize: const Size.fromHeight(10),
             child: Column(
               children: [
                 const Padding(
@@ -74,18 +74,16 @@ class FeedPage extends StatelessWidget {
                       .onNotificationButtonPressed(),
             ),
           ],
-          title: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: SizedBox(
-                width: width * 0.3,
-                child: Image.asset(
-                    (Theme.of(context).brightness == Brightness.light)
-                        ? 'images/eko_logo_light.png'
-                        : 'images/eko_logo.png'),
-              )),
+          title: SizedBox(
+            width: width * 0.25,
+            child: Image.asset(
+                (Theme.of(context).brightness == Brightness.light)
+                    ? 'images/eko_logo_light.png'
+                    : 'images/eko_logo.png'),
+          ),
         );
         //end app bar
-        
+
         return Scaffold(
           body: PaginationPage(
             initialLoadingWidget: const FeedLoader(),
