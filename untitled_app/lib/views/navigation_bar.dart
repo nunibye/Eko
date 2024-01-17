@@ -129,7 +129,8 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                         label: ''),
                 ],
                 onTap: (index) => onDestinationSelected(index),
-              ))
+              ),
+            )
           : null,
     );
   }
@@ -153,7 +154,8 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
       body: Row(
         children: [
           // Fixed navigation rail on the left (start)
-          NavigationRail(
+          if(Provider.of<NavBarController>(context, listen: true)
+              .enabled)NavigationRail(
             selectedLabelTextStyle: const TextStyle(fontSize: 0),
             unselectedLabelTextStyle: const TextStyle(fontSize: 0),
             selectedIndex: selectedIndex,
@@ -173,8 +175,8 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   ),
                 ),
             ],
-          ),
-          const VerticalDivider(thickness: 1, width: 1),
+          )else SizedBox(width: 80),
+          //const VerticalDivider(thickness: 1, width: 1),
           // Main content on the right (end)
           Expanded(
             child: body,
