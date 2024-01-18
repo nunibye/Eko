@@ -861,6 +861,12 @@ abstract class AppLocalizations {
   /// **'Post Not Found'**
   String get postNotFound;
 
+  /// No description provided for @groupNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Not Found'**
+  String get groupNotFound;
+
   /// No description provided for @leaveGroupWarningTitle.
   ///
   /// In en, this message translates to:

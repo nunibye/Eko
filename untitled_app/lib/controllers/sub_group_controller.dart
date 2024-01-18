@@ -15,6 +15,8 @@ class SubGroupController extends ChangeNotifier {
   Group? group;
   final String id;
   final BuildContext context;
+  bool groupNotFound = false;
+  bool notInGroup = false;
   SubGroupController({
     required this.passedGroup,
     required this.context,
@@ -24,8 +26,6 @@ class SubGroupController extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-
-
     if (passedGroup != null) {
       group = passedGroup!;
     } else {
@@ -35,13 +35,32 @@ class SubGroupController extends ChangeNotifier {
       // post!.hasCache = true;
     }
 
-    if (group!.notSeen.contains(locator<CurrentUser>().getUID())) {
-      final firestore = FirebaseFirestore.instance;
-      await firestore.collection('groups').doc(group!.id).update({
-        'notSeen': FieldValue.arrayRemove([locator<CurrentUser>().getUID()])
-      });
-      // ignore: use_build_context_synchronously
-      
+    if (passedGroup != null) {
+      group = passedGroup!;
+    } else {
+      if (group == null) {
+        final readGroup = await GroupHandler().getGroupFromId(id);
+        if (readGroup != null) {
+          if (readGroup.members.contains(locator<CurrentUser>().getUID())) {
+            group = readGroup;
+          } else {
+            notInGroup = true;
+          }
+        } else {
+          groupNotFound = true;
+        }
+      }
+    }
+
+    if (group != null) {
+      if (group!.notSeen.contains(locator<CurrentUser>().getUID())) {
+        final firestore = FirebaseFirestore.instance;
+        await firestore.collection('groups').doc(group!.id).update(
+          {
+            'notSeen': FieldValue.arrayRemove([locator<CurrentUser>().getUID()])
+          },
+        );
+      }
     }
     notifyListeners();
   }

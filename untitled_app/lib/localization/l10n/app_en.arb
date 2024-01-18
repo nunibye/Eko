@@ -155,6 +155,7 @@
     "updateAvailable":"Upadate Available",
     "update":"Update",
     "postNotFound":"Post Not Found",
+    "groupNotFound":"Group Not Found",
 
     "leaveGroupWarningTitle":"Are you sure you want to leave the group?",
     "leaveGroupWarningBody":"A group member will need to re-add you should you want to join again.",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/custom_widgets/loading_spinner.dart';
 import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
+import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/group_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,47 @@ class SubGroupPage extends StatelessWidget {
               child: const Icon(Icons.add, size: 40),
             ),
           ),
-          body: (Provider.of<SubGroupController>(context, listen: true).group ==
+          body:(Provider.of<SubGroupController>(context, listen: true)
+                        .groupNotFound || Provider.of<SubGroupController>(context, listen: true).notInGroup
+                        )
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: width * 0.8,
+                              child: Text(
+                                (Provider.of<SubGroupController>(context, listen: true)
+                        .groupNotFound) ? AppLocalizations.of(context)!.groupNotFound : AppLocalizations.of(context)!.notInGroup,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 23),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: width * 0.45,
+                              height: width * 0.15,
+                              child: TextButton(
+                                onPressed: () => context.go('/feed'),
+                                style: TextButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary),
+                                child: Text(
+                                  AppLocalizations.of(context)!.exit,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    letterSpacing: 1,
+                                    fontWeight: FontWeight.normal,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : (Provider.of<SubGroupController>(context, listen: true).group ==
                   null)
               ? const Center(child: LoadingSpinner())
               : PaginationPage(

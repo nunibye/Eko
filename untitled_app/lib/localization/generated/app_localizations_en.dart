@@ -389,6 +389,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postNotFound => 'Post Not Found';
 
   @override
+  String get groupNotFound => 'Group Not Found';
+
+  @override
   String get leaveGroupWarningTitle => 'Are you sure you want to leave the group?';
 
   @override
