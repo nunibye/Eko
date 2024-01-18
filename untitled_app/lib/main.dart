@@ -55,14 +55,12 @@ Future<void> _buildVersion() async {
 Future<void> main() async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   //init
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  
-  
   //setup appcheck and non-protected services
   await Future.wait([
     _setupAppCheck(),
@@ -96,34 +94,23 @@ class MyApp extends StatelessWidget {
           ],
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                  color: themeChangeProvider.darkTheme
-                      ? c.darkThemeColors(context).background
-                      : c.lightThemeColors(context).background),
-              child: SafeArea(
-                top: !kIsWeb ? !themeChangeProvider.onWelcomePage : true,
-                bottom: !kIsWeb ? !themeChangeProvider.onWelcomePage : true,
-                child: OverlaySupport(
-                  child: MaterialApp.router(
-                    title: 'Eko',
-                    debugShowCheckedModeBanner: false,
-                    theme: Styles.themeData(
-                        themeChangeProvider.darkTheme, context),
-                    themeMode: ThemeMode.dark,
-                    localizationsDelegates: const [
-                      AppLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    supportedLocales: const [
-                      Locale('en'), // English
-                      Locale('es'), // Spanish
-                    ],
-                    routerConfig: goRouter,
-                  ),
-                ),
+            return OverlaySupport(
+              child: MaterialApp.router(
+                title: 'Eko',
+                debugShowCheckedModeBanner: false,
+                theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+                themeMode: ThemeMode.dark,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en'), // English
+                  Locale('es'), // Spanish
+                ],
+                routerConfig: goRouter,
               ),
             );
           },

@@ -47,7 +47,7 @@ class LoginController extends ChangeNotifier {
   void previousPressed() {
     hideKeyboard();
     context.go("/");
-    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
+    // Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
   }
 
   void forgotPasswordPressed(countryCode) {

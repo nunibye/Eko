@@ -15,11 +15,6 @@ class DarkThemeProvider with ChangeNotifier {
     }
   }
 
-  void toggleWelcome(bool on) {
-    onWelcomePage = on;
-    notifyListeners();
-  }
-
   bool get darkTheme => _darkTheme;
 
   set darkTheme(bool value) {

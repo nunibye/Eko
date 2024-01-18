@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/custom_widgets/safe_area.dart';
 import 'package:untitled_app/models/users.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
@@ -82,7 +83,7 @@ final goRouter = GoRouter(
             path: 'signup',
             name: 'signup',
             builder: (context, state) {
-              return const SignUp();
+              return const AppSafeArea(child: SignUp());
             },
           ),
           GoRoute(
@@ -91,28 +92,28 @@ final goRouter = GoRouter(
             builder: (context, state) {
               final url = state.uri.queryParameters;
 
-              return AuthActionInterface(urlData: url);
+              return AppSafeArea(child: AuthActionInterface(urlData: url));
             },
           ),
           GoRoute(
             path: 'login',
             name: 'login',
             builder: (context, state) {
-              return const LoginPage();
+              return const AppSafeArea(child: LoginPage());
             },
           ),
           GoRoute(
             path: 'download',
             name: 'download',
             builder: (context, state) {
-              return const DownloadPage();
+              return const AppSafeArea(child: DownloadPage());
             },
           ),
           GoRoute(
             path: 'update',
             name: 'update',
             builder: (context, state) {
-              return const UpdateRequiredPage();
+              return const AppSafeArea(child: UpdateRequiredPage());
             },
           ),
         ]),

@@ -81,7 +81,6 @@ class CommentCardController extends ChangeNotifier {
 
   void _goToLogin() {
     context.go('/');
-    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
   }
 
   likePressed() async {

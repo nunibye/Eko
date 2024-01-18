@@ -36,7 +36,6 @@ class RouterNotifier extends ChangeNotifier {
     if (locator<Version>().lessThanMin && !kIsWeb) {
       return '/update';
     } else if (!loggedIn && (onFeedPage || onProfilePage)) {
-      // Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(false);
       return null;
     } else if (!loggedIn &&
         !(onSignUpPage ||
@@ -44,11 +43,9 @@ class RouterNotifier extends ChangeNotifier {
             onWelcomePage ||
             onAuthPage ||
             onDownloadPage)) {
-              Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
       return '/';
     } else if (loggedIn && (onLoginPage || onSignUpPage || onWelcomePage)) {
       if (locator<CurrentUser>().username == '') {
-        // Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(false);
         await locator<CurrentUser>().readCurrentUserData();
       }
       locator<NavBarController>().enable();

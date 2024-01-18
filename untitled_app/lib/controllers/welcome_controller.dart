@@ -10,11 +10,9 @@ class WelcomeController extends ChangeNotifier {
 
   void goToLogin() {
     (context).push('/login');
-    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(false);
   }
 
   void goToSignUp() {
     (context).push('/signup');
-    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(false);
   }
 }

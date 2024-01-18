@@ -89,7 +89,6 @@ class SignUpController extends ChangeNotifier {
   void _returnToWelcome() {
     _pop();
     context.go("/");
-    Provider.of<DarkThemeProvider>(context, listen: false).toggleWelcome(true);
   }
 
   void hideKeyboard() {

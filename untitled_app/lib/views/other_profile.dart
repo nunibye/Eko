@@ -62,9 +62,6 @@ class OtherProfile extends StatelessWidget {
                                 : TextButton(
                                     onPressed: () {
                                       context.go('/');
-                                      Provider.of<DarkThemeProvider>(context,
-                                              listen: false)
-                                          .toggleWelcome(true);
                                     },
                                     child: Text(
                                         AppLocalizations.of(context)!.signIn)),

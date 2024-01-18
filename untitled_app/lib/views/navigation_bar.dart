@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/safe_area.dart';
 import '../utilities/locator.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import '../utilities/constants.dart' as c;
@@ -87,51 +88,54 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: getAppFabBuilder(),
-      body: body,
-      bottomNavigationBar: Provider.of<NavBarController>(context, listen: true)
-              .enabled
-          ? Container(
-              height: c.navBarHeight,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Theme.of(context).colorScheme.outline,
-                    width: 0.5,
-                  ),
-                ),
-              ),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                currentIndex: selectedIndex,
-                // c.navBarIconSize:
-                //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
-                elevation: 16,
-                selectedFontSize: 0.0,
-                unselectedFontSize: 0.0,
-                showUnselectedLabels: false,
-                showSelectedLabels: false,
-                unselectedItemColor: Theme.of(context).colorScheme.onBackground,
-                selectedItemColor: Theme.of(context).colorScheme.onBackground,
-                backgroundColor: Theme.of(context).colorScheme.background,
-                items: [
-                  for (int i = 0; i < _passiveIconList.length; i++)
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          _passiveIconList[i],
-                          size: c.navBarIconSize,
+    return AppSafeArea(
+      child: Scaffold(
+        floatingActionButton: getAppFabBuilder(),
+        body: body,
+        bottomNavigationBar:
+            Provider.of<NavBarController>(context, listen: true).enabled
+                ? Container(
+                    height: c.navBarHeight,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Theme.of(context).colorScheme.outline,
+                          width: 0.5,
                         ),
-                        activeIcon: Icon(
-                          _activeIconList[i],
-                          size: c.navBarIconSize + c.navBarIconSizeAdder,
-                        ),
-                        label: ''),
-                ],
-                onTap: (index) => onDestinationSelected(index),
-              ),
-            )
-          : null,
+                      ),
+                    ),
+                    child: BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      currentIndex: selectedIndex,
+                      // c.navBarIconSize:
+                      //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
+                      selectedFontSize: 0.0,
+                      unselectedFontSize: 0.0,
+                      showUnselectedLabels: false,
+                      showSelectedLabels: false,
+                      unselectedItemColor:
+                          Theme.of(context).colorScheme.onBackground,
+                      selectedItemColor:
+                          Theme.of(context).colorScheme.onBackground,
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      items: [
+                        for (int i = 0; i < _passiveIconList.length; i++)
+                          BottomNavigationBarItem(
+                              icon: Icon(
+                                _passiveIconList[i],
+                                size: c.navBarIconSize,
+                              ),
+                              activeIcon: Icon(
+                                _activeIconList[i],
+                                size: c.navBarIconSize + c.navBarIconSizeAdder,
+                              ),
+                              label: ''),
+                      ],
+                      onTap: (index) => onDestinationSelected(index),
+                    ),
+                  )
+                : null,
+      ),
     );
   }
 }
@@ -149,39 +153,43 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: getAppFabBuilder(),
-      body: Row(
-        children: [
-          // Fixed navigation rail on the left (start)
-          if(Provider.of<NavBarController>(context, listen: true)
-              .enabled)NavigationRail(
-            selectedLabelTextStyle: const TextStyle(fontSize: 0),
-            unselectedLabelTextStyle: const TextStyle(fontSize: 0),
-            selectedIndex: selectedIndex,
-            onDestinationSelected: onDestinationSelected,
-            labelType: NavigationRailLabelType.none,
-            destinations: [
-              for (int i = 0; i < _passiveIconList.length; i++)
-                NavigationRailDestination(
-                  label: const Text(""),
-                  icon: Icon(
-                    _passiveIconList[i],
-                    size: c.navBarIconSize,
-                  ),
-                  selectedIcon: Icon(
-                    _activeIconList[i],
-                    size: c.navBarIconSize + c.navBarIconSizeAdder,
-                  ),
-                ),
-            ],
-          )else SizedBox(width: 80),
-          //const VerticalDivider(thickness: 1, width: 1),
-          // Main content on the right (end)
-          Expanded(
-            child: body,
-          ),
-        ],
+    return AppSafeArea(
+      child: Scaffold(
+        floatingActionButton: getAppFabBuilder(),
+        body: Row(
+          children: [
+            // Fixed navigation rail on the left (start)
+            if (Provider.of<NavBarController>(context, listen: true).enabled)
+              NavigationRail(
+                selectedLabelTextStyle: const TextStyle(fontSize: 0),
+                unselectedLabelTextStyle: const TextStyle(fontSize: 0),
+                selectedIndex: selectedIndex,
+                onDestinationSelected: onDestinationSelected,
+                labelType: NavigationRailLabelType.none,
+                destinations: [
+                  for (int i = 0; i < _passiveIconList.length; i++)
+                    NavigationRailDestination(
+                      label: const Text(""),
+                      icon: Icon(
+                        _passiveIconList[i],
+                        size: c.navBarIconSize,
+                      ),
+                      selectedIcon: Icon(
+                        _activeIconList[i],
+                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      ),
+                    ),
+                ],
+              )
+            else
+              SizedBox(width: 80),
+            //const VerticalDivider(thickness: 1, width: 1),
+            // Main content on the right (end)
+            Expanded(
+              child: body,
+            ),
+          ],
+        ),
       ),
     );
   }
