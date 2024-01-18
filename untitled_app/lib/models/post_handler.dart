@@ -453,7 +453,7 @@ class PostsHandling {
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-       user.readUserData(raw.author);
+      await user.readUserData(raw.author);
       return Post.fromRaw(raw, user, await countComments(raw.postID));
     }).toList();
     return PaginationGetterReturn(
@@ -492,9 +492,9 @@ class PostsHandling {
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-       user.readUserData(raw.author);
+      await user.readUserData(raw.author);
 
-      return Post.fromRaw(raw, user, await countComments(raw.postID),
+      return Post.fromRaw(raw, user, 0,
           rootPostId: rootUid);
     }).toList();
 
@@ -503,13 +503,37 @@ class PostsHandling {
         payload: await Future.wait(postList));
   }
 
+  // Future<AppUser> _getUser(String id) async {
+  //   AppUser user = AppUser();
+  //   await user.readUserData(id);
+  //   return user;
+  // }
+
 //feed
   Future<PaginationGetterReturn> getFeedPosts(
       dynamic time, Query<Map<String, dynamic>>? query, int index) async {
+    // final postList = await newGetPosts(time, query);
+    // List<Future<int>> futuresComment = [];
+    // List<Future<AppUser>> futuresUsers = [];
+
+    // for (RawPostObject post in postList) {
+    //   futuresUsers.add(_getUser(post.author));
+    //   futuresComment.add(countComments(post.postID));
+    // }
+    // final awaited = await Future.wait(
+    //     [Future.wait(futuresComment), Future.wait(futuresUsers)]);
+    // final comments = awaited[0] as List<int>;
+    // final users = awaited[1] as List<AppUser>;
+
+    // final listReturn = postList.mapIndexed(
+    //   (index, element) {
+    //     return Post.fromRaw(element, users[index], comments[index]);
+    //   },
+    // ).toList();
     final postList =
         (await newGetPosts(time, query)).map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-      user.readUserData(raw.author);
+     await user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
           hasCache: true);
@@ -517,10 +541,10 @@ class PostsHandling {
     // if (postList.length < c.postsOnRefresh) {
     //   locator<FeedPostCache>().postsList[index].end = true;
     // }
-    final listReturn = await Future.wait(postList);
+
     //locator<FeedPostCache>().postsList[index].items.addAll(listReturn);
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh), payload: listReturn);
+        end: (postList.length < c.postsOnRefresh), payload: await Future.wait(postList));
   }
 
   Future<List<RawPostObject>> newGetPosts(
