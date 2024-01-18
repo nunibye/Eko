@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,25 +24,16 @@ import 'package:untitled_app/utilities/firebase_options.dart';
 import 'package:untitled_app/utilities/constants.dart' as c;
 import 'secrets/secrets.dart' as s;
 
-Future<void> main() async {
-  usePathUrlStrategy();
-  //usePathUrlStrategy();
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+Future<void> _setupAppCheck() async {
   await FirebaseAppCheck.instance.activate(
     webProvider: ReCaptchaV3Provider(s.reCaptcha),
     androidProvider:
         kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
     appleProvider: kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
-    //appleProvider: AppleProvider.debug,
   );
+}
 
-  await FirebaseHelper.setupFirebase();
-  setupLocator();
-
+Future<void> _checkFirstInstall() async {
   if ((await getBool("NOT_FIRST_INSTALL")) == null) {
     if (FirebaseAuth.instance.currentUser != null) {
       FirebaseAuth.instance.signOut();
@@ -50,11 +42,38 @@ Future<void> main() async {
   } else if (FirebaseAuth.instance.currentUser != null) {
     await locator<CurrentUser>().readCurrentUserData();
   }
+}
 
-  if (!kIsWeb) {
-    await NotificationService.initializeNotification();
-  }
+Future<void> _setUpOtherNotification() async {
+  if (!kIsWeb) await NotificationService.initializeNotification();
+}
+
+Future<void> _buildVersion() async {
   if (!kIsWeb) await locator<Version>().init();
+}
+
+Future<void> main() async {
+  usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  //init
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  
+  
+  //setup appcheck and non-protected services
+  await Future.wait([
+    _setupAppCheck(),
+    FirebaseHelper.setupNotifications(),
+    FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true)
+  ]);
+  setupLocator();
+  //protected/dependent services
+  await Future.wait(
+      [_checkFirstInstall(), _setUpOtherNotification(), _buildVersion()]);
+
   runApp(const MyApp());
 }
 
@@ -78,10 +97,13 @@ class MyApp extends StatelessWidget {
           builder: (context, child) {
             final themeChangeProvider = Provider.of<DarkThemeProvider>(context);
             return DecoratedBox(
-              decoration: BoxDecoration(color: themeChangeProvider.darkTheme ? c.darkThemeColors(context).background : c.lightThemeColors(context).background),
+              decoration: BoxDecoration(
+                  color: themeChangeProvider.darkTheme
+                      ? c.darkThemeColors(context).background
+                      : c.lightThemeColors(context).background),
               child: SafeArea(
                 top: !kIsWeb ? !themeChangeProvider.onWelcomePage : true,
-                bottom: !kIsWeb ?  !themeChangeProvider.onWelcomePage : true,
+                bottom: !kIsWeb ? !themeChangeProvider.onWelcomePage : true,
                 child: OverlaySupport(
                   child: MaterialApp.router(
                     title: 'Eko',

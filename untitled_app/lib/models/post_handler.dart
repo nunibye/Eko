@@ -220,12 +220,14 @@ class PostsHandling {
       }
     }
 
+    List<Future> futures = [];
     for (String chunk in parsedTitle) {
-      await addToTaggedUsers(chunk);
+      futures.add(addToTaggedUsers(chunk));
     }
     for (String chunk in parsedBody) {
-      await addToTaggedUsers(chunk);
+      futures.add(addToTaggedUsers(chunk));
     }
+    await Future.wait(futures);
 
     String content;
     if (post["title"] != null) {
@@ -235,11 +237,12 @@ class PostsHandling {
     } else {
       content = "${post['author']} tagged you in a post";
     }
+    futures = [];
     for (String uid in taggedUsers) {
-      await addActivty(
-          time: time, type: "tag", content: content, path: postID, user: uid);
+      futures.add(addActivty(
+          time: time, type: "tag", content: content, path: postID, user: uid));
     }
-
+    await Future.wait(futures);
     return postID;
   }
 
@@ -261,22 +264,23 @@ class PostsHandling {
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
-
-    await firestore
-        .collection('posts')
-        .doc(postID)
-        .collection('comments')
-        .add(comment);
-    if (user.uid != rootAuthor) {
-      await addActivty(
-          time: time,
-          type: "comment",
-          content: comment["body"] ?? 'Click to see gif',
-          path: path,
-          user: rootAuthor);
-    }
+    await Future.wait([
+      firestore
+          .collection('posts')
+          .doc(postID)
+          .collection('comments')
+          .add(comment),
+      if (user.uid != rootAuthor)
+        addActivty(
+            time: time,
+            type: "comment",
+            content: comment["body"] ?? 'Click to see gif',
+            path: path,
+            user: rootAuthor)
+    ]);
     List<String> parsedText = Post.parseText(comment["body"]);
-    for (String chunk in parsedText) {
+
+    Future<void> notifiyTagedPeople(String chunk) async {
       if (chunk.startsWith('@')) {
         String? taggedUid =
             await locator<CurrentUser>().getUidFromUsername(chunk.substring(1));
@@ -292,11 +296,17 @@ class PostsHandling {
       }
     }
 
+    List<Future> futures = [];
+    for (String chunk in parsedText) {
+      futures.add(notifiyTagedPeople(chunk));
+    }
+    await Future.wait(futures);
+
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
     return "success";
   }
 
-  addActivty(
+  Future<void> addActivty(
       {String? time,
       required String type,
       required String content,
@@ -311,12 +321,15 @@ class PostsHandling {
         content: content,
         path: path,
         sourceUid: sourceUser);
-    await firestore
-        .collection('users')
-        .doc(user)
-        .collection('newActivity')
-        .add(card.toMap());
-    await locator<CurrentUser>().setNewActivity(true, uid: user);
+
+    await Future.wait([
+      firestore
+          .collection('users')
+          .doc(user)
+          .collection('newActivity')
+          .add(card.toMap()),
+      locator<CurrentUser>().setNewActivity(true, uid: user)
+    ]);
   }
 
   Future<Post?> getPostFromId(String id) async {
@@ -326,10 +339,12 @@ class PostsHandling {
     if (postData != null) {
       final rawPostData = RawPostObject.fromJson(postData, data.id);
       AppUser user = AppUser();
-      await user.readUserData(rawPostData.author);
-      await countComments(rawPostData.postID);
-      return Post.fromRaw(
-          rawPostData, user, await countComments(rawPostData.postID));
+
+      final count = (await Future.wait([
+        user.readUserData(rawPostData.author),
+        countComments(rawPostData.postID)
+      ]))[1] as int;
+      return Post.fromRaw(rawPostData, user, count);
     }
     return null;
   }
@@ -357,7 +372,7 @@ class PostsHandling {
     final list = snapshot.docs.map<Future<RecentActivityCard>>((doc) async {
       var data = doc.data();
       AppUser user = AppUser();
-      await user.readUserData(data["sourceUid"]);
+      user.readUserData(data["sourceUid"]);
       // FIXME: not sure why this gave an error, i had to add these conditionals
       return RecentActivityCard.fromJson(data, user);
 
@@ -438,7 +453,7 @@ class PostsHandling {
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-      await user.readUserData(raw.author);
+       user.readUserData(raw.author);
       return Post.fromRaw(raw, user, await countComments(raw.postID));
     }).toList();
     return PaginationGetterReturn(
@@ -477,7 +492,7 @@ class PostsHandling {
                 .orderBy('time', descending: true)))
         .map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-      await user.readUserData(raw.author);
+       user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
           rootPostId: rootUid);
@@ -494,7 +509,7 @@ class PostsHandling {
     final postList =
         (await newGetPosts(time, query)).map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-      await user.readUserData(raw.author);
+      user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
           hasCache: true);

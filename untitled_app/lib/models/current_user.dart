@@ -126,18 +126,21 @@ class CurrentUser extends AppUser {
       try {
         final firestore = FirebaseFirestore.instance;
         final user = getUID();
-        await firestore.collection("users").doc(user).update({
-          "profileData.following": FieldValue.arrayUnion([otherUid])
-        });
-        await firestore.collection("users").doc(otherUid).update({
-          "profileData.followers": FieldValue.arrayUnion([user])
-        });
+        await Future.wait([
+          firestore.collection("users").doc(user).update({
+            "profileData.following": FieldValue.arrayUnion([otherUid])
+          }),
+          firestore.collection("users").doc(otherUid).update({
+            "profileData.followers": FieldValue.arrayUnion([user])
+          }),
+          locator<PostsHandling>().addActivty(
+              type: "follow",
+              content: "Someone followed you",
+              path: user,
+              user: otherUid)
+        ]);
+
         following.add(otherUid);
-        await locator<PostsHandling>().addActivty(
-            type: "follow",
-            content: "Someone followed you",
-            path: user,
-            user: otherUid);
 
         stateIsFollowing = false;
         return true;
@@ -166,12 +169,15 @@ class CurrentUser extends AppUser {
       try {
         final firestore = FirebaseFirestore.instance;
         final user = getUID();
-        await firestore.collection("users").doc(user).update({
-          "profileData.following": FieldValue.arrayRemove([otherUid])
-        });
-        await firestore.collection("users").doc(otherUid).update({
-          "profileData.followers": FieldValue.arrayRemove([user])
-        });
+        await Future.wait([
+          firestore.collection("users").doc(user).update({
+            "profileData.following": FieldValue.arrayRemove([otherUid])
+          }),
+          firestore.collection("users").doc(otherUid).update({
+            "profileData.followers": FieldValue.arrayRemove([user])
+          })
+        ]);
+
         following.remove(otherUid);
         stateIsFollowing = false;
         return true;
@@ -194,22 +200,26 @@ class CurrentUser extends AppUser {
       try {
         final firestore = FirebaseFirestore.instance;
         final user = getUID();
-        await firestore.collection("users").doc(user).update({
-          "profileData.likedPosts": FieldValue.arrayUnion([postId])
-        });
+        await Future.wait([
+          firestore.collection("users").doc(user).update({
+            "profileData.likedPosts": FieldValue.arrayUnion([postId])
+          }),
+          (commentId == null)
+              ? firestore
+                  .collection("posts")
+                  .doc(postId)
+                  .update({"likes": FieldValue.increment(1)})
+              : firestore
+                  .collection("posts")
+                  .doc(postId)
+                  .collection('comments')
+                  .doc(commentId)
+                  .update({"likes": FieldValue.increment(1)})
+        ]);
+
         if (commentId == null) {
-          await firestore
-              .collection("posts")
-              .doc(postId)
-              .update({"likes": FieldValue.increment(1)});
           likedPosts.add(postId);
         } else {
-          await firestore
-              .collection("posts")
-              .doc(postId)
-              .collection('comments')
-              .doc(commentId)
-              .update({"likes": FieldValue.increment(1)});
           likedPosts.add(commentId);
         }
 
@@ -230,22 +240,26 @@ class CurrentUser extends AppUser {
       try {
         final firestore = FirebaseFirestore.instance;
         final user = getUID();
-        await firestore.collection("users").doc(user).update({
-          "profileData.likedPosts": FieldValue.arrayRemove([postId])
-        });
+        await Future.wait([
+          firestore.collection("users").doc(user).update({
+            "profileData.likedPosts": FieldValue.arrayRemove([postId])
+          }),
+          (commentId == null)
+              ? firestore
+                  .collection("posts")
+                  .doc(postId)
+                  .update({"likes": FieldValue.increment(-1)})
+              : firestore
+                  .collection("posts")
+                  .doc(postId)
+                  .collection('comments')
+                  .doc(commentId)
+                  .update({"likes": FieldValue.increment(-1)})
+        ]);
+
         if (commentId == null) {
-          await firestore
-              .collection("posts")
-              .doc(postId)
-              .update({"likes": FieldValue.increment(-1)});
           likedPosts.remove(postId);
         } else {
-          await firestore
-              .collection("posts")
-              .doc(postId)
-              .collection('comments')
-              .doc(commentId)
-              .update({"likes": FieldValue.increment(-1)});
           likedPosts.remove(commentId);
         }
 

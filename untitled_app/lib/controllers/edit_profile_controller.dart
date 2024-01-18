@@ -94,7 +94,7 @@ class EditProfileController extends ChangeNotifier {
       _pop();
     }
   }
-
+//FIXME optomize
   void savePressed() async {
     bool shouldPop = true;
     if (locator<CurrentUser>().name != nameController.text) {

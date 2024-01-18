@@ -15,7 +15,13 @@ class FollowersController extends ChangeNotifier {
   });
 
   Future<PaginationGetterReturn> userGetter(dynamic passedIndex) async {
-    List<AppUser> returnList = [];
+    Future<AppUser> getUser(int i) async {
+      AppUser user = AppUser(pageIndex: i);
+      await user.readUserData(rootUser.followers[i]);
+      return user;
+    }
+
+    List<Future<AppUser>> returnList = [];
     int startIndex = (passedIndex ?? -1) + 1;
     final bool end = (rootUser.followers.length < startIndex + c.usersOnSearch);
 
@@ -25,11 +31,10 @@ class FollowersController extends ChangeNotifier {
                 ? (rootUser.followers.length)
                 : (startIndex + c.usersOnSearch));
         i++) {
-      AppUser user = AppUser(pageIndex: i);
-      await user.readUserData(rootUser.followers[i]);
-      returnList.add(user);
+      returnList.add(getUser(i));
     }
-    return PaginationGetterReturn(payload: returnList, end: end);
+    return  PaginationGetterReturn(
+        payload: await Future.wait(returnList), end: end);
   }
 
   dynamic startAfterQuery(dynamic user) {
