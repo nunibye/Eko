@@ -64,13 +64,17 @@ Future<void> main() async {
   //setup appcheck and non-protected services
   await Future.wait([
     _setupAppCheck(),
+  ]);
+  //
+  setupLocator();
+  //protected/dependent services
+  await Future.wait([
+    _checkFirstInstall(),
+    _setUpOtherNotification(),
+    _buildVersion(),
     FirebaseHelper.setupNotifications(),
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true)
   ]);
-  setupLocator();
-  //protected/dependent services
-  await Future.wait(
-      [_checkFirstInstall(), _setUpOtherNotification(), _buildVersion()]);
 
   runApp(const MyApp());
 }

@@ -38,11 +38,11 @@ const RESOURCES = {".well-known/apple-app-site-association": "0b4727901ab1ade3de
 "icons/Icon-512.png": "420a6559ae2f6521ab1fe2a531119d52",
 "icons/Icon-maskable-192.png": "de64e1865235045612f8cbe081ba2bbf",
 "icons/Icon-maskable-512.png": "15012744cb9e665935757527d7a09a56",
-"index.html": "84a3c8c74abc999a871dad9bf6b56644",
-"/": "84a3c8c74abc999a871dad9bf6b56644",
-"main.dart.js": "5aae2266c872aa7c368577e05db6aae3",
+"index.html": "caf56e43e879ab782b3eb8cff1644e77",
+"/": "caf56e43e879ab782b3eb8cff1644e77",
+"main.dart.js": "e40c6adedf4f61847c26b8d6f7f8c175",
 "manifest.json": "bc7d18ebf3eba36993c18c7569e97bb4",
-"version.json": "63e0c9a5eae487075fac4b8d517c2616"};
+"version.json": "7c39b45d1411c2b0a1901d059160eded"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
