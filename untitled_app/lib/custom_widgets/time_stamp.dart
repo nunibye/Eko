@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TimeStamp extends StatelessWidget {
-  final String time;
-  final double fontSize;
-  const TimeStamp({super.key, required this.time, this.fontSize = 16});
 
   String formatTime(String time) {
     DateTime now = DateTime.now();
@@ -12,15 +8,28 @@ class TimeStamp extends StatelessWidget {
     Duration difference = now.difference(postTime);
 
     if (difference.inDays < 1) {
-      return DateFormat('h:mm a').format(postTime);
-    } else if (difference.inDays == 1) {
-      return '${difference.inDays}d';
-    } else if (difference.inDays >= 2 && difference.inDays <= 3) {
-      return '${difference.inDays}d';
-    } else {
+      if (difference.inHours < 1) {
+        if (difference.inMinutes < 1) {
+          return '1m';
+        } else {
+          return '${difference.inMinutes}m';
+        }
+      } else {
+        return '${difference.inHours}h';
+      }
+    } else if (difference.inDays > 3) {
       return DateFormat('M/d').format(postTime);
+    } else {
+      return '${difference.inDays}d';
     }
   }
+  
+class TimeStamp extends StatelessWidget {
+  final String time;
+  final double fontSize;
+  const TimeStamp({super.key, required this.time, this.fontSize = 15});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +37,9 @@ class TimeStamp extends StatelessWidget {
       formatTime(time),
       style: TextStyle(
         fontSize: fontSize,
-        fontWeight: FontWeight.w300,
-        color: Theme.of(context).colorScheme.onBackground,
+        //fontWeight: FontWeight.w300,
+        color: Theme.of(context).colorScheme.onSurfaceVariant
+        //color: Theme.of(context).colorScheme.onBackground,
       ),
     );
   }

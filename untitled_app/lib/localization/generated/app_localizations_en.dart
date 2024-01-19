@@ -143,7 +143,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get likes => 'Likes';
 
   @override
+  String get like => 'Like';
+
+  @override
   String get comments => 'Comments';
+
+  @override
+  String get comment => 'Comment';
 
   @override
   String get follow => 'Follow';
@@ -264,6 +270,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get report => 'Report';
 
   @override
   String get save => 'Save';

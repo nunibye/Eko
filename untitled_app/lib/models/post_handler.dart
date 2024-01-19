@@ -372,7 +372,7 @@ class PostsHandling {
     final list = snapshot.docs.map<Future<RecentActivityCard>>((doc) async {
       var data = doc.data();
       AppUser user = AppUser();
-      user.readUserData(data["sourceUid"]);
+      await user.readUserData(data["sourceUid"]);
       // FIXME: not sure why this gave an error, i had to add these conditionals
       return RecentActivityCard.fromJson(data, user);
 
@@ -383,7 +383,7 @@ class PostsHandling {
       //     path: data["path"] ?? "",
       //     sourceUid: data["sourceUid"] ?? "");
     }).toList();
-    return Future.wait(list);
+    return await Future.wait(list);
   }
 
   dynamic getTimeFromPost(dynamic post) {
