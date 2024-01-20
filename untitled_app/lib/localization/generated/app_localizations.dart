@@ -944,6 +944,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are no longer a member of this group.'**
   String get notInGroup;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @reportDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide information on why you are reporting this post.'**
+  String get reportDetails;
+
+  /// No description provided for @commentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment Required'**
+  String get commentRequired;
+
+  /// No description provided for @tooEarlyDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Wait'**
+  String get tooEarlyDeleteTitle;
+
+  /// No description provided for @tooEarlyDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts may only be deleted 48 hours after they are posted.'**
+  String get tooEarlyDeleteBody;
+
+  /// No description provided for @deletePostWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Post'**
+  String get deletePostWarningTitle;
+
+  /// No description provided for @deletePostWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you wish to procede? This action cannot be undone.'**
+  String get deletePostWarningBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

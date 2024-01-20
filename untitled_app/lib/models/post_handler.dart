@@ -256,6 +256,18 @@ class PostsHandling {
         .then((value) => value.count, onError: (e) => 0);
   }
 
+  Future<void> addReport({required Post post, required String message}) async {
+    Map<String, dynamic> report = {};
+    final firestore = FirebaseFirestore.instance;
+    report["sender"] = locator<CurrentUser>().getUID();
+    report["postId"] = post.postId;
+    report["postAuthor"] = post.author.uid;
+    report["message"] = message;
+    report["time"] = DateTime.now().toUtc().toIso8601String();
+    await firestore.collection('reports').add(report);
+   // return true;
+  }
+
   createComment(Map<String, dynamic> comment, String postID, String rootAuthor,
       String path) async {
     final user = FirebaseAuth.instance.currentUser!;
@@ -494,8 +506,7 @@ class PostsHandling {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
 
-      return Post.fromRaw(raw, user, 0,
-          rootPostId: rootUid);
+      return Post.fromRaw(raw, user, 0, rootPostId: rootUid);
     }).toList();
 
     return PaginationGetterReturn(
@@ -533,7 +544,7 @@ class PostsHandling {
     final postList =
         (await newGetPosts(time, query)).map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-     await user.readUserData(raw.author);
+      await user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
           hasCache: true);
@@ -544,7 +555,8 @@ class PostsHandling {
 
     //locator<FeedPostCache>().postsList[index].items.addAll(listReturn);
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh), payload: await Future.wait(postList));
+        end: (postList.length < c.postsOnRefresh),
+        payload: await Future.wait(postList));
   }
 
   Future<List<RawPostObject>> newGetPosts(

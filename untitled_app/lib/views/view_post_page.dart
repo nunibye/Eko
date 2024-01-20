@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/count_down_timer.dart';
 
 import 'package:untitled_app/custom_widgets/loading_spinner.dart';
 import 'package:untitled_app/custom_widgets/post_card.dart';
@@ -63,21 +64,41 @@ class ViewPostPage extends StatelessWidget {
                   actions: [
                     PopupMenuButton<void Function()>(
                       itemBuilder: (context) {
-                      
                         return [
-                          
-                          if (post!.author.uid != locator<CurrentUser>().getUID())
+                          if (post!.author.uid !=
+                              locator<CurrentUser>().getUID())
                             PopupMenuItem(
                               height: 25,
-                              value: () => debugPrint('Item 1 hit'),
+                              value: () => Provider.of<PostPageController>(
+                                      context,
+                                      listen: false)
+                                  .reportPressed(),
                               child: Text(AppLocalizations.of(context)!.report),
                             )
                           else
                             PopupMenuItem(
-                              
                               height: 25,
-                              value: () => debugPrint('Item 2 hit'),
-                              child: Text(AppLocalizations.of(context)!.delete),
+                              value: () => Provider.of<PostPageController>(
+                                      context,
+                                      listen: false)
+                                  .deletePressed(),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.delete),
+                                  CountDownTimer(
+                                    dateTime: DateTime.parse(post!.time)
+                                        .toLocal()
+                                        .add(const Duration(hours: 48)),
+                                    textStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                        fontSize: 13),
+                                  )
+                                ],
+                              ),
                             ),
                         ];
                       },
