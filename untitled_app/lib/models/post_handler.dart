@@ -578,17 +578,19 @@ class PostsHandling {
     } else {
       final firestore = FirebaseFirestore.instance;
       List<RawPostObject> postsToPassBack = [];
-      if (locator<CurrentUser>().following.isEmpty) {
-        return postsToPassBack;
-      }
+      final List<dynamic> followingCopy = [...locator<CurrentUser>().following];
+      followingCopy.add(locator<CurrentUser>().getUID());
+      // if (locator<CurrentUser>().following.isEmpty) {
+      //   return postsToPassBack;
+      // }
 
       if (feedChunks.isEmpty) {
         // must handle if the user is following no one or app crashes
-        if (locator<CurrentUser>().following.isEmpty) {
-          return postsToPassBack;
-        }
+        // if (locator<CurrentUser>().following.isEmpty) {
+        //   return postsToPassBack;
+        // }
 
-        final following = locator<CurrentUser>().following.slices(30);
+        final following = followingCopy.slices(30);
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')

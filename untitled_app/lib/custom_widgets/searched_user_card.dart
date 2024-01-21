@@ -34,8 +34,8 @@ class UserCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = c.widthGetter(context);
     final height = MediaQuery.sizeOf(context).height;
-    return ChangeNotifierProvider.value(
-      value: SearchedUserController(
+    return ChangeNotifierProvider(
+      create:(context) => SearchedUserController(
           user: user,
           context: context,
           groupSearch: groupSearch,

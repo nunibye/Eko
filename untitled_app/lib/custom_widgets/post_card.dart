@@ -67,7 +67,7 @@ class PostCard extends StatelessWidget {
                 fontFamily: DefaultTextStyle.of(context).style.fontFamily,
                 color: Theme.of(context).colorScheme.onSurfaceVariant);
             return Padding(
-              padding: const EdgeInsets.only(top: 5, bottom: 0, right: 5),
+              padding: const EdgeInsets.only(top: 5, bottom: 0, right: 0),
               child: InkWell(
                 onTap: () => (!isPreview &&
                         !isPostPage &&
@@ -502,10 +502,11 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Divider(
+                    SizedBox(width: width,child:Divider(
                         color: Theme.of(context).colorScheme.outline,
                         height: c.dividerWidth,
-                      ),
+
+                      ),)
                     
                   ],
                 ),

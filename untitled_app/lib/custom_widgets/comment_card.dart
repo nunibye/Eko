@@ -29,8 +29,8 @@ class CommentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = c.widthGetter(context);
 
-    return ChangeNotifierProvider.value(
-      value: CommentCardController(post: post, context: context),
+    return ChangeNotifierProvider(
+      create:(context)=> CommentCardController(post: post, context: context),
       builder: (context, child) {
         return TapRegion(
           onTapOutside: (v) =>

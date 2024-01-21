@@ -325,7 +325,7 @@ class ComposeController extends ChangeNotifier {
                       await locator<PostsHandling>().createPost(post);
                   if (tags.contains("public")) {
                     locator<FeedPostCache>().addPost(
-                      2,
+                      0,
                       Post(
                         tags: tags,
                         gifSource: post["gifSource"],
