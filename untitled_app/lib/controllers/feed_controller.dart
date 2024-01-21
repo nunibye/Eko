@@ -146,10 +146,12 @@ class FeedController extends ChangeNotifier {
     });
   }
 
-  void onRefresh() {
+  void onRefresh() async {
     if (index == 0) {
       locator<PostsHandling>().feedChunks.clear();
     }
+
+    await locator<CurrentUser>().readCurrentUserData();
   }
 
   Future<PaginationGetterReturn> getPosts(dynamic time) {
@@ -169,14 +171,14 @@ class FeedController extends ChangeNotifier {
       case 0:
         query = null;
         break;
-      
+
       case 1:
         query = FirebaseFirestore.instance
             .collection("posts")
             .where("tags", arrayContains: "public")
             .orderBy('time', descending: true);
         break;
-        case 2:
+      case 2:
         query = FirebaseFirestore.instance
             .collection("posts")
             .where("tags", arrayContains: "public")

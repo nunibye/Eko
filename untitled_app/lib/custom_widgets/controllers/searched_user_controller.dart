@@ -24,6 +24,13 @@ class SearchedUserController extends ChangeNotifier {
       this.initialBool}) {
     _init();
   }
+
+  @override
+  void dispose() {
+    commentFeild.dispose();
+    super.dispose();
+  }
+
   void _init() {
     loadedUser = user;
     if (groupSearch) {

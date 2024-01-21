@@ -58,6 +58,13 @@ class CommentCardController extends ChangeNotifier {
     );
   }
 
+  @override
+  void dispose() {
+    
+    scrollController.dispose();
+    super.dispose();
+  }
+
   Future<void> scrollToStart() async {
     if (scrollController.offset != 0) {
       await scrollController.animateTo(0,
@@ -166,40 +173,40 @@ class CommentCardController extends ChangeNotifier {
 
   likePressed() async {
     //if (post.author.uid != locator<CurrentUser>().getUID()) {
-      if (!liking) {
-        liking = true;
-        liked = locator<CurrentUser>()
-            .checkIsLiked(post.postId); //prevent user from double likeing
+    if (!liking) {
+      liking = true;
+      liked = locator<CurrentUser>()
+          .checkIsLiked(post.postId); //prevent user from double likeing
 
-        if (liked) {
-          liked = false;
-          //locator<FeedPostCache>().updateLikes(post.postId, -1);
-          likes--;
-          notifyListeners();
-          //undo if it fails. maybe remove this
-          if (!await locator<CurrentUser>()
-              .removeLike(post.rootPostId!, post.postId)) {
-            liked = true;
-            //locator<FeedPostCache>().updateLikes(post.postId, 1);
-            likes++;
-            notifyListeners();
-          }
-        } else {
+      if (liked) {
+        liked = false;
+        //locator<FeedPostCache>().updateLikes(post.postId, -1);
+        likes--;
+        notifyListeners();
+        //undo if it fails. maybe remove this
+        if (!await locator<CurrentUser>()
+            .removeLike(post.rootPostId!, post.postId)) {
           liked = true;
           //locator<FeedPostCache>().updateLikes(post.postId, 1);
           likes++;
           notifyListeners();
-          //undo if it fails
-          if (!await locator<CurrentUser>()
-              .addLike(post.rootPostId!, post.postId)) {
-            liked = false;
-            //locator<FeedPostCache>().updateLikes(post.postId, -1);
-            likes--;
-            notifyListeners();
-          }
         }
-        liking = false;
+      } else {
+        liked = true;
+        //locator<FeedPostCache>().updateLikes(post.postId, 1);
+        likes++;
+        notifyListeners();
+        //undo if it fails
+        if (!await locator<CurrentUser>()
+            .addLike(post.rootPostId!, post.postId)) {
+          liked = false;
+          //locator<FeedPostCache>().updateLikes(post.postId, -1);
+          likes--;
+          notifyListeners();
+        }
       }
+      liking = false;
+    }
     //}
   }
 }

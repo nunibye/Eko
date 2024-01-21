@@ -12,6 +12,13 @@ class ReAuthPageController extends ChangeNotifier {
   bool isLoading = false;
   ReAuthPageController({required this.context});
 
+  @override
+  void dispose() {
+    passwordController.dispose();
+    passwordFocus.dispose();
+    super.dispose();
+  }
+
   void buttonTap() async {
     if (!isLoading) {
       isLoading = true;

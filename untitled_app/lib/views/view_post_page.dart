@@ -50,10 +50,7 @@ class ViewPostPage extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onBackground),
-                              onPressed: () => Provider.of<PostPageController>(
-                                      context,
-                                      listen: false)
-                                  .onExitPressed(),
+                              onPressed: () => context.pop(),
                             )
                           : TextButton(
                               onPressed: () {

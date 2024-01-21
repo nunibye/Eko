@@ -29,6 +29,16 @@ class AuthActionInterfaceController extends ChangeNotifier {
       {required this.context, required this.urlData}) {
     _init();
   }
+
+  @override
+  void dispose() {
+    passwordFocus.dispose();
+    passwordConfirmFocus.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    super.dispose();
+  }
+
   void _init() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if ((urlData["mode"] ?? "") == "resetPassword") {

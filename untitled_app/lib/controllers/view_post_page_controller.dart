@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:giphy_get/giphy_get.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/controllers/post_card_controller.dart';
 import 'package:untitled_app/custom_widgets/login_text_feild.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/models/current_user.dart';
@@ -51,6 +52,16 @@ class PostPageController extends ChangeNotifier {
   }) {
     _init();
   }
+
+  @override
+  void dispose() {
+    reportFocus.dispose();
+    reportController.dispose();
+    commentFeildFocus.dispose();
+    commentFeild.dispose();
+    super.dispose();
+  }
+
   void _init() async {
     if (passedPost != null) {
       post = passedPost!;
@@ -140,9 +151,7 @@ class PostPageController extends ChangeNotifier {
   }
 
   void reduceComments() {
-    
-      post!.commentCount--;
-    
+     postMap[post!.postId]!.post.commentCount--;
   }
 
   void _deletePostFromDialog() {
@@ -384,17 +393,6 @@ class PostPageController extends ChangeNotifier {
             Post.fromRaw(
                 newComment, AppUser.fromCurrent(locator<CurrentUser>()), 0,
                 rootPostId: post!.postId));
-        // int tempComments = post!.commentCount;
-        // print(tempComments);
-        // if (post!.hasCache) {
-        //   locator<FeedPostCache>().updateComments(post!.postId, 1);
-        //   if (builtFromID) {
-        //     post!.commentCount++;
-        //   }
-        // } else {
-          post!.commentCount++;
-        
-        notifyListeners();
       }
     } else {
       final returnedId = await locator<PostsHandling>().createComment(
@@ -419,11 +417,14 @@ class PostPageController extends ChangeNotifier {
       //     post!.commentCount++;
       //   }
       // } else {
-        post!.commentCount++;
+      //postMap[post!.postId]!.post.commentCount++;
+      //post!.commentCount++;
       // }
       gif = null;
-      notifyListeners();
+      //notifyListeners();
     }
+    postMap[post!.postId]!.post.commentCount++;
+    notifyListeners();
   }
 
   addGifPressed() async {

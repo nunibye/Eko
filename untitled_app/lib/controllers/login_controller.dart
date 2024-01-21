@@ -26,6 +26,18 @@ class LoginController extends ChangeNotifier {
   final BuildContext context;
 
   LoginController({required this.context});
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    resetEmailController.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
+    resetEmailFocus.dispose();
+    super.dispose();
+  }
+
   void _pop() {
     Navigator.of(context).pop();
   }
@@ -121,7 +133,6 @@ class LoginController extends ChangeNotifier {
           0) {
         locator<CurrentUser>().addFCM();
       }
-      
 
       loggingIn = false;
       notifyListeners(); //FIXME problems can apear here since it gets disposed

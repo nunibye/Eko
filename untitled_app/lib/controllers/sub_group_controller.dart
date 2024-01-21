@@ -24,6 +24,10 @@ class SubGroupController extends ChangeNotifier {
   }) {
     _init();
   }
+  // @override
+  // void dispose() {
+  //   print("trying to kill");
+  // }
 
   Future<void> _init() async {
     if (passedGroup != null) {

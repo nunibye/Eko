@@ -59,6 +59,20 @@ class ComposeController extends ChangeNotifier {
     }
   }
 
+  @override
+  void dispose() {
+    titleFocus.removeListener(onTitleFocusChanged);
+    bodyFocus.removeListener(onBodyFocusChanged);
+    titleController.dispose();
+    bodyController.dispose();
+    titleFocus.dispose();
+    bodyFocus.dispose();
+    searchController.dispose();
+    searchFocus.dispose();
+
+    super.dispose();
+  }
+
   void onTitleFocusChanged() {
     if (titleFocus.hasFocus) {
       showCount0 = true;
@@ -344,7 +358,7 @@ class ComposeController extends ChangeNotifier {
                     _goToPage(group: groupEndPoint);
                     //refine cases later for more complicated tag system
                   }
-                  
+
                   notifyListeners();
                 },
               ),

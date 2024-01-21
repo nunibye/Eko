@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/custom_widgets/loading_spinner.dart';
-import 'package:untitled_app/custom_widgets/shimmer_loaders.dart' show FeedLoader;
+import 'package:untitled_app/custom_widgets/shimmer_loaders.dart'
+    show FeedLoader;
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../models/group_handler.dart';
 import 'package:go_router/go_router.dart';
@@ -34,116 +35,126 @@ class SubGroupPage extends StatelessWidget {
               child: const Icon(Icons.add, size: 40),
             ),
           ),
-          body:(Provider.of<SubGroupController>(context, listen: true)
-                        .groupNotFound || Provider.of<SubGroupController>(context, listen: true).notInGroup
-                        )
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: width * 0.8,
-                              child: Text(
-                                (Provider.of<SubGroupController>(context, listen: true)
-                        .groupNotFound) ? AppLocalizations.of(context)!.groupNotFound : AppLocalizations.of(context)!.notInGroup,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 23),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            SizedBox(
-                              width: width * 0.45,
-                              height: width * 0.15,
-                              child: TextButton(
-                                onPressed: () => context.go('/feed'),
-                                style: TextButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.primary),
-                                child: Text(
-                                  AppLocalizations.of(context)!.exit,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.normal,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : (Provider.of<SubGroupController>(context, listen: true).group ==
-                  null)
-              ? const Center(child: LoadingSpinner())
-              : PaginationPage(
-                  appbar: SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    leading: IconButton(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.arrow_back_ios_rounded),
-                    ),
-                    actions: [
-                      IconButton(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        onPressed: () => Provider.of<SubGroupController>(
-                                context,
-                                listen: false)
-                            .editGroup(),
-                        icon: const Icon(Icons.create),
-                      ),
-                    ],
-                    floating: true,
-                    pinned: false,
-                    scrolledUnderElevation: 0.0,
-                    centerTitle: true,
-                    backgroundColor: Theme.of(context).colorScheme.background,
-                    title: Row(
-                      children: [
-                        SizedBox(
-                          width: width * 0.13,
-                          height: width * 0.13,
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: Text(
-                              Provider.of<SubGroupController>(context,
+          body: (Provider.of<SubGroupController>(context, listen: true)
+                      .groupNotFound ||
+                  Provider.of<SubGroupController>(context, listen: true)
+                      .notInGroup)
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: width * 0.8,
+                        child: Text(
+                          (Provider.of<SubGroupController>(context,
                                       listen: true)
-                                  .group!
-                                  .icon,
+                                  .groupNotFound)
+                              ? AppLocalizations.of(context)!.groupNotFound
+                              : AppLocalizations.of(context)!.notInGroup,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 23),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: width * 0.45,
+                        height: width * 0.15,
+                        child: TextButton(
+                          onPressed: () => context.go('/feed'),
+                          style: TextButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary),
+                          child: Text(
+                            AppLocalizations.of(context)!.exit,
+                            style: TextStyle(
+                              fontSize: 18,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
                         ),
-                        SizedBox(
-                            width: width * 0.4,
-                            child: Text(
-                                Provider.of<SubGroupController>(context,
+                      ),
+                    ],
+                  ),
+                )
+              : (Provider.of<SubGroupController>(context, listen: true).group ==
+                      null)
+                  ? const Center(child: LoadingSpinner())
+                  : PaginationPage(
+                      appbar: SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        leading: IconButton(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          onPressed: () => context.pop(),
+                          icon: const Icon(Icons.arrow_back_ios_rounded),
+                        ),
+                        actions: [
+                          IconButton(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            onPressed: () => Provider.of<SubGroupController>(
+                                    context,
+                                    listen: false)
+                                .editGroup(),
+                            icon: const Icon(Icons.create),
+                          ),
+                        ],
+                        floating: true,
+                        pinned: false,
+                        scrolledUnderElevation: 0.0,
+                        centerTitle: true,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        title: Row(
+                          //mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (Provider.of<SubGroupController>(context,
                                         listen: true)
                                     .group!
-                                    .name,
-                                style: TextStyle(fontSize: width * 0.06),
-                                overflow: TextOverflow.ellipsis)),
-                      ],
-                    ),
-                    bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(3),
-                      child: Divider(
-                        color: Theme.of(context).colorScheme.outline,
-                        height: c.dividerWidth,
+                                    .icon !=
+                                "")
+                              SizedBox(
+                                width: width * 0.13,
+                                height: width * 0.13,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    Provider.of<SubGroupController>(context,
+                                            listen: true)
+                                        .group!
+                                        .icon,
+                                  ),
+                                ),
+                              ),
+                            SizedBox(
+                                width: width * 0.4,
+                                child: Text(
+                                    Provider.of<SubGroupController>(context,
+                                            listen: true)
+                                        .group!
+                                        .name,
+                                    style: TextStyle(fontSize: width * 0.06),
+                                    overflow: TextOverflow.ellipsis)),
+                          ],
+                        ),
+                        bottom: PreferredSize(
+                          preferredSize: const Size.fromHeight(3),
+                          child: Divider(
+                            color: Theme.of(context).colorScheme.outline,
+                            height: c.dividerWidth,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  //header: const _Header(),
-                  getter:
-                      Provider.of<SubGroupController>(context, listen: false)
+                      //header: const _Header(),
+                      getter: Provider.of<SubGroupController>(context,
+                              listen: false)
                           .getGroupPosts,
-                  card: postCardBuilder,
-                  startAfterQuery:
-                      Provider.of<SubGroupController>(context, listen: false)
+                      card: postCardBuilder,
+                      startAfterQuery: Provider.of<SubGroupController>(context,
+                              listen: false)
                           .getTimeFromPost,
-                  initialLoadingWidget: const FeedLoader(),
-                ),
+                      initialLoadingWidget: const FeedLoader(),
+                    ),
         );
       },
     );

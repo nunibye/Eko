@@ -22,8 +22,8 @@ import '../../utilities/constants.dart' as c;
 class PostCardController extends ChangeNotifier {
   BuildContext context;
   Post post;
-  late int comments;
-  late int likes;
+  // late int comments;
+  // late int likes;
   late bool liked;
   bool liking = false;
   bool sharing = false;
@@ -40,8 +40,8 @@ class PostCardController extends ChangeNotifier {
   _init() async {
     //print("test");
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
-    likes = post.likes;
-    comments = post.commentCount;
+    // likes = post.likes;
+    // comments = post.commentCount;
     isSelf = post.author.uid == locator<CurrentUser>().getUID();
     notifyListeners();
     // if (!post.tags.contains("public")) {
@@ -59,9 +59,9 @@ class PostCardController extends ChangeNotifier {
   // }
 
 //FIXME could be optomized
-  void rebuildFeed() {
-    Provider.of<PaginationController>(context, listen: false).rebuildFunction();
-  }
+  // void rebuildFeed() {
+  //   Provider.of<PaginationController>(context, listen: false).rebuildFunction();
+  // }
 
   void groupBannerPressed() {
     final group = post.group;
@@ -117,30 +117,23 @@ class PostCardController extends ChangeNotifier {
     context.go('/');
   }
 
-  avatarPressed() async {
-    if (post.author.uid != locator<CurrentUser>().getUID()) {
-      await context.push("/feed/sub_profile/${post.author.uid}",
-          extra: post.author);
-      //update post liked in sub menu
-      final newvalue = locator<CurrentUser>().checkIsLiked(post.postId);
-      if (liked != newvalue) {
-        liked = newvalue;
-        likes += newvalue ? 1 : -1;
-      }
-      notifyListeners();
-    } else {
-      context.go("/profile");
-    }
-  }
+  // avatarPressed() async {
+  //   if (post.author.uid != locator<CurrentUser>().getUID()) {
+  //     await context.push("/feed/sub_profile/${post.author.uid}",
+  //         extra: post.author);
+  //   } else {
+  //     context.go("/profile");
+  //   }
+  // }
 
-  tagPressed(String username) async {
-    String? uid = await locator<CurrentUser>().getUidFromUsername(username);
-    if (locator<CurrentUser>().getUID() == uid) {
-      context.go("/profile");
-    } else {
-      context.push("/feed/sub_profile/$uid");
-    }
-  }
+  // tagPressed(String username) async {
+  //   String? uid = await locator<CurrentUser>().getUidFromUsername(username);
+  //   if (locator<CurrentUser>().getUID() == uid) {
+  //     context.go("/profile");
+  //   } else {
+  //     context.push("/feed/sub_profile/$uid");
+  //   }
+  // }
 
   sharePressed() async {
     if (kIsWeb) {
@@ -172,7 +165,7 @@ class PostCardController extends ChangeNotifier {
         //set bool
         liked = false;
         //remove like
-        likes--;
+        post.likes--;
         //also remove from parent if not linked to cache
         // if (isBuiltFromId) {
         //   Provider.of<PostPageController>(context, listen: false)
@@ -187,7 +180,7 @@ class PostCardController extends ChangeNotifier {
         //undo if it fails. maybe remove this
         if (!await locator<CurrentUser>().removeLike(post.postId, null)) {
           liked = true;
-          likes++;
+          post.likes++;
           // if (isBuiltFromId) {
           //   Provider.of<PostPageController>(context, listen: false)
           //       .changeInternalLikes(1);
@@ -210,7 +203,7 @@ class PostCardController extends ChangeNotifier {
 
         liked = true;
         //locator<FeedPostCache>().updateLikes(post.postId, 1);
-        likes++;
+        post.likes++;
         // if (isBuiltFromId) {
         //   Provider.of<PostPageController>(context, listen: false)
         //       .changeInternalLikes(1);
@@ -225,7 +218,7 @@ class PostCardController extends ChangeNotifier {
         if (!await locator<CurrentUser>().addLike(post.postId, null)) {
           liked = false;
           //locator<FeedPostCache>().updateLikes(post.postId, -1);
-          likes--;
+          post.likes--;
           // if (isBuiltFromId) {
           //   Provider.of<PostPageController>(context, listen: false)
           //       .changeInternalLikes(-1);
@@ -238,9 +231,9 @@ class PostCardController extends ChangeNotifier {
         }
       }
       //only rebuild from parent here to avoid reseting bool
-      if (isBuiltFromId) {
-        Provider.of<PostPageController>(context, listen: false).rebuild();
-      }
+      // if (isBuiltFromId) {
+      //   Provider.of<PostPageController>(context, listen: false).rebuild();
+      // }
       liking = false;
     }
   }

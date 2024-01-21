@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:untitled_app/custom_widgets/controllers/pagination_controller.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
@@ -63,8 +65,29 @@ class PostCard extends StatelessWidget {
     if (!postMap.containsKey(post.postId)) {
       postMap[post.postId] = PostCardController(
           post: post, context: context, isBuiltFromId: isBuiltFromId);
+    } else {
+      postMap[post.postId]!.post = post;
+      postMap[post.postId]!.liked = locator<CurrentUser>().checkIsLiked(post.postId);
     }
     return postMap[post.postId]!;
+  }
+
+  tagPressed(String username, BuildContext context) async {
+    String? uid = await locator<CurrentUser>().getUidFromUsername(username);
+    if (locator<CurrentUser>().getUID() == uid) {
+      context.go("/profile");
+    } else {
+      context.push("/feed/sub_profile/$uid");
+    }
+  }
+
+  avatarPressed(BuildContext context) async {
+    if (post.author.uid != locator<CurrentUser>().getUID()) {
+      await context.push("/feed/sub_profile/${post.author.uid}",
+          extra: post.author);
+    } else {
+      context.go("/profile");
+    }
   }
 
   @override
@@ -97,9 +120,9 @@ class PostCard extends StatelessWidget {
                         .then((v) async {
                         //comments = await locator<PostsHandling>().countComments(post.postId);
 
-                        Provider.of<PaginationController>(context,
-                                listen: false)
-                            .rebuildFunction();
+                        // Provider.of<PaginationController>(context,
+                        //         listen: false)
+                        //     .rebuildFunction();
                       })
                     : null,
                 child: Column(
@@ -157,9 +180,7 @@ class PostCard extends StatelessWidget {
                                       listen: false)
                                   .isLoggedIn()) {
                                 (!isPreview && !isOnProfile)
-                                    ? Provider.of<PostCardController>(context,
-                                            listen: false)
-                                        .avatarPressed()
+                                    ? avatarPressed(context)
                                     : null;
                               }
                             },
@@ -186,11 +207,7 @@ class PostCard extends StatelessWidget {
                                                   listen: false)
                                               .isLoggedIn()) {
                                             (!isPreview && !isOnProfile)
-                                                ? Provider.of<
-                                                            PostCardController>(
-                                                        context,
-                                                        listen: false)
-                                                    .avatarPressed()
+                                                ? avatarPressed(context)
                                                 : null;
                                           }
                                         },
@@ -253,14 +270,16 @@ class PostCard extends StatelessWidget {
                                                     .colorScheme
                                                     .surfaceTint),
                                             recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
+                                              ..onTap = () async {
                                                 if (!isPreview) {
-                                                  Provider.of<
-                                                      PostCardController>(
-                                                    context,
-                                                    listen: false,
-                                                  ).tagPressed(
-                                                      chunk.substring(1));
+                                                  tagPressed(chunk.substring(1),
+                                                      context);
+                                                  // Provider.of<
+                                                  //     PostCardController>(
+                                                  //   context,
+                                                  //   listen: false,
+                                                  // ).tagPressed(
+                                                  //     chunk.substring(1));
                                                 }
                                               },
                                           );
@@ -365,12 +384,8 @@ class PostCard extends StatelessWidget {
                                             recognizer: TapGestureRecognizer()
                                               ..onTap = () {
                                                 if (!isPreview) {
-                                                  Provider.of<
-                                                      PostCardController>(
-                                                    context,
-                                                    listen: false,
-                                                  ).tagPressed(
-                                                      chunk.substring(1));
+                                                  tagPressed(chunk.substring(1),
+                                                      context);
                                                 }
                                               },
                                           );
@@ -524,10 +539,10 @@ class PostCard extends StatelessWidget {
                                     }
                                   },
                                 text:
-                                    "${Provider.of<PostCardController>(context, listen: true).likes} ${Provider.of<PostCardController>(context, listen: true).likes == 1 ? AppLocalizations.of(context)!.like : AppLocalizations.of(context)!.likes} • "),
+                                    "${Provider.of<PostCardController>(context, listen: true).post.likes} ${Provider.of<PostCardController>(context, listen: true).post.likes == 1 ? AppLocalizations.of(context)!.like : AppLocalizations.of(context)!.likes} • "),
                             TextSpan(
                                 text:
-                                    "${Provider.of<PostCardController>(context, listen: true).comments} ${Provider.of<PostCardController>(context, listen: true).comments == 1 ? AppLocalizations.of(context)!.comment : AppLocalizations.of(context)!.comments}")
+                                    "${Provider.of<PostCardController>(context, listen: true).post.commentCount} ${Provider.of<PostCardController>(context, listen: true).post.commentCount == 1 ? AppLocalizations.of(context)!.comment : AppLocalizations.of(context)!.comments}")
                           ],
                         ),
                       ),

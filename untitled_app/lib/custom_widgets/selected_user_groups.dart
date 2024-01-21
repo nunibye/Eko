@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/models/users.dart';
-import 'profile_picture_loading.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'controllers/selected_user_groups_controller.dart';
-import 'package:provider/provider.dart';
 import '../custom_widgets/profile_avatar.dart';
 
 class SelectedUser extends StatelessWidget {
@@ -24,9 +20,7 @@ class SelectedUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SelectedUserGroupsController(),
-      builder: (context, child) {
+    
         return InkWell(
             onTap: () => onPressed(),
             child: Container(
@@ -49,7 +43,6 @@ class SelectedUser extends StatelessWidget {
                 ),
               ),
             ));
-      },
-    );
+
   }
 }

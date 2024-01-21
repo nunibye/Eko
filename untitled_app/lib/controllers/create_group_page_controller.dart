@@ -47,6 +47,17 @@ class CreateGroupPageController extends ChangeNotifier {
     }
   }
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    nameFocus.dispose();
+    descriptionController.dispose();
+    searchTextController.dispose();
+    pageController.dispose();
+    selectedPeopleScroll.dispose();
+    super.dispose();
+  }
+
   void _pop() {
     context.pop();
   }
