@@ -322,16 +322,14 @@ class _Card extends StatelessWidget {
                       if (Provider.of<CommentCardController>(context,
                               listen: false)
                           .isLoggedIn()) {
-                        if (!Provider.of<CommentCardController>(context,
-                                listen: false)
-                            .isSelf) {
+                        
                           Provider.of<CommentCardController>(context,
                                   listen: false)
                               .likePressed();
                           return !isLiked;
-                        }
+                          }
                         return isLiked;
-                      }
+                      
                     },
                     likeCount: Provider.of<CommentCardController>(context,
                             listen: true)

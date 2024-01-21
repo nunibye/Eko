@@ -165,7 +165,7 @@ class CommentCardController extends ChangeNotifier {
   }
 
   likePressed() async {
-    if (post.author.uid != locator<CurrentUser>().getUID()) {
+    //if (post.author.uid != locator<CurrentUser>().getUID()) {
       if (!liking) {
         liking = true;
         liked = locator<CurrentUser>()
@@ -200,6 +200,6 @@ class CommentCardController extends ChangeNotifier {
         }
         liking = false;
       }
-    }
+    //}
   }
 }

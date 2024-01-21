@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/custom_widgets/controllers/pagination_controller.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/feed_post_cache.dart';
 import 'controllers/post_card_controller.dart';
 import '../utilities/constants.dart' as c;
 import '../models/post_handler.dart' show Post;
@@ -16,7 +18,9 @@ import 'package:like_button/like_button.dart';
 import 'package:flutter/foundation.dart';
 
 Widget postCardBuilder(dynamic post) {
+  post as Post;
   return PostCard(
+    key: Key(post.postId),
     post: post,
   );
 }
@@ -29,7 +33,9 @@ Widget otherProfilePostCardBuilder(dynamic post) {
 }
 
 Widget profilePostCardBuilder(dynamic post) {
+  post as Post;
   return PostCard(
+    key: Key(post.postId),
     post: post,
     isOnProfile: true,
     showGroup: true,
@@ -53,12 +59,25 @@ class PostCard extends StatelessWidget {
       this.isOnProfile = false,
       this.showGroup = false});
 
+  PostCardController getController(String id, BuildContext context) {
+    if (!postMap.containsKey(post.postId)) {
+      postMap[post.postId] = PostCardController(
+          post: post, context: context, isBuiltFromId: isBuiltFromId);
+    }
+    return postMap[post.postId]!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: PostCardController(
-          post: post, context: context, isBuiltFromId: isBuiltFromId),
+      //lazy: true,
+
+      key: Key(post.postId),
+      value: getController(post.postId, context),
       builder: (context, child) {
+        //  PostCardController(
+        //     post: post, context: context, isBuiltFromId: isBuiltFromId),
+        //builder: (context, child) {
         return Consumer<PostCardController>(
           builder: (context, notifier, child) {
             // print(post.body);
@@ -73,8 +92,15 @@ class PostCard extends StatelessWidget {
                         !isPostPage &&
                         Provider.of<PostCardController>(context, listen: false)
                             .isLoggedIn())
-                    ? Provider.of<PostCardController>(context, listen: false)
-                        .postPressed()
+                    ? context
+                        .push("/feed/post/${post.postId}", extra: post)
+                        .then((v) async {
+                        //comments = await locator<PostsHandling>().countComments(post.postId);
+
+                        Provider.of<PaginationController>(context,
+                                listen: false)
+                            .rebuildFunction();
+                      })
                     : null,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +225,7 @@ class PostCard extends StatelessWidget {
                                           ],
                                         )),
                                     const Spacer(),
-                                     if (!isPreview) TimeStamp(time: post.time),
+                                    if (!isPreview) TimeStamp(time: post.time),
                                     // if (!isPreview)
                                     //   InkWell(
                                     //       onTap: () {},
@@ -400,10 +426,7 @@ class PostCard extends StatelessWidget {
                               if (Provider.of<PostCardController>(context,
                                       listen: false)
                                   .isLoggedIn()) {
-                                if (!isPreview &&
-                                    !Provider.of<PostCardController>(context,
-                                            listen: false)
-                                        .isSelf) {
+                                if (!isPreview) {
                                   Provider.of<PostCardController>(context,
                                           listen: false)
                                       .likePressed();
@@ -434,9 +457,16 @@ class PostCard extends StatelessWidget {
                                       listen: false)
                                   .isLoggedIn()) {
                                 if (!isPreview && !isPostPage) {
-                                  Provider.of<PostCardController>(context,
-                                          listen: false)
-                                      .commentPressed();
+                                  context
+                                      .push("/feed/post/${post.postId}",
+                                          extra: post)
+                                      .then((v) async {
+                                    //comments = await locator<PostsHandling>().countComments(post.postId);
+
+                                    Provider.of<PaginationController>(context,
+                                            listen: false)
+                                        .rebuildFunction();
+                                  });
                                 }
                               }
                             },
@@ -502,12 +532,13 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: width,child:Divider(
+                    SizedBox(
+                      width: width,
+                      child: Divider(
                         color: Theme.of(context).colorScheme.outline,
                         height: c.dividerWidth,
-
-                      ),)
-                    
+                      ),
+                    )
                   ],
                 ),
               ),

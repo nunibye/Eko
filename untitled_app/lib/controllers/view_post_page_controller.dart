@@ -140,20 +140,16 @@ class PostPageController extends ChangeNotifier {
   }
 
   void reduceComments() {
-    if (post!.hasCache) {
-      locator<FeedPostCache>().updateComments(post!.postId, 1);
-      if (builtFromID) {
-        post!.commentCount--;
-      }
-    } else {
+    
       post!.commentCount--;
-    }
+    
   }
 
   void _deletePostFromDialog() {
     _pop();
-    locator<PostsHandling>().deleteData("posts/${post!.postId}");
+    locator<FeedPostCache>().removePostFromAllCaches(post!.postId);
     _pop();
+    locator<PostsHandling>().deleteData("posts/${post!.postId}");
   }
 
   void deletePressed() {
@@ -390,14 +386,14 @@ class PostPageController extends ChangeNotifier {
                 rootPostId: post!.postId));
         // int tempComments = post!.commentCount;
         // print(tempComments);
-        if (post!.hasCache) {
-          locator<FeedPostCache>().updateComments(post!.postId, 1);
-          if (builtFromID) {
-            post!.commentCount++;
-          }
-        } else {
+        // if (post!.hasCache) {
+        //   locator<FeedPostCache>().updateComments(post!.postId, 1);
+        //   if (builtFromID) {
+        //     post!.commentCount++;
+        //   }
+        // } else {
           post!.commentCount++;
-        }
+        
         notifyListeners();
       }
     } else {
@@ -417,14 +413,14 @@ class PostPageController extends ChangeNotifier {
           postId: returnedId,
           commentCount: 0);
       data.items.insert(0, newComment);
-      if (post!.hasCache) {
-        locator<FeedPostCache>().updateComments(post!.postId, 1);
-        if (builtFromID) {
-          post!.commentCount++;
-        }
-      } else {
+      // if (post!.hasCache) {
+      //   locator<FeedPostCache>().updateComments(post!.postId, 1);
+      //   if (builtFromID) {
+      //     post!.commentCount++;
+      //   }
+      // } else {
         post!.commentCount++;
-      }
+      // }
       gif = null;
       notifyListeners();
     }

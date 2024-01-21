@@ -447,7 +447,7 @@ class PostsHandling {
           await countComments(raw.postID),
           group: (raw.tags.contains("public"))
               ? null
-              : await GroupHandler().getGroupFromId(raw.tags.first));
+              : await GroupHandler().getGroupFromId(raw.tags.first), hasCache: true);
     }).toList();
     return PaginationGetterReturn(
         end: (postList.length < c.postsOnRefresh),

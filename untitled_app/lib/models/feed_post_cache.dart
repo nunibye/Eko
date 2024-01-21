@@ -1,5 +1,6 @@
+import 'package:untitled_app/custom_widgets/controllers/post_card_controller.dart';
 import 'package:untitled_app/models/post_handler.dart' show Post;
-
+Map<String, PostCardController> postMap = {};
 class Cache {
   List<dynamic> items;
   bool end;
@@ -7,6 +8,7 @@ class Cache {
 }
 
 class FeedPostCache {
+  Cache profileCache = Cache(end: false, items: []);
   List<Cache> postsList =
       List.generate(3, (index) => Cache(items: [], end: false));
 
@@ -19,24 +21,38 @@ class FeedPostCache {
   }
 
   //TODO review, considor other solutions
-  updateLikes(String id, int offset) {
+  // updateLikes(String id, int offset) {
+  //   for (Cache element in postsList) {
+  //     for (Post post in element.items) {
+  //       if (post.postId == id) {
+  //         post.likes += offset;
+  //         break; //assumes each post is only in each list one time
+  //       }
+  //     }
+  //   }
+  // }
+
+  // updateComments(String id, int offset) {
+  //   for (Cache element in postsList) {
+  //     for (Post post in element.items) {
+  //       if (post.postId == id) {
+  //         post.commentCount += offset;
+  //         break; //assumes each post is only in each list one time
+  //       }
+  //     }
+  //   }
+  // }
+
+  void removePostFromAllCaches(String id) {
     for (Cache element in postsList) {
-      for (Post post in element.items) {
-        if (post.postId == id) {
-          post.likes += offset;
-          break; //assumes each post is only in each list one time
-        }
-      }
+      element.items.removeWhere((post) {
+        post as Post;
+        return post.postId == id;
+      });
     }
-  }
-  updateComments(String id, int offset) {
-    for (Cache element in postsList) {
-      for (Post post in element.items) {
-        if (post.postId == id) {
-          post.commentCount += offset;
-          break; //assumes each post is only in each list one time
-        }
-      }
-    }
+    profileCache.items.removeWhere((post) {
+        post as Post;
+        return post.postId == id;
+      });
   }
 }

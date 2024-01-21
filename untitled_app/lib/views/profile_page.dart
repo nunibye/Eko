@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/shimmer_loaders.dart'
     show FeedLoader;
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import '../custom_widgets/profile_page_header.dart';
 import '../controllers/profile_controller.dart';
 import '../custom_widgets/pagination.dart';
@@ -33,6 +35,7 @@ class ProfilePage extends StatelessWidget {
                           .getTimeFromPost,
                   header: const _Header(),
                   initialLoadingWidget: const FeedLoader(),
+                  externalData: locator<FeedPostCache>().profileCache,
                   extraRefresh:
                       Provider.of<ProfileController>(context, listen: false)
                           .onPageRefresh),

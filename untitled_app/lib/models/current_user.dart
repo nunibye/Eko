@@ -195,6 +195,7 @@ class CurrentUser extends AppUser {
   }
 
   Future<bool> addLike(String postId, String? commentId) async {
+    
     if (!stateIsLiking) {
       stateIsLiking = true;
       try {
