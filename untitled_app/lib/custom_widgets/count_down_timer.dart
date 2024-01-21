@@ -56,7 +56,7 @@ class _CountDownTimerState extends State<CountDownTimer> {
         );
       }
     } else {
-      return const Text("");
+      return const SizedBox(width: 0, height: 0);
     }
   }
 }

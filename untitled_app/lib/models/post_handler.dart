@@ -269,15 +269,15 @@ class PostsHandling {
     // return true;
   }
 
-  createComment(Map<String, dynamic> comment, String postID, String rootAuthor,
-      String path) async {
+  Future<String> createComment(Map<String, dynamic> comment, String postID,
+      String rootAuthor, String path) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     final String time = DateTime.now().toUtc().toIso8601String();
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
-    await Future.wait([
+    final value = await Future.wait([
       firestore
           .collection('posts')
           .doc(postID)
@@ -291,6 +291,7 @@ class PostsHandling {
             path: path,
             user: rootAuthor)
     ]);
+    final snapshot = value[0] as DocumentReference<Map<String, dynamic>>;
     List<String> parsedText = Post.parseText(comment["body"]);
 
     Future<void> notifiyTagedPeople(String chunk) async {
@@ -314,9 +315,8 @@ class PostsHandling {
       futures.add(notifiyTagedPeople(chunk));
     }
     await Future.wait(futures);
-
+    return snapshot.id;
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
-    return "success";
   }
 
   Future<void> addActivty(

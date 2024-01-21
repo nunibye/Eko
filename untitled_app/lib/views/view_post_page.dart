@@ -197,6 +197,9 @@ class ViewPostPage extends StatelessWidget {
                                       : 1,
                                   children: [
                                     PaginationPage(
+                                      externalData: Provider.of<PostPageController>(
+                                                    context,
+                                                    listen: true).data,
                                         getter: Provider.of<PostPageController>(
                                                 context,
                                                 listen: false)

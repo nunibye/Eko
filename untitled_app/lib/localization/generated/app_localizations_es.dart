@@ -443,10 +443,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tooEarlyDeleteTitle => 'Please Wait';
 
   @override
-  String get tooEarlyDeleteBody => 'Posts may only be deleted 48 hours after they are posted.';
+  String get tooEarlyDeleteBody => 'Posts/comments may only be deleted 48 hours after they are posted.';
 
   @override
   String get deletePostWarningTitle => 'Delete Post';
+
+  @override
+  String get deleteCommentWarningTitle => 'Delete Comment';
 
   @override
   String get deletePostWarningBody => 'Are you sure you wish to procede? This action cannot be undone.';

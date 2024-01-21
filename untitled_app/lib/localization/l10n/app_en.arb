@@ -180,9 +180,10 @@
     "commentRequired":"Comment Required",
 
     "tooEarlyDeleteTitle":"Please Wait",
-    "tooEarlyDeleteBody":"Posts may only be deleted 48 hours after they are posted.",
+    "tooEarlyDeleteBody":"Posts/comments may only be deleted 48 hours after they are posted.",
 
     "deletePostWarningTitle":"Delete Post",
+    "deleteCommentWarningTitle":"Delete Comment",
     "deletePostWarningBody":"Are you sure you wish to procede? This action cannot be undone."
 
     

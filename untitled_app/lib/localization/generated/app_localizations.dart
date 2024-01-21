@@ -972,7 +972,7 @@ abstract class AppLocalizations {
   /// No description provided for @tooEarlyDeleteBody.
   ///
   /// In en, this message translates to:
-  /// **'Posts may only be deleted 48 hours after they are posted.'**
+  /// **'Posts/comments may only be deleted 48 hours after they are posted.'**
   String get tooEarlyDeleteBody;
 
   /// No description provided for @deletePostWarningTitle.
@@ -980,6 +980,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete Post'**
   String get deletePostWarningTitle;
+
+  /// No description provided for @deleteCommentWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Comment'**
+  String get deleteCommentWarningTitle;
 
   /// No description provided for @deletePostWarningBody.
   ///

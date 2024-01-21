@@ -26,6 +26,7 @@ import '../secrets/secrets.dart' as s;
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
   Post? post;
+  Cache data = Cache(items: [], end: false);
 
   bool loading = true;
   final String id;
@@ -122,14 +123,36 @@ class PostPageController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void removeComment(String id) {
+    data.items.removeWhere(
+      (element) {
+        element as Post;
+        if (element.postId == id) return true;
+        return false;
+      },
+    );
+    notifyListeners();
+  }
+
   void updateCount(String str) {
     chars = str.length;
     //notifyListeners();j
   }
 
+  void reduceComments() {
+    if (post!.hasCache) {
+      locator<FeedPostCache>().updateComments(post!.postId, 1);
+      if (builtFromID) {
+        post!.commentCount--;
+      }
+    } else {
+      post!.commentCount--;
+    }
+  }
+
   void _deletePostFromDialog() {
-    locator<PostsHandling>().deleteData("posts/${post!.postId}");
     _pop();
+    locator<PostsHandling>().deleteData("posts/${post!.postId}");
     _pop();
   }
 
@@ -346,8 +369,25 @@ class PostPageController extends ChangeNotifier {
         String comment = commentFeild.text;
         commentFeild.text = "";
         hideKeyboard();
-        await locator<PostsHandling>().createComment(
+        final returnedId = await locator<PostsHandling>().createComment(
             {"body": comment}, post!.postId, post!.author.uid, post!.postId);
+
+        final newComment = RawPostObject(
+          tags: ["public"],
+          author: locator<CurrentUser>().getUID(),
+          likes: 0,
+          time: DateTime.now().toUtc().toIso8601String(),
+          body: comment,
+          postID: returnedId,
+          gifSource: null,
+          gifUrl: null,
+          title: null,
+        );
+        data.items.insert(
+            0,
+            Post.fromRaw(
+                newComment, AppUser.fromCurrent(locator<CurrentUser>()), 0,
+                rootPostId: post!.postId));
         // int tempComments = post!.commentCount;
         // print(tempComments);
         if (post!.hasCache) {
@@ -361,11 +401,22 @@ class PostPageController extends ChangeNotifier {
         notifyListeners();
       }
     } else {
-      await locator<PostsHandling>().createComment(
+      final returnedId = await locator<PostsHandling>().createComment(
           {"gifUrl": gif!.images!.fixedWidth.url, "gifSource": gif!.url},
           post!.postId,
           post!.author.uid,
           post!.postId);
+      final newComment = Post(
+          tags: ["public"],
+          author: AppUser.fromCurrent(locator<CurrentUser>()),
+          likes: 0,
+          time: DateTime.now().toUtc().toIso8601String(),
+          gifSource: gif!.url,
+          gifURL: gif!.images!.fixedWidth.url,
+          rootPostId: post!.postId,
+          postId: returnedId,
+          commentCount: 0);
+      data.items.insert(0, newComment);
       if (post!.hasCache) {
         locator<FeedPostCache>().updateComments(post!.postId, 1);
         if (builtFromID) {
