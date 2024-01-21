@@ -67,7 +67,7 @@ class PostCard extends StatelessWidget {
                 fontFamily: DefaultTextStyle.of(context).style.fontFamily,
                 color: Theme.of(context).colorScheme.onSurfaceVariant);
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.only(top: 5, bottom: 5, right: 5),
               child: InkWell(
                 onTap: () => (!isPreview &&
                         !isPostPage &&
@@ -87,14 +87,14 @@ class PostCard extends StatelessWidget {
                                   listen: false)
                               .groupBannerPressed(),
                           child: Container(
-                              padding: const EdgeInsets.only(
-                                  bottom: 0, left: 6, right: 6),
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(mainAxisSize: MainAxisSize.min,
+                            padding: const EdgeInsets.only(left: 6, right: 6),
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
                                   Icons.group,
@@ -110,13 +110,15 @@ class PostCard extends StatelessWidget {
                                           .colorScheme
                                           .onPrimaryContainer),
                                 ),
-                              ])),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: c.postPaddingHoriz,
-                        vertical: c.postPaddingVert,
+                        //vertical: c.postPaddingVert,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -149,103 +151,59 @@ class PostCard extends StatelessWidget {
                               // mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        if (Provider.of<PostCardController>(
-                                                context,
-                                                listen: false)
-                                            .isLoggedIn()) {
-                                          (!isPreview && !isOnProfile)
-                                              ? Provider.of<PostCardController>(
-                                                      context,
-                                                      listen: false)
-                                                  .avatarPressed()
-                                              : null;
-                                        }
-                                      },
-                                      style: TextButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        minimumSize: const Size(0, 0),
-                                        tapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              if (Provider.of<
-                                                          PostCardController>(
-                                                      context,
-                                                      listen: false)
-                                                  .isLoggedIn()) {
-                                                (!isPreview && !isOnProfile)
-                                                    ? Provider.of<
-                                                                PostCardController>(
-                                                            context,
-                                                            listen: false)
-                                                        .avatarPressed()
-                                                    : null;
-                                              }
-                                            },
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.zero,
-                                              minimumSize: const Size(0, 0),
-                                              tapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                            ),
-                                            child: Text(
-                                              post.author.name,
+                                    InkWell(
+                                        onTap: () {
+                                          if (Provider.of<PostCardController>(
+                                                  context,
+                                                  listen: false)
+                                              .isLoggedIn()) {
+                                            (!isPreview && !isOnProfile)
+                                                ? Provider.of<
+                                                            PostCardController>(
+                                                        context,
+                                                        listen: false)
+                                                    .avatarPressed()
+                                                : null;
+                                          }
+                                        },
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "@${post.author.username}", //post.author.name,
                                               style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 17,
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .onBackground,
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(width: 8.0),
-                                          TextButton(
-                                            onPressed: () {
-                                              if (Provider.of<
-                                                          PostCardController>(
-                                                      context,
-                                                      listen: false)
-                                                  .isLoggedIn()) {
-                                                (!isPreview && !isOnProfile)
-                                                    ? Provider.of<
-                                                                PostCardController>(
-                                                            context,
-                                                            listen: false)
-                                                        .avatarPressed()
-                                                    : null;
-                                              }
-                                            },
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.zero,
-                                              minimumSize: const Size(0, 0),
-                                              tapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                            ),
-                                            child: Text(
-                                              "@${post.author.username}",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w300,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onBackground,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    if (!isPreview) TimeStamp(time: post.time)
+
+                                            //const SizedBox(width: 8.0),
+                                            // Text(
+                                            //     "@${post.author.username}",
+                                            //     style: TextStyle(
+                                            //       fontSize: 12,
+                                            //       fontWeight: FontWeight.w300,
+                                            //       color: Theme.of(context)
+                                            //           .colorScheme
+                                            //           .onBackground,
+                                            //     ),
+                                            //   ),
+                                          ],
+                                        )),
+                                    const Spacer(),
+                                     if (!isPreview) TimeStamp(time: post.time),
+                                    // if (!isPreview)
+                                    //   InkWell(
+                                    //       onTap: () {},
+                                    //       child: Icon(Icons.more_vert))
                                   ],
                                 ),
                                 const SizedBox(height: 6.0),
@@ -522,6 +480,8 @@ class PostCard extends StatelessWidget {
                         text: TextSpan(
                           style: likeCommentTextStyle,
                           children: [
+                            //TextSpan(text:"${formatTime(post.time)} • "),
+                            //,
                             TextSpan(
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
@@ -534,21 +494,19 @@ class PostCard extends StatelessWidget {
                                     }
                                   },
                                 text:
-                                    "${Provider.of<PostCardController>(context, listen: true).likes} ${AppLocalizations.of(context)!.likes} • "),
+                                    "${Provider.of<PostCardController>(context, listen: true).likes} ${Provider.of<PostCardController>(context, listen: true).likes == 1 ? AppLocalizations.of(context)!.like : AppLocalizations.of(context)!.likes} • "),
                             TextSpan(
                                 text:
-                                    "${Provider.of<PostCardController>(context, listen: true).comments} ${AppLocalizations.of(context)!.comments}")
+                                    "${Provider.of<PostCardController>(context, listen: true).comments} ${Provider.of<PostCardController>(context, listen: true).comments == 1 ? AppLocalizations.of(context)!.comment : AppLocalizations.of(context)!.comments}")
                           ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 3),
-                      child: Divider(
+                    Divider(
                         color: Theme.of(context).colorScheme.outline,
                         height: c.dividerWidth,
                       ),
-                    ),
+                    
                   ],
                 ),
               ),

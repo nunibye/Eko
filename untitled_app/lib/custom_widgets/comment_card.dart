@@ -83,7 +83,7 @@ class CommentCard extends StatelessWidget {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
-                                  post.author.name,
+                                  "@${post.author.username}",
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Theme.of(context)
@@ -93,34 +93,34 @@ class CommentCard extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 8.0),
-                              TextButton(
-                                onPressed: () {
-                                  if (Provider.of<CommentCardController>(
-                                          context,
-                                          listen: false)
-                                      .isLoggedIn()) {
-                                    Provider.of<CommentCardController>(context,
-                                            listen: false)
-                                        .avatarPressed();
-                                  }
-                                },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: const Size(0, 0),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  "@${post.author.username}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                  ),
-                                ),
-                              ),
+                              // TextButton(
+                              //   onPressed: () {
+                              //     if (Provider.of<CommentCardController>(
+                              //             context,
+                              //             listen: false)
+                              //         .isLoggedIn()) {
+                              //       Provider.of<CommentCardController>(context,
+                              //               listen: false)
+                              //           .avatarPressed();
+                              //     }
+                              //   },
+                              //   style: TextButton.styleFrom(
+                              //     padding: EdgeInsets.zero,
+                              //     minimumSize: const Size(0, 0),
+                              //     tapTargetSize:
+                              //         MaterialTapTargetSize.shrinkWrap,
+                              //   ),
+                              //   child: Text(
+                              //     "@${post.author.username}",
+                              //     style: TextStyle(
+                              //       fontSize: 16,
+                              //       fontWeight: FontWeight.w300,
+                              //       color: Theme.of(context)
+                              //           .colorScheme
+                              //           .onBackground,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                           const SizedBox(height: 8.0),

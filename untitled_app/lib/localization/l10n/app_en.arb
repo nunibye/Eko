@@ -59,7 +59,9 @@
 
     "close":"Close",
     "likes":"Likes",
+    "like":"Like",
     "comments":"Comments",
+    "comment":"Comment",
     "follow":"Follow",
     "followers":"Followers",
     "following":"Following",
@@ -107,6 +109,7 @@
     "deleteAcountTitle":"Are you sure you want to delete your account?",
     "deleteAcountBody":"All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel",
     "delete":"Delete",
+    "report":"Report",
     "save":"Save",
     "searchUsername":"Search users...",
     "search":"Search",
@@ -170,6 +173,18 @@
     "logIntoApp":"Log in required",
     "logInRequired":"Please log in to access all features of Eko.",
     
-    "notInGroup":"You are no longer a member of this group."
+    "notInGroup":"You are no longer a member of this group.",
+
+    "send":"Send",
+    "reportDetails":"Please provide information on why you are reporting this post.",
+    "commentRequired":"Comment Required",
+
+    "tooEarlyDeleteTitle":"Please Wait",
+    "tooEarlyDeleteBody":"Posts may only be deleted 48 hours after they are posted.",
+
+    "deletePostWarningTitle":"Delete Post",
+    "deletePostWarningBody":"Are you sure you wish to procede? This action cannot be undone."
+
+    
 
 }

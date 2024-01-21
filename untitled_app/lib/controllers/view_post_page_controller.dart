@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:giphy_get/giphy_get.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/login_text_feild.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/models/current_user.dart';
+import 'package:untitled_app/models/group_handler.dart';
 import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 import '../models/search_model.dart';
 import '../models/users.dart';
@@ -37,6 +39,8 @@ class PostPageController extends ChangeNotifier {
   List<AppUser> hits = [];
   Timer? _debounce;
   GiphyGif? gif;
+  final reportFocus = FocusNode();
+  final reportController = TextEditingController();
 
   bool builtFromID = false;
   PostPageController({
@@ -54,9 +58,22 @@ class PostPageController extends ChangeNotifier {
       if (post == null) {
         final readPost = await locator<PostsHandling>().getPostFromId(id);
         if (readPost != null) {
-          post = readPost;
-          builtFromID = true;
-          post!.hasCache = true;
+          if (readPost.tags.contains("public")) {
+            post = readPost;
+            builtFromID = true;
+            post!.hasCache = true;
+          } else {
+            final group =
+                await GroupHandler().getGroupFromId(readPost.tags.first);
+            if (group != null &&
+                group.members.contains(locator<CurrentUser>().getUID())) {
+              post = readPost;
+              builtFromID = true;
+              post!.hasCache = false;
+            } else {
+              postNotFound = true;
+            }
+          }
         } else {
           postNotFound = true;
         }
@@ -108,6 +125,121 @@ class PostPageController extends ChangeNotifier {
   void updateCount(String str) {
     chars = str.length;
     //notifyListeners();j
+  }
+
+  void _deletePostFromDialog() {
+    //add call
+    _pop();
+  }
+
+  void deletePressed() {
+    if (DateTime.parse(post!.time)
+        .toLocal()
+        .add(const Duration(hours: 48))
+        .difference(DateTime.now())
+        .isNegative) {
+      //delete
+      showMyDialog(
+          AppLocalizations.of(context)!.deletePostWarningTitle,
+          AppLocalizations.of(context)!.deletePostWarningBody,
+          [
+            AppLocalizations.of(context)!.cancel,
+            AppLocalizations.of(context)!.delete
+          ],
+          [_pop, _deletePostFromDialog],
+          context);
+    } else {
+      //too early
+      showMyDialog(
+          AppLocalizations.of(context)!.tooEarlyDeleteTitle,
+          AppLocalizations.of(context)!.tooEarlyDeleteBody,
+          [AppLocalizations.of(context)!.ok],
+          [_pop],
+          context);
+    }
+  }
+
+  void reportPressed() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final height = MediaQuery.sizeOf(context).height;
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(
+            AppLocalizations.of(context)!.reportDetails,
+            style: const TextStyle(fontSize: 18),
+          ),
+          content: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: height * 0.5),
+              child: TextField(
+                textCapitalization: TextCapitalization.sentences,
+                focusNode: reportFocus,
+
+                // onChanged: (s) {
+                //   Provider.of<ComposeController>(context, listen: false)
+                //       .updateCountsBody(s);
+                //   Provider.of<ComposeController>(context, listen: false)
+                //       .checkAtSymbol(s);
+                // },
+                controller: reportController,
+
+                maxLines: null,
+                maxLength: 300,
+                cursorColor: Theme.of(context).colorScheme.onBackground,
+                keyboardType: TextInputType.multiline,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Theme.of(context).colorScheme.onBackground),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(height * 0.01),
+                  hintText: AppLocalizations.of(context)!.addText,
+                  hintStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  //border: InputBorder.none,
+                ),
+              ),
+            ),
+
+            //  CustomInputFeild(
+            //   focus: reportFocus,
+            //   label: AppLocalizations.of(context)!.comments,
+            //   controller: reportController,
+            //   inputType: TextInputType.multiline,
+            // ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.cancel),
+              onPressed: () {
+                _pop();
+              },
+            ),
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.send),
+              onPressed: () async {
+                final message = reportController.text.trim();
+                if (message != "") {
+                  reportController.text = "";
+                  await locator<PostsHandling>()
+                      .addReport(post: post!, message: message);
+                  _pop();
+                } else {
+                  showSnackBar(
+                      context: context,
+                      text: AppLocalizations.of(context)!.commentRequired);
+                }
+                //resetPassword(countryCode);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void checkAtSymbol(String text) {
@@ -259,7 +391,7 @@ class PostPageController extends ChangeNotifier {
     //only update gif a gif was selected
     if (newGif != null) {
       gif = newGif;
-      postCommentPressed(); 
+      postCommentPressed();
     }
     notifyListeners();
     locator<NavBarController>().enable();
