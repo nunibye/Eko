@@ -1,4 +1,5 @@
 //rename later with more defined scope?
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/models/current_user.dart';
@@ -265,7 +266,7 @@ class PostsHandling {
     report["message"] = message;
     report["time"] = DateTime.now().toUtc().toIso8601String();
     await firestore.collection('reports').add(report);
-   // return true;
+    // return true;
   }
 
   createComment(Map<String, dynamic> comment, String postID, String rootAuthor,
@@ -640,6 +641,15 @@ class PostsHandling {
 
       return postsToPassBack;
     }
+  }
+
+//delete
+  Future<void> deleteData(String path) async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('deleteData');
+    await callable.call(<String, dynamic>{
+      'path': path,
+    });
   }
 
   // Future<List<RawPostObject>> getPosts(

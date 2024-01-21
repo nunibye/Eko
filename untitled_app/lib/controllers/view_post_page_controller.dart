@@ -128,7 +128,8 @@ class PostPageController extends ChangeNotifier {
   }
 
   void _deletePostFromDialog() {
-    //add call
+    locator<PostsHandling>().deleteData("posts/${post!.postId}");
+    _pop();
     _pop();
   }
 
