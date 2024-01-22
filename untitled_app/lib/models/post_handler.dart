@@ -447,7 +447,8 @@ class PostsHandling {
           await countComments(raw.postID),
           group: (raw.tags.contains("public"))
               ? null
-              : await GroupHandler().getGroupFromId(raw.tags.first), hasCache: true);
+              : await GroupHandler().getGroupFromId(raw.tags.first),
+          hasCache: true);
     }).toList();
     return PaginationGetterReturn(
         end: (postList.length < c.postsOnRefresh),
@@ -509,10 +510,10 @@ class PostsHandling {
 
       return Post.fromRaw(raw, user, 0, rootPostId: rootUid);
     }).toList();
-
+    final returnList = await Future.wait(postList);
+    
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh),
-        payload: await Future.wait(postList));
+        end: (returnList.length < c.postsOnRefresh), payload: returnList);
   }
 
   // Future<AppUser> _getUser(String id) async {
@@ -523,7 +524,7 @@ class PostsHandling {
 
 //feed
   Future<PaginationGetterReturn> getFeedPosts(
-      dynamic time, Query<Map<String, dynamic>>? query, int index) async {
+      dynamic time, Query<Map<String, dynamic>>? query) async {
     // final postList = await newGetPosts(time, query);
     // List<Future<int>> futuresComment = [];
     // List<Future<AppUser>> futuresUsers = [];
@@ -555,9 +556,11 @@ class PostsHandling {
     // }
 
     //locator<FeedPostCache>().postsList[index].items.addAll(listReturn);
+    final returnList = await Future.wait(postList);
+print(returnList.length);
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh),
-        payload: await Future.wait(postList));
+        end: (returnList.length < c.postsOnRefresh),
+        payload: returnList);
   }
 
   Future<List<RawPostObject>> newGetPosts(

@@ -8,6 +8,7 @@ class Cache {
 }
 
 class FeedPostCache {
+  Cache groupsCache = Cache(end: false, items: []);
   Cache profileCache = Cache(end: false, items: []);
   List<Cache> postsList =
       List.generate(3, (index) => Cache(items: [], end: false));

@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled_app/controllers/view_post_page_controller.dart';
 import 'package:untitled_app/custom_widgets/count_down_timer.dart';
+import 'package:untitled_app/custom_widgets/gif_widget.dart';
 import 'package:untitled_app/custom_widgets/time_stamp.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/utilities/locator.dart';
@@ -30,7 +31,7 @@ class CommentCard extends StatelessWidget {
     final width = c.widthGetter(context);
 
     return ChangeNotifierProvider(
-      create:(context)=> CommentCardController(post: post, context: context),
+      create: (context) => CommentCardController(post: post, context: context),
       builder: (context, child) {
         return TapRegion(
           onTapOutside: (v) =>
@@ -70,29 +71,31 @@ class CommentCard extends StatelessWidget {
                     SizedBox(
                       width: width * 0.2,
                       //color: Colors.red,
-                      child:
-                          (post.author.uid == locator<CurrentUser>().getUID())
-                              ? GestureDetector(onTap: () => Provider.of<CommentCardController>(
-                                context,
-                                listen: false).deletePressed(),child: Column(
-                                  children: [
-                                    const Icon(
-                                      CupertinoIcons.delete_simple,
-                                      size: 32,
-                                    ),
-                                    CountDownTimer(
+                      child: (post.author.uid ==
+                              locator<CurrentUser>().getUID())
+                          ? GestureDetector(
+                              onTap: () => Provider.of<CommentCardController>(
+                                      context,
+                                      listen: false)
+                                  .deletePressed(),
+                              child: Column(
+                                children: [
+                                  const Icon(
+                                    CupertinoIcons.delete_simple,
+                                    size: 32,
+                                  ),
+                                  CountDownTimer(
                                     dateTime: DateTime.parse(post.time)
                                         .toLocal()
                                         .add(const Duration(hours: 48)),
-                                    textStyle: const TextStyle(
-                                        fontSize: 13),
+                                    textStyle: const TextStyle(fontSize: 13),
                                   )
-                                  ],
-                                ))
-                              : const Icon(
-                                  CupertinoIcons.arrow_turn_up_left,
-                                  size: 32,
-                                ),
+                                ],
+                              ))
+                          : const Icon(
+                              CupertinoIcons.arrow_turn_up_left,
+                              size: 32,
+                            ),
                     )
                   ],
                 ),
@@ -241,36 +244,7 @@ class _Card extends StatelessWidget {
                             }).toList(),
                           ),
                         ),
-                      if (post.gifURL != null)
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            post.gifURL!,
-                            fit: BoxFit.fill,
-                            errorBuilder: (context, error, stackTrace) => Text(
-                                AppLocalizations.of(context)!.gifLoadingError),
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Container(
-                                alignment: Alignment.center,
-                                width: 200,
-                                height: 150,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                      if (post.gifURL != null) GifWidget(url: post.gifURL!),
                       const SizedBox(height: 4.0),
                       TextButton(
                         onPressed: () {
@@ -322,14 +296,12 @@ class _Card extends StatelessWidget {
                       if (Provider.of<CommentCardController>(context,
                               listen: false)
                           .isLoggedIn()) {
-                        
-                          Provider.of<CommentCardController>(context,
-                                  listen: false)
-                              .likePressed();
-                          return !isLiked;
-                          }
-                        return isLiked;
-                      
+                        Provider.of<CommentCardController>(context,
+                                listen: false)
+                            .likePressed();
+                        return !isLiked;
+                      }
+                      return isLiked;
                     },
                     likeCount: Provider.of<CommentCardController>(context,
                             listen: true)

@@ -205,12 +205,17 @@ class EditGroupPageController extends ChangeNotifier {
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
     _pop();
-    context.go("/groups", extra: true);
+    //context.go("/groups", extra: true);
     if (members.isNotEmpty) {
       GroupHandler().updateGroupMembers(group, members);
-    }else{
+    } else {
       locator<PostsHandling>().deleteData("groups/${group.id}");
     }
+    locator<FeedPostCache>().groupsCache.items.removeWhere((element) {
+      element as Group;
+      return element.id == group.id;
+    });
+    context.go("/groups", extra: true);
   }
 
   void leaveGroup() {

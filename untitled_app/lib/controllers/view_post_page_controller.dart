@@ -151,13 +151,14 @@ class PostPageController extends ChangeNotifier {
   }
 
   void reduceComments() {
-     postMap[post!.postId]!.post.commentCount--;
+    postMap[post!.postId]!.post.commentCount--;
   }
 
   void _deletePostFromDialog() {
     _pop();
     locator<FeedPostCache>().removePostFromAllCaches(post!.postId);
     _pop();
+    postMap[post!.postId]!.visible = false;
     locator<PostsHandling>().deleteData("posts/${post!.postId}");
   }
 

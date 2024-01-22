@@ -28,6 +28,7 @@ class PostCardController extends ChangeNotifier {
   bool liking = false;
   bool sharing = false;
   late bool isSelf;
+  bool visible = true;
   // Group? group;
 
   final bool isBuiltFromId;
@@ -115,6 +116,11 @@ class PostCardController extends ChangeNotifier {
 
   void _goToLogin() {
     context.go('/');
+  }
+
+  void rebuild() {
+    //notifyListeners();
+    print("hui");
   }
 
   // avatarPressed() async {

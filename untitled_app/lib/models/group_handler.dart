@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../utilities/constants.dart' as c;
 
 class Group {
-  final String id;
+ String id;
   String name;
   String description;
   String lastActivity;
@@ -50,9 +50,10 @@ class Group {
 }
 
 class GroupHandler {
-  void createGroup(Group group) async {
+  Future<String> createGroup(Group group) async {
     final firestore = FirebaseFirestore.instance;
-    await firestore.collection('groups').add(group.toMap());
+    final snapshot = await firestore.collection('groups').add(group.toMap());
+    return snapshot.id;
   }
 
   Future<void> updateGroupMembers(Group group, List<String> members) async {

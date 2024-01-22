@@ -103,6 +103,6 @@ class SearchedUserController extends ChangeNotifier {
       adder!(user, true);
       //added = true;
     }
-    //notifyListeners();
+    notifyListeners();
   }
 }

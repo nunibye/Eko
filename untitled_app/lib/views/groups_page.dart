@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/models/feed_post_cache.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import '../controllers/groups_page_controller.dart';
 import '../custom_widgets/pagination.dart';
 import '../custom_widgets/group_card.dart';
@@ -36,6 +38,7 @@ class GroupsPage extends StatelessWidget {
                   .onWillPop(),
           child: Scaffold(
             body: PaginationPage(
+              externalData: locator<FeedPostCache>().groupsCache,
               getter: Provider.of<GroupsPageController>(context, listen: true)
                   .getGroups,
               card: groupCardBuilder,

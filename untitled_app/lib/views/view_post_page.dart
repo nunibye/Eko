@@ -21,6 +21,7 @@ class ViewPostPage extends StatelessWidget {
   final Post? post;
   final String id;
   const ViewPostPage({super.key, required this.post, required this.id});
+  
 
   @override
   Widget build(BuildContext context) {

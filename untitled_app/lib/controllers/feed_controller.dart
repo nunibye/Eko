@@ -155,11 +155,11 @@ class FeedController extends ChangeNotifier {
   }
 
   Future<PaginationGetterReturn> getPosts(dynamic time) {
-    return locator<PostsHandling>().getFeedPosts(time, query, index);
+    return locator<PostsHandling>().getFeedPosts(time, query);
   }
 
   dynamic getTimeFromPost(dynamic post) {
-    if (index != 1) {
+    if (index != 2) {
       return locator<PostsHandling>().getTimeFromPost(post);
     } else {
       return (post as Post).likes;

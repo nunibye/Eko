@@ -109,12 +109,11 @@ class NotificationService extends ChangeNotifier {
     String path = message.data['path'];
     String type = message.data['type'];
     locator<FeedPostCache>().clearCache();
-    await locator<PostsHandling>().getFeedPosts(
-        null,
-        FirebaseFirestore.instance
-            .collection("posts")
-            .orderBy('time', descending: true),
-        2);
+    // await locator<PostsHandling>().getFeedPosts(
+    //     null,
+    //     FirebaseFirestore.instance
+    //         .collection("posts")
+    //         .orderBy('time', descending: true));
     cancelNotification();
     switch (type) {
       case 'comment':
@@ -146,12 +145,12 @@ class NotificationService extends ChangeNotifier {
     String path = message.data['path'];
     String type = message.data['type'];
     locator<FeedPostCache>().clearCache();
-    await locator<PostsHandling>().getFeedPosts(
-        null,
-        FirebaseFirestore.instance
-            .collection("posts")
-            .orderBy('time', descending: true),
-        2);
+    // await locator<PostsHandling>().getFeedPosts(
+    //     null,
+    //     FirebaseFirestore.instance
+    //         .collection("posts")
+    //         .orderBy('time', descending: true),
+    //     2);
     switch (type) {
       case 'comment':
         context.push("/feed/post/$path");
