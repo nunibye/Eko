@@ -79,6 +79,7 @@ dependencies:
   like_button: 
     path: ./like_button-custom/
   firebase_app_check: ^0.2.1+8
+  firebase_database: ^10.4.0
 dev_dependencies:
   
   # flutter_test:

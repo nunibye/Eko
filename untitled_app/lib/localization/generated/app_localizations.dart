@@ -992,6 +992,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you wish to procede? This action cannot be undone.'**
   String get deletePostWarningBody;
+
+  /// No description provided for @invalidSession.
+  ///
+  /// In en, this message translates to:
+  /// **'This Eko account is being used on another device. Press below to continue on this device.'**
+  String get invalidSession;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

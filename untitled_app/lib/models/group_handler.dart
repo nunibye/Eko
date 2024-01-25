@@ -66,7 +66,7 @@ class GroupHandler {
       'members': members,
     });
 
-    print('Group members updated successfully.');
+    //print('Group members updated successfully.');
   }
 
   Future<Group?> getGroupFromId(String id) async {

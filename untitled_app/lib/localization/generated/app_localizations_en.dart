@@ -453,4 +453,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletePostWarningBody => 'Are you sure you wish to procede? This action cannot be undone.';
+
+  @override
+  String get invalidSession => 'This Eko account is being used on another device. Press below to continue on this device.';
 }

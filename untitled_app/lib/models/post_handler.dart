@@ -557,7 +557,7 @@ class PostsHandling {
 
     //locator<FeedPostCache>().postsList[index].items.addAll(listReturn);
     final returnList = await Future.wait(postList);
-print(returnList.length);
+//print(returnList.length);
     return PaginationGetterReturn(
         end: (returnList.length < c.postsOnRefresh),
         payload: returnList);
