@@ -19,7 +19,7 @@ const RESOURCES = {".well-known/apple-app-site-association": "0b4727901ab1ade3de
 "assets/images/fog1.gif": "3faf2ad88042763950b847f2064fb83e",
 "assets/images/playStoreButton.svg": "14e64817189d24de31256a9117d038f5",
 "assets/NOTICES": "baad4f6600a0f66fc27ed2ccc9e5cef3",
-"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6e2c3a886b8c2be4b975e91477bb7152",
+"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "a19e90eb9bf00cf3028231fcb3bba47a",
 "assets/packages/giphy_get/assets/img/GIPHY_dark.png": "13139c9681ad6a03a0f4a45030aee388",
 "assets/packages/giphy_get/assets/img/GIPHY_light.png": "7c7ed0e459349435c6694a720236d5f4",
 "assets/packages/giphy_get/assets/img/poweredby_dark.png": "e4fe68503ab5d004deb31e43636a0a7c",
@@ -38,11 +38,11 @@ const RESOURCES = {".well-known/apple-app-site-association": "0b4727901ab1ade3de
 "icons/Icon-512.png": "420a6559ae2f6521ab1fe2a531119d52",
 "icons/Icon-maskable-192.png": "de64e1865235045612f8cbe081ba2bbf",
 "icons/Icon-maskable-512.png": "15012744cb9e665935757527d7a09a56",
-"index.html": "caf56e43e879ab782b3eb8cff1644e77",
-"/": "caf56e43e879ab782b3eb8cff1644e77",
-"main.dart.js": "e40c6adedf4f61847c26b8d6f7f8c175",
+"index.html": "f57dea913c694c56b474b05a03cc9bee",
+"/": "f57dea913c694c56b474b05a03cc9bee",
+"main.dart.js": "ee5c10cfd584a1d3074fdaad4f4e93c5",
 "manifest.json": "bc7d18ebf3eba36993c18c7569e97bb4",
-"version.json": "7c39b45d1411c2b0a1901d059160eded"};
+"version.json": "528a1d3b8533201d090e2bed03d1b363"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
