@@ -11,7 +11,7 @@ import 'package:untitled_app/localization/generated/app_localizations.dart';
 import '../custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
-import 'package:untitled_app/models/feed_post_cache.dart' show Cache;
+import 'package:untitled_app/models/feed_post_cache.dart';
 import '../custom_widgets/searched_user_card.dart';
 
 class CreateGroupPageController extends ChangeNotifier {
@@ -33,6 +33,7 @@ class CreateGroupPageController extends ChangeNotifier {
   final searchModel = SearchModel();
   String query = "";
   Cache searchedListData = Cache(items: [], end: false);
+  bool creatingGroup = false;
 
   CreateGroupPageController({required this.context});
   void goForward() {
@@ -45,6 +46,17 @@ class CreateGroupPageController extends ChangeNotifier {
           duration: const Duration(milliseconds: c.signUpAnimationDuration),
           curve: Curves.decelerate);
     }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    nameFocus.dispose();
+    descriptionController.dispose();
+    searchTextController.dispose();
+    pageController.dispose();
+    selectedPeopleScroll.dispose();
+    super.dispose();
   }
 
   void _pop() {
@@ -177,19 +189,25 @@ class CreateGroupPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createGroup() {
-    context.pop();
-    List<String> members = (selectedPeople.map((e) => e.uid).toList());
-    members.insert(0, locator<CurrentUser>().getUID());
-    final newGroup = Group(
+  void createGroup() async {
+    if (!creatingGroup) {
+      creatingGroup = true;
+      List<String> members = (selectedPeople.map((e) => e.uid).toList());
+      members.insert(0, locator<CurrentUser>().getUID());
+      final newGroup = Group(
         icon: icon,
         description: descriptionController.text,
         name: nameController.text,
         createdOn: DateTime.now().toUtc().toIso8601String(),
         lastActivity: DateTime.now().toUtc().toIso8601String(),
         members: members,
-        notSeen: []);
-    GroupHandler().createGroup(newGroup);
+        notSeen: [],
+      );
+      newGroup.id = await GroupHandler().createGroup(newGroup);
+      locator<FeedPostCache>().groupsCache.items.insert(0, newGroup);
+      creatingGroup = false;
+      context.pop();
+    }
   }
 
   void pickEmoji() {

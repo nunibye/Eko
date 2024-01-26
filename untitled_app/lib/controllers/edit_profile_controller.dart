@@ -50,6 +50,15 @@ class EditProfileController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  @override
+  void dispose() {
+    usernameController.dispose();
+    usernameFocus.dispose();
+    bioController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
   void checkChanges() {
     if (locator<CurrentUser>().name != nameController.text ||
         locator<CurrentUser>().bio != bioController.text ||
@@ -94,6 +103,7 @@ class EditProfileController extends ChangeNotifier {
       _pop();
     }
   }
+
 //FIXME optomize
   void savePressed() async {
     bool shouldPop = true;

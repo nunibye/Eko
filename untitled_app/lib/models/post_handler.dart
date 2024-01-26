@@ -1,4 +1,5 @@
 //rename later with more defined scope?
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:untitled_app/models/current_user.dart';
@@ -256,15 +257,27 @@ class PostsHandling {
         .then((value) => value.count, onError: (e) => 0);
   }
 
-  createComment(Map<String, dynamic> comment, String postID, String rootAuthor,
-      String path) async {
+  Future<void> addReport({required Post post, required String message}) async {
+    Map<String, dynamic> report = {};
+    final firestore = FirebaseFirestore.instance;
+    report["sender"] = locator<CurrentUser>().getUID();
+    report["postId"] = post.postId;
+    report["postAuthor"] = post.author.uid;
+    report["message"] = message;
+    report["time"] = DateTime.now().toUtc().toIso8601String();
+    await firestore.collection('reports').add(report);
+    // return true;
+  }
+
+  Future<String> createComment(Map<String, dynamic> comment, String postID,
+      String rootAuthor, String path) async {
     final user = FirebaseAuth.instance.currentUser!;
     final firestore = FirebaseFirestore.instance;
     final String time = DateTime.now().toUtc().toIso8601String();
     comment["author"] = user.uid;
     comment["time"] = time;
     comment["likes"] = 0; //change this
-    await Future.wait([
+    final value = await Future.wait([
       firestore
           .collection('posts')
           .doc(postID)
@@ -278,6 +291,7 @@ class PostsHandling {
             path: path,
             user: rootAuthor)
     ]);
+    final snapshot = value[0] as DocumentReference<Map<String, dynamic>>;
     List<String> parsedText = Post.parseText(comment["body"]);
 
     Future<void> notifiyTagedPeople(String chunk) async {
@@ -301,9 +315,8 @@ class PostsHandling {
       futures.add(notifiyTagedPeople(chunk));
     }
     await Future.wait(futures);
-
+    return snapshot.id;
     //.then((documentSnapshot)=> print("Added Data with ID: ${documentSnapshot.id}"));
-    return "success";
   }
 
   Future<void> addActivty(
@@ -372,7 +385,7 @@ class PostsHandling {
     final list = snapshot.docs.map<Future<RecentActivityCard>>((doc) async {
       var data = doc.data();
       AppUser user = AppUser();
-      user.readUserData(data["sourceUid"]);
+      await user.readUserData(data["sourceUid"]);
       // FIXME: not sure why this gave an error, i had to add these conditionals
       return RecentActivityCard.fromJson(data, user);
 
@@ -383,7 +396,7 @@ class PostsHandling {
       //     path: data["path"] ?? "",
       //     sourceUid: data["sourceUid"] ?? "");
     }).toList();
-    return Future.wait(list);
+    return await Future.wait(list);
   }
 
   dynamic getTimeFromPost(dynamic post) {
@@ -434,7 +447,8 @@ class PostsHandling {
           await countComments(raw.postID),
           group: (raw.tags.contains("public"))
               ? null
-              : await GroupHandler().getGroupFromId(raw.tags.first));
+              : await GroupHandler().getGroupFromId(raw.tags.first),
+          hasCache: true);
     }).toList();
     return PaginationGetterReturn(
         end: (postList.length < c.postsOnRefresh),
@@ -494,13 +508,12 @@ class PostsHandling {
       AppUser user = AppUser();
       await user.readUserData(raw.author);
 
-      return Post.fromRaw(raw, user, 0,
-          rootPostId: rootUid);
+      return Post.fromRaw(raw, user, 0, rootPostId: rootUid);
     }).toList();
-
+    final returnList = await Future.wait(postList);
+    
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh),
-        payload: await Future.wait(postList));
+        end: (returnList.length < c.postsOnRefresh), payload: returnList);
   }
 
   // Future<AppUser> _getUser(String id) async {
@@ -511,7 +524,7 @@ class PostsHandling {
 
 //feed
   Future<PaginationGetterReturn> getFeedPosts(
-      dynamic time, Query<Map<String, dynamic>>? query, int index) async {
+      dynamic time, Query<Map<String, dynamic>>? query) async {
     // final postList = await newGetPosts(time, query);
     // List<Future<int>> futuresComment = [];
     // List<Future<AppUser>> futuresUsers = [];
@@ -533,7 +546,7 @@ class PostsHandling {
     final postList =
         (await newGetPosts(time, query)).map<Future<Post>>((raw) async {
       AppUser user = AppUser();
-     await user.readUserData(raw.author);
+      await user.readUserData(raw.author);
 
       return Post.fromRaw(raw, user, await countComments(raw.postID),
           hasCache: true);
@@ -543,8 +556,11 @@ class PostsHandling {
     // }
 
     //locator<FeedPostCache>().postsList[index].items.addAll(listReturn);
+    final returnList = await Future.wait(postList);
+//print(returnList.length);
     return PaginationGetterReturn(
-        end: (postList.length < c.postsOnRefresh), payload: await Future.wait(postList));
+        end: (returnList.length < c.postsOnRefresh),
+        payload: returnList);
   }
 
   Future<List<RawPostObject>> newGetPosts(
@@ -565,17 +581,19 @@ class PostsHandling {
     } else {
       final firestore = FirebaseFirestore.instance;
       List<RawPostObject> postsToPassBack = [];
-      if (locator<CurrentUser>().following.isEmpty) {
-        return postsToPassBack;
-      }
+      final List<dynamic> followingCopy = [...locator<CurrentUser>().following];
+      followingCopy.add(locator<CurrentUser>().getUID());
+      // if (locator<CurrentUser>().following.isEmpty) {
+      //   return postsToPassBack;
+      // }
 
       if (feedChunks.isEmpty) {
         // must handle if the user is following no one or app crashes
-        if (locator<CurrentUser>().following.isEmpty) {
-          return postsToPassBack;
-        }
+        // if (locator<CurrentUser>().following.isEmpty) {
+        //   return postsToPassBack;
+        // }
 
-        final following = locator<CurrentUser>().following.slices(30);
+        final following = followingCopy.slices(30);
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
@@ -628,6 +646,15 @@ class PostsHandling {
 
       return postsToPassBack;
     }
+  }
+
+//delete
+  Future<void> deleteData(String path) async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('deleteData');
+    await callable.call(<String, dynamic>{
+      'path': path,
+    });
   }
 
   // Future<List<RawPostObject>> getPosts(

@@ -43,6 +43,25 @@ class SignUpController extends ChangeNotifier {
 
   SignUpController({required this.context});
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    usernameController.dispose();
+    dobController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    passwordConfirmController.dispose();
+    nameFocus.dispose();
+    usernameFocus.dispose();
+    dobFocus.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
+    passwordConfirmFocus.dispose();
+
+    final pageController = PageController();
+    super.dispose();
+  }
+
   passwordChanged() {
     passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
     int points = 0;

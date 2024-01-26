@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
-import 'package:untitled_app/custom_widgets/error_snack_bar.dart';
+import 'package:untitled_app/custom_widgets/count_down_timer.dart';
+
 import 'package:untitled_app/custom_widgets/loading_spinner.dart';
 import 'package:untitled_app/custom_widgets/post_card.dart';
-import 'package:untitled_app/custom_widgets/warning_dialog.dart';
+
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/custom_widgets/comment_card.dart';
+import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/utilities/locator.dart';
-import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
+
 import '../custom_widgets/searched_user_card.dart';
 import '../models/post_handler.dart' show Post;
 import '../controllers/view_post_page_controller.dart';
@@ -20,6 +21,7 @@ class ViewPostPage extends StatelessWidget {
   final Post? post;
   final String id;
   const ViewPostPage({super.key, required this.post, required this.id});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,83 @@ class ViewPostPage extends StatelessWidget {
                   Provider.of<PostPageController>(context, listen: false)
                       .hideKeyboard(),
               child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  surfaceTintColor: Colors.transparent,
+                  automaticallyImplyLeading: false,
+                  leading:
+                      Provider.of<PostPageController>(context, listen: false)
+                              .isLoggedIn()
+                          ? IconButton(
+                              icon: Icon(Icons.arrow_back_ios_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                              onPressed: () => context.pop(),
+                            )
+                          : TextButton(
+                              onPressed: () {
+                                context.go('/');
+                              },
+                              child: Text(AppLocalizations.of(context)!.signIn),
+                            ),
+                  actions: [
+                    PopupMenuButton<void Function()>(
+                      itemBuilder: (context) {
+                        return [
+                          if (post!.author.uid !=
+                              locator<CurrentUser>().getUID())
+                            PopupMenuItem(
+                              height: 25,
+                              value: () => Provider.of<PostPageController>(
+                                      context,
+                                      listen: false)
+                                  .reportPressed(),
+                              child: Text(AppLocalizations.of(context)!.report),
+                            )
+                          else
+                            PopupMenuItem(
+                              height: 25,
+                              value: () => Provider.of<PostPageController>(
+                                      context,
+                                      listen: false)
+                                  .deletePressed(),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(AppLocalizations.of(context)!.delete),
+                                  CountDownTimer(
+                                    dateTime: DateTime.parse(post!.time)
+                                        .toLocal()
+                                        .add(const Duration(hours: 48)),
+                                    textStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                        fontSize: 13),
+                                  )
+                                ],
+                              ),
+                            ),
+                        ];
+                      },
+                      onSelected: (fn) => fn(),
+                      color: Theme.of(context).colorScheme.surface,
+                      child: Icon(
+                        Icons.more_vert,
+                        color: Theme.of(context).colorScheme.onBackground,
+                      ),
+                    ),
+                    // IconButton(
+                    //   onPressed: () {
+
+                    //   },
+                    //   icon: const Icon(Icons.more_vert),
+                    //   color: Theme.of(context).colorScheme.onBackground,
+                    // )
+                  ],
+                ),
                 body: Provider.of<PostPageController>(context, listen: true)
                         .postNotFound
                     ? Center(
@@ -48,7 +127,7 @@ class ViewPostPage extends StatelessWidget {
                               child: Text(
                                 AppLocalizations.of(context)!.postNotFound,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 23),
+                                style: const TextStyle(fontSize: 23),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -81,32 +160,31 @@ class ViewPostPage extends StatelessWidget {
                         ? const Center(child: LoadingSpinner())
                         : Column(
                             children: [
-                              Row(
-                                children: [
-                                  if (Provider.of<PostPageController>(context,
-                                          listen: false)
-                                      .isLoggedIn())
-                                    IconButton(
-                                      icon: Icon(Icons.arrow_back_ios_rounded,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground),
-                                      onPressed: () =>
-                                          Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .onExitPressed(),
-                                    )
-                                  else
-                                    TextButton(
-                                        onPressed: () {
-                                          context.go('/');
-                                        },
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .signIn))
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+
+                              //       IconButton(
+                              //         icon: Icon(Icons.arrow_back_ios_rounded,
+                              //             color: Theme.of(context)
+                              //                 .colorScheme
+                              //                 .onBackground),
+                              //         onPressed: () =>
+                              //             Provider.of<PostPageController>(
+                              //                     context,
+                              //                     listen: false)
+                              //                 .onExitPressed(),
+                              //       )
+
+                              //     else
+                              //       TextButton(
+                              //           onPressed: () {
+                              //             context.go('/');
+                              //           },
+                              //           child: Text(
+                              //               AppLocalizations.of(context)!
+                              //                   .signIn))
+                              //   ],
+                              // ),
                               Expanded(
                                 child: IndexedStack(
                                   index: !Provider.of<PostPageController>(
@@ -117,6 +195,9 @@ class ViewPostPage extends StatelessWidget {
                                       : 1,
                                   children: [
                                     PaginationPage(
+                                      externalData: Provider.of<PostPageController>(
+                                                    context,
+                                                    listen: true).data,
                                         getter: Provider.of<PostPageController>(
                                                 context,
                                                 listen: false)

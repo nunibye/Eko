@@ -369,11 +369,23 @@ abstract class AppLocalizations {
   /// **'Likes'**
   String get likes;
 
+  /// No description provided for @like.
+  ///
+  /// In en, this message translates to:
+  /// **'Like'**
+  String get like;
+
   /// No description provided for @comments.
   ///
   /// In en, this message translates to:
   /// **'Comments'**
   String get comments;
+
+  /// No description provided for @comment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get comment;
 
   /// No description provided for @follow.
   ///
@@ -614,6 +626,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @report.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get report;
 
   /// No description provided for @save.
   ///
@@ -926,6 +944,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are no longer a member of this group.'**
   String get notInGroup;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @reportDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide information on why you are reporting this post.'**
+  String get reportDetails;
+
+  /// No description provided for @commentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment Required'**
+  String get commentRequired;
+
+  /// No description provided for @tooEarlyDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Wait'**
+  String get tooEarlyDeleteTitle;
+
+  /// No description provided for @tooEarlyDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts/comments may only be deleted 48 hours after they are posted.'**
+  String get tooEarlyDeleteBody;
+
+  /// No description provided for @deletePostWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Post'**
+  String get deletePostWarningTitle;
+
+  /// No description provided for @deleteCommentWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Comment'**
+  String get deleteCommentWarningTitle;
+
+  /// No description provided for @deletePostWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you wish to procede? This action cannot be undone.'**
+  String get deletePostWarningBody;
+
+  /// No description provided for @invalidSession.
+  ///
+  /// In en, this message translates to:
+  /// **'This Eko account is being used on another device. Press below to continue on this device.'**
+  String get invalidSession;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import 'bottom_nav_bar_controller.dart';
 import '../models/group_handler.dart';
@@ -7,6 +8,7 @@ import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
 
 class GroupsPageController extends ChangeNotifier {
+  Cache groups = Cache(end: false, items: []);
   final BuildContext context;
   final bool reload;
   GroupsPageController({required this.context, required this.reload}) {
@@ -22,8 +24,11 @@ class GroupsPageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createGroupPressed() {
-    context.push("/groups/create_group");
+  void createGroupPressed() async {
+    //notifyListeners();
+    context.push("/groups/create_group").then((v) {
+      notifyListeners();
+    });
   }
 
   Future<bool> onWillPop() async {

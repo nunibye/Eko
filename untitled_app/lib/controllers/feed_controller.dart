@@ -146,18 +146,20 @@ class FeedController extends ChangeNotifier {
     });
   }
 
-  void onRefresh() {
+  void onRefresh() async {
     if (index == 0) {
       locator<PostsHandling>().feedChunks.clear();
     }
+
+    await locator<CurrentUser>().readCurrentUserData();
   }
 
   Future<PaginationGetterReturn> getPosts(dynamic time) {
-    return locator<PostsHandling>().getFeedPosts(time, query, index);
+    return locator<PostsHandling>().getFeedPosts(time, query);
   }
 
   dynamic getTimeFromPost(dynamic post) {
-    if (index != 1) {
+    if (index != 2) {
       return locator<PostsHandling>().getTimeFromPost(post);
     } else {
       return (post as Post).likes;
@@ -169,14 +171,14 @@ class FeedController extends ChangeNotifier {
       case 0:
         query = null;
         break;
-      
+
       case 1:
         query = FirebaseFirestore.instance
             .collection("posts")
             .where("tags", arrayContains: "public")
             .orderBy('time', descending: true);
         break;
-        case 2:
+      case 2:
         query = FirebaseFirestore.instance
             .collection("posts")
             .where("tags", arrayContains: "public")

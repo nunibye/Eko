@@ -59,6 +59,20 @@ class ComposeController extends ChangeNotifier {
     }
   }
 
+  @override
+  void dispose() {
+    titleFocus.removeListener(onTitleFocusChanged);
+    bodyFocus.removeListener(onBodyFocusChanged);
+    titleController.dispose();
+    bodyController.dispose();
+    titleFocus.dispose();
+    bodyFocus.dispose();
+    searchController.dispose();
+    searchFocus.dispose();
+
+    super.dispose();
+  }
+
   void onTitleFocusChanged() {
     if (titleFocus.hasFocus) {
       showCount0 = true;
@@ -325,7 +339,7 @@ class ComposeController extends ChangeNotifier {
                       await locator<PostsHandling>().createPost(post);
                   if (tags.contains("public")) {
                     locator<FeedPostCache>().addPost(
-                      2,
+                      0,
                       Post(
                         tags: tags,
                         gifSource: post["gifSource"],
@@ -344,7 +358,7 @@ class ComposeController extends ChangeNotifier {
                     _goToPage(group: groupEndPoint);
                     //refine cases later for more complicated tag system
                   }
-                  
+
                   notifyListeners();
                 },
               ),

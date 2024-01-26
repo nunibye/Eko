@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:giphy_get/giphy_get.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled_app/custom_widgets/controllers/post_card_controller.dart';
+import 'package:untitled_app/custom_widgets/login_text_feild.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/models/current_user.dart';
+import 'package:untitled_app/models/group_handler.dart';
 import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
 import '../models/search_model.dart';
 import '../models/users.dart';
@@ -24,6 +27,7 @@ import '../secrets/secrets.dart' as s;
 class PostPageController extends ChangeNotifier {
   final Post? passedPost;
   Post? post;
+  Cache data = Cache(items: [], end: false);
 
   bool loading = true;
   final String id;
@@ -37,6 +41,8 @@ class PostPageController extends ChangeNotifier {
   List<AppUser> hits = [];
   Timer? _debounce;
   GiphyGif? gif;
+  final reportFocus = FocusNode();
+  final reportController = TextEditingController();
 
   bool builtFromID = false;
   PostPageController({
@@ -46,6 +52,16 @@ class PostPageController extends ChangeNotifier {
   }) {
     _init();
   }
+
+  @override
+  void dispose() {
+    reportFocus.dispose();
+    reportController.dispose();
+    commentFeildFocus.dispose();
+    commentFeild.dispose();
+    super.dispose();
+  }
+
   void _init() async {
     if (passedPost != null) {
       post = passedPost!;
@@ -54,9 +70,22 @@ class PostPageController extends ChangeNotifier {
       if (post == null) {
         final readPost = await locator<PostsHandling>().getPostFromId(id);
         if (readPost != null) {
-          post = readPost;
-          builtFromID = true;
-          post!.hasCache = true;
+          if (readPost.tags.contains("public")) {
+            post = readPost;
+            builtFromID = true;
+            post!.hasCache = true;
+          } else {
+            final group =
+                await GroupHandler().getGroupFromId(readPost.tags.first);
+            if (group != null &&
+                group.members.contains(locator<CurrentUser>().getUID())) {
+              post = readPost;
+              builtFromID = true;
+              post!.hasCache = false;
+            } else {
+              postNotFound = true;
+            }
+          }
         } else {
           postNotFound = true;
         }
@@ -105,9 +134,142 @@ class PostPageController extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void removeComment(String id) {
+    data.items.removeWhere(
+      (element) {
+        element as Post;
+        if (element.postId == id) return true;
+        return false;
+      },
+    );
+    notifyListeners();
+  }
+
   void updateCount(String str) {
     chars = str.length;
     //notifyListeners();j
+  }
+
+  void reduceComments() {
+    postMap[post!.postId]!.post.commentCount--;
+  }
+
+  void _deletePostFromDialog() {
+    _pop();
+    locator<FeedPostCache>().removePostFromAllCaches(post!.postId);
+    _pop();
+    postMap[post!.postId]!.visible = false;
+    locator<PostsHandling>().deleteData("posts/${post!.postId}");
+  }
+
+  void deletePressed() {
+    if (DateTime.parse(post!.time)
+        .toLocal()
+        .add(const Duration(hours: 48))
+        .difference(DateTime.now())
+        .isNegative) {
+      //delete
+      showMyDialog(
+          AppLocalizations.of(context)!.deletePostWarningTitle,
+          AppLocalizations.of(context)!.deletePostWarningBody,
+          [
+            AppLocalizations.of(context)!.cancel,
+            AppLocalizations.of(context)!.delete
+          ],
+          [_pop, _deletePostFromDialog],
+          context);
+    } else {
+      //too early
+      showMyDialog(
+          AppLocalizations.of(context)!.tooEarlyDeleteTitle,
+          AppLocalizations.of(context)!.tooEarlyDeleteBody,
+          [AppLocalizations.of(context)!.ok],
+          [_pop],
+          context);
+    }
+  }
+
+  void reportPressed() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final height = MediaQuery.sizeOf(context).height;
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(
+            AppLocalizations.of(context)!.reportDetails,
+            style: const TextStyle(fontSize: 18),
+          ),
+          content: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: height * 0.5),
+              child: TextField(
+                textCapitalization: TextCapitalization.sentences,
+                focusNode: reportFocus,
+
+                // onChanged: (s) {
+                //   Provider.of<ComposeController>(context, listen: false)
+                //       .updateCountsBody(s);
+                //   Provider.of<ComposeController>(context, listen: false)
+                //       .checkAtSymbol(s);
+                // },
+                controller: reportController,
+
+                maxLines: null,
+                maxLength: 300,
+                cursorColor: Theme.of(context).colorScheme.onBackground,
+                keyboardType: TextInputType.multiline,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Theme.of(context).colorScheme.onBackground),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(height * 0.01),
+                  hintText: AppLocalizations.of(context)!.addText,
+                  hintStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                  //border: InputBorder.none,
+                ),
+              ),
+            ),
+
+            //  CustomInputFeild(
+            //   focus: reportFocus,
+            //   label: AppLocalizations.of(context)!.comments,
+            //   controller: reportController,
+            //   inputType: TextInputType.multiline,
+            // ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.cancel),
+              onPressed: () {
+                _pop();
+              },
+            ),
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.send),
+              onPressed: () async {
+                final message = reportController.text.trim();
+                if (message != "") {
+                  reportController.text = "";
+                  await locator<PostsHandling>()
+                      .addReport(post: post!, message: message);
+                  _pop();
+                } else {
+                  showSnackBar(
+                      context: context,
+                      text: AppLocalizations.of(context)!.commentRequired);
+                }
+                //resetPassword(countryCode);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void checkAtSymbol(String text) {
@@ -213,37 +375,57 @@ class PostPageController extends ChangeNotifier {
         String comment = commentFeild.text;
         commentFeild.text = "";
         hideKeyboard();
-        await locator<PostsHandling>().createComment(
+        final returnedId = await locator<PostsHandling>().createComment(
             {"body": comment}, post!.postId, post!.author.uid, post!.postId);
-        // int tempComments = post!.commentCount;
-        // print(tempComments);
-        if (post!.hasCache) {
-          locator<FeedPostCache>().updateComments(post!.postId, 1);
-          if (builtFromID) {
-            post!.commentCount++;
-          }
-        } else {
-          post!.commentCount++;
-        }
-        notifyListeners();
+
+        final newComment = RawPostObject(
+          tags: ["public"],
+          author: locator<CurrentUser>().getUID(),
+          likes: 0,
+          time: DateTime.now().toUtc().toIso8601String(),
+          body: comment,
+          postID: returnedId,
+          gifSource: null,
+          gifUrl: null,
+          title: null,
+        );
+        data.items.insert(
+            0,
+            Post.fromRaw(
+                newComment, AppUser.fromCurrent(locator<CurrentUser>()), 0,
+                rootPostId: post!.postId));
       }
     } else {
-      await locator<PostsHandling>().createComment(
+      final returnedId = await locator<PostsHandling>().createComment(
           {"gifUrl": gif!.images!.fixedWidth.url, "gifSource": gif!.url},
           post!.postId,
           post!.author.uid,
           post!.postId);
-      if (post!.hasCache) {
-        locator<FeedPostCache>().updateComments(post!.postId, 1);
-        if (builtFromID) {
-          post!.commentCount++;
-        }
-      } else {
-        post!.commentCount++;
-      }
+      final newComment = Post(
+          tags: ["public"],
+          author: AppUser.fromCurrent(locator<CurrentUser>()),
+          likes: 0,
+          time: DateTime.now().toUtc().toIso8601String(),
+          gifSource: gif!.url,
+          gifURL: gif!.images!.fixedWidth.url,
+          rootPostId: post!.postId,
+          postId: returnedId,
+          commentCount: 0);
+      data.items.insert(0, newComment);
+      // if (post!.hasCache) {
+      //   locator<FeedPostCache>().updateComments(post!.postId, 1);
+      //   if (builtFromID) {
+      //     post!.commentCount++;
+      //   }
+      // } else {
+      //postMap[post!.postId]!.post.commentCount++;
+      //post!.commentCount++;
+      // }
       gif = null;
-      notifyListeners();
+      //notifyListeners();
     }
+    postMap[post!.postId]!.post.commentCount++;
+    notifyListeners();
   }
 
   addGifPressed() async {
@@ -259,7 +441,7 @@ class PostPageController extends ChangeNotifier {
     //only update gif a gif was selected
     if (newGif != null) {
       gif = newGif;
-      postCommentPressed(); 
+      postCommentPressed();
     }
     notifyListeners();
     locator<NavBarController>().enable();

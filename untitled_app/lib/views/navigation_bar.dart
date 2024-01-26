@@ -107,6 +107,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
                     child: BottomNavigationBar(
                       type: BottomNavigationBarType.fixed,
                       currentIndex: selectedIndex,
+                      elevation: 0.0,
                       // c.navBarIconSize:
                       //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
                       selectedFontSize: 0.0,

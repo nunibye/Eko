@@ -132,6 +132,8 @@ const int maxGroupDesc = 300;
 const String userNameReqs = r'^[a-z0-9_]{3,24}$';
 const double dividerWidth = 0.5;
 const double indealAppWidth = 500;
+
+const int sessionIdLength = 8;
 const String appURL = "https://www.eko-app.com";
 const String playStoreURL =
     "https://play.google.com/store/apps/details?id=com.echo.android";

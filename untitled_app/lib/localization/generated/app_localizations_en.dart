@@ -143,7 +143,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get likes => 'Likes';
 
   @override
+  String get like => 'Like';
+
+  @override
   String get comments => 'Comments';
+
+  @override
+  String get comment => 'Comment';
 
   @override
   String get follow => 'Follow';
@@ -264,6 +270,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get report => 'Report';
 
   @override
   String get save => 'Save';
@@ -420,4 +429,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notInGroup => 'You are no longer a member of this group.';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get reportDetails => 'Please provide information on why you are reporting this post.';
+
+  @override
+  String get commentRequired => 'Comment Required';
+
+  @override
+  String get tooEarlyDeleteTitle => 'Please Wait';
+
+  @override
+  String get tooEarlyDeleteBody => 'Posts/comments may only be deleted 48 hours after they are posted.';
+
+  @override
+  String get deletePostWarningTitle => 'Delete Post';
+
+  @override
+  String get deleteCommentWarningTitle => 'Delete Comment';
+
+  @override
+  String get deletePostWarningBody => 'Are you sure you wish to procede? This action cannot be undone.';
+
+  @override
+  String get invalidSession => 'This Eko account is being used on another device. Press below to continue on this device.';
 }

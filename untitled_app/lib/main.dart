@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled_app/models/firebase_helper.dart';
 import 'package:untitled_app/models/notification_service.dart';
+import 'package:untitled_app/models/presence_manager.dart';
 import 'package:untitled_app/models/version_control.dart';
 import 'utilities/themes/dark_theme_provider.dart';
 import 'utilities/themes/dark_theme_styles.dart';
@@ -41,6 +42,7 @@ Future<void> _checkFirstInstall() async {
     setBool("NOT_FIRST_INSTALL", true);
   } else if (FirebaseAuth.instance.currentUser != null) {
     await locator<CurrentUser>().readCurrentUserData();
+    
   }
 }
 
@@ -60,17 +62,21 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  // locator.registerSingleton<PresenceManager>(PresenceManager());
   //setup appcheck and non-protected services
   await Future.wait([
     _setupAppCheck(),
+  ]);
+  //
+  setupLocator();
+  //protected/dependent services
+  await Future.wait([
+    _checkFirstInstall(),
+    _setUpOtherNotification(),
+    _buildVersion(),
     FirebaseHelper.setupNotifications(),
     FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true)
   ]);
-  setupLocator();
-  //protected/dependent services
-  await Future.wait(
-      [_checkFirstInstall(), _setUpOtherNotification(), _buildVersion()]);
 
   runApp(const MyApp());
 }

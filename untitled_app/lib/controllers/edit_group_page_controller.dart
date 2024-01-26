@@ -5,6 +5,7 @@ import 'package:untitled_app/custom_widgets/searched_user_card.dart';
 import 'package:untitled_app/custom_widgets/warning_dialog.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
 import 'package:untitled_app/localization/generated/app_localizations_en.dart';
+import 'package:untitled_app/models/post_handler.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../custom_widgets/controllers/pagination_controller.dart';
 import '../models/feed_post_cache.dart';
@@ -48,6 +49,14 @@ class EditGroupPageController extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    pageController.dispose();
+    selectedPeopleScroll.dispose();
+    super.dispose();
   }
 
   void goForward() {
@@ -195,13 +204,18 @@ class EditGroupPageController extends ChangeNotifier {
     membersList
         .removeWhere((user) => user.uid == locator<CurrentUser>().getUID());
     List<String> members = (membersList.map((e) => e.uid).toList());
-
-    GroupHandler().updateGroupMembers(group, members).then(
-      (v) {
-        _pop();
-        context.go("/groups", extra: true);
-      },
-    );
+    _pop();
+    //context.go("/groups", extra: true);
+    if (members.isNotEmpty) {
+      GroupHandler().updateGroupMembers(group, members);
+    } else {
+      locator<PostsHandling>().deleteData("groups/${group.id}");
+    }
+    locator<FeedPostCache>().groupsCache.items.removeWhere((element) {
+      element as Group;
+      return element.id == group.id;
+    });
+    context.go("/groups", extra: true);
   }
 
   void leaveGroup() {

@@ -4,6 +4,7 @@ import 'package:untitled_app/custom_widgets/safe_area.dart';
 import 'package:untitled_app/models/users.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
+import 'package:untitled_app/views/invalid_session_page.dart';
 import 'package:untitled_app/views/login.dart';
 import 'package:untitled_app/views/re_auth_page.dart';
 import 'package:untitled_app/views/share_profile_page.dart';
@@ -55,6 +56,7 @@ final goRouter = GoRouter(
   initialLocation: '/',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
+  redirectLimit: 15,
   routes: [
     // GoRoute(
     //   path: '/',
@@ -114,6 +116,13 @@ final goRouter = GoRouter(
             name: 'update',
             builder: (context, state) {
               return const AppSafeArea(child: UpdateRequiredPage());
+            },
+          ),
+          GoRoute(
+            path: 'invalid_session',
+            name: 'invalid_session',
+            builder: (context, state) {
+              return const AppSafeArea(child: InvalidSessionPage());
             },
           ),
         ]),

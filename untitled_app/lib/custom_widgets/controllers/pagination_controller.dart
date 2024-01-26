@@ -8,7 +8,6 @@ class PaginationGetterReturn {
   PaginationGetterReturn({required this.end, required this.payload});
 }
 
-
 class PaginationController extends ChangeNotifier {
   final Future<PaginationGetterReturn> Function(dynamic) getter;
   final dynamic Function(dynamic) startAfterQuery;
@@ -30,8 +29,15 @@ class PaginationController extends ChangeNotifier {
   }) {
     init();
   }
+  @override
+  void dispose() {
+    scrollController.removeListener(_onScroll);
+    scrollController.dispose();
+    super.dispose();
+  }
+
   void init() async {
-    scrollController.addListener(() => _onScroll());
+    scrollController.addListener(_onScroll);
     // if (cacheIndex == null) {
     data = externalData ?? Cache(items: [], end: false);
 
