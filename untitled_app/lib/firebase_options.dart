@@ -43,12 +43,13 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
+static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyDRyfgREHyjwWxQ1OVtdut-RGpI2iTQZd0',
     appId: '1:146952619766:web:5ca65caf1567c28b2b8ed7',
     messagingSenderId: '146952619766',
     projectId: 'untitled-2832f',
     authDomain: 'untitled-2832f.firebaseapp.com',
+    databaseURL: 'https://untitled-2832f-default-rtdb.firebaseio.com',
     storageBucket: 'untitled-2832f.appspot.com',
     measurementId: 'G-N6E5W533RG',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:146952619766:android:8647717e87ef37db2b8ed7',
     messagingSenderId: '146952619766',
     projectId: 'untitled-2832f',
+    databaseURL: 'https://untitled-2832f-default-rtdb.firebaseio.com',
     storageBucket: 'untitled-2832f.appspot.com',
   );
 
@@ -66,8 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:146952619766:ios:96121589adcec92d2b8ed7',
     messagingSenderId: '146952619766',
     projectId: 'untitled-2832f',
+    databaseURL: 'https://untitled-2832f-default-rtdb.firebaseio.com',
     storageBucket: 'untitled-2832f.appspot.com',
-    androidClientId: '146952619766-upqd72s244pqmnl55s2fpq3hmfraij6q.apps.googleusercontent.com',
+    androidClientId: '146952619766-d0f5d066b7vb1ept43m0ctq3rgcspiek.apps.googleusercontent.com',
     iosClientId: '146952619766-oe04136fscs8alaf1t1hq4ftmfi3kf0f.apps.googleusercontent.com',
     iosBundleId: 'com.example.untitledApp',
   );
@@ -77,8 +80,9 @@ class DefaultFirebaseOptions {
     appId: '1:146952619766:ios:96121589adcec92d2b8ed7',
     messagingSenderId: '146952619766',
     projectId: 'untitled-2832f',
+    databaseURL: 'https://untitled-2832f-default-rtdb.firebaseio.com',
     storageBucket: 'untitled-2832f.appspot.com',
-    androidClientId: '146952619766-upqd72s244pqmnl55s2fpq3hmfraij6q.apps.googleusercontent.com',
+    androidClientId: '146952619766-d0f5d066b7vb1ept43m0ctq3rgcspiek.apps.googleusercontent.com',
     iosClientId: '146952619766-oe04136fscs8alaf1t1hq4ftmfi3kf0f.apps.googleusercontent.com',
     iosBundleId: 'com.example.untitledApp',
   );
