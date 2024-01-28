@@ -189,23 +189,6 @@ class PostsHandling {
         .add(post)
         .then((documentSnapshot) => documentSnapshot.id);
 
-    // groups handling
-    if (post['tags'] != null && !post['tags'].contains('public')) {
-      for (String tag in post['tags']) {
-        String groupID = tag;
-        DocumentSnapshot groupSnapshot =
-            await firestore.collection('groups').doc(groupID).get();
-        Map<String, dynamic> groupData =
-            groupSnapshot.data()! as Map<String, dynamic>;
-        List<String> members = List<String>.from(groupData['members']);
-        members.remove(user.uid);
-        await firestore.collection('groups').doc(groupID).update({
-          'lastActivity': time,
-          'notSeen': members,
-        });
-      }
-    }
-
     // tags handling
     List<String> parsedTitle = Post.parseText(post["title"]);
     List<String> parsedBody = Post.parseText(post["body"]);
@@ -239,10 +222,46 @@ class PostsHandling {
       content = "${post['author']} tagged you in a post";
     }
     futures = [];
-    for (String uid in taggedUsers) {
-      futures.add(addActivty(
-          time: time, type: "tag", content: content, path: postID, user: uid));
+    // if public add new activity for all tags
+    if (post['tags'].contains('public')) {
+      for (String uid in taggedUsers) {
+        futures.add(addActivty(
+            time: time,
+            type: "tag",
+            content: content,
+            path: postID,
+            user: uid));
+      }
     }
+
+    // groups handling
+    if (post['tags'] != null && !post['tags'].contains('public')) {
+      for (String tag in post['tags']) {
+        String groupID = tag;
+        DocumentSnapshot groupSnapshot =
+            await firestore.collection('groups').doc(groupID).get();
+        Map<String, dynamic> groupData =
+            groupSnapshot.data()! as Map<String, dynamic>;
+        List<String> members = List<String>.from(groupData['members']);
+        members.remove(user.uid);
+        await firestore.collection('groups').doc(groupID).update({
+          'lastActivity': time,
+          'notSeen': members,
+        });
+        // add new activity for tags if they are in the group
+        for (String uid in taggedUsers) {
+          if (members.contains(uid)) {
+            futures.add(addActivty(
+                time: time,
+                type: "tag",
+                content: content,
+                path: postID,
+                user: uid));
+          }
+        }
+      }
+    }
+
     await Future.wait(futures);
     return postID;
   }
@@ -298,14 +317,39 @@ class PostsHandling {
       if (chunk.startsWith('@')) {
         String? taggedUid =
             await locator<CurrentUser>().getUidFromUsername(chunk.substring(1));
-
-        if (taggedUid != null && user.uid != taggedUid) {
-          await addActivty(
-              time: time,
-              type: "tag",
-              content: comment["body"],
-              path: path,
-              user: taggedUid);
+        // get post - probably can optimize
+        DocumentSnapshot post =
+            await firestore.collection('posts').doc(postID).get();
+        // if public add new activity for each tag
+        if (post['tags'].contains('public')) {
+          if (taggedUid != null && taggedUid != user.uid) {
+            addActivty(
+                time: time,
+                type: "tag",
+                content: comment["body"],
+                path: path,
+                user: taggedUid);
+          }
+        } else if (post['tags'] != null) {
+          // add new activity for tags if they are in the group
+          for (String tag in post['tags']) {
+            String groupID = tag;
+            DocumentSnapshot groupSnapshot =
+                await firestore.collection('groups').doc(groupID).get();
+            Map<String, dynamic> groupData =
+                groupSnapshot.data()! as Map<String, dynamic>;
+            List<String> members = List<String>.from(groupData['members']);
+            if (taggedUid != null &&
+                taggedUid != user.uid &&
+                members.contains(taggedUid)) {
+              addActivty(
+                  time: time,
+                  type: "tag",
+                  content: comment["body"],
+                  path: path,
+                  user: taggedUid);
+            }
+          }
         }
       }
     }
@@ -511,7 +555,7 @@ class PostsHandling {
       return Post.fromRaw(raw, user, 0, rootPostId: rootUid);
     }).toList();
     final returnList = await Future.wait(postList);
-    
+
     return PaginationGetterReturn(
         end: (returnList.length < c.postsOnRefresh), payload: returnList);
   }
@@ -559,8 +603,7 @@ class PostsHandling {
     final returnList = await Future.wait(postList);
 //print(returnList.length);
     return PaginationGetterReturn(
-        end: (returnList.length < c.postsOnRefresh),
-        payload: returnList);
+        end: (returnList.length < c.postsOnRefresh), payload: returnList);
   }
 
   Future<List<RawPostObject>> newGetPosts(
