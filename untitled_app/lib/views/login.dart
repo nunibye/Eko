@@ -53,6 +53,7 @@ class LoginPage extends StatelessWidget {
                     width: width * 0.7,
                     child: Image.asset((Theme.of(context).brightness == Brightness.light)?'images/eko_logo_light.png':'images/eko_logo.png'),
                   ),
+                  SizedBox(height: height * .1),
                   CustomInputFeild(
                     focus: Provider.of<LoginController>(context, listen: false)
                         .emailFocus,

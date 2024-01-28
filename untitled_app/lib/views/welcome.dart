@@ -31,7 +31,7 @@ class WelcomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: height * .12,
+                    height: height * .2,
                   ),
                   SizedBox(
                       height: height * .1,
@@ -49,7 +49,7 @@ class WelcomePage extends StatelessWidget {
                     child: Image.asset('images/eko_logo.png'),
                   ),
                   SizedBox(
-                    height: height * .12,
+                    height: height * .25,
                   ),
                   OutlinedButton(
                     onPressed: () {

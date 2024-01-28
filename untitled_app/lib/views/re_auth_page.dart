@@ -33,18 +33,23 @@ class ReAuthPage extends StatelessWidget {
             ),
           ),
           body: Center(child:Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             // =mainAxisSize: MainAxisSize.min,
             
 
             
             children: [
-              const Spacer(),
+              SizedBox(
+                    height: width * 0.05,
+                  ),
               SizedBox(
                   width: width * 0.7,
                   child: Text(
                       AppLocalizations.of(context)!.deleteAcountReAuthWarning,
                       textAlign: TextAlign.center)),
-              const Spacer(),
+              SizedBox(
+                    height: width * 0.2,
+                  ),
               CustomInputFeild(
                 textInputAction: TextInputAction.go,
                 // onEditingComplete: () =>
@@ -59,7 +64,9 @@ class ReAuthPage extends StatelessWidget {
                 inputType: TextInputType.visiblePassword,
                 password: true,
               ),
-              const Spacer(),
+              SizedBox(
+                    height: width * 0.05,
+                  ),
               InkWell(
                 child: Container(
                   alignment: Alignment.center,

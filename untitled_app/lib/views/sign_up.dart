@@ -345,7 +345,7 @@ class GetPassword extends StatelessWidget {
             ),
             //const Spacer(),
             SizedBox(
-              height: height * 0.05,
+              height: height * 0.12,
             ),
             SizedBox(
               width: width * 0.9,
