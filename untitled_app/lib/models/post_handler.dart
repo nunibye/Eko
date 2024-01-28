@@ -273,7 +273,7 @@ class PostsHandling {
         .collection('comments')
         .count()
         .get()
-        .then((value) => value.count, onError: (e) => 0);
+        .then((value) => value.count ?? 0, onError: (e) => 0);
   }
 
   Future<void> addReport({required Post post, required String message}) async {

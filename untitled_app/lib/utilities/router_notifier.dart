@@ -22,7 +22,7 @@ class RouterNotifier extends ChangeNotifier {
   RouterNotifier() {
     init();
   }
-  Timer? _debounce;
+  //Timer? _debounce;
 
   init() {
     FirebaseAuth.instance.authStateChanges().listen((event) {
@@ -31,6 +31,7 @@ class RouterNotifier extends ChangeNotifier {
         locator<PresenceManager>().verifySession();
       } else {
         loggedIn = false;
+        print("unverified");
         locator<PresenceManager>().unVerifySession();
       }
       notifyListeners();
@@ -39,28 +40,24 @@ class RouterNotifier extends ChangeNotifier {
     });
 
     FirebaseDatabase.instance
-        .ref('/status/${locator<CurrentUser>().getUID()}/id')
+        .ref('/status/${locator<CurrentUser>().getUID()}')
         .onValue
         .listen((DatabaseEvent event) {
-      final data = event.snapshot.value as String?;
+      final data = event.snapshot.value as Map<Object?, Object?>;
       final oldState = validSession;
-
-      if (data.toString() == locator<PresenceManager>().getSessionId()) {
+      // print(data['online']);
+// locator<PresenceManager>().getSessionId()
+      if ((data['id'] ?? '') == locator<PresenceManager>().getSessionId() ||
+          !((data['online'] ?? false) as bool)) {
         validSession = true;
       } else {
         validSession = false;
       }
       //print("Old State=$oldState, newState = $validSession");
       if (oldState != validSession) {
-        if (_debounce?.isActive ?? false) _debounce?.cancel();
-        _debounce = Timer(const Duration(milliseconds: 500), () {
-          print("did update");
-          notifyListeners();
-        });
+        print("did update");
+        notifyListeners();
       }
-
-      // Add event to databaseController
-      //routeStream.add(true);
     });
   }
 
@@ -107,7 +104,9 @@ class RouterNotifier extends ChangeNotifier {
     //print('redirect $loggedIn');
     if (locator<Version>().lessThanMin && !kIsWeb) {
       return '/update';
-    } else if (!validSession && !onInvalidSession  && loggedIn) {
+    } else if (onInvalidSession && !loggedIn) {
+      return '/';
+    } else if (!validSession && !onInvalidSession && loggedIn) {
       return '/invalid_session';
     } else if (validSession && onInvalidSession && loggedIn) {
       if (locator<CurrentUser>().username == '') {
