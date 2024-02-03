@@ -1,4 +1,4 @@
-# Social Media App
+# Eko Social Media App
 Twitter-like social media app created with Flutter.
 
 ### Authors
@@ -15,7 +15,9 @@ To contact us reach us at conetechnologiesdev@gmail.com!
 * [Overview](#overview)
 
 ## General Info
-We wanted to create an app that functions similar to X (twitter) or Threads. We are currently in development of the app, adding new functionalities, patching bugs, and improving on the user experience every week! The app is in beta on Test Flight and have over 30 current users.
+We wanted to create an app that functions similarly to X (twitter) or Threads. We are currently in development of the app, adding new functionalities, patching bugs, and improving the user experience every week! The app is in beta on Test Flight and has over 30 current users.
+
+For the core app, we used Flutter in an MVVM architecture. To accomplish MVVM we utilized Provider for state management and Get_It for dependency injection.
 
 ## Technologies
 
@@ -34,36 +36,60 @@ Using Go and JavaScript to listen and react to changes to the database.
 ### Firebase Cloud Messaging
 Service to send notifications to devices, based on writes to the database.
 
+### Firebase Realtime Database
+Realtime database for presence tracking and single client enforcement.
+
+### Firebase AppCheck
+Security across Android, IOS, and Web through client verification.
+
+### Firebase Analytics
+Full page-aware analytics tracking.
+
 ### Algolia Search API
 Service to search user names and usernames.
 
 ### Giphy API
-Integrated to add Gifs to posts.
+Integrated to add GIFs to posts.
 
 ## Overview
-Here is an example of the current pages in their state as of Decemeber. 
+Here is an example of the current pages as of February 2024. 
 
 #### Feed
 Here is the Feed. You can choose a filter and scroll through their respective posts. You can comment, like, and even share a post with a link.
 
-<img src="./images/readme/homepage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/homepage1.PNG" alt="drawing" width="200"/>
 
 #### Groups
-The Groups page are similiar to group chats, where you can make posts to people you select.
+The Groups page is similar to group chats, where you can make posts to people you select.
 
-<img src="./images/readme/groupspage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/groups1.PNG" alt="drawing" width="200"/>
 
 #### Compose
 The page to write a post. Click the +image button to add a gif from Giphy.
 
-<img src="./images/readme/composepage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/postpage1.PNG" alt="drawing" width="200"/>
 
 #### Search
 You can search for any user.
 
-<img src="./images/readme/searchpage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/searchpage1.PNG" alt="drawing" width="200"/>
 
 #### Profile Page
 A page for your or another user's profile. Can view their followers and following.
 
-<img src="./images/readme/profilepage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/profilepage1.PNG" alt="drawing" width="200"/>
+
+#### Comments Page
+A page to post and view comments.
+
+<img src="./images/readme/comments1.PNG" alt="drawing" width="200"/>
+
+#### Login Page
+A page for users to log in.
+
+<img src="./images/readme/login1.PNG" alt="drawing" width="200"/>
+
+#### Share Page
+A page for users to share their profile with others.
+
+<img src="./images/readme/qr1.PNG" alt="drawing" width="200"/>
