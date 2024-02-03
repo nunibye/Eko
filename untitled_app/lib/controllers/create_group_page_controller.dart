@@ -82,6 +82,10 @@ class CreateGroupPageController extends ChangeNotifier {
     _pop();
   }
 
+  void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   void exitPressed() {
     if (selectedPeople.isEmpty &&
         icon == "" &&
@@ -96,7 +100,7 @@ class CreateGroupPageController extends ChangeNotifier {
             AppLocalizations.of(context)!.exit,
             AppLocalizations.of(context)!.stay
           ],
-          [_popTwice, _pop],
+          [_popTwice, _popDialog],
           context);
     }
   }

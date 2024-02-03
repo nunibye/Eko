@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
+import '../custom_widgets/error_snack_bar.dart';
 import '../utilities/constants.dart' as c;
 import '../utilities/locator.dart';
 import '../models/current_user.dart';
@@ -105,6 +106,10 @@ class SignUpController extends ChangeNotifier {
     context.pop();
   }
 
+   void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   void _returnToWelcome() {
     _pop();
     context.go("/");
@@ -119,7 +124,7 @@ class SignUpController extends ChangeNotifier {
         AppLocalizations.of(context)!.invalidUserName,
         AppLocalizations.of(context)!.usernameReqs,
         [AppLocalizations.of(context)!.ok],
-        [_pop],
+        [_popDialog],
         context);
   }
 
@@ -154,7 +159,7 @@ class SignUpController extends ChangeNotifier {
             AppLocalizations.of(context)!.invalidEmailTittle,
             AppLocalizations.of(context)!.invalidEmailBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         break;
       case 'weak-password':
@@ -162,7 +167,7 @@ class SignUpController extends ChangeNotifier {
             AppLocalizations.of(context)!.weakPasswordTitle,
             AppLocalizations.of(context)!.weakPasswordBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         break;
       case 'email-already-in-use':
@@ -173,7 +178,7 @@ class SignUpController extends ChangeNotifier {
               AppLocalizations.of(context)!.logIn,
               AppLocalizations.of(context)!.tryAgain
             ],
-            [_returnToWelcome, _pop],
+            [_returnToWelcome, _popDialog],
             context);
         break;
       default:
@@ -181,7 +186,7 @@ class SignUpController extends ChangeNotifier {
             AppLocalizations.of(context)!.defaultErrorTittle,
             AppLocalizations.of(context)!.defaultErrorBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         break;
     }
@@ -256,7 +261,7 @@ class SignUpController extends ChangeNotifier {
             AppLocalizations.of(context)!.goBack,
             AppLocalizations.of(context)!.stay
           ],
-          [_returnToWelcome, _pop],
+          [_returnToWelcome, _popDialog],
           context);
     }
   }
@@ -266,6 +271,7 @@ class SignUpController extends ChangeNotifier {
     int page = pageController.page!.toInt();
     if (page == 0 &&
         (nameController.text == "" ||
+            nameController.text.length > c.maxNameChars ||
             !validUsername ||
             isChecking ||
             !availableUsername ||
@@ -274,6 +280,10 @@ class SignUpController extends ChangeNotifier {
         )) {
       // Request focus for the empty field
       if (nameController.text == "") {
+        nameFocus.requestFocus();
+      } else if (nameController.text.length > c.maxNameChars) {
+        showSnackBar(
+            text: AppLocalizations.of(context)!.tooManyChar, context: context);
         nameFocus.requestFocus();
       } else if (!validUsername || isChecking || !availableUsername) {
         usernameFocus.requestFocus();

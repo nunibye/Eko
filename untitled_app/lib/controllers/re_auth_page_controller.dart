@@ -40,6 +40,10 @@ class ReAuthPageController extends ChangeNotifier {
     context.pop();
   }
 
+  void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   int _handleError(String errorCode) {
     int errorStatus;
     switch (errorCode) {
@@ -51,7 +55,7 @@ class ReAuthPageController extends ChangeNotifier {
             AppLocalizations.of(context)!.invalidEmailTittle,
             AppLocalizations.of(context)!.invalidEmailBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         errorStatus = 1;
         break;
@@ -61,7 +65,7 @@ class ReAuthPageController extends ChangeNotifier {
             AppLocalizations.of(context)!.wrongPasswordTittle,
             AppLocalizations.of(context)!.wrongPasswordBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         errorStatus = 3;
         break;
@@ -70,7 +74,7 @@ class ReAuthPageController extends ChangeNotifier {
             AppLocalizations.of(context)!.userDisabledTittle,
             AppLocalizations.of(context)!.userDisabledBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         errorStatus = 4;
         break;
@@ -79,7 +83,7 @@ class ReAuthPageController extends ChangeNotifier {
             AppLocalizations.of(context)!.defaultErrorTittle,
             AppLocalizations.of(context)!.defaultErrorBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         errorStatus = -1;
         break;

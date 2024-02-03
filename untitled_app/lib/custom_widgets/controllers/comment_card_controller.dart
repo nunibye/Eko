@@ -120,7 +120,7 @@ class CommentCardController extends ChangeNotifier {
           AppLocalizations.of(context)!.goBack,
           AppLocalizations.of(context)!.signIn
         ],
-        [_pop, _goToLogin],
+        [_popDialog, _goToLogin],
         context,
         dismissable: true);
   }
@@ -129,12 +129,16 @@ class CommentCardController extends ChangeNotifier {
     context.pop();
   }
 
+   void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   void _goToLogin() {
     context.go('/');
   }
 
   void _deletePostFromDialog() async {
-    _pop();
+    _popDialog();
     Provider.of<PostPageController>(context, listen: false).reduceComments();
     await locator<PostsHandling>()
         .deleteData("posts/${post.rootPostId}/comments/${post.postId}");
@@ -158,7 +162,7 @@ class CommentCardController extends ChangeNotifier {
             AppLocalizations.of(context)!.cancel,
             AppLocalizations.of(context)!.delete
           ],
-          [_pop, _deletePostFromDialog],
+          [_popDialog, _deletePostFromDialog],
           context);
     } else {
       //too early
@@ -166,7 +170,7 @@ class CommentCardController extends ChangeNotifier {
           AppLocalizations.of(context)!.tooEarlyDeleteTitle,
           AppLocalizations.of(context)!.tooEarlyDeleteBody,
           [AppLocalizations.of(context)!.ok],
-          [_pop],
+          [_popDialog],
           context);
     }
   }

@@ -74,6 +74,7 @@ class EditProfileController extends ChangeNotifier {
   void _pop() {
     context.pop("poped");
   }
+
   void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
@@ -95,7 +96,7 @@ class EditProfileController extends ChangeNotifier {
           AppLocalizations.of(context)!.exit,
           AppLocalizations.of(context)!.stay
         ],
-        [_popTwice, _pop],
+        [_popTwice, _popDialog],
         context);
   }
 
@@ -140,7 +141,7 @@ class EditProfileController extends ChangeNotifier {
         AppLocalizations.of(context)!.invalidUserName,
         AppLocalizations.of(context)!.usernameReqs,
         [AppLocalizations.of(context)!.ok],
-        [_pop],
+        [_popDialog],
         context);
   }
 
@@ -149,7 +150,7 @@ class EditProfileController extends ChangeNotifier {
         AppLocalizations.of(context)!.usernameTakenTitle,
         AppLocalizations.of(context)!.usernameTakenBody,
         [AppLocalizations.of(context)!.goBack],
-        [_pop],
+        [_popDialog],
         context);
   }
 

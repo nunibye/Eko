@@ -66,7 +66,7 @@ class UserCard extends StatelessWidget {
                     Padding(
                         padding: EdgeInsets.all(width * 0.02),
                         child: SizedBox(
-                          width: width * 0.45,
+                          width: width * 0.4,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
