@@ -166,7 +166,7 @@ class _Card extends StatelessWidget {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             child: SizedBox(
-                              width: width * 0.69,
+                              width: width * 0.65,
                               child: Text(
                                 "@${post.author.username}",
                                 style: TextStyle(

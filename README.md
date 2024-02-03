@@ -46,24 +46,24 @@ Here is an example of the current pages in their state as of Decemeber.
 #### Feed
 Here is the Feed. You can choose a filter and scroll through their respective posts. You can comment, like, and even share a post with a link.
 
-<img src="./planning/readme/homepage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/homepage0.PNG" alt="drawing" width="200"/>
 
 #### Groups
 The Groups page are similiar to group chats, where you can make posts to people you select.
 
-<img src="./planning/readme/groupspage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/groupspage0.PNG" alt="drawing" width="200"/>
 
 #### Compose
 The page to write a post. Click the +image button to add a gif from Giphy.
 
-<img src="./planning/readme/composepage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/composepage0.PNG" alt="drawing" width="200"/>
 
 #### Search
 You can search for any user.
 
-<img src="./planning/readme/searchpage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/searchpage0.PNG" alt="drawing" width="200"/>
 
 #### Profile Page
 A page for your or another user's profile. Can view their followers and following.
 
-<img src="./planning/readme/profilepage0.PNG" alt="drawing" width="200"/>
+<img src="./images/readme/profilepage0.PNG" alt="drawing" width="200"/>
