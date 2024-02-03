@@ -52,12 +52,18 @@ class _Button extends StatelessWidget {
               child: Container(
             width: width * 0.24,
             alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             decoration: BoxDecoration(
-              color: isActive
-                  ? Theme.of(context).colorScheme.secondary
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+              // color: isActive
+              //     ? Theme.of(context).colorScheme.secondary
+              //     : Colors.transparent,
+              // borderRadius: BorderRadius.circular(10),
+              border: isActive
+                  ? Border(
+                      bottom: BorderSide(
+                          width: 2.0,
+                          color: Theme.of(context).colorScheme.secondary))
+                  : Border(),
             ),
             child: Text(
               text,
@@ -65,7 +71,7 @@ class _Button extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: isActive
-                    ? Theme.of(context).colorScheme.onSecondary
+                    ? Theme.of(context).colorScheme.onBackground
                     : Theme.of(context).colorScheme.onBackground,
                 fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
               ),

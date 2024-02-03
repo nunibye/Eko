@@ -64,7 +64,6 @@ class EditProfile extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.normal,
-                            
                             color: Theme.of(context).colorScheme.onBackground,
                           ),
                         ),
@@ -78,7 +77,6 @@ class EditProfile extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.normal,
-                                
                                 color:
                                     Theme.of(context).colorScheme.onBackground,
                               ),
@@ -154,6 +152,7 @@ class EditProfile extends StatelessWidget {
                       label: AppLocalizations.of(context)!.name,
                       maxLength: c.maxNameChars,
                     ),
+                    SizedBox(height: height * 0.01),
                     ProfileInputFeild(
                       controller: Provider.of<EditProfileController>(context,
                               listen: false)
@@ -164,7 +163,9 @@ class EditProfile extends StatelessWidget {
                           .checkChanges(),
                       label: AppLocalizations.of(context)!.bioTitle,
                       maxLength: c.maxBioChars,
+                      inputType: TextInputType.multiline,
                     ),
+                    SizedBox(height: height * 0.01),
                     ProfileInputFeild(
                       onChanged: (s) => Provider.of<EditProfileController>(
                               context,

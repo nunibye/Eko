@@ -64,18 +64,26 @@ class UserCard extends StatelessWidget {
                     ProfileAvatar(
                         url: user.profilePicture, size: width * 0.115),
                     Padding(
-                      padding: EdgeInsets.all(width * 0.02),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (user.name != "")
-                            Text(user.name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                          Text("@${user.username}")
-                        ],
-                      ),
-                    ),
+                        padding: EdgeInsets.all(width * 0.02),
+                        child: SizedBox(
+                          width: width * 0.45,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (user.name != "")
+                                Text(
+                                  user.name,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              Text(
+                                "@${user.username}",
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        )),
                   ],
                 ),
                 if (user.uid == locator<CurrentUser>().getUID())

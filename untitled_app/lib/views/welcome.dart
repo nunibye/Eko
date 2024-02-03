@@ -19,10 +19,9 @@ class WelcomePage extends StatelessWidget {
         return Scaffold(
           floatingActionButton: getAppFabBuilder(),
           resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.transparent,
-          body: Align(
-            alignment: Alignment.center,
-            child: Container(
+          backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+          body: Container(
+              height: height, width: width,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('images/fog1.gif'), fit: BoxFit.cover)),
@@ -33,23 +32,23 @@ class WelcomePage extends StatelessWidget {
                   SizedBox(
                     height: height * .2,
                   ),
-                  SizedBox(
-                      height: height * .1,
-                      child: Align(
-                        child: Text(AppLocalizations.of(context)!.welcomeTo,
-                            style: TextStyle(
-                                fontSize: 45,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground)),
-                      )),
+                  // SizedBox(
+                  //     height: height * .1,
+                  //     child: Align(
+                  //       child: Text(AppLocalizations.of(context)!.welcomeTo,
+                  //           style: TextStyle(
+                  //               fontSize: 45,
+                  //               color: Theme.of(context)
+                  //                   .colorScheme
+                  //                   .onBackground)),
+                  //     )),
                   SizedBox(
                     //height: height * .35,
                     width: width *0.7,
                     child: Image.asset('images/eko_logo.png'),
                   ),
                   SizedBox(
-                    height: height * .25,
+                    height: height * .28,
                   ),
                   OutlinedButton(
                     onPressed: () {
@@ -89,7 +88,6 @@ class WelcomePage extends StatelessWidget {
                 ],
               ),
             ),
-          ),
         );
       },
     );

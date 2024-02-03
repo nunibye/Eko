@@ -49,11 +49,17 @@ class LoginPage extends StatelessWidget {
                             .previousPressed(),
                   ),
                   SizedBox(
-                     height: height * .25,
-                    width: width * 0.7,
-                    child: Image.asset((Theme.of(context).brightness == Brightness.light)?'images/eko_logo_light.png':'images/eko_logo.png'),
+                    height: height * .055,
                   ),
-                  SizedBox(height: height * .1),
+                  SizedBox(
+                    height: height * .25,
+                    width: width * 0.7,
+                    child: Image.asset(
+                        (Theme.of(context).brightness == Brightness.light)
+                            ? 'images/eko_logo_light.png'
+                            : 'images/eko_logo.png'),
+                  ),
+                  SizedBox(height: height * .05),
                   CustomInputFeild(
                     focus: Provider.of<LoginController>(context, listen: false)
                         .emailFocus,
@@ -63,7 +69,6 @@ class LoginPage extends StatelessWidget {
                             .emailController,
                     inputType: TextInputType.emailAddress,
                   ),
-                  SizedBox(height: height * 0.006),
                   CustomInputFeild(
                     textInputAction: TextInputAction.go,
                     onEditingComplete: () =>
@@ -78,7 +83,7 @@ class LoginPage extends StatelessWidget {
                     inputType: TextInputType.visiblePassword,
                     password: true,
                   ),
-                  SizedBox(height: height * 0.05),
+                  SizedBox(height: height * 0.015),
                   SizedBox(
                     width: width * 0.9,
                     height: width * 0.15,

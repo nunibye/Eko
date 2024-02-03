@@ -104,7 +104,7 @@ class GetInfo extends StatelessWidget {
               color: Theme.of(context).colorScheme.onBackground,
             ),
             SizedBox(
-              height: height * 0.06,
+              height: height * 0.05,
             ),
             CustomInputFeild(
               focus: Provider.of<SignUpController>(context, listen: false)
@@ -113,8 +113,9 @@ class GetInfo extends StatelessWidget {
               controller: Provider.of<SignUpController>(context, listen: false)
                   .nameController,
               inputType: TextInputType.text,
+              maxLen: c.maxNameChars,
             ),
-            SizedBox(height: height * c.loginPadding),
+            // SizedBox(height: height * c.loginPadding),
             CustomInputFeild(
               onChanged: (s) =>
                   Provider.of<SignUpController>(context, listen: false)
@@ -125,6 +126,7 @@ class GetInfo extends StatelessWidget {
               controller: Provider.of<SignUpController>(context, listen: false)
                   .usernameController,
               inputType: TextInputType.text,
+              maxLen: c.maxUsernameChars,
             ),
             if (Provider.of<SignUpController>(context, listen: true)
                     .usernameController
@@ -206,7 +208,7 @@ class GetInfo extends StatelessWidget {
               inputType: TextInputType.emailAddress,
             ),
             SizedBox(
-              height: height * 0.1,
+              height: height * 0.05,
             ),
             // CustomInputFeild(
             //   focus: Provider.of<SignUpController>(context, listen: false)
@@ -220,9 +222,9 @@ class GetInfo extends StatelessWidget {
             //   textInputAction: TextInputAction.send,
             //   inputType: TextInputType.datetime,
             // ),
-            SizedBox(
-              height: height * 0.1,
-            ),
+            // SizedBox(
+            //   height: height * 0.1,
+            // ),
             SizedBox(
               width: width * 0.9,
               height: width * 0.15,
@@ -280,11 +282,7 @@ class GetPassword extends StatelessWidget {
               endIndent: width * 0.07,
               color: Theme.of(context).colorScheme.onBackground,
             ),
-            SizedBox(
-              height: height * 0.05,
-            ),
-
-            SizedBox(height: height * c.loginPadding),
+            SizedBox(height: height * 0.04),
             CustomInputFeild(
               onChanged: (s) =>
                   Provider.of<SignUpController>(context, listen: false)
@@ -318,6 +316,7 @@ class GetPassword extends StatelessWidget {
               inputType: TextInputType.visiblePassword,
               password: true,
             ),
+            SizedBox(height: height * 0.02),
             Padding(
               padding: EdgeInsets.symmetric(
                 vertical: height * c.loginPadding,
@@ -345,7 +344,7 @@ class GetPassword extends StatelessWidget {
             ),
             //const Spacer(),
             SizedBox(
-              height: height * 0.12,
+              height: height * 0.06,
             ),
             SizedBox(
               width: width * 0.9,

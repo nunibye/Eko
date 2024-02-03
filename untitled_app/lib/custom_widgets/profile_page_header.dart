@@ -24,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: Align(
             alignment: Alignment.topLeft,
             child: Column(

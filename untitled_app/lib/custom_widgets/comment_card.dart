@@ -165,12 +165,17 @@ class _Card extends StatelessWidget {
                               minimumSize: const Size(0, 0),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: Text(
-                              "@${post.author.username}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                            child: SizedBox(
+                              width: width * 0.69,
+                              child: Text(
+                                "@${post.author.username}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),

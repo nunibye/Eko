@@ -79,13 +79,13 @@ class OtherProfile extends StatelessWidget {
                                     Theme.of(context).colorScheme.onBackground,
                               ),
                             ) : null,
-                            actions: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons
-                                    .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
-                              )
-                            ],
+                            // actions: [
+                            //   IconButton(
+                            //     onPressed: () {},
+                            //     icon: const Icon(Icons
+                            //         .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
+                            //   )
+                            // ],
                             bottom: PreferredSize(
                               preferredSize: const Size.fromHeight(3),
                               child: Divider(

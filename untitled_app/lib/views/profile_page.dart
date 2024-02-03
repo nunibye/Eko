@@ -60,12 +60,16 @@ class _Header extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
-                    Text(
-                      "@${profileController.user.username}",
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22),
+                    SizedBox(
+                      width: width * 0.75,
+                      child: Text(
+                        "@${profileController.user.username}",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     const Spacer(),
                     InkWell(

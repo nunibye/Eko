@@ -38,7 +38,7 @@ class FeedPage extends StatelessWidget {
             child: Column(
               children: [
                 const Padding(
-                    padding: EdgeInsets.only(bottom: 6), child: CustomTabBar()),
+                    padding: EdgeInsets.only(bottom: 15), child: CustomTabBar()),
                 Divider(
                   color: Theme.of(context).colorScheme.outline,
                   height: c.dividerWidth,

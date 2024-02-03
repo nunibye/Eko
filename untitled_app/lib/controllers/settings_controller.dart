@@ -34,16 +34,11 @@ class SettingsController extends ChangeNotifier {
   }
 
   void _pop() {
-    context.pop();
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
-  void _popDialog() {
-  Navigator.of(context, rootNavigator: true).pop();
-}
-
-
   void _delete() async {
-    _popDialog();
+    _pop();
     try {
       await locator<CurrentUser>().deleteAccount();
       locator<NavBarController>().enable();
@@ -89,7 +84,7 @@ class SettingsController extends ChangeNotifier {
           AppLocalizations.of(context)!.goBack,
           AppLocalizations.of(context)!.delete
         ],
-        [_popDialog, _delete],
+        [_pop, _delete],
         context);
   }
 }

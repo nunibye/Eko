@@ -234,13 +234,20 @@ class PostCard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
-                                                    "@${post.author.username}", //post.author.name,
-                                                    style: TextStyle(
-                                                      fontSize: 17,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onBackground,
+                                                  SizedBox(
+                                                    width: isPreview
+                                                        ? width * 0.5
+                                                        : width * 0.7,
+                                                    child: Text(
+                                                      "@${post.author.username}", //post.author.name,
+                                                      style: TextStyle(
+                                                        fontSize: 17,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onBackground,
+                                                      ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
                                                   ),
 
@@ -321,22 +328,22 @@ class PostCard extends StatelessWidget {
                                       const SizedBox(height: 6.0),
                                       if (post.gifURL != null)
                                         InkWell(
-                                          onDoubleTap: () {
-                                            if (!isPreview) {
-                                              if (!Provider.of<
-                                                          PostCardController>(
-                                                      context,
-                                                      listen: false)
-                                                  .liked) {
-                                                Provider.of<PostCardController>(
+                                            onDoubleTap: () {
+                                              if (!isPreview) {
+                                                if (!Provider.of<
+                                                            PostCardController>(
                                                         context,
                                                         listen: false)
-                                                    .likePressed();
+                                                    .liked) {
+                                                  Provider.of<PostCardController>(
+                                                          context,
+                                                          listen: false)
+                                                      .likePressed();
+                                                }
                                               }
-                                            }
-                                          },
-                                          child: GifWidget(url: post.gifURL!)
-                                        ),
+                                            },
+                                            child:
+                                                GifWidget(url: post.gifURL!)),
                                       if (post.gifURL != null)
                                         const SizedBox(height: 6.0),
                                       if (post.body?.isNotEmpty ??

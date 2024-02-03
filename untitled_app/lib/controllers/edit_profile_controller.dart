@@ -74,6 +74,9 @@ class EditProfileController extends ChangeNotifier {
   void _pop() {
     context.pop("poped");
   }
+  void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
 
   void _popTwice() {
     _pop();
