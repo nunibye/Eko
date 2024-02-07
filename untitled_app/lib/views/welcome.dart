@@ -21,7 +21,8 @@ class WelcomePage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
           body: Container(
-              height: height, width: width,
+              height: height,
+              width: MediaQuery.sizeOf(context).width,
               decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('images/fog1.gif'), fit: BoxFit.cover)),
