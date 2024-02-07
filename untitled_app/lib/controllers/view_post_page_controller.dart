@@ -117,13 +117,17 @@ class PostPageController extends ChangeNotifier {
           AppLocalizations.of(context)!.goBack,
           AppLocalizations.of(context)!.signIn
         ],
-        [_pop, _goToLogin],
+        [_popDialog, _goToLogin],
         context,
         dismissable: true);
   }
 
   void _pop() {
     context.pop();
+  }
+
+   void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   void _goToLogin() {
@@ -176,7 +180,7 @@ class PostPageController extends ChangeNotifier {
             AppLocalizations.of(context)!.cancel,
             AppLocalizations.of(context)!.delete
           ],
-          [_pop, _deletePostFromDialog],
+          [_popDialog, _deletePostFromDialog],
           context);
     } else {
       //too early
@@ -184,7 +188,7 @@ class PostPageController extends ChangeNotifier {
           AppLocalizations.of(context)!.tooEarlyDeleteTitle,
           AppLocalizations.of(context)!.tooEarlyDeleteBody,
           [AppLocalizations.of(context)!.ok],
-          [_pop],
+          [_popDialog],
           context);
     }
   }
@@ -246,7 +250,7 @@ class PostPageController extends ChangeNotifier {
             TextButton(
               child: Text(AppLocalizations.of(context)!.cancel),
               onPressed: () {
-                _pop();
+                _popDialog();
               },
             ),
             TextButton(
@@ -257,7 +261,7 @@ class PostPageController extends ChangeNotifier {
                   reportController.text = "";
                   await locator<PostsHandling>()
                       .addReport(post: post!, message: message);
-                  _pop();
+                  _popDialog();
                 } else {
                   showSnackBar(
                       context: context,

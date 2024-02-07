@@ -42,6 +42,10 @@ class LoginController extends ChangeNotifier {
     Navigator.of(context).pop();
   }
 
+  void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   void hideKeyboard() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
@@ -150,7 +154,7 @@ class LoginController extends ChangeNotifier {
             AppLocalizations.of(context)!.invalidEmailTittle,
             AppLocalizations.of(context)!.invalidEmailBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         errorStatus = 1;
         break;

@@ -197,6 +197,10 @@ class EditGroupPageController extends ChangeNotifier {
     context.pop();
   }
 
+   void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   void _leaveGroup() async {
     context.pop();
     showLoadingDialog(context);
@@ -226,7 +230,7 @@ class EditGroupPageController extends ChangeNotifier {
           AppLocalizations.of(context)!.cancel,
           AppLocalizations.of(context)!.exit
         ],
-        [_pop, _leaveGroup],
+        [_popDialog, _leaveGroup],
         context);
 
     // TODO: needs to reload the groups page

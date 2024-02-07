@@ -71,7 +71,7 @@ class PostCardController extends ChangeNotifier {
         context.push("/groups/sub_group/${group.id}", extra: group);
       } else {
         showMyDialog(AppLocalizations.of(context)!.notInGroup, "",
-            [AppLocalizations.of(context)!.ok], [_pop], context,
+            [AppLocalizations.of(context)!.ok], [_popDialog], context,
             dismissable: true);
       }
     }
@@ -105,13 +105,17 @@ class PostCardController extends ChangeNotifier {
           AppLocalizations.of(context)!.goBack,
           AppLocalizations.of(context)!.signIn
         ],
-        [_pop, _goToLogin],
+        [_popDialog, _goToLogin],
         context,
         dismissable: true);
   }
 
   void _pop() {
     context.pop();
+  }
+
+   void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   void _goToLogin() {

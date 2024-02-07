@@ -63,13 +63,13 @@ class OtherProfileController extends ChangeNotifier {
           AppLocalizations.of(context)!.goBack,
           AppLocalizations.of(context)!.signIn
         ],
-        [_pop, _goToLogin],
+        [_popDialog, _goToLogin],
         context,
         dismissable: true);
   }
 
-  void _pop() {
-    context.pop();
+   void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
   void _goToLogin() {

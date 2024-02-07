@@ -60,6 +60,10 @@ class AuthActionInterfaceController extends ChangeNotifier {
     context.pop();
   }
 
+  void _popDialog() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
   void _popTwice() {
     _pop();
     context.go("/");
@@ -82,7 +86,7 @@ class AuthActionInterfaceController extends ChangeNotifier {
           AppLocalizations.of(context)!.exit,
           AppLocalizations.of(context)!.stay
         ],
-        [_popTwice, _pop],
+        [_popTwice, _popDialog],
         context);
   }
 
@@ -113,7 +117,7 @@ class AuthActionInterfaceController extends ChangeNotifier {
             AppLocalizations.of(context)!.weakPasswordTitle,
             AppLocalizations.of(context)!.weakPasswordBody,
             [AppLocalizations.of(context)!.tryAgain],
-            [_pop],
+            [_popDialog],
             context);
         break;
       default:
