@@ -31,7 +31,6 @@ class RouterNotifier extends ChangeNotifier {
         locator<PresenceManager>().verifySession();
       } else {
         loggedIn = false;
-        print("unverified");
         locator<PresenceManager>().unVerifySession();
       }
       notifyListeners();
@@ -55,7 +54,6 @@ class RouterNotifier extends ChangeNotifier {
       }
       //print("Old State=$oldState, newState = $validSession");
       if (oldState != validSession) {
-        print("did update");
         notifyListeners();
       }
     });
