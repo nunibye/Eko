@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/invalid_session_page_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
-import 'package:untitled_app/models/presence_manager.dart';
-import 'package:untitled_app/utilities/locator.dart';
 import "../utilities/constants.dart" as c;
 
 class InvalidSessionPage extends StatelessWidget {

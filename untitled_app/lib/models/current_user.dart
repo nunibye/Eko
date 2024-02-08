@@ -79,7 +79,6 @@ class CurrentUser extends AppUser {
 
   Future<String> resetPassword(String code, String password) async {
     try {
-      print(code);
       await FirebaseAuth.instance
           .confirmPasswordReset(code: code, newPassword: password);
       return "success";
