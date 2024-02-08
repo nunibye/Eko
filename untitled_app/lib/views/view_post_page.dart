@@ -290,11 +290,11 @@ class ViewPostPage extends StatelessWidget {
                                                   context,
                                                   listen: false)
                                               .isLoggedIn(),
-                                      enableInteractiveSelection:
-                                          !Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .isLoggedIn(),
+                                      //  enableInteractiveSelection:
+                                      //     !Provider.of<PostPageController>(
+                                      //             context,
+                                      //             listen: false)
+                                      //         .isLoggedIn(),
                                       onTap: () {
                                         if (!Provider.of<PostPageController>(
                                                 context,

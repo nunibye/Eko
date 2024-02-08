@@ -13,12 +13,17 @@ class FeedPostCache {
   List<Cache> postsList =
       List.generate(3, (index) => Cache(items: [], end: false));
 
-  addPost(int index, Post post) {
+  void addPost(int index, Post post) {
     postsList[index].items.insert(0, post);
   }
 
-  clearCache() {
+  void clearFeedCache() {
     postsList = List.generate(3, (index) => Cache(items: [], end: false));
+  }
+
+  void clearGroupProfileCache(){
+    groupsCache = Cache(end: false, items: []);
+    profileCache = Cache(end: false, items: []);
   }
 
   //TODO review, considor other solutions

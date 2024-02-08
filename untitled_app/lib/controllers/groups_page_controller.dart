@@ -8,7 +8,7 @@ import '../custom_widgets/controllers/pagination_controller.dart'
     show PaginationGetterReturn;
 
 class GroupsPageController extends ChangeNotifier {
-  Cache groups = Cache(end: false, items: []);
+  //Cache groups = Cache(end: false, items: []);
   final BuildContext context;
   final bool reload;
   GroupsPageController({required this.context, required this.reload}) {

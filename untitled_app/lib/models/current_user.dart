@@ -195,7 +195,6 @@ class CurrentUser extends AppUser {
   }
 
   Future<bool> addLike(String postId, String? commentId) async {
-    
     if (!stateIsLiking) {
       stateIsLiking = true;
       try {
@@ -500,6 +499,9 @@ class CurrentUser extends AppUser {
   }
 
   void clearVariables() {
+    locator<PostsHandling>().feedChunks.clear();
+    locator<FeedPostCache>().clearFeedCache();
+    locator<FeedPostCache>().clearGroupProfileCache();
     uid = '';
 
     name = '';
@@ -516,8 +518,6 @@ class CurrentUser extends AppUser {
   }
 
   signOut() async {
-    locator<PostsHandling>().feedChunks.clear();
-    locator<FeedPostCache>().clearCache();
     await removeFCM();
     clearVariables();
     FirebaseAuth.instance.signOut();

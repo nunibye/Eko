@@ -108,7 +108,7 @@ class NotificationService extends ChangeNotifier {
       BuildContext context, RemoteMessage message) async {
     String path = message.data['path'];
     String type = message.data['type'];
-    locator<FeedPostCache>().clearCache();
+    locator<FeedPostCache>().clearFeedCache();
     // await locator<PostsHandling>().getFeedPosts(
     //     null,
     //     FirebaseFirestore.instance
@@ -144,7 +144,7 @@ class NotificationService extends ChangeNotifier {
       BuildContext context, RemoteMessage message) async {
     String path = message.data['path'];
     String type = message.data['type'];
-    locator<FeedPostCache>().clearCache();
+    locator<FeedPostCache>().clearFeedCache();
     // await locator<PostsHandling>().getFeedPosts(
     //     null,
     //     FirebaseFirestore.instance
