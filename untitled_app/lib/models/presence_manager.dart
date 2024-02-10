@@ -29,15 +29,19 @@ class PresenceManager {
   }
 
   unVerifySession() {
-    if(uid != ""){DatabaseReference userStatusDatabaseRef =
-        FirebaseDatabase.instance.ref().child('/status/$uid');
-    Map<String, dynamic> isOfflineForDatabase = {
-      'online': false,
-      'last_changed': ServerValue.timestamp,
-    };
-    sessionId = null;
-    userStatusDatabaseRef.set(isOfflineForDatabase);
-    userStatusDatabaseRef.onDisconnect().cancel();}
+    if (uid != "") {
+      DatabaseReference userStatusDatabaseRef =
+          FirebaseDatabase.instance.ref().child('/status/$uid');
+      Map<String, dynamic> isOfflineForDatabase = {
+        'online': false,
+        'last_changed': ServerValue.timestamp,
+      };
+      sessionId = null;
+      userStatusDatabaseRef.set(isOfflineForDatabase);
+      userStatusDatabaseRef.onDisconnect().cancel();
+      uid = "";
+    }
+    
   }
 
   verifySession() {

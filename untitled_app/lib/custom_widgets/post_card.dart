@@ -215,55 +215,62 @@ class PostCard extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          InkWell(
-                                              onTap: () {
-                                                if (Provider.of<
-                                                            PostCardController>(
-                                                        context,
-                                                        listen: false)
-                                                    .isLoggedIn()) {
-                                                  (!isPreview && !isOnProfile)
-                                                      ? avatarPressed(context)
-                                                      : null;
-                                                }
-                                              },
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width: isPreview
-                                                        ? width * 0.5
-                                                        : width * 0.7,
-                                                    child: Text(
-                                                      "@${post.author.username}", //post.author.name,
-                                                      style: TextStyle(
-                                                        fontSize: 17,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onBackground,
+                                          Expanded(
+                                              child: InkWell(
+                                                  onTap: () {
+                                                    if (Provider.of<
+                                                                PostCardController>(
+                                                            context,
+                                                            listen: false)
+                                                        .isLoggedIn()) {
+                                                      (!isPreview &&
+                                                              !isOnProfile)
+                                                          ? avatarPressed(
+                                                              context)
+                                                          : null;
+                                                    }
+                                                  },
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      //sized box
+                                                      //fit: BoxFit.fill,
+                                                      // width: isPreview
+                                                      //     ? width * 0.5
+                                                      //     : width * 0.7,
+                                                      Text(
+                                                        "@${post.author.username}", //post.author.name,
+                                                        style: TextStyle(
+                                                          fontSize: 17,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onBackground,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
 
-                                                  //const SizedBox(width: 8.0),
-                                                  // Text(
-                                                  //     "@${post.author.username}",
-                                                  //     style: TextStyle(
-                                                  //       fontSize: 12,
-                                                  //       fontWeight: FontWeight.w300,
-                                                  //       color: Theme.of(context)
-                                                  //           .colorScheme
-                                                  //           .onBackground,
-                                                  //     ),
-                                                  //   ),
-                                                ],
-                                              )),
+                                                      //const SizedBox(width: 8.0),
+                                                      // Text(
+                                                      //     "@${post.author.username}",
+                                                      //     style: TextStyle(
+                                                      //       fontSize: 12,
+                                                      //       fontWeight: FontWeight.w300,
+                                                      //       color: Theme.of(context)
+                                                      //           .colorScheme
+                                                      //           .onBackground,
+                                                      //     ),
+                                                      //   ),
+                                                    ],
+                                                  ))),
                                           const Spacer(),
                                           if (!isPreview)
                                             TimeStamp(time: post.time),

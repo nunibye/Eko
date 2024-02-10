@@ -278,7 +278,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get save => 'Save';
 
   @override
-  String get searchUsername => 'Search username...';
+  String get searchUsername => 'Search users...';
 
   @override
   String get search => 'Search';
@@ -311,7 +311,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get someone => 'Someone';
 
   @override
-  String get commentText => 'Someone commented on your post:';
+  String get commentText => 'commented on your post:';
 
   @override
   String get groups => 'Groups';
@@ -456,4 +456,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get invalidSession => 'This Eko account is being used on another device. Press below to continue on this device.';
+
+  @override
+  String get birthday => 'Brithday';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get day => 'Day';
+
+  @override
+  String get year => 'Year';
+
+  @override
+  String get invalidBirthdayTitle => 'Invalid Birthday';
+
+  @override
+  String get invalidBirthdayBody => 'Please select a valid birthday.';
+
+  @override
+  String get tooYoungTitle => 'You are too young';
+
+  @override
+  String get tooYoungBody => 'You must be 13 years old to make an account';
 }

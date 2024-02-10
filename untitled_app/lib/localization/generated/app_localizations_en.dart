@@ -456,4 +456,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidSession => 'This Eko account is being used on another device. Press below to continue on this device.';
+
+  @override
+  String get birthday => 'Brithday';
+
+  @override
+  String get month => 'Month';
+
+  @override
+  String get day => 'Day';
+
+  @override
+  String get year => 'Year';
+
+  @override
+  String get invalidBirthdayTitle => 'Invalid Birthday';
+
+  @override
+  String get invalidBirthdayBody => 'Please select a valid birthday.';
+
+  @override
+  String get tooYoungTitle => 'You are too young';
+
+  @override
+  String get tooYoungBody => 'You must be 13 years old to make an account';
 }

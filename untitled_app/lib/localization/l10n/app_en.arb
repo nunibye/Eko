@@ -186,7 +186,16 @@
     "deleteCommentWarningTitle":"Delete Comment",
     "deletePostWarningBody":"Are you sure you wish to procede? This action cannot be undone.",
 
-    "invalidSession":"This Eko account is being used on another device. Press below to continue on this device."
+    "invalidSession":"This Eko account is being used on another device. Press below to continue on this device.",
+    "birthday":"Brithday",
+    "month":"Month",
+    "day":"Day",
+    "year":"Year",
+
+    "invalidBirthdayTitle":"Invalid Birthday",
+    "invalidBirthdayBody":"Please select a valid birthday.",
+    "tooYoungTitle":"You are too young",
+    "tooYoungBody":"You must be 13 years old to make an account"
     
 
     

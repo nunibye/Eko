@@ -6,7 +6,7 @@ import '../utilities/constants.dart' as c;
 
 class CustomInputFeild extends StatelessWidget {
   final int? maxLen;
-  final String label;
+  final String? label;
   final TextEditingController controller;
   final String? Function(String?)? validatorFunction;
   final AutovalidateMode validator;
@@ -16,20 +16,24 @@ class CustomInputFeild extends StatelessWidget {
   final double? width;
   final bool enabled;
   final bool password;
+  final bool padding;
+  final bool showCounter;
   final TextInputAction textInputAction;
   final double? height;
 
   final void Function(String)? onChanged;
   final void Function()? onEditingComplete;
   const CustomInputFeild(
-      {required this.label,
+      {this.label,
       required this.controller,
       this.onChanged,
       this.maxLen,
+      this.padding = true,
       this.onEditingComplete,
       this.focus,
       this.width,
       this.height,
+      this.showCounter = true,
       this.inputType = TextInputType.text,
       this.filter = r'[\s\S]*',
       this.validator = AutovalidateMode.disabled,
@@ -53,7 +57,9 @@ class CustomInputFeild extends StatelessWidget {
         builder: (context, child) {
           return Container(
             alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            padding: padding
+                ? const EdgeInsets.only(top: 10, bottom: 10)
+                : const EdgeInsets.only(),
             width: feildWidth,
             height: height,
             child: TextFormField(
@@ -81,6 +87,7 @@ class CustomInputFeild extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.onBackground),
               decoration: InputDecoration(
+                counterText: showCounter ? null : '',
                 labelText: label,
                 labelStyle: TextStyle(
                   fontSize: 18,

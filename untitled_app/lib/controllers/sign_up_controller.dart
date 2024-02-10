@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/utilities/themes/dark_theme_provider.dart';
@@ -21,6 +22,11 @@ class SignUpController extends ChangeNotifier {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
+
+  final monthController = TextEditingController();
+  final dayController = TextEditingController();
+  final yearController = TextEditingController();
+
   final nameFocus = FocusNode();
   final usernameFocus = FocusNode();
   final dobFocus = FocusNode();
@@ -28,8 +34,16 @@ class SignUpController extends ChangeNotifier {
   final passwordFocus = FocusNode();
   final passwordConfirmFocus = FocusNode();
 
+  final keyFocus = FocusNode();
+
+  final monthFocus = FocusNode();
+  final dayFocus = FocusNode();
+  final yearFocus = FocusNode();
+
   final pageController = PageController();
   final BuildContext context;
+
+  final format = DateFormat('MM/dd/yyyy');
 
   bool availableUsername = false;
   bool validUsername = false;
@@ -42,10 +56,20 @@ class SignUpController extends ChangeNotifier {
   Timer? _debounce;
   List<String> passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
 
-  SignUpController({required this.context});
+  SignUpController({required this.context}) {
+    // monthController.addListener(onMonthChanged);
+    // yearController.addListener(onYearChanged);
+    // dayController.addListener(onDayChanged);
+  }
 
   @override
   void dispose() {
+    keyFocus.dispose();
+
+    // monthController.removeListener(onMonthChanged);
+    // yearController.removeListener(onYearChanged);
+    // dayController.removeListener(onDayChanged);
+
     nameController.dispose();
     usernameController.dispose();
     dobController.dispose();
@@ -59,9 +83,73 @@ class SignUpController extends ChangeNotifier {
     passwordFocus.dispose();
     passwordConfirmFocus.dispose();
 
-    final pageController = PageController();
+    monthFocus.dispose();
+    yearFocus.dispose();
+    dayFocus.dispose();
+
+    monthController.dispose();
+    yearController.dispose();
+    dayController.dispose();
+
+    pageController.dispose();
     super.dispose();
   }
+
+  // String? validateYear(String? s) {
+  //   final now = DateTime.now();
+  //   final currentYear = now.year;
+  //   final year = int.parse(s ?? '1');
+  //   if (year > currentYear || year < 1000) return "";
+  //   return null;
+  // }
+  void formatTime(DateTime? birthday) {
+    if (birthday != null) {
+      final birthdyString = format.format(birthday!);
+      final birthdaylist = birthdyString.split('/');
+      monthController.text = birthdaylist[0];
+      dayController.text = birthdaylist[1];
+      yearController.text = birthdaylist[2];
+    }
+  }
+
+  void onKey(RawKeyEvent event) {
+    if (monthFocus.hasFocus) {
+      if (monthController.text.length == 2 &&
+          event.logicalKey.keyLabel != "Backspace") {
+        dayFocus.requestFocus();
+        dayController.text = event.character ?? '';
+      }
+    } else if (dayFocus.hasFocus) {
+      if (dayController.text.length == 2 &&
+          event.logicalKey.keyLabel != "Backspace") {
+        yearFocus.requestFocus();
+        yearController.text = event.character ?? '';
+      } else if (event.logicalKey.keyLabel == "Backspace" &&
+          dayController.text.isEmpty) {
+        monthFocus.requestFocus();
+      }
+    } else if (yearFocus.hasFocus) {
+      if (event.logicalKey.keyLabel == "Backspace" &&
+          yearController.text.isEmpty) {
+        dayFocus.requestFocus();
+      }
+    }
+  }
+
+  // void onMonthChanged() {
+  //   print("test");
+  //   if (monthController.text.length == 2) {
+  //     dayFocus.requestFocus();
+  //   }
+  // }
+
+  // void onDayChanged() {
+  //   if (dayController.text.length == 2) {
+  //     yearFocus.requestFocus();
+  //   }
+  // }
+
+  // void onYearChanged() {}
 
   passwordChanged() {
     passed = ["❌", "❌", "❌", "❌", "❌", "❌"];
@@ -106,7 +194,7 @@ class SignUpController extends ChangeNotifier {
     context.pop();
   }
 
-   void _popDialog() {
+  void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
@@ -266,34 +354,85 @@ class SignUpController extends ChangeNotifier {
     }
   }
 
+  DateTime? getDateTime() {
+    try {
+      // Parse the date string using the specified format
+      // if (dayController.text.isEmpty ||
+      //     monthController.text.isEmpty ||
+      //     yearController.text.isEmpty) {
+      //   return null;
+      // }
+
+      final day = int.tryParse(dayController.text);
+      final month = int.tryParse(monthController.text);
+      final year = int.tryParse(yearController.text);
+
+      if (day == null || month == null || year == null) {
+        // Invalid numeric values, return null
+        return null;
+      }
+
+      if (1 > day || day > 31) {
+        return null;
+      }
+
+      if (1 > month || month > 12) {
+        return null;
+      }
+
+      if (1900 > year || year > DateTime.now().year) {
+        return null;
+      }
+
+      // Create a DateTime object
+      return DateTime(year, month, day);
+    } catch (e) {
+      // Parsing error, return null
+      return null;
+    }
+  }
+
   forwardPressed() async {
     hideKeyboard();
     int page = pageController.page!.toInt();
-    if (page == 0 &&
-        (nameController.text == "" ||
-            nameController.text.length > c.maxNameChars ||
-            !validUsername ||
-            isChecking ||
-            !availableUsername ||
-            emailController.text == ""
-        // ||dobController.text == ""
-        )) {
-      // Request focus for the empty field
-      if (nameController.text == "") {
-        nameFocus.requestFocus();
-      } else if (nameController.text.length > c.maxNameChars) {
-        showSnackBar(
-            text: AppLocalizations.of(context)!.tooManyChar, context: context);
-        nameFocus.requestFocus();
-      } else if (!validUsername || isChecking || !availableUsername) {
-        usernameFocus.requestFocus();
-      } else if (emailController.text == "") {
-        emailFocus.requestFocus();
+
+    final birthday = getDateTime();
+    if (birthday != null) {
+      if (birthday.compareTo(
+              DateTime.now().subtract(const Duration(hours: 13 * 365))) >=
+          0) {
+        //too young
+        showMyDialog(
+            AppLocalizations.of(context)!.tooYoungTitle,
+            AppLocalizations.of(context)!.tooYoungBody,
+            [AppLocalizations.of(context)!.ok],
+            [_popDialog],
+            context);
+        return "done";
       }
-      // else {dobFocus.requestFocus();}
+    } else {
+//invalid
+      showMyDialog(
+          AppLocalizations.of(context)!.invalidBirthdayTitle,
+          AppLocalizations.of(context)!.invalidBirthdayBody,
+          [AppLocalizations.of(context)!.ok],
+          [_popDialog],
+          context);
       return "done";
     }
-    if (page == 0) {
+
+    // Request focus for the empty field
+    if (nameController.text == "") {
+      nameFocus.requestFocus();
+    } else if (nameController.text.length > c.maxNameChars) {
+      showSnackBar(
+          text: AppLocalizations.of(context)!.tooManyChar, context: context);
+      nameFocus.requestFocus();
+    } else if (!validUsername || isChecking || !availableUsername) {
+      usernameFocus.requestFocus();
+    } else if (emailController.text == "") {
+      emailFocus.requestFocus();
+    } else if (page == 0) {
       //_getPageData(page);
       //_setPageData(page + 1);
       await pageController.nextPage(

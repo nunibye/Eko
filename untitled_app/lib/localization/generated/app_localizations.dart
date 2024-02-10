@@ -998,6 +998,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This Eko account is being used on another device. Press below to continue on this device.'**
   String get invalidSession;
+
+  /// No description provided for @birthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Brithday'**
+  String get birthday;
+
+  /// No description provided for @month.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get month;
+
+  /// No description provided for @day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get day;
+
+  /// No description provided for @year.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get year;
+
+  /// No description provided for @invalidBirthdayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Birthday'**
+  String get invalidBirthdayTitle;
+
+  /// No description provided for @invalidBirthdayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a valid birthday.'**
+  String get invalidBirthdayBody;
+
+  /// No description provided for @tooYoungTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You are too young'**
+  String get tooYoungTitle;
+
+  /// No description provided for @tooYoungBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be 13 years old to make an account'**
+  String get tooYoungBody;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

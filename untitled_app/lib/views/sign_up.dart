@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/sign_up_controller.dart';
@@ -207,6 +208,111 @@ class GetInfo extends StatelessWidget {
                   .emailController,
               inputType: TextInputType.emailAddress,
             ),
+
+            Text(
+              AppLocalizations.of(context)!.birthday,
+              style: const TextStyle(
+                  fontSize: 18, decoration: TextDecoration.underline),
+            ),
+            RawKeyboardListener(
+                onKey:
+                    Provider.of<SignUpController>(context, listen: false).onKey,
+                focusNode: Provider.of<SignUpController>(context, listen: false)
+                    .keyFocus,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(AppLocalizations.of(context)!.month),
+                        CustomInputFeild(
+                          filter: r'[0-9]*',
+                          showCounter: false,
+                          maxLen: 2,
+                          padding: false,
+                          width: width * 0.15,
+                          focus: Provider.of<SignUpController>(context,
+                                  listen: false)
+                              .monthFocus,
+                          controller: Provider.of<SignUpController>(context,
+                                  listen: false)
+                              .monthController,
+                          inputType: TextInputType.number,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(AppLocalizations.of(context)!.day),
+                          CustomInputFeild(
+                            filter: r'[0-9]*',
+                            showCounter: false,
+                            maxLen: 2,
+                            padding: false,
+                            width: width * 0.15,
+                            focus: Provider.of<SignUpController>(context,
+                                    listen: false)
+                                .dayFocus,
+                            controller: Provider.of<SignUpController>(context,
+                                    listen: false)
+                                .dayController,
+                            inputType: TextInputType.number,
+                          )
+                        ],
+                      ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(AppLocalizations.of(context)!.year),
+                        CustomInputFeild(
+                          // validator: AutovalidateMode.always,
+                          // validatorFunction: Provider.of<SignUpController>(context,
+                          //         listen: false).validateYear,
+                          filter: r'[0-9]*',
+                          showCounter: false,
+                          maxLen: 4,
+                          padding: false,
+                          width: width * 0.3,
+                          focus: Provider.of<SignUpController>(context,
+                                  listen: false)
+                              .yearFocus,
+                          controller: Provider.of<SignUpController>(context,
+                                  listen: false)
+                              .yearController,
+                          inputType: TextInputType.number,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 5),
+                    Column(children: [
+                      const Text(''),
+                      IconButton(
+                        onPressed: () async {
+                          Provider.of<SignUpController>(context, listen: false)
+                              .formatTime(
+                            await showDatePicker(
+                              context: context,
+                              initialEntryMode:
+                                  DatePickerEntryMode.calendarOnly,
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
+                            ),
+                          );
+                        },
+                        icon: const Icon(CupertinoIcons.calendar),
+                        iconSize: 35,
+                      )
+                    ])
+                  ],
+                )),
             SizedBox(
               height: height * 0.08,
             ),
