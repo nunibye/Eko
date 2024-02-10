@@ -90,6 +90,8 @@
     "invalidBirthdayTitle",
     "invalidBirthdayBody",
     "tooYoungTitle",
-    "tooYoungBody"
+    "tooYoungBody",
+    "bySigningUp",
+    "termsAndConditions"
   ]
 }

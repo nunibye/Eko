@@ -195,9 +195,10 @@
     "invalidBirthdayTitle":"Invalid Birthday",
     "invalidBirthdayBody":"Please select a valid birthday.",
     "tooYoungTitle":"You are too young",
-    "tooYoungBody":"You must be 13 years old to make an account"
+    "tooYoungBody":"You must be 13 years old to make an account",
     
-
+    "bySigningUp":"By signing up, you agree to our ",
+    "termsAndConditions":"Terms and Conditions"
     
 
 }

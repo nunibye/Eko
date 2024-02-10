@@ -480,4 +480,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooYoungBody => 'You must be 13 years old to make an account';
+
+  @override
+  String get bySigningUp => 'By signing up, you agree to our ';
+
+  @override
+  String get termsAndConditions => 'Terms and Conditions';
 }

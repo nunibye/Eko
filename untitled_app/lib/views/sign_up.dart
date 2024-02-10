@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/controllers/sign_up_controller.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../custom_widgets/login_text_feild.dart';
 import '../utilities/constants.dart' as c;
 import '../custom_widgets/get_app_fab.dart';
@@ -450,7 +452,7 @@ class GetPassword extends StatelessWidget {
             ),
             //const Spacer(),
             SizedBox(
-              height: height * 0.06,
+              height: height * 0.1,
             ),
             SizedBox(
               width: width * 0.9,
@@ -475,6 +477,30 @@ class GetPassword extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
+              ),
+            ),
+            SizedBox(height: height * 0.008),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: AppLocalizations.of(context)!.bySigningUp,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                  TextSpan(
+                    text: AppLocalizations.of(context)!.termsAndConditions,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.surfaceTint),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        var url = Uri.parse(c.termsUrl);
+                        await launchUrl(url);
+                      },
+                  ),
+                ],
               ),
             ),
             SizedBox(height: height * 0.03),

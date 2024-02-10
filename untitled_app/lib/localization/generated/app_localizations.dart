@@ -1046,6 +1046,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You must be 13 years old to make an account'**
   String get tooYoungBody;
+
+  /// No description provided for @bySigningUp.
+  ///
+  /// In en, this message translates to:
+  /// **'By signing up, you agree to our '**
+  String get bySigningUp;
+
+  /// No description provided for @termsAndConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get termsAndConditions;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
