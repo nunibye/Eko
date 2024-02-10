@@ -1002,7 +1002,7 @@ abstract class AppLocalizations {
   /// No description provided for @birthday.
   ///
   /// In en, this message translates to:
-  /// **'Brithday'**
+  /// **'Birthday'**
   String get birthday;
 
   /// No description provided for @month.
