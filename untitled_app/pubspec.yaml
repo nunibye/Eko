@@ -47,7 +47,7 @@ dependencies:
   get_it: ^7.6.4
   flutter_svg: ^2.0.9
   qr_flutter_new: ^1.0.2
-  cloud_firestore: ^4.13.3
+  cloud_firestore: ^4.15.3
   url_launcher: ^6.2.2
   firebase_in_app_messaging: ^0.7.4+6
   overlay_support: ^2.1.0
