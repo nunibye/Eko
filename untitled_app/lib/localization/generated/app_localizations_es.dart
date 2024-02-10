@@ -458,7 +458,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidSession => 'This Eko account is being used on another device. Press below to continue on this device.';
 
   @override
-  String get birthday => 'Brithday';
+  String get birthday => 'Birthday';
 
   @override
   String get month => 'Month';
