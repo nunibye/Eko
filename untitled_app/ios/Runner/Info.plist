@@ -33,11 +33,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>need to upload image</string>
+	<string>Eko needs access to your photo library to save a profile picture.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>need to upload image</string>
+	<string>Eko needs access to your photo library to save a profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>need to upload image</string>
+	<string>Eko needs access to your photo library to save a profile picture.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
