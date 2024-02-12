@@ -18,7 +18,7 @@ class OtherProfileController extends ChangeNotifier {
   final AppUser? passedUser;
   final String id;
   Cache loadedPostData = Cache(items: [], end: false);
-
+  bool isBlocked = false;
   AppUser? loadedUser;
   late bool following;
   bool isFollowing = false;
@@ -42,6 +42,8 @@ class OtherProfileController extends ChangeNotifier {
       context.go("/profile");
     }
     following = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+    //set blocked
+
     if (!isLoggedIn()) {
       locator<NavBarController>().disable();
     }
@@ -68,7 +70,7 @@ class OtherProfileController extends ChangeNotifier {
         dismissable: true);
   }
 
-   void _popDialog() {
+  void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
@@ -76,6 +78,15 @@ class OtherProfileController extends ChangeNotifier {
     context.go('/');
   }
 
+  bool getBlocked() {
+    return isBlocked;
+  }
+
+  void showBlock() {}
+  void showUnblock() {}
+  void blockPressed() {}
+  void unblockPressed() {}
+  
   onFollowPressed() async {
     if (!isLoggedIn()) {
       showLogInDialog();

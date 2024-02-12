@@ -79,13 +79,41 @@ class OtherProfile extends StatelessWidget {
                                     Theme.of(context).colorScheme.onBackground,
                               ),
                             ) : null,
-                            // actions: [
-                            //   IconButton(
-                            //     onPressed: () {},
-                            //     icon: const Icon(Icons
-                            //         .more_horiz_outlined), //this could open a floating menu where you could block, or do something to adjust settings with this profile
-                            //   )
-                            // ],
+                            actions: [
+                              PopupMenuButton<void Function()>(
+                    itemBuilder: (context) {
+                      return [
+                        if (!Provider.of<OtherProfileController>(context, listen: false).getBlocked())
+                          PopupMenuItem(
+                            height: 25,
+                            value: () => Provider.of<OtherProfileController>(
+                                    context,
+                                    listen: false)
+                                .showBlock(),
+                            child: Text(AppLocalizations.of(context)!.block),
+                          )
+                        else
+                          PopupMenuItem(
+                            height: 25,
+                            value: () => Provider.of<OtherProfileController>(
+                                    context,
+                                    listen: false)
+                                .showUnblock(),
+                            child: 
+                                Text(AppLocalizations.of(context)!.unblock),
+                                
+                            ),
+                          
+                      ];
+                    },
+                    onSelected: (fn) => fn(),
+                    color: Theme.of(context).colorScheme.surface,
+                    child: Icon(
+                      Icons.more_vert,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                            ],
                             bottom: PreferredSize(
                               preferredSize: const Size.fromHeight(3),
                               child: Divider(

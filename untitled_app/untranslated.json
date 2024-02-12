@@ -92,6 +92,8 @@
     "tooYoungTitle",
     "tooYoungBody",
     "bySigningUp",
-    "termsAndConditions"
+    "termsAndConditions",
+    "block",
+    "unblock"
   ]
 }

@@ -1058,6 +1058,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Terms and Conditions'**
   String get termsAndConditions;
+
+  /// No description provided for @block.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get block;
+
+  /// No description provided for @unblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblock;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

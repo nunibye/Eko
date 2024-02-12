@@ -486,4 +486,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get termsAndConditions => 'Terms and Conditions';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get unblock => 'Unblock';
 }

@@ -198,7 +198,10 @@
     "tooYoungBody":"You must be 13 years old to make an account",
     
     "bySigningUp":"By signing up, you agree to our ",
-    "termsAndConditions":"Terms and Conditions"
+    "termsAndConditions":"Terms and Conditions",
+
+    "block":"Block",
+    "unblock":"Unblock"
     
 
 }
