@@ -18,7 +18,7 @@ class OtherProfileController extends ChangeNotifier {
   final AppUser? passedUser;
   final String id;
   Cache loadedPostData = Cache(items: [], end: false);
-  bool isBlocked = false;
+
   AppUser? loadedUser;
   late bool following;
   bool isFollowing = false;
@@ -57,6 +57,14 @@ class OtherProfileController extends ChangeNotifier {
     return true;
   }
 
+  bool isBlockedByMe() {
+    return locator<CurrentUser>().blockedUsers.contains(loadedUser!.uid);
+  }
+
+  bool blocksMe() {
+    return locator<CurrentUser>().blockedBy.contains(loadedUser!.uid);
+  }
+
   void showLogInDialog() {
     showMyDialog(
         AppLocalizations.of(context)!.logIntoApp,
@@ -78,9 +86,6 @@ class OtherProfileController extends ChangeNotifier {
     context.go('/');
   }
 
-  bool getBlocked() {
-    return isBlocked;
-  }
 
   void showBlock() {
     showMyDialog(

@@ -203,11 +203,11 @@
     "block":"Block",
     "unblock":"Unblock",
 
-    "blockTitle":"block title",
-    "blockBody":"block body",
-    "unblockTitle":"unblock title",
-    "unblockbody":"unblock body",
-
+    "blockTitle":"Block User",
+    "blockBody":"This will hide content the user posts and prevent them from viewing your profile.",
+    
     "blockedAccounts":"Blocked Accounts",
-    "newActivityNotifications":"New Activity Notifications"
+    "newActivityNotifications":"New Activity Notifications",
+
+    "blockedByUserMessage":"You do not currently have permission to view this content."
 }

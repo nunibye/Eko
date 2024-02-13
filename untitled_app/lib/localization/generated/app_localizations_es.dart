@@ -494,20 +494,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unblock => 'Unblock';
 
   @override
-  String get blockTitle => 'block title';
+  String get blockTitle => 'Block User';
 
   @override
-  String get blockBody => 'block body';
-
-  @override
-  String get unblockTitle => 'unblock title';
-
-  @override
-  String get unblockbody => 'unblock body';
+  String get blockBody => 'This will hide content the user posts and prevent them from viewing your profile.';
 
   @override
   String get blockedAccounts => 'Blocked Accounts';
 
   @override
   String get newActivityNotifications => 'New Activity Notifications';
+
+  @override
+  String get blockedByUserMessage => 'You do not currently have permission to view this content.';
 }

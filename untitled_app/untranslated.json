@@ -97,9 +97,8 @@
     "unblock",
     "blockTitle",
     "blockBody",
-    "unblockTitle",
-    "unblockbody",
     "blockedAccounts",
-    "newActivityNotifications"
+    "newActivityNotifications",
+    "blockedByUserMessage"
   ]
 }

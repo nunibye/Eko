@@ -20,6 +20,7 @@ class OtherProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = c.widthGetter(context);
     return ChangeNotifierProvider(
       create: (context) =>
           OtherProfileController(context: context, passedUser: user, id: id),
@@ -32,106 +33,125 @@ class OtherProfile extends StatelessWidget {
                         .loadedUser ==
                     null
                 ? const Center(child: LoadingSpinner())
-                : PaginationPage(
-                    appbar: Provider.of<OtherProfileController>(context,
-                                    listen: true)
-                                .loadedUser ==
-                            null
-                        ? null
-                        : SliverAppBar(
-                            floating: true,
-                            pinned: false,
-                            scrolledUnderElevation: 0.0,
-                            centerTitle: false,
-                            leadingWidth: !Provider.of<OtherProfileController>(
-                                        context,
-                                        listen: false)
-                                    .isLoggedIn()
-                                ? 100
-                                : null,
-                            leading: Provider.of<OtherProfileController>(
-                                        context,
-                                        listen: false)
-                                    .isLoggedIn()
-                                ? IconButton(
-                                    icon: Icon(Icons.arrow_back_ios_rounded,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground),
-                                    onPressed: () => context.pop("popped"))
-                                : TextButton(
-                                    onPressed: () {
-                                      context.go('/');
+                : (Provider.of<OtherProfileController>(context, listen: false)
+                            .isBlockedByMe() ||
+                        Provider.of<OtherProfileController>(context,
+                                listen: false)
+                            .blocksMe())
+                    ? Center(
+                        child: SizedBox(
+                        width: width * 0.7,
+                        child: Text(
+                            AppLocalizations.of(context)!.blockedByUserMessage),
+                      ))
+                    : PaginationPage(
+                        appbar: Provider.of<OtherProfileController>(context,
+                                        listen: true)
+                                    .loadedUser ==
+                                null
+                            ? null
+                            : SliverAppBar(
+                                floating: true,
+                                pinned: false,
+                                scrolledUnderElevation: 0.0,
+                                centerTitle: false,
+                                leadingWidth:
+                                    !Provider.of<OtherProfileController>(
+                                                context,
+                                                listen: false)
+                                            .isLoggedIn()
+                                        ? 100
+                                        : null,
+                                leading: Provider.of<OtherProfileController>(
+                                            context,
+                                            listen: false)
+                                        .isLoggedIn()
+                                    ? IconButton(
+                                        icon: Icon(Icons.arrow_back_ios_rounded,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground),
+                                        onPressed: () => context.pop("popped"))
+                                    : TextButton(
+                                        onPressed: () {
+                                          context.go('/');
+                                        },
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .signIn)),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.background,
+                                title: Provider.of<OtherProfileController>(
+                                            context,
+                                            listen: false)
+                                        .isLoggedIn()
+                                    ? Text(
+                                        "@${Provider.of<OtherProfileController>(context, listen: true).loadedUser!.username}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                      )
+                                    : null,
+                                actions: [
+                                  PopupMenuButton<void Function()>(
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem(
+                                          height: 25,
+                                          value: () => Provider.of<
+                                                      OtherProfileController>(
+                                                  context,
+                                                  listen: false)
+                                              .showBlock(),
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .block),
+                                        )
+                                      ];
                                     },
-                                    child: Text(
-                                        AppLocalizations.of(context)!.signIn)),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.background,
-                            title: Provider.of<OtherProfileController>(context,
-                                        listen: false)
-                                    .isLoggedIn()
-                                ? Text(
-                                    "@${Provider.of<OtherProfileController>(context, listen: true).loadedUser!.username}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
+                                    onSelected: (fn) => fn(),
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    child: Icon(
+                                      Icons.more_vert,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onBackground,
                                     ),
-                                  )
-                                : null,
-                            actions: [
-                              PopupMenuButton<void Function()>(
-                                itemBuilder: (context) {
-                                  return [
-                                    PopupMenuItem(
-                                      height: 25,
-                                      value: () =>
-                                          Provider.of<OtherProfileController>(
-                                                  context,
-                                                  listen: false)
-                                              .showBlock(),
-                                      child: Text(
-                                          AppLocalizations.of(context)!.block),
-                                    )
-                                  ];
-                                },
-                                onSelected: (fn) => fn(),
-                                color: Theme.of(context).colorScheme.surface,
-                                child: Icon(
-                                  Icons.more_vert,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
+                                  ),
+                                ],
+                                bottom: PreferredSize(
+                                  preferredSize: const Size.fromHeight(3),
+                                  child: Divider(
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
+                                    height: c.dividerWidth,
+                                  ),
                                 ),
                               ),
-                            ],
-                            bottom: PreferredSize(
-                              preferredSize: const Size.fromHeight(3),
-                              child: Divider(
-                                color: Theme.of(context).colorScheme.outline,
-                                height: c.dividerWidth,
-                              ),
-                            ),
-                          ),
-                    getter: Provider.of<OtherProfileController>(context,
-                            listen: false)
-                        .getPosts,
-                    card: otherProfilePostCardBuilder,
-                    startAfterQuery: Provider.of<OtherProfileController>(
-                            context,
-                            listen: false)
-                        .getTimeFromPost,
-                    header: const _Header(),
-                    externalData: Provider.of<OtherProfileController>(context,
-                            listen: false)
-                        .loadedPostData,
-                    extraRefresh: Provider.of<OtherProfileController>(context,
-                            listen: false)
-                        .onPageRefresh,
-                    initialLoadingWidget: const FeedLoader(),
-                  ),
+                        getter: Provider.of<OtherProfileController>(context,
+                                listen: false)
+                            .getPosts,
+                        card: otherProfilePostCardBuilder,
+                        startAfterQuery: Provider.of<OtherProfileController>(
+                                context,
+                                listen: false)
+                            .getTimeFromPost,
+                        header: const _Header(),
+                        externalData: Provider.of<OtherProfileController>(
+                                context,
+                                listen: false)
+                            .loadedPostData,
+                        extraRefresh: Provider.of<OtherProfileController>(
+                                context,
+                                listen: false)
+                            .onPageRefresh,
+                        initialLoadingWidget: const FeedLoader(),
+                      ),
 
             // FeedBuilder(
             //   user: AppUser(

@@ -1074,26 +1074,14 @@ abstract class AppLocalizations {
   /// No description provided for @blockTitle.
   ///
   /// In en, this message translates to:
-  /// **'block title'**
+  /// **'Block User'**
   String get blockTitle;
 
   /// No description provided for @blockBody.
   ///
   /// In en, this message translates to:
-  /// **'block body'**
+  /// **'This will hide content the user posts and prevent them from viewing your profile.'**
   String get blockBody;
-
-  /// No description provided for @unblockTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'unblock title'**
-  String get unblockTitle;
-
-  /// No description provided for @unblockbody.
-  ///
-  /// In en, this message translates to:
-  /// **'unblock body'**
-  String get unblockbody;
 
   /// No description provided for @blockedAccounts.
   ///
@@ -1106,6 +1094,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Activity Notifications'**
   String get newActivityNotifications;
+
+  /// No description provided for @blockedByUserMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not currently have permission to view this content.'**
+  String get blockedByUserMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
