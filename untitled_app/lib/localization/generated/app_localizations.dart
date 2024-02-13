@@ -1100,6 +1100,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You do not currently have permission to view this content.'**
   String get blockedByUserMessage;
+
+  /// No description provided for @birthdayExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'We use this to ensure you are old enough to use the app.'**
+  String get birthdayExplanation;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

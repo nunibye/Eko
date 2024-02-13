@@ -29,6 +29,25 @@ class OtherProfile extends StatelessWidget {
           canPop: Provider.of<OtherProfileController>(context, listen: false)
               .isLoggedIn(),
           child: Scaffold(
+            appBar: Provider.of<OtherProfileController>(context, listen: true)
+                        .loadedUser ==
+                    null || (Provider.of<OtherProfileController>(context, listen: false)
+                            .isBlockedByMe() ||
+                        Provider.of<OtherProfileController>(context,
+                                listen: false)
+                            .blocksMe())
+                    
+                ? AppBar(
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    surfaceTintColor: Colors.transparent,
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                        icon: Icon(Icons.arrow_back_ios_rounded,
+                            color: Theme.of(context).colorScheme.onBackground),
+                        onPressed: () => context.pop(),
+                      )
+                  )
+                : null,
             body: Provider.of<OtherProfileController>(context, listen: true)
                         .loadedUser ==
                     null

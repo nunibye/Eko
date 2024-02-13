@@ -99,6 +99,7 @@
     "blockBody",
     "blockedAccounts",
     "newActivityNotifications",
-    "blockedByUserMessage"
+    "blockedByUserMessage",
+    "birthdayExplanation"
   ]
 }

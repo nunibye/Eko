@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:untitled_app/controllers/bottom_nav_bar_controller.dart';
 import 'package:untitled_app/custom_widgets/safe_area.dart';
 import 'package:untitled_app/models/users.dart';
+import 'package:untitled_app/utilities/locator.dart';
 import 'package:untitled_app/views/blocked_users_page.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
@@ -257,6 +259,10 @@ final goRouter = GoRouter(
           navigatorKey: _shellNavigatorComposeKey,
           routes: [
             GoRoute(
+              onExit: (context) {
+                locator<NavBarController>().enable();
+                return true;
+              },
               path: '/compose',
               name: 'compose',
               pageBuilder: (context, state) {
@@ -297,11 +303,19 @@ final goRouter = GoRouter(
                   builder: (context, state) => const ShareProfile(),
                 ),
                 GoRoute(
+                  onExit: (context) {
+                    locator<NavBarController>().enable();
+                    return true;
+                  },
                   path: 'edit_profile',
                   name: 'edit_profile',
                   builder: (context, state) => const EditProfile(),
                 ),
                 GoRoute(
+                    onExit: (context) {
+                      locator<NavBarController>().enable();
+                      return true;
+                    },
                     path: 'user_settings',
                     name: 'user_settings',
                     builder: (context, state) => const UserSettings(),

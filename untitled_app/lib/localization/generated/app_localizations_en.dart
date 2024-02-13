@@ -507,4 +507,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blockedByUserMessage => 'You do not currently have permission to view this content.';
+
+  @override
+  String get birthdayExplanation => 'We use this to ensure you are old enough to use the app.';
 }

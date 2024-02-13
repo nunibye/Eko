@@ -54,7 +54,15 @@ class ViewPostPage extends StatelessWidget {
                         },
                         child: Text(AppLocalizations.of(context)!.signIn),
                       ),
-                actions: [
+                actions: (Provider.of<PostPageController>(context, listen: true)
+                              .post ==
+                          null) ? null : (Provider.of<PostPageController>(context, listen: false)
+                                  .isBlockedByMe() ||
+                              Provider.of<PostPageController>(context,
+                                      listen: false)
+                                  .blocksMe())
+                          ? null
+                          : [
                   PopupMenuButton<void Function()>(
                     itemBuilder: (context) {
                       return [

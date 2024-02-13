@@ -209,5 +209,6 @@
     "blockedAccounts":"Blocked Accounts",
     "newActivityNotifications":"New Activity Notifications",
 
-    "blockedByUserMessage":"You do not currently have permission to view this content."
+    "blockedByUserMessage":"You do not currently have permission to view this content.",
+    "birthdayExplanation":"We use this to ensure you are old enough to use the app."
 }
