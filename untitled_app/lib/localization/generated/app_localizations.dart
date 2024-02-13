@@ -1070,6 +1070,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unblock'**
   String get unblock;
+
+  /// No description provided for @blockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'block title'**
+  String get blockTitle;
+
+  /// No description provided for @blockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'block body'**
+  String get blockBody;
+
+  /// No description provided for @unblockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'unblock title'**
+  String get unblockTitle;
+
+  /// No description provided for @unblockbody.
+  ///
+  /// In en, this message translates to:
+  /// **'unblock body'**
+  String get unblockbody;
+
+  /// No description provided for @blockedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Accounts'**
+  String get blockedAccounts;
+
+  /// No description provided for @newActivityNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'New Activity Notifications'**
+  String get newActivityNotifications;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

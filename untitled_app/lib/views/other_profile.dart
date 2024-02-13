@@ -67,52 +67,45 @@ class OtherProfile extends StatelessWidget {
                                         AppLocalizations.of(context)!.signIn)),
                             backgroundColor:
                                 Theme.of(context).colorScheme.background,
-                            title: Provider.of<OtherProfileController>(
-                                        context,
+                            title: Provider.of<OtherProfileController>(context,
                                         listen: false)
-                                    .isLoggedIn() ? Text(
-                              "@${Provider.of<OtherProfileController>(context, listen: true).loadedUser!.username}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                              ),
-                            ) : null,
+                                    .isLoggedIn()
+                                ? Text(
+                                    "@${Provider.of<OtherProfileController>(context, listen: true).loadedUser!.username}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                    ),
+                                  )
+                                : null,
                             actions: [
                               PopupMenuButton<void Function()>(
-                    itemBuilder: (context) {
-                      return [
-                        if (!Provider.of<OtherProfileController>(context, listen: false).getBlocked())
-                          PopupMenuItem(
-                            height: 25,
-                            value: () => Provider.of<OtherProfileController>(
-                                    context,
-                                    listen: false)
-                                .showBlock(),
-                            child: Text(AppLocalizations.of(context)!.block),
-                          )
-                        else
-                          PopupMenuItem(
-                            height: 25,
-                            value: () => Provider.of<OtherProfileController>(
-                                    context,
-                                    listen: false)
-                                .showUnblock(),
-                            child: 
-                                Text(AppLocalizations.of(context)!.unblock),
-                                
-                            ),
-                          
-                      ];
-                    },
-                    onSelected: (fn) => fn(),
-                    color: Theme.of(context).colorScheme.surface,
-                    child: Icon(
-                      Icons.more_vert,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
+                                itemBuilder: (context) {
+                                  return [
+                                    PopupMenuItem(
+                                      height: 25,
+                                      value: () =>
+                                          Provider.of<OtherProfileController>(
+                                                  context,
+                                                  listen: false)
+                                              .showBlock(),
+                                      child: Text(
+                                          AppLocalizations.of(context)!.block),
+                                    )
+                                  ];
+                                },
+                                onSelected: (fn) => fn(),
+                                color: Theme.of(context).colorScheme.surface,
+                                child: Icon(
+                                  Icons.more_vert,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
+                              ),
                             ],
                             bottom: PreferredSize(
                               preferredSize: const Size.fromHeight(3),

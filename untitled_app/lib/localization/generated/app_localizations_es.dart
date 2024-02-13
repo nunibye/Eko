@@ -492,4 +492,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get unblock => 'Unblock';
+
+  @override
+  String get blockTitle => 'block title';
+
+  @override
+  String get blockBody => 'block body';
+
+  @override
+  String get unblockTitle => 'unblock title';
+
+  @override
+  String get unblockbody => 'unblock body';
+
+  @override
+  String get blockedAccounts => 'Blocked Accounts';
+
+  @override
+  String get newActivityNotifications => 'New Activity Notifications';
 }

@@ -82,11 +82,43 @@ class OtherProfileController extends ChangeNotifier {
     return isBlocked;
   }
 
-  void showBlock() {}
-  void showUnblock() {}
-  void blockPressed() {}
-  void unblockPressed() {}
-  
+  void showBlock() {
+    showMyDialog(
+        AppLocalizations.of(context)!.blockTitle,
+        AppLocalizations.of(context)!.blockBody,
+        [
+          AppLocalizations.of(context)!.cancel,
+          AppLocalizations.of(context)!.block
+        ],
+        [_popDialog, _blockPressed],
+        context,
+        dismissable: true);
+  }
+
+  // void showUnblock() {
+  //   showMyDialog(
+  //       AppLocalizations.of(context)!.unblockTitle,
+  //       AppLocalizations.of(context)!.unblockbody,
+  //       [
+  //         AppLocalizations.of(context)!.cancel,
+  //         AppLocalizations.of(context)!.unblock
+  //       ],
+  //       [_popDialog, _unblockPressed],
+  //       context,
+  //       dismissable: true);
+  // }
+
+  void _blockPressed() async {
+    _popDialog();
+    await locator<CurrentUser>().blockUser(loadedUser!.uid);
+    context.go('/feed', extra: true);
+  }
+
+  // void _unblockPressed() {
+  //   _popDialog();
+  //   locator<CurrentUser>().unblockUser(loadedUser!.uid);
+  // }
+
   onFollowPressed() async {
     if (!isLoggedIn()) {
       showLogInDialog();

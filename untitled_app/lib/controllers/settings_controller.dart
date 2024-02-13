@@ -33,7 +33,7 @@ class SettingsController extends ChangeNotifier {
     themeChange.darkTheme = value;
   }
 
-   void _popDialog() {
+  void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
@@ -69,6 +69,10 @@ class SettingsController extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void blockedPressed() {
+    context.pushNamed("blocked_users");
   }
 
   signOut() async {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled_app/controllers/blocked_users_page_controller.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/users.dart';
 import 'package:go_router/go_router.dart';
@@ -13,11 +15,13 @@ class SearchedUserController extends ChangeNotifier {
   final bool groupSearch;
   final bool? initialBool;
   late bool added;
+  final bool blockPage;
   TextEditingController commentFeild = TextEditingController();
   final void Function(AppUser, bool)? adder;
   SearchedUserController(
       {required this.context,
       required this.user,
+      required this.blockPage,
       this.loadedUser,
       required this.groupSearch,
       this.adder,
@@ -42,10 +46,21 @@ class SearchedUserController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onCardPressed() {
-    context.push("/feed/sub_profile/${user.uid}", extra: user);
+  bool isBlockedByMe() {
+    return locator<CurrentUser>().blockedUsers.contains(user.uid);
   }
 
+  bool blocksMe() {
+    return locator<CurrentUser>().blockedBy.contains(user.uid);
+  }
+
+  void onCardPressed() {
+    if (!blockPage) context.push("/feed/sub_profile/${user.uid}", extra: user);
+  }
+
+  void unblockPressed() {
+    Provider.of<BlockedUsersPageController>(context, listen: false).unblockUser(user.uid);
+  }
   // onFollowPressed() async {
   //   if (following) {
   //     if (await locator<CurrentUser>().removeFollower(loadedUser!.uid)) {

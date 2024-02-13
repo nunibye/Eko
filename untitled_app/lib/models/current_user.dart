@@ -14,17 +14,21 @@ import '../models/users.dart';
 import '../models/post_handler.dart';
 
 class CurrentUser extends AppUser {
-  bool newActivity;
-  String email;
-  List<dynamic> likedPosts;
+  bool newActivity = false;
+  String email = '';
+  List<dynamic> likedPosts = [];
+  List<dynamic> blockedUsers = [];
+  List<dynamic> blockedBy = [];
   bool stateIsLiking = false;
   bool stateIsFollowing = false;
-  CurrentUser(
-      {this.email = '', this.likedPosts = const [], this.newActivity = false}) {
-    if (likedPosts.isEmpty) {
-      likedPosts = [];
-    }
-  }
+  // CurrentUser({this.newActivity = false}) {
+  //   // if (likedPosts.isEmpty) {
+  //   //   likedPosts = [];
+  //   // }
+  //   // if (blockedUsers.isEmpty) {
+  //   //   blockedUsers = [];
+  //   // }
+  // }
 
 //gets uid making sure it is current. idk if this is neccesary but it will be easy to remove.
   String getUID() {
@@ -32,6 +36,61 @@ class CurrentUser extends AppUser {
       uid = FirebaseAuth.instance.currentUser?.uid ?? "";
     }
     return uid;
+  }
+
+  Future<List<dynamic>> getPeopleWhoBlockedMe() async {
+    try {
+      final firestore = FirebaseFirestore.instance;
+      final user = getUID();
+      final querySnapshot = await firestore
+          .collection("users")
+          .where('blockedUsers', arrayContains: user)
+          .get();
+      //blockedUsers.add(blockedUid);
+
+      stateIsFollowing = false;
+      return querySnapshot.docs.map((doc) => doc.id).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<bool> blockUser(String blockedUid) async {
+    if (!blockedUsers.contains(blockedUid)) {
+      try {
+        final firestore = FirebaseFirestore.instance;
+        final user = getUID();
+        await firestore.collection("users").doc(user).update({
+          "blockedUsers": FieldValue.arrayUnion([blockedUid])
+        });
+
+        blockedUsers.add(blockedUid);
+
+        removeFollower(blockedUid);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> unblockUser(String blockedUid) async {
+    if (blockedUsers.contains(blockedUid)) {
+      try {
+        final firestore = FirebaseFirestore.instance;
+        final user = getUID();
+        await firestore.collection("users").doc(user).update({
+          "blockedUsers": FieldValue.arrayRemove([blockedUid])
+        });
+
+        blockedUsers.remove(blockedUid);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
   }
 
   Future<String> signUp(password) async {
@@ -104,9 +163,11 @@ class CurrentUser extends AppUser {
     if (userData != null) {
       email = userData["email"] ?? "";
       likedPosts = userData["profileData"]["likedPosts"] ?? [];
-      //print(userData["newActivty"] ?? false);
+      blockedUsers = userData["blockedUsers"] ?? [];
       newActivity = userData["newActivity"] ?? false;
       List<dynamic>? fcmTokens = userData["fcmTokens"];
+      blockedBy = await getPeopleWhoBlockedMe();
+      // print(blockedBy);
       if (fcmTokens == null) {
         addFCM();
       }
@@ -410,6 +471,7 @@ class CurrentUser extends AppUser {
       'username': username,
       'name': name,
       'fcmTokens': [],
+      'blockedUsers': [],
       'profileData': {
         'likedPosts': [],
         'bio': '',

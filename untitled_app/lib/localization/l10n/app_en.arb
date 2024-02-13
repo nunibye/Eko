@@ -201,7 +201,13 @@
     "termsAndConditions":"Terms and Conditions",
 
     "block":"Block",
-    "unblock":"Unblock"
-    
+    "unblock":"Unblock",
 
+    "blockTitle":"block title",
+    "blockBody":"block body",
+    "unblockTitle":"unblock title",
+    "unblockbody":"unblock body",
+
+    "blockedAccounts":"Blocked Accounts",
+    "newActivityNotifications":"New Activity Notifications"
 }

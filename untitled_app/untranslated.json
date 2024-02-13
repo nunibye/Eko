@@ -94,6 +94,12 @@
     "bySigningUp",
     "termsAndConditions",
     "block",
-    "unblock"
+    "unblock",
+    "blockTitle",
+    "blockBody",
+    "unblockTitle",
+    "unblockbody",
+    "blockedAccounts",
+    "newActivityNotifications"
   ]
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/localization/generated/app_localizations.dart';
+import 'package:untitled_app/localization/generated/app_localizations_en.dart';
 
 //import '../utilities/constants.dart' as c;
 import '../controllers/settings_controller.dart';
@@ -29,7 +30,6 @@ class UserSettings extends StatelessWidget {
               AppLocalizations.of(context)!.settings,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
@@ -47,8 +47,10 @@ class UserSettings extends StatelessWidget {
                 activeColor: Theme.of(context).colorScheme.primary,
               ),
               SwitchListTile(
-                title: const Text("New Activity Notifications"), // TODO: add localization
-                value: Provider.of<SettingsController>(context, listen: true).activityNotification,
+                title: Text(AppLocalizations.of(context)!
+                    .newActivityNotifications), // TODO: add localization
+                value: Provider.of<SettingsController>(context, listen: true)
+                    .activityNotification,
                 // value: Provider.of<NotificationProvider>(context, listen: true).notificationEnabled,
                 onChanged: (value1) {
                   Provider.of<SettingsController>(context, listen: false)
@@ -56,6 +58,11 @@ class UserSettings extends StatelessWidget {
                 },
                 activeColor: Theme.of(context).colorScheme.primary,
               ),
+              ListTile(
+                  title: Text(AppLocalizations.of(context)!.blockedAccounts),
+                  leading: const Icon(Icons.no_accounts_outlined),
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  onTap: () => Provider.of<SettingsController>(context, listen: false).blockedPressed()),
               TextButton(
                 onPressed: () {
                   Provider.of<SettingsController>(context, listen: false)

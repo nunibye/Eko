@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/custom_widgets/safe_area.dart';
 import 'package:untitled_app/models/users.dart';
+import 'package:untitled_app/views/blocked_users_page.dart';
 import 'package:untitled_app/views/download_page.dart';
 import 'package:untitled_app/views/edit_group_page.dart';
 import 'package:untitled_app/views/invalid_session_page.dart';
@@ -309,6 +310,11 @@ final goRouter = GoRouter(
                         path: 're_auth',
                         name: 're_auth',
                         builder: (context, state) => const ReAuthPage(),
+                      ),
+                      GoRoute(
+                        path: 'blocked_users',
+                        name: 'blocked_users',
+                        builder: (context, state) => const BlockedUsersPage(),
                       ),
                     ]),
                 GoRoute(
