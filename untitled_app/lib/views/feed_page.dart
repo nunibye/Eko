@@ -18,6 +18,7 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(rebuild);
     //Provider.of<FeedController>(context, listen: false).checkNewActivity();
     //return ExampleUiLoadingAnimation();
     return ChangeNotifierProvider(
@@ -38,7 +39,8 @@ class FeedPage extends StatelessWidget {
             child: Column(
               children: [
                 const Padding(
-                    padding: EdgeInsets.only(bottom: 15), child: CustomTabBar()),
+                    padding: EdgeInsets.only(bottom: 15),
+                    child: CustomTabBar()),
                 Divider(
                   color: Theme.of(context).colorScheme.outline,
                   height: c.dividerWidth,

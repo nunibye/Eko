@@ -14,7 +14,15 @@ Widget searchPageBuilder(dynamic user) {
   return UserCard(user: user);
 }
 
+Widget blockedPageBuilder(dynamic user) {
+  return UserCard(
+    user: user,
+    blockedPage: true,
+  );
+}
+
 class UserCard extends StatelessWidget {
+  final bool blockedPage;
   final bool? initialBool;
   final AppUser user;
   final bool groupSearch;
@@ -24,6 +32,7 @@ class UserCard extends StatelessWidget {
   const UserCard(
       {super.key,
       required this.user,
+      this.blockedPage = false,
       this.groupSearch = false,
       this.tagSearch = false,
       this.onCardTap,
@@ -36,106 +45,141 @@ class UserCard extends StatelessWidget {
     final height = MediaQuery.sizeOf(context).height;
     return ChangeNotifierProvider.value(
       value: SearchedUserController(
+          blockPage: blockedPage,
           user: user,
           context: context,
           groupSearch: groupSearch,
           adder: adder,
           initialBool: initialBool),
       builder: (context, child) {
-        return InkWell(
-          onTap: () {
-            if (groupSearch) {
-              Provider.of<SearchedUserController>(context, listen: false)
-                  .onAddPressed();
-            } else if (tagSearch) {
-              onCardTap!(user.username);
-            } else {
-              Provider.of<SearchedUserController>(context, listen: false)
-                  .onCardPressed();
-            }
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: height * 0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    ProfileAvatar(
-                        url: user.profilePicture, size: width * 0.115),
-                    Padding(
-                        padding: EdgeInsets.all(width * 0.02),
-                        child: SizedBox(
-                          width: width * 0.4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (user.name != "")
-                                Text(
-                                  user.name,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
+        return (!blockedPage &&
+                (Provider.of<SearchedUserController>(context, listen: false)
+                        .isBlockedByMe() ||
+                    Provider.of<SearchedUserController>(context, listen: false)
+                        .blocksMe()))
+            ? const SizedBox.shrink()
+            : InkWell(
+                onTap: () {
+                  if (groupSearch) {
+                    Provider.of<SearchedUserController>(context, listen: false)
+                        .onAddPressed();
+                  } else if (tagSearch) {
+                    onCardTap!(user.username);
+                  } else {
+                    Provider.of<SearchedUserController>(context, listen: false)
+                        .onCardPressed();
+                  }
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          ProfileAvatar(
+                              url: user.profilePicture, size: width * 0.115),
+                          Padding(
+                              padding: EdgeInsets.all(width * 0.02),
+                              child: SizedBox(
+                                width: width * 0.4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (user.name != "")
+                                      Text(
+                                        user.name,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    Text(
+                                      "@${user.username}",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
-                              Text(
-                                "@${user.username}",
-                                overflow: TextOverflow.ellipsis,
+                              )),
+                        ],
+                      ),
+                      if (user.uid == locator<CurrentUser>().getUID())
+                        Container()
+                      else if (groupSearch)
+                        Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Provider.of<SearchedUserController>(context,
+                                        listen: true)
+                                    .added
+                                ? const Icon(Icons.check_circle)
+                                : const Icon(Icons.circle_outlined))
+                      else if (tagSearch)
+                        Container()
+                      else if (blockedPage)
+                        InkWell(
+                          onTap: () => Provider.of<SearchedUserController>(context,
+                                        listen: false).unblockPressed(),
+                          child: Container(
+                            width: width * 0.25,
+                            height: width * 0.1,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5)),
+                                color: Theme.of(context).colorScheme.surface),
+                            child: Text(
+                              AppLocalizations.of(context)!.unblock,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
-                            ],
+                            ),
                           ),
-                        )),
-                  ],
+                        )
+                      else
+                        InkWell(
+                          onTap: () => Provider.of<SearchedUserController>(
+                                  context,
+                                  listen: false)
+                              .onFollowPressed(),
+                          child: Container(
+                            width: width * 0.35,
+                            height: width * 0.1,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5)),
+                              color: Provider.of<SearchedUserController>(
+                                          context,
+                                          listen: true)
+                                      .following
+                                  ? Theme.of(context).colorScheme.surface
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                            ),
+                            child: Text(
+                              Provider.of<SearchedUserController>(context,
+                                          listen: true)
+                                      .following
+                                  ? AppLocalizations.of(context)!.following
+                                  : AppLocalizations.of(context)!.follow,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 14,
+                                //letterSpacing: 1,
+                                //fontWeight: FontWeight.normal,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
                 ),
-                if (user.uid == locator<CurrentUser>().getUID())
-                  Container()
-                else if (groupSearch)
-                  Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Provider.of<SearchedUserController>(context,
-                                  listen: true)
-                              .added
-                          ? const Icon(Icons.check_circle)
-                          : const Icon(Icons.circle_outlined))
-                else if (tagSearch)
-                  Container()
-                else
-                  InkWell(
-                    onTap: () => Provider.of<SearchedUserController>(context,
-                            listen: false)
-                        .onFollowPressed(),
-                    child: Container(
-                      width: width * 0.35,
-                      height: width * 0.1,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(5)),
-                        color: Provider.of<SearchedUserController>(context,
-                                    listen: true)
-                                .following
-                            ? Theme.of(context).colorScheme.surface
-                            : Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                      child: Text(
-                        Provider.of<SearchedUserController>(context,
-                                    listen: true)
-                                .following
-                            ? AppLocalizations.of(context)!.following
-                            : AppLocalizations.of(context)!.follow,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 1,
-                          //fontWeight: FontWeight.normal,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      ),
-                    ),
-                  )
-              ],
-            ),
-          ),
-        );
+              );
       },
     );
   }

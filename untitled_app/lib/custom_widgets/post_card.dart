@@ -112,8 +112,11 @@ class PostCard extends StatelessWidget {
             final likeCommentTextStyle = TextStyle(
                 fontFamily: DefaultTextStyle.of(context).style.fontFamily,
                 color: Theme.of(context).colorScheme.onSurfaceVariant);
-            return !notifier.visible
-                ? const SizedBox()
+            return (!notifier.visible ||
+                    Provider.of<PostCardController>(context, listen: false)
+                        .isBlockedByMe() || Provider.of<PostCardController>(context, listen: false)
+                        .blocksMe())
+                ? const SizedBox.shrink()
                 : Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 0, right: 0),
                     child: InkWell(
@@ -125,7 +128,7 @@ class PostCard extends StatelessWidget {
                           ? context
                               .push("/feed/post/${post.postId}", extra: post)
                               .then((v) async {
-                              notifier.rebuild();
+                              // notifier.rebuild();
 
                               //comments = await locator<PostsHandling>().countComments(post.postId);
 

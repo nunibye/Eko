@@ -33,76 +33,85 @@ class CommentCard extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: CommentCardController(post: post, context: context),
       builder: (context, child) {
-        return TapRegion(
-          onTapOutside: (v) =>
-              Provider.of<CommentCardController>(context, listen: false)
-                  .scrollToStart(),
-          child: NotificationListener<ScrollEndNotification>(
-            onNotification: (notification) {
-              Provider.of<CommentCardController>(context, listen: false)
-                  .onScrollEnd();
-              return true;
-            },
-            child: SingleChildScrollView(
-              controller:
-                  Provider.of<CommentCardController>(context, listen: false)
-                      .scrollController,
-              physics: ClampingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                    color: (post.author.uid == locator<CurrentUser>().getUID())
-                        ? Colors.red
-                        : Theme.of(context).colorScheme.surface),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                        onTapDown: (v) => Provider.of<CommentCardController>(
-                                context,
-                                listen: false)
-                            .scrollToStart(),
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color:
-                                    Theme.of(context).colorScheme.background),
-                            width: width,
-                            child: _Card(post: post))),
-                    SizedBox(
-                      width: width * 0.2,
-                      //color: Colors.red,
-                      child: (post.author.uid ==
-                              locator<CurrentUser>().getUID())
-                          ? GestureDetector(
-                              onTap: () => Provider.of<CommentCardController>(
-                                      context,
-                                      listen: false)
-                                  .deletePressed(),
-                              child: Column(
-                                children: [
-                                  const Icon(
-                                    CupertinoIcons.delete_simple,
+        return (Provider.of<CommentCardController>(context, listen: false)
+                    .isBlockedByMe() ||
+                Provider.of<CommentCardController>(context, listen: false)
+                    .blocksMe())
+            ? const SizedBox.shrink()
+            : TapRegion(
+                onTapOutside: (v) =>
+                    Provider.of<CommentCardController>(context, listen: false)
+                        .scrollToStart(),
+                child: NotificationListener<ScrollEndNotification>(
+                  onNotification: (notification) {
+                    Provider.of<CommentCardController>(context, listen: false)
+                        .onScrollEnd();
+                    return true;
+                  },
+                  child: SingleChildScrollView(
+                    controller: Provider.of<CommentCardController>(context,
+                            listen: false)
+                        .scrollController,
+                    physics: ClampingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          color: (post.author.uid ==
+                                  locator<CurrentUser>().getUID())
+                              ? Colors.red
+                              : Theme.of(context).colorScheme.surface),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                              onTapDown: (v) =>
+                                  Provider.of<CommentCardController>(context,
+                                          listen: false)
+                                      .scrollToStart(),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background),
+                                  width: width,
+                                  child: _Card(post: post))),
+                          SizedBox(
+                            width: width * 0.2,
+                            //color: Colors.red,
+                            child: (post.author.uid ==
+                                    locator<CurrentUser>().getUID())
+                                ? GestureDetector(
+                                    onTap: () =>
+                                        Provider.of<CommentCardController>(
+                                                context,
+                                                listen: false)
+                                            .deletePressed(),
+                                    child: Column(
+                                      children: [
+                                        const Icon(
+                                          CupertinoIcons.delete_simple,
+                                          size: 32,
+                                        ),
+                                        CountDownTimer(
+                                          dateTime: DateTime.parse(post.time)
+                                              .toLocal()
+                                              .add(const Duration(hours: 48)),
+                                          textStyle:
+                                              const TextStyle(fontSize: 13),
+                                        )
+                                      ],
+                                    ))
+                                : const Icon(
+                                    CupertinoIcons.arrow_turn_up_left,
                                     size: 32,
                                   ),
-                                  CountDownTimer(
-                                    dateTime: DateTime.parse(post.time)
-                                        .toLocal()
-                                        .add(const Duration(hours: 48)),
-                                    textStyle: const TextStyle(fontSize: 13),
-                                  )
-                                ],
-                              ))
-                          : const Icon(
-                              CupertinoIcons.arrow_turn_up_left,
-                              size: 32,
-                            ),
-                    )
-                  ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
+              );
       },
     );
   }

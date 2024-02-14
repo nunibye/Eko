@@ -61,6 +61,7 @@ class FeedController extends ChangeNotifier {
   bool newActivity = false;
 
   FeedController({required this.context, required this.rebuild}) {
+    
     if (checkLoggedIn()) {
       NotificationService notificationService = NotificationService();
       if (rebuild) {
@@ -68,6 +69,7 @@ class FeedController extends ChangeNotifier {
       }
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        
         if (locator<Version>().lessThanTarget) {
           showMyDialog(
               AppLocalizations.of(context)!.updateAvailable,

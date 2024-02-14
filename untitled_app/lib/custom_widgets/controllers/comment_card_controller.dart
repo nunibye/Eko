@@ -31,6 +31,15 @@ class CommentCardController extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  bool isBlockedByMe() {
+    return locator<CurrentUser>().blockedUsers.contains(post.author.uid);
+  }
+
+  bool blocksMe() {
+    return locator<CurrentUser>().blockedBy.contains(post.author.uid);
+  }
+  
   void onScrollEnd() async {
     Timer(
       const Duration(milliseconds: 1),

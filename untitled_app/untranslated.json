@@ -92,6 +92,14 @@
     "tooYoungTitle",
     "tooYoungBody",
     "bySigningUp",
-    "termsAndConditions"
+    "termsAndConditions",
+    "block",
+    "unblock",
+    "blockTitle",
+    "blockBody",
+    "blockedAccounts",
+    "newActivityNotifications",
+    "blockedByUserMessage",
+    "birthdayExplanation"
   ]
 }

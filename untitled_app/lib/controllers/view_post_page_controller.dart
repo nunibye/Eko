@@ -98,6 +98,14 @@ class PostPageController extends ChangeNotifier {
     }
   }
 
+  bool isBlockedByMe() {
+    return locator<CurrentUser>().blockedUsers.contains(post!.author.uid);
+  }
+
+  bool blocksMe() {
+    return locator<CurrentUser>().blockedBy.contains(post!.author.uid);
+  }
+
   bool isLoggedIn() {
     if (locator<CurrentUser>().getUID() == '') {
       return false;

@@ -1,43 +1,56 @@
 {
+    "@@locale" : "en",
     "post":"Post",
     "email":"Email",
     "password":"Password",
     "confirmPassword":"Confirm Password",
     "logIn":"Login",
 
+
     "invalidUserName":"Username does not meet requirements",
     "available":"Available",
-    "usernameInUse":"Username Unavilable",
+    "usernameInUse":"Username Unavailable",
+
 
     "usernameTakenTitle":"This Username has been taken.",
-    "usernameTakenBody":"Please go back and choose a diffrent username.",
+    "usernameTakenBody":"Please go back and choose a different username.",
+
 
     "invalidEmailTittle":"Invalid Email Formating",
     "invalidEmailBody":"Please check your email and try again.",
 
+
     "userNotFoundTitle":"Can't Find Account",
     "userNotFoundBody":"We can't find an account with that email. Try another email, or sign up.",
+
 
     "wrongPasswordTittle":"Incorrect Password",
     "wrongPasswordBody":"The password you entered is incorrect.",
 
+
     "userDisabledTittle":"Account Disabled",
     "userDisabledBody":"Your account has been disabled. Please contact us at conetechnologiesdev@gmail.com.",
+
 
     "weakPasswordTitle":"Weak Password",
     "weakPasswordBody":"Check password requirements and try again.",
 
+
     "defaultErrorTittle":"Something Went Wrong",
     "defaultErrorBody":"Please try again later or reach out to conetechnologiesdev@gmail.com.",
+
 
     "emailAlreadyInUseTitle":"Email Already In-Use",
     "emailAlreadyInUseBody":"An account with that email already exists",
 
+
     "forgotPasswordTittle":"You've Got Mail!",
     "forgotPasswordBody":"Check your email for a password reset link.",
 
+
     "exitCreateAccountTitle":"Return to welcome page?",
     "exitCreateAccountBody":"Are you sure you want to go back? your information will be deleted.",
+
 
     "exitEditProfileTitle":"Are you sure you want to exit?",
     "exitEditProfileBody":"All changes will be lost.",
@@ -50,12 +63,14 @@
     "signInToComment":"Sign in to comment...",
     "forgotPassword":"Forgot Password?",
 
+
     "passwordLen":"Between 8 and 32 characters.",
     "passwordLower":"Contains a lowercase letter",
     "passwordUpper":"Contains a uppercase letter",
     "passwordNumber":"Contains a number",
     "passwordSpecial":"Contains a special character",
     "passwordMatch":"Passwords match",
+
 
     "close":"Close",
     "likes":"Likes",
@@ -67,13 +82,14 @@
     "following":"Following",
     "editProfile":"Edit Profile",
     "name":"Name",
-    
+   
     "userName":"Username",
     "previous":"Previous",
     "followingTab":"Following",
     "popularTab":"Popular",
     "newTab":"New",
     "oldTab":"Old",
+
 
     "postTitle":"Title",
     "postBody":"Body",
@@ -82,15 +98,19 @@
     "addText":"Add text...",
     "addTitle":"Add title...",
 
+
     "createNewPost":"Create new post",
     "postButton":"POST",
     "clear":"Clear",
     "tooManyChar":"Too many characters.",
     "tooManyLine":"Too many newlines.",
 
-    "emptyFieldError":"Make sure all feilds are filled.",
+
+    "emptyFieldError":"Make sure all fields are filled.",
+
 
     "bioTitle":"Bio",
+
 
     "logOut":"Log Out",
     "deleteAccount":"Delete Account",
@@ -98,13 +118,13 @@
     "addComment":"Add a comment...",
     "settings":"Settings",
     "welcome":"Welcome",
-    "welcomeTo":"Welcome to",
     "welcomeBack":"Welcome Back",
     "createAccount":"Create Account",
     "createAnAccount":"Create an Account",
     "cont":"Continue",
     "dateOfBirth":"Date of Birth",
     "createAPassword":"Create a Password",
+
 
     "deleteAcountTitle":"Are you sure you want to delete your account?",
     "deleteAcountBody":"All account data will be deleted. This action cannot be undone. Press \"Go Back\" to cancel",
@@ -124,6 +144,7 @@
     "someone":"Someone",
     "commentText":"commented on your post:",
 
+
     "groups":"Groups",
     "next":"Next",
     "description":"Description(Optional)",
@@ -136,55 +157,68 @@
     "userNotFound":"User Not Found",
     "usernameReqs":"Usernames must be between 3 and 24 characters. Usernames can only contain lowercase letters, numbers, and underscores.",
 
+
     "followText":"started following you",
     "taggedText":"tagged you:",
-    
+   
     "badAuthState":"Request is invalid or has expired. Please try again.",
     "resetPasswordPromt":"Reset password for:",
 
-    "passwordResetTitle":"Password Reset Successfuly",
+
+    "passwordResetTitle":"Password Reset Successfully",
     "passwordResetBody":"Please continue to login.",
     "setPassword":"Set Password",
 
-    "coppiedToClipboard":"Coppied to Clipboard",
+
+    "coppiedToClipboard":"Copied to Clipboard",
     "download":"Download",
     "getTheApp":"Get the App",
+
 
     "gifLoadingError":"Failed to load",
     "viewLikes":"See Likes",
 
+
     "updateRequiredTitle":"Update Required",
     "updateRequiredBody":"Please download the latest update to continue.",
-    "updateAvailable":"Upadate Available",
+    "updateAvailable":"Update Available",
     "update":"Update",
     "postNotFound":"Post Not Found",
     "groupNotFound":"Group Not Found",
 
+
     "leaveGroupWarningTitle":"Are you sure you want to leave the group?",
     "leaveGroupWarningBody":"A group member will need to re-add you should you want to join again.",
+
 
     "share":"Share",
     "copyLink":"Copy Link",
     "copied":"Copied",
     "shareProfile":"Share Profile",
 
+
     "deleteAcountReAuthWarning":"Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted.",
 
-    "logIntoApp":"Log in required",
+
+    "logIntoApp":"Login required",
     "logInRequired":"Please log in to access all features of Eko.",
-    
+   
     "notInGroup":"You are no longer a member of this group.",
+
 
     "send":"Send",
     "reportDetails":"Please provide information on why you are reporting this post.",
     "commentRequired":"Comment Required",
 
+
     "tooEarlyDeleteTitle":"Please Wait",
     "tooEarlyDeleteBody":"Posts/comments may only be deleted 48 hours after they are posted.",
 
+
     "deletePostWarningTitle":"Delete Post",
     "deleteCommentWarningTitle":"Delete Comment",
-    "deletePostWarningBody":"Are you sure you wish to procede? This action cannot be undone.",
+    "deletePostWarningBody":"Are you sure you wish to proceed? This action cannot be undone.",
+
 
     "invalidSession":"This Eko account is being used on another device. Press below to continue on this device.",
     "birthday":"Birthday",
@@ -192,13 +226,28 @@
     "day":"Day",
     "year":"Year",
 
+
     "invalidBirthdayTitle":"Invalid Birthday",
     "invalidBirthdayBody":"Please select a valid birthday.",
     "tooYoungTitle":"You are too young",
     "tooYoungBody":"You must be 13 years old to make an account",
-    
+   
     "bySigningUp":"By signing up, you agree to our ",
-    "termsAndConditions":"Terms and Conditions"
-    
+    "termsAndConditions":"Terms and Conditions",
 
+
+    "block":"Block",
+    "unblock":"Unblock",
+
+
+    "blockTitle":"Block User",
+    "blockBody":"This will hide content the user posts and prevent them from viewing your profile.",
+   
+    "blockedAccounts":"Blocked Accounts",
+    "newActivityNotifications":"New Activity Notifications",
+
+
+    "blockedByUserMessage":"You do not currently have permission to view this content.",
+    "birthdayExplanation":"We use this to ensure you are old enough to use the app."
 }
+

@@ -54,7 +54,15 @@ class ViewPostPage extends StatelessWidget {
                         },
                         child: Text(AppLocalizations.of(context)!.signIn),
                       ),
-                actions: [
+                actions: (Provider.of<PostPageController>(context, listen: true)
+                              .post ==
+                          null) ? null : (Provider.of<PostPageController>(context, listen: false)
+                                  .isBlockedByMe() ||
+                              Provider.of<PostPageController>(context,
+                                      listen: false)
+                                  .blocksMe())
+                          ? null
+                          : [
                   PopupMenuButton<void Function()>(
                     itemBuilder: (context) {
                       return [
@@ -151,181 +159,201 @@ class ViewPostPage extends StatelessWidget {
                               .post ==
                           null
                       ? const Center(child: LoadingSpinner())
-                      : Column(
-                          children: [
-                            // Row(
-                            //   children: [
+                      : (Provider.of<PostPageController>(context, listen: false)
+                                  .isBlockedByMe() ||
+                              Provider.of<PostPageController>(context,
+                                      listen: false)
+                                  .blocksMe())
+                          ? Center(
+                              child: SizedBox(
+                              width: width * 0.7,
+                              child: Text(AppLocalizations.of(context)!
+                                  .blockedByUserMessage),
+                            ))
+                          : Column(
+                              children: [
+                                // Row(
+                                //   children: [
 
-                            //       IconButton(
-                            //         icon: Icon(Icons.arrow_back_ios_rounded,
-                            //             color: Theme.of(context)
-                            //                 .colorScheme
-                            //                 .onBackground),
-                            //         onPressed: () =>
-                            //             Provider.of<PostPageController>(
-                            //                     context,
-                            //                     listen: false)
-                            //                 .onExitPressed(),
-                            //       )
+                                //       IconButton(
+                                //         icon: Icon(Icons.arrow_back_ios_rounded,
+                                //             color: Theme.of(context)
+                                //                 .colorScheme
+                                //                 .onBackground),
+                                //         onPressed: () =>
+                                //             Provider.of<PostPageController>(
+                                //                     context,
+                                //                     listen: false)
+                                //                 .onExitPressed(),
+                                //       )
 
-                            //     else
-                            //       TextButton(
-                            //           onPressed: () {
-                            //             context.go('/');
-                            //           },
-                            //           child: Text(
-                            //               AppLocalizations.of(context)!
-                            //                   .signIn))
-                            //   ],
-                            // ),
-                            Expanded(
-                              child: IndexedStack(
-                                index: !Provider.of<PostPageController>(context,
-                                            listen: false)
-                                        .isAtSymbolTyped
-                                    ? 0
-                                    : 1,
-                                children: [
-                                  PaginationPage(
-                                      externalData:
-                                          Provider.of<PostPageController>(
-                                                  context,
+                                //     else
+                                //       TextButton(
+                                //           onPressed: () {
+                                //             context.go('/');
+                                //           },
+                                //           child: Text(
+                                //               AppLocalizations.of(context)!
+                                //                   .signIn))
+                                //   ],
+                                // ),
+                                Expanded(
+                                  child: IndexedStack(
+                                    index: !Provider.of<PostPageController>(
+                                                context,
+                                                listen: false)
+                                            .isAtSymbolTyped
+                                        ? 0
+                                        : 1,
+                                    children: [
+                                      PaginationPage(
+                                          externalData:
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: true)
+                                                  .data,
+                                          getter:
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .getCommentsFromPost,
+                                          card: commentCardBuilder,
+                                          header: const _Header(),
+                                          startAfterQuery:
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .getTimeFromPost),
+                                      Provider.of<PostPageController>(context,
                                                   listen: true)
-                                              .data,
-                                      getter: Provider.of<PostPageController>(
-                                              context,
-                                              listen: false)
-                                          .getCommentsFromPost,
-                                      card: commentCardBuilder,
-                                      header: const _Header(),
-                                      startAfterQuery:
-                                          Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .getTimeFromPost),
-                                  Provider.of<PostPageController>(context,
-                                              listen: true)
-                                          .isLoading
-                                      ? const Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : Provider.of<PostPageController>(context,
-                                                  listen: true)
-                                              .hits
-                                              .isEmpty
-                                          ? Center(
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .noResultsFound,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground),
-                                              ),
+                                              .isLoading
+                                          ? const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
                                             )
-                                          : ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: Provider.of<
-                                                          PostPageController>(
+                                          : Provider.of<PostPageController>(
                                                       context,
                                                       listen: true)
                                                   .hits
-                                                  .length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return UserCard(
-                                                  tagSearch: true,
-                                                  onCardTap: (username) {
-                                                    Provider.of<PostPageController>(
-                                                            context,
-                                                            listen: false)
-                                                        .updateTextField(
-                                                            username,
-                                                            Provider.of<PostPageController>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .commentFeild,
-                                                            Provider.of<PostPageController>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .commentFeildFocus);
-                                                  },
-                                                  user: Provider.of<
+                                                  .isEmpty
+                                              ? Center(
+                                                  child: Text(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .noResultsFound,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onBackground),
+                                                  ),
+                                                )
+                                              : ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: Provider.of<
                                                               PostPageController>(
                                                           context,
                                                           listen: true)
-                                                      .hits[index],
-                                                );
-                                              },
-                                            ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: height * 0.08,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SizedBox(
-                                    width: width * 0.95,
-                                    child: TextField(
-                                      textCapitalization:
-                                          TextCapitalization.sentences,
-                                      cursorColor: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                      focusNode:
-                                          Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .commentFeildFocus,
-                                      readOnly:
-                                          !Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .isLoggedIn(),
-                                      //  enableInteractiveSelection:
-                                      //     !Provider.of<PostPageController>(
-                                      //             context,
-                                      //             listen: false)
-                                      //         .isLoggedIn(),
-                                      onTap: () {
-                                        if (!Provider.of<PostPageController>(
-                                                context,
-                                                listen: false)
-                                            .isLoggedIn()) {
-                                          Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .showLogInDialog();
-                                        }
-                                      },
-                                      onChanged: (s) {
-                                        Provider.of<PostPageController>(context,
-                                                listen: false)
-                                            .updateCount(s);
-                                        Provider.of<PostPageController>(context,
-                                                listen: false)
-                                            .checkAtSymbol(s);
-                                      },
-                                      maxLines: null,
-                                      controller:
-                                          Provider.of<PostPageController>(
-                                                  context,
-                                                  listen: false)
-                                              .commentFeild,
-                                      keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            EdgeInsets.all(height * 0.01),
-                                        hintText:
+                                                      .hits
+                                                      .length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return UserCard(
+                                                      tagSearch: true,
+                                                      onCardTap: (username) {
+                                                        Provider.of<PostPageController>(
+                                                                context,
+                                                                listen: false)
+                                                            .updateTextField(
+                                                                username,
+                                                                Provider.of<PostPageController>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .commentFeild,
+                                                                Provider.of<PostPageController>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .commentFeildFocus);
+                                                      },
+                                                      user: Provider.of<
+                                                                  PostPageController>(
+                                                              context,
+                                                              listen: true)
+                                                          .hits[index],
+                                                    );
+                                                  },
+                                                ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.08,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width: width * 0.95,
+                                        child: TextField(
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
+                                          cursorColor: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          focusNode:
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .commentFeildFocus,
+                                          readOnly:
+                                              !Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .isLoggedIn(),
+                                          //  enableInteractiveSelection:
+                                          //     !Provider.of<PostPageController>(
+                                          //             context,
+                                          //             listen: false)
+                                          //         .isLoggedIn(),
+                                          onTap: () {
+                                            if (!Provider.of<
+                                                        PostPageController>(
+                                                    context,
+                                                    listen: false)
+                                                .isLoggedIn()) {
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .showLogInDialog();
+                                            }
+                                          },
+                                          onChanged: (s) {
                                             Provider.of<PostPageController>(
+                                                    context,
+                                                    listen: false)
+                                                .updateCount(s);
+                                            Provider.of<PostPageController>(
+                                                    context,
+                                                    listen: false)
+                                                .checkAtSymbol(s);
+                                          },
+                                          maxLines: null,
+                                          controller:
+                                              Provider.of<PostPageController>(
+                                                      context,
+                                                      listen: false)
+                                                  .commentFeild,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.all(height * 0.01),
+                                            hintText: Provider.of<
+                                                            PostPageController>(
                                                         context,
                                                         listen: false)
                                                     .isLoggedIn()
@@ -333,72 +361,72 @@ class ViewPostPage extends StatelessWidget {
                                                     .addComment
                                                 : AppLocalizations.of(context)!
                                                     .signInToComment,
-                                        fillColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        filled: true,
-                                        focusColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: BorderSide.none,
-                                        ),
-                                        suffixIcon: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              onPressed: () {
-                                                if (Provider.of<
-                                                            PostPageController>(
-                                                        context,
-                                                        listen: false)
-                                                    .isLoggedIn()) {
-                                                  Provider.of<PostPageController>(
-                                                          context,
-                                                          listen: false)
-                                                      .addGifPressed();
-                                                } else {
-                                                  Provider.of<PostPageController>(
-                                                          context,
-                                                          listen: false)
-                                                      .showLogInDialog();
-                                                }
-                                              },
-                                              icon: const Icon(
-                                                  Icons.gif_box_outlined),
+                                            fillColor: Theme.of(context)
+                                                .colorScheme
+                                                .surface,
+                                            filled: true,
+                                            focusColor: Theme.of(context)
+                                                .colorScheme
+                                                .surface,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide.none,
                                             ),
-                                            IconButton(
-                                              onPressed: () {
-                                                if (Provider.of<
-                                                            PostPageController>(
-                                                        context,
-                                                        listen: false)
-                                                    .isLoggedIn()) {
-                                                  Provider.of<PostPageController>(
-                                                          context,
-                                                          listen: false)
-                                                      .postCommentPressed();
-                                                } else {
-                                                  Provider.of<PostPageController>(
-                                                          context,
-                                                          listen: false)
-                                                      .showLogInDialog();
-                                                }
-                                              },
-                                              icon: const Icon(Icons.send),
-                                            )
-                                          ],
+                                            suffixIcon: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    if (Provider.of<
+                                                                PostPageController>(
+                                                            context,
+                                                            listen: false)
+                                                        .isLoggedIn()) {
+                                                      Provider.of<PostPageController>(
+                                                              context,
+                                                              listen: false)
+                                                          .addGifPressed();
+                                                    } else {
+                                                      Provider.of<PostPageController>(
+                                                              context,
+                                                              listen: false)
+                                                          .showLogInDialog();
+                                                    }
+                                                  },
+                                                  icon: const Icon(
+                                                      Icons.gif_box_outlined),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    if (Provider.of<
+                                                                PostPageController>(
+                                                            context,
+                                                            listen: false)
+                                                        .isLoggedIn()) {
+                                                      Provider.of<PostPageController>(
+                                                              context,
+                                                              listen: false)
+                                                          .postCommentPressed();
+                                                    } else {
+                                                      Provider.of<PostPageController>(
+                                                              context,
+                                                              listen: false)
+                                                          .showLogInDialog();
+                                                    }
+                                                  },
+                                                  icon: const Icon(Icons.send),
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
             ),
           ),
         );

@@ -1058,6 +1058,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Terms and Conditions'**
   String get termsAndConditions;
+
+  /// No description provided for @block.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get block;
+
+  /// No description provided for @unblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblock;
+
+  /// No description provided for @blockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Block User'**
+  String get blockTitle;
+
+  /// No description provided for @blockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will hide content the user posts and prevent them from viewing your profile.'**
+  String get blockBody;
+
+  /// No description provided for @blockedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Accounts'**
+  String get blockedAccounts;
+
+  /// No description provided for @newActivityNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'New Activity Notifications'**
+  String get newActivityNotifications;
+
+  /// No description provided for @blockedByUserMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not currently have permission to view this content.'**
+  String get blockedByUserMessage;
+
+  /// No description provided for @birthdayExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'We use this to ensure you are old enough to use the app.'**
+  String get birthdayExplanation;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

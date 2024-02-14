@@ -315,6 +315,11 @@ class GetInfo extends StatelessWidget {
                     ])
                   ],
                 )),
+            Text(
+              AppLocalizations.of(context)!.birthdayExplanation,
+              style: TextStyle(
+                  fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
             SizedBox(
               height: height * 0.08,
             ),

@@ -89,6 +89,14 @@ class PostCardController extends ChangeNotifier {
   //   postPressed();
   // }
 
+  bool isBlockedByMe() {
+    return locator<CurrentUser>().blockedUsers.contains(post.author.uid);
+  }
+
+  bool blocksMe() {
+    return locator<CurrentUser>().blockedBy.contains(post.author.uid);
+  }
+
   bool isLoggedIn() {
     if (locator<CurrentUser>().getUID() == '') {
       showLogInDialog();
@@ -114,7 +122,7 @@ class PostCardController extends ChangeNotifier {
     context.pop();
   }
 
-   void _popDialog() {
+  void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
@@ -122,10 +130,9 @@ class PostCardController extends ChangeNotifier {
     context.go('/');
   }
 
-  void rebuild() {
-    //notifyListeners();
-    print("hui");
-  }
+  // void rebuild() {
+  //   //notifyListeners();
+  // }
 
   // avatarPressed() async {
   //   if (post.author.uid != locator<CurrentUser>().getUID()) {

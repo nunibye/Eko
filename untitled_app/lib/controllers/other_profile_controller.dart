@@ -42,6 +42,8 @@ class OtherProfileController extends ChangeNotifier {
       context.go("/profile");
     }
     following = locator<CurrentUser>().checkIsFollowing(loadedUser!.uid);
+    //set blocked
+
     if (!isLoggedIn()) {
       locator<NavBarController>().disable();
     }
@@ -53,6 +55,14 @@ class OtherProfileController extends ChangeNotifier {
       return false;
     }
     return true;
+  }
+
+  bool isBlockedByMe() {
+    return locator<CurrentUser>().blockedUsers.contains(loadedUser!.uid);
+  }
+
+  bool blocksMe() {
+    return locator<CurrentUser>().blockedBy.contains(loadedUser!.uid);
   }
 
   void showLogInDialog() {
@@ -68,13 +78,51 @@ class OtherProfileController extends ChangeNotifier {
         dismissable: true);
   }
 
-   void _popDialog() {
+  void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
   void _goToLogin() {
     context.go('/');
   }
+
+
+  void showBlock() {
+    showMyDialog(
+        AppLocalizations.of(context)!.blockTitle,
+        AppLocalizations.of(context)!.blockBody,
+        [
+          AppLocalizations.of(context)!.cancel,
+          AppLocalizations.of(context)!.block
+        ],
+        [_popDialog, _blockPressed],
+        context,
+        dismissable: true);
+  }
+
+  // void showUnblock() {
+  //   showMyDialog(
+  //       AppLocalizations.of(context)!.unblockTitle,
+  //       AppLocalizations.of(context)!.unblockbody,
+  //       [
+  //         AppLocalizations.of(context)!.cancel,
+  //         AppLocalizations.of(context)!.unblock
+  //       ],
+  //       [_popDialog, _unblockPressed],
+  //       context,
+  //       dismissable: true);
+  // }
+
+  void _blockPressed() async {
+    _popDialog();
+    await locator<CurrentUser>().blockUser(loadedUser!.uid);
+    context.go('/feed', extra: true);
+  }
+
+  // void _unblockPressed() {
+  //   _popDialog();
+  //   locator<CurrentUser>().unblockUser(loadedUser!.uid);
+  // }
 
   onFollowPressed() async {
     if (!isLoggedIn()) {

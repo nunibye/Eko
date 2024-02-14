@@ -486,4 +486,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get termsAndConditions => 'Terms and Conditions';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get unblock => 'Unblock';
+
+  @override
+  String get blockTitle => 'Block User';
+
+  @override
+  String get blockBody => 'This will hide content the user posts and prevent them from viewing your profile.';
+
+  @override
+  String get blockedAccounts => 'Blocked Accounts';
+
+  @override
+  String get newActivityNotifications => 'New Activity Notifications';
+
+  @override
+  String get blockedByUserMessage => 'You do not currently have permission to view this content.';
+
+  @override
+  String get birthdayExplanation => 'We use this to ensure you are old enough to use the app.';
 }

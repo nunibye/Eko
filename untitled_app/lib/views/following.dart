@@ -38,7 +38,7 @@ class Following extends StatelessWidget {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded,
                   color: Theme.of(context).colorScheme.onBackground),
-              onPressed: () => context.pop("poped"),
+              onPressed: () => context.pop(),
             ),
             backgroundColor: Theme.of(context).colorScheme.background,
             title: Text(
@@ -62,29 +62,7 @@ class Following extends StatelessWidget {
                       Provider.of<FollowingController>(context, listen: false)
                           .onRefresh),
           ),
-          // Padding(
-          //   padding: EdgeInsets.all(height * 0.02),
-          //   child:
-
-          //   Column(
-          //     children: [
-          //       Expanded(
-          //         child: ListView.builder(
-          //           itemCount: Provider.of<FollowingController>(context,
-          //                   listen: true)
-          //               .followingList
-          //               .length,
-          //           itemBuilder: (BuildContext context, int index) {
-          //             return UserCard(
-          //                 user: Provider.of<FollowingController>(context,
-          //                         listen: true)
-          //                     .followingList[index]);
-          //           },
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          
         );
       },
     );
