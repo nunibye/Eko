@@ -138,5 +138,5 @@ const String appURL = "https://www.eko-app.com";
 const String playStoreURL =
     "https://play.google.com/store/apps/details?id=com.echo.android";
 const String appStoreURL =
-    "https://apps.apple.com/us/app/ucsc-menu/id1670523487";
+    "https://apps.apple.com/us/app/eko/id6470772031?platform=iphone";
 const String termsUrl = "https://conetechnologies-32cd1.web.app/eko/terms";
