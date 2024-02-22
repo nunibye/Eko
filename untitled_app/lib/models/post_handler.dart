@@ -625,7 +625,7 @@ class PostsHandling {
       final firestore = FirebaseFirestore.instance;
       List<RawPostObject> postsToPassBack = [];
       final List<dynamic> followingCopy = [...locator<CurrentUser>().following];
-      followingCopy.add(locator<CurrentUser>().getUID());
+      followingCopy.insert(0, locator<CurrentUser>().getUID());
       // if (locator<CurrentUser>().following.isEmpty) {
       //   return postsToPassBack;
       // }

@@ -138,7 +138,7 @@ abstract class AppLocalizations {
   /// No description provided for @usernameInUse.
   ///
   /// In en, this message translates to:
-  /// **'Username Unavilable'**
+  /// **'Username Unavailable'**
   String get usernameInUse;
 
   /// No description provided for @usernameTakenTitle.
@@ -150,7 +150,7 @@ abstract class AppLocalizations {
   /// No description provided for @usernameTakenBody.
   ///
   /// In en, this message translates to:
-  /// **'Please go back and choose a diffrent username.'**
+  /// **'Please go back and choose a different username.'**
   String get usernameTakenBody;
 
   /// No description provided for @invalidEmailTittle.
@@ -522,7 +522,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyFieldError.
   ///
   /// In en, this message translates to:
-  /// **'Make sure all feilds are filled.'**
+  /// **'Make sure all fields are filled.'**
   String get emptyFieldError;
 
   /// No description provided for @bioTitle.
@@ -566,12 +566,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome'**
   String get welcome;
-
-  /// No description provided for @welcomeTo.
-  ///
-  /// In en, this message translates to:
-  /// **'Welcome to'**
-  String get welcomeTo;
 
   /// No description provided for @welcomeBack.
   ///
@@ -804,7 +798,7 @@ abstract class AppLocalizations {
   /// No description provided for @passwordResetTitle.
   ///
   /// In en, this message translates to:
-  /// **'Password Reset Successfuly'**
+  /// **'Password Reset Successfully'**
   String get passwordResetTitle;
 
   /// No description provided for @passwordResetBody.
@@ -822,7 +816,7 @@ abstract class AppLocalizations {
   /// No description provided for @coppiedToClipboard.
   ///
   /// In en, this message translates to:
-  /// **'Coppied to Clipboard'**
+  /// **'Copied to Clipboard'**
   String get coppiedToClipboard;
 
   /// No description provided for @download.
@@ -864,7 +858,7 @@ abstract class AppLocalizations {
   /// No description provided for @updateAvailable.
   ///
   /// In en, this message translates to:
-  /// **'Upadate Available'**
+  /// **'Update Available'**
   String get updateAvailable;
 
   /// No description provided for @update.
@@ -930,7 +924,7 @@ abstract class AppLocalizations {
   /// No description provided for @logIntoApp.
   ///
   /// In en, this message translates to:
-  /// **'Log in required'**
+  /// **'Login required'**
   String get logIntoApp;
 
   /// No description provided for @logInRequired.
@@ -990,7 +984,7 @@ abstract class AppLocalizations {
   /// No description provided for @deletePostWarningBody.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you wish to procede? This action cannot be undone.'**
+  /// **'Are you sure you wish to proceed? This action cannot be undone.'**
   String get deletePostWarningBody;
 
   /// No description provided for @invalidSession.
