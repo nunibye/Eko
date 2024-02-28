@@ -7,7 +7,7 @@ class ProfilePictureDetailController extends ChangeNotifier {
   final BuildContext context;
   ProfilePictureDetailController({required this.context});
   void backgroundPressed() {
-    locator<NavBarController>().enable();
+    // locator<NavBarController>().enable();
     context.pop();
   }
 }
