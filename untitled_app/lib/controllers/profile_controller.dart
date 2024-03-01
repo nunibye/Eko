@@ -33,10 +33,9 @@ class ProfileController extends ChangeNotifier {
       followers: locator<CurrentUser>().followers,
       following: locator<CurrentUser>().following,
     );
-    
+
     notifyListeners();
   }
-
 
   Future<bool> onWillPop() async {
     locator<NavBarController>().goBranch(0);
@@ -61,7 +60,8 @@ class ProfileController extends ChangeNotifier {
     await context.push('/profile/user_settings');
     locator<NavBarController>().enable();
   }
-    qrButtonPressed() async {
+
+  qrButtonPressed() async {
     locator<NavBarController>().disable();
     await context.push('/profile/share_profile');
     locator<NavBarController>().enable();

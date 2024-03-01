@@ -175,6 +175,14 @@ func PostNewActivity(ctx context.Context, e FirestoreEvent) error {
 				if err != nil {
 					log.Fatalf("Failed to add activity: %v", err)
 				}
+
+				// Set unreadGroup to true
+				_, err = client.Collection("users").Doc(memberID).Update(ctx, []firestore.Update{
+					{Path: "unreadGroup", Value: true},
+				})
+				if err != nil {
+					log.Printf("Failed to set unreadGroup: %v", err)
+				}
 			}
 		}
 	}
