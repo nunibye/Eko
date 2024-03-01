@@ -242,9 +242,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcome => 'Welcome';
 
   @override
-  String get welcomeTo => 'Welcome to';
-
-  @override
   String get welcomeBack => 'Welcome Back';
 
   @override
@@ -359,7 +356,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get resetPasswordPromt => 'Reset password for:';
 
   @override
-  String get passwordResetTitle => 'Password Reset Successfuly';
+  String get passwordResetTitle => 'Password Reset Successfully';
 
   @override
   String get passwordResetBody => 'Please continue to login.';
@@ -368,7 +365,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get setPassword => 'Set Password';
 
   @override
-  String get coppiedToClipboard => 'Coppied to Clipboard';
+  String get coppiedToClipboard => 'Copied to Clipboard';
 
   @override
   String get download => 'Download';
@@ -389,7 +386,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get updateRequiredBody => 'Please download the latest update to continue.';
 
   @override
-  String get updateAvailable => 'Upadate Available';
+  String get updateAvailable => 'Update Available';
 
   @override
   String get update => 'Update';
@@ -422,7 +419,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteAcountReAuthWarning => 'Please enter your password to confirm you wish to delete your account. This Action cannot be undone. Upon clicking the button below, your account will be deleted.';
 
   @override
-  String get logIntoApp => 'Log in required';
+  String get logIntoApp => 'Login required';
 
   @override
   String get logInRequired => 'Please log in to access all features of Eko.';
@@ -452,7 +449,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteCommentWarningTitle => 'Delete Comment';
 
   @override
-  String get deletePostWarningBody => 'Are you sure you wish to procede? This action cannot be undone.';
+  String get deletePostWarningBody => 'Are you sure you wish to proceed? This action cannot be undone.';
 
   @override
   String get invalidSession => 'This Eko account is being used on another device. Press below to continue on this device.';

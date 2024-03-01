@@ -9,7 +9,7 @@ const RESOURCES = {".well-known/apple-app-site-association": "0b4727901ab1ade3de
 "assets/AssetManifest.bin.json": "62722008df3cafb250e9bdf86afc1f77",
 "assets/AssetManifest.json": "3f88bc59ab1a11297ff47ed7f73a007f",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/fonts/MaterialIcons-Regular.otf": "eef43929536e3dde051a1a50920793d8",
+"assets/fonts/MaterialIcons-Regular.otf": "188706ecf19a260553f9928ad1bcbe64",
 "assets/images/algolia_logo_blue.png": "d6324724aacf0cca5c7a1c4789613134",
 "assets/images/algolia_logo_white.png": "6aea840131b0b5ea20d0a8dbb70bb066",
 "assets/images/appStoreButton.svg": "a111d9769165e4f4559f20e6303ce781",
@@ -38,11 +38,11 @@ const RESOURCES = {".well-known/apple-app-site-association": "0b4727901ab1ade3de
 "icons/Icon-512.png": "420a6559ae2f6521ab1fe2a531119d52",
 "icons/Icon-maskable-192.png": "de64e1865235045612f8cbe081ba2bbf",
 "icons/Icon-maskable-512.png": "15012744cb9e665935757527d7a09a56",
-"index.html": "5139e442243fd70e0314bea998258114",
-"/": "5139e442243fd70e0314bea998258114",
-"main.dart.js": "0266fa74992f7d7d6d00787d4e4c978c",
+"index.html": "2382a60d94c0d476bc0392a786efa4d5",
+"/": "2382a60d94c0d476bc0392a786efa4d5",
+"main.dart.js": "804bee02292d7331e72b0dda7fedeaf4",
 "manifest.json": "bc7d18ebf3eba36993c18c7569e97bb4",
-"version.json": "4aebaceafc5e1cc2841136f0206af992"};
+"version.json": "015c5f6edf843c797a33286d627596ec"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",
