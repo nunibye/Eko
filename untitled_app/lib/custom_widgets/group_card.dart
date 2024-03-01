@@ -29,12 +29,12 @@ class GroupCard extends StatelessWidget {
     return InkWell(
         onTap: () async {
           if (onPressedSearched == null) {
-            context.push("/groups/sub_group/${group.id}", extra: group)
-            .then(
+            context.push("/groups/sub_group/${group.id}", extra: group).then(
                 (value) => unseen
                     ? Provider.of<GroupsPageController>(context, listen: false)
                         .rebuild()
                     : null);
+            await locator<CurrentUser>().setUnreadGroup(false);
           } else {
             //if in compose page
             onPressedSearched!(group);

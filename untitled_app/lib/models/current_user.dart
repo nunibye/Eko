@@ -15,6 +15,7 @@ import '../models/post_handler.dart';
 
 class CurrentUser extends AppUser {
   bool newActivity = false;
+  bool unreadGroup = false;
   String email = '';
   List<dynamic> likedPosts = [];
   List<dynamic> blockedUsers = [];
@@ -165,6 +166,7 @@ class CurrentUser extends AppUser {
       likedPosts = userData["profileData"]["likedPosts"] ?? [];
       blockedUsers = userData["blockedUsers"] ?? [];
       newActivity = userData["newActivity"] ?? false;
+      unreadGroup = userData["unreadGroup"] ?? false;
       List<dynamic>? fcmTokens = userData["fcmTokens"];
       blockedBy = await getPeopleWhoBlockedMe();
       // print(blockedBy);
@@ -221,6 +223,16 @@ class CurrentUser extends AppUser {
         .collection("users")
         .doc(uid)
         .set({'newActivity': value}, SetOptions(merge: true));
+  }
+
+  Future<void> setUnreadGroup(bool value, {String? uid}) async {
+    final firestore = FirebaseFirestore.instance;
+    uid ??= getUID();
+    unreadGroup = value;
+    await firestore
+        .collection("users")
+        .doc(uid)
+        .set({'unreadGroup': value}, SetOptions(merge: true));
   }
 
   Future<bool> removeFollower(String otherUid) async {

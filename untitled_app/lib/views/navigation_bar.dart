@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled_app/custom_widgets/safe_area.dart';
+import '../models/current_user.dart';
 import '../utilities/locator.dart';
 import '../controllers/bottom_nav_bar_controller.dart';
 import '../utilities/constants.dart' as c;
@@ -92,50 +93,84 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       child: Scaffold(
         floatingActionButton: getAppFabBuilder(),
         body: body,
-        bottomNavigationBar:
-            Provider.of<NavBarController>(context, listen: true).enabled
-                ? Container(
-                    height: c.navBarHeight,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Theme.of(context).colorScheme.outline,
-                          width: 0.5,
-                        ),
-                      ),
+        bottomNavigationBar: Provider.of<NavBarController>(context,
+                    listen: true)
+                .enabled
+            ? Container(
+                height: c.navBarHeight,
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: Theme.of(context).colorScheme.outline,
+                      width: 0.5,
                     ),
-                    child: BottomNavigationBar(
-                      type: BottomNavigationBarType.fixed,
-                      currentIndex: selectedIndex,
-                      elevation: 0.0,
-                      // c.navBarIconSize:
-                      //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
-                      selectedFontSize: 0.0,
-                      unselectedFontSize: 0.0,
-                      showUnselectedLabels: false,
-                      showSelectedLabels: false,
-                      unselectedItemColor:
-                          Theme.of(context).colorScheme.onBackground,
-                      selectedItemColor:
-                          Theme.of(context).colorScheme.onBackground,
-                      backgroundColor: Theme.of(context).colorScheme.background,
-                      items: [
-                        for (int i = 0; i < _passiveIconList.length; i++)
-                          BottomNavigationBarItem(
-                              icon: Icon(
+                  ),
+                ),
+                child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: selectedIndex,
+                  elevation: 0.0,
+                  // c.navBarIconSize:
+                  //     c.navBarIconSize, //TODO: idk. should these change size based on how big the device is?
+                  selectedFontSize: 0.0,
+                  unselectedFontSize: 0.0,
+                  showUnselectedLabels: false,
+                  showSelectedLabels: false,
+                  unselectedItemColor:
+                      Theme.of(context).colorScheme.onBackground,
+                  selectedItemColor: Theme.of(context).colorScheme.onBackground,
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                  items: [
+                    for (int i = 0; i < _passiveIconList.length; i++)
+                      BottomNavigationBarItem(
+                          icon: Stack(
+                            children: [
+                              Icon(
                                 _passiveIconList[i],
                                 size: c.navBarIconSize,
                               ),
-                              activeIcon: Icon(
+                              if (i == 1 && locator<CurrentUser>().unreadGroup)
+                                Positioned(
+                                  right: 1.5,
+                                  child: Container(
+                                    width: 9,
+                                    height: 9,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .error),
+                                  ),
+                                )
+                            ],
+                          ),
+                          activeIcon: Stack(
+                            children: [
+                              Icon(
                                 _activeIconList[i],
                                 size: c.navBarIconSize + c.navBarIconSizeAdder,
                               ),
-                              label: ''),
-                      ],
-                      onTap: (index) => onDestinationSelected(index),
-                    ),
-                  )
-                : null,
+                              if (i == 1 && locator<CurrentUser>().unreadGroup)
+                                Positioned(
+                                  right: 1.5,
+                                  child: Container(
+                                    width: 9,
+                                    height: 9,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .error),
+                                  ),
+                                )
+                            ],
+                          ),
+                          label: ''),
+                  ],
+                  onTap: (index) => onDestinationSelected(index),
+                ),
+              )
+            : null,
       ),
     );
   }
@@ -171,13 +206,43 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
                   for (int i = 0; i < _passiveIconList.length; i++)
                     NavigationRailDestination(
                       label: const Text(""),
-                      icon: Icon(
-                        _passiveIconList[i],
-                        size: c.navBarIconSize,
+                      icon: Stack(
+                        children: [
+                          Icon(
+                            _passiveIconList[i],
+                            size: c.navBarIconSize,
+                          ),
+                          if (i == 1 && locator<CurrentUser>().unreadGroup)
+                            Positioned(
+                              right: 1.5,
+                              child: Container(
+                                width: 9,
+                                height: 9,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).colorScheme.error),
+                              ),
+                            )
+                        ],
                       ),
-                      selectedIcon: Icon(
-                        _activeIconList[i],
-                        size: c.navBarIconSize + c.navBarIconSizeAdder,
+                      selectedIcon: Stack(
+                        children: [
+                          Icon(
+                            _activeIconList[i],
+                            size: c.navBarIconSize + c.navBarIconSizeAdder,
+                          ),
+                          if (i == 1 && locator<CurrentUser>().unreadGroup)
+                            Positioned(
+                              right: 1.5,
+                              child: Container(
+                                width: 9,
+                                height: 9,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Theme.of(context).colorScheme.error),
+                              ),
+                            )
+                        ],
                       ),
                     ),
                 ],
