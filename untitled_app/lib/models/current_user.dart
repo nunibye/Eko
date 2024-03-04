@@ -274,7 +274,7 @@ class CurrentUser extends AppUser {
         final user = getUID();
         await Future.wait([
           firestore.collection("users").doc(user).update({
-            "profileData.likedPosts": FieldValue.arrayUnion([postId])
+            "profileData.likedPosts": FieldValue.arrayUnion([commentId ?? postId])
           }),
           (commentId == null)
               ? firestore
@@ -314,7 +314,7 @@ class CurrentUser extends AppUser {
         final user = getUID();
         await Future.wait([
           firestore.collection("users").doc(user).update({
-            "profileData.likedPosts": FieldValue.arrayRemove([postId])
+            "profileData.likedPosts": FieldValue.arrayRemove([commentId ?? postId])
           }),
           (commentId == null)
               ? firestore

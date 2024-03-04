@@ -24,6 +24,9 @@ class CommentCardController extends ChangeNotifier {
   final scrollController = ScrollController();
 
   CommentCardController({required this.context, required this.post}) {
+    _init();
+  }
+  _init() async {
     liked = locator<CurrentUser>().checkIsLiked(post.postId);
     likes = post.likes;
     isSelf = post.author.uid == locator<CurrentUser>().getUID();
@@ -39,7 +42,7 @@ class CommentCardController extends ChangeNotifier {
   bool blocksMe() {
     return locator<CurrentUser>().blockedBy.contains(post.author.uid);
   }
-  
+
   void onScrollEnd() async {
     Timer(
       const Duration(milliseconds: 1),
@@ -69,7 +72,6 @@ class CommentCardController extends ChangeNotifier {
 
   @override
   void dispose() {
-    
     scrollController.dispose();
     super.dispose();
   }
@@ -138,7 +140,7 @@ class CommentCardController extends ChangeNotifier {
     context.pop();
   }
 
-   void _popDialog() {
+  void _popDialog() {
     Navigator.of(context, rootNavigator: true).pop();
   }
 
