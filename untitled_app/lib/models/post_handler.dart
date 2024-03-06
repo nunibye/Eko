@@ -2,6 +2,7 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/group_handler.dart';
 import 'package:untitled_app/utilities/locator.dart';
@@ -132,8 +133,8 @@ class RawPostObject {
 
 class FeedChunk {
   final List<dynamic> uids;
-  RawPostObject oldestPost;
-  FeedChunk({required this.uids, required this.oldestPost});
+  RawPostObject newestPost;
+  FeedChunk({required this.uids, required this.newestPost});
 }
 
 class RecentActivityCard {
@@ -625,18 +626,13 @@ class PostsHandling {
       final firestore = FirebaseFirestore.instance;
       List<RawPostObject> postsToPassBack = [];
       final List<dynamic> followingCopy = [...locator<CurrentUser>().following];
+
       followingCopy.insert(0, locator<CurrentUser>().getUID());
-      // if (locator<CurrentUser>().following.isEmpty) {
-      //   return postsToPassBack;
-      // }
 
       if (feedChunks.isEmpty) {
-        // must handle if the user is following no one or app crashes
-        // if (locator<CurrentUser>().following.isEmpty) {
-        //   return postsToPassBack;
-        // }
 
         final following = followingCopy.slices(30);
+
         for (List<dynamic> slice in following) {
           snapshot = await firestore
               .collection('posts')
@@ -645,21 +641,25 @@ class PostsHandling {
               .orderBy('time', descending: true)
               .limit(1)
               .get();
-          if (snapshot.docs.isEmpty) {
-            return postsToPassBack;
+
+          if (snapshot.docs.isNotEmpty) {
+            final data = snapshot.docs.first.data();
+            feedChunks.add(
+              FeedChunk(
+                  uids: slice,
+                  newestPost:
+                      RawPostObject.fromJson(data, snapshot.docs.first.id)),
+            );
           }
-          final data = snapshot.docs.first.data();
-          feedChunks.add(
-            FeedChunk(
-                uids: slice,
-                oldestPost:
-                    RawPostObject.fromJson(data, snapshot.docs.first.id)),
-          );
+        }
+        if (feedChunks.isEmpty) {
+          return postsToPassBack;
         }
 
         feedChunks
-            .sort((a, b) => a.oldestPost.time.compareTo(a.oldestPost.time));
-        postsToPassBack.add(feedChunks.first.oldestPost);
+            .sort((a, b) => b.newestPost.time.compareTo(a.newestPost.time));
+
+        postsToPassBack.add(feedChunks.first.newestPost);
       }
 
       while (postsToPassBack.length < c.postsOnRefresh) {
@@ -668,17 +668,18 @@ class PostsHandling {
             .where("author", whereIn: feedChunks.first.uids)
             .where("tags", arrayContains: "public")
             .orderBy('time', descending: true)
-            .startAfter([feedChunks.first.oldestPost.time])
+            .startAfter([feedChunks.first.newestPost.time])
             .limit(1)
             .get();
         if (snapshot.docs.isNotEmpty) {
           final data = snapshot.docs.first.data();
-          feedChunks.first.oldestPost =
+          feedChunks.first.newestPost =
               RawPostObject.fromJson(data, snapshot.docs.first.id);
-          postsToPassBack.add(feedChunks.first.oldestPost);
+
           feedChunks.sort(
-            (a, b) => a.oldestPost.time.compareTo(a.oldestPost.time),
+            (a, b) => b.newestPost.time.compareTo(a.newestPost.time),
           );
+          postsToPassBack.add(feedChunks.first.newestPost);
         } else {
           feedChunks.removeAt(0);
           if (feedChunks.isEmpty) {
