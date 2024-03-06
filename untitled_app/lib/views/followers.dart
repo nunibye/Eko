@@ -21,57 +21,41 @@ class Followers extends StatelessWidget {
             FollowersController(context: context, rootUser: user),
         builder: (context, child) {
           return Scaffold(
-            appBar: AppBar(
-              surfaceTintColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded,
-                    color: Theme.of(context).colorScheme.onBackground),
-                onPressed: () => context.pop("poped"),
-              ),
-              backgroundColor: Theme.of(context).colorScheme.background,
-              title: Text(
-                AppLocalizations.of(context)!.followers,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  
-                  color: Theme.of(context).colorScheme.onBackground,
+              appBar: AppBar(
+                surfaceTintColor: Colors.transparent,
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: Theme.of(context).colorScheme.onBackground,
+                    size: 20,
+                  ),
+                  onPressed: () => context.pop("poped"),
+                ),
+                backgroundColor: Theme.of(context).colorScheme.background,
+                title: Text(
+                  AppLocalizations.of(context)!.followers,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
                 ),
               ),
-            ),
-            body: Padding(
-              padding: EdgeInsets.all(height * 0.02),
-              child: PaginationPage(
-                  getter:
-                      Provider.of<FollowersController>(context, listen: false)
-                          .userGetter,
-                  card: searchPageBuilder,
-                  startAfterQuery:
-                      Provider.of<FollowersController>(context, listen: false)
-                          .startAfterQuery,
-                  extraRefresh:
-                      Provider.of<FollowersController>(context, listen: false)
-                          .onRefresh),
-
-              // Column(
-              //   children: [
-              //     Expanded(
-              //       child: ListView.builder(
-              //         itemCount: Provider.of<FollowersController>(context,
-              //                 listen: true)
-              //             .followersList
-              //             .length,
-              //         itemBuilder: (BuildContext context, int index) {
-              //           return UserCard(
-              //               user: Provider.of<FollowersController>(context,
-              //                       listen: true)
-              //                   .followersList[index]);
-              //         },
-              //       ),
-              //     ),
-              //   ],
-              // ),
-            ),
-          );
+              body: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: height * 0.01, horizontal: 6),
+                child: PaginationPage(
+                    getter:
+                        Provider.of<FollowersController>(context, listen: false)
+                            .userGetter,
+                    card: searchPageBuilder,
+                    startAfterQuery:
+                        Provider.of<FollowersController>(context, listen: false)
+                            .startAfterQuery,
+                    extraRefresh:
+                        Provider.of<FollowersController>(context, listen: false)
+                            .onRefresh),
+              ));
         });
   }
 }

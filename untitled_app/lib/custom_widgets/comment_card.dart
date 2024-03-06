@@ -175,18 +175,32 @@ class _Card extends StatelessWidget {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             child: SizedBox(
-                              width: width * 0.65,
-                              child: Text(
-                                "@${post.author.username}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
+                                width: width * 0.65,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "@${post.author.username}",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    if (post.author.isVerified)
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 6),
+                                        child: Icon(
+                                          Icons.verified_rounded,
+                                          size: c.verifiedIconSize,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .surfaceTint,
+                                        ),
+                                      ),
+                                  ],
+                                )),
                           ),
                           const SizedBox(width: 8.0),
                           // TextButton(

@@ -71,7 +71,7 @@ class UserCard extends StatelessWidget {
                   }
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                  padding: EdgeInsets.symmetric(vertical: height * 0.01, horizontal: 6),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -82,16 +82,32 @@ class UserCard extends StatelessWidget {
                           Padding(
                               padding: EdgeInsets.all(width * 0.02),
                               child: SizedBox(
-                                width: width * 0.4,
+                                width: width * 0.5,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (user.name != "")
-                                      Text(
-                                        user.name,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                        overflow: TextOverflow.ellipsis,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            user.name,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          if (user.isVerified)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 6),
+                                              child: Icon(
+                                                Icons.verified_rounded,
+                                                size: c.verifiedIconSize,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceTint,
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     Text(
                                       "@${user.username}",
@@ -116,8 +132,10 @@ class UserCard extends StatelessWidget {
                         Container()
                       else if (blockedPage)
                         InkWell(
-                          onTap: () => Provider.of<SearchedUserController>(context,
-                                        listen: false).unblockPressed(),
+                          onTap: () => Provider.of<SearchedUserController>(
+                                  context,
+                                  listen: false)
+                              .unblockPressed(),
                           child: Container(
                             width: width * 0.25,
                             height: width * 0.1,
@@ -144,12 +162,12 @@ class UserCard extends StatelessWidget {
                                   listen: false)
                               .onFollowPressed(),
                           child: Container(
-                            width: width * 0.35,
-                            height: width * 0.1,
+                            width: width * 0.25,
+                            height: width * 0.08,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
+                                  const BorderRadius.all(Radius.circular(10)),
                               color: Provider.of<SearchedUserController>(
                                           context,
                                           listen: true)
@@ -167,7 +185,7 @@ class UserCard extends StatelessWidget {
                                   : AppLocalizations.of(context)!.follow,
                               maxLines: 1,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 13,
                                 //letterSpacing: 1,
                                 //fontWeight: FontWeight.normal,
                                 color:

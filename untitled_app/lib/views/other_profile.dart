@@ -30,23 +30,25 @@ class OtherProfile extends StatelessWidget {
               .isLoggedIn(),
           child: Scaffold(
             appBar: Provider.of<OtherProfileController>(context, listen: true)
-                        .loadedUser ==
-                    null || (Provider.of<OtherProfileController>(context, listen: false)
+                            .loadedUser ==
+                        null ||
+                    (Provider.of<OtherProfileController>(context, listen: false)
                             .isBlockedByMe() ||
                         Provider.of<OtherProfileController>(context,
                                 listen: false)
                             .blocksMe())
-                    
                 ? AppBar(
                     backgroundColor: Theme.of(context).colorScheme.background,
                     surfaceTintColor: Colors.transparent,
                     automaticallyImplyLeading: false,
                     leading: IconButton(
-                        icon: Icon(Icons.arrow_back_ios_rounded,
-                            color: Theme.of(context).colorScheme.onBackground),
-                        onPressed: () => context.pop(),
-                      )
-                  )
+                      icon: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Theme.of(context).colorScheme.onBackground,
+                        size: 20,
+                      ),
+                      onPressed: () => context.pop(),
+                    ))
                 : null,
             body: Provider.of<OtherProfileController>(context, listen: true)
                         .loadedUser ==
@@ -86,10 +88,13 @@ class OtherProfile extends StatelessWidget {
                                             listen: false)
                                         .isLoggedIn()
                                     ? IconButton(
-                                        icon: Icon(Icons.arrow_back_ios_rounded,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground),
+                                        icon: Icon(
+                                          Icons.arrow_back_ios_rounded,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          size: 20,
+                                        ),
                                         onPressed: () => context.pop("popped"))
                                     : TextButton(
                                         onPressed: () {
@@ -104,44 +109,70 @@ class OtherProfile extends StatelessWidget {
                                             context,
                                             listen: false)
                                         .isLoggedIn()
-                                    ? Text(
-                                        "@${Provider.of<OtherProfileController>(context, listen: true).loadedUser!.username}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
-                                        ),
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "@${Provider.of<OtherProfileController>(context, listen: true).loadedUser!.username}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                            ),
+                                          ),
+                                          if (Provider.of<
+                                                      OtherProfileController>(
+                                                  context,
+                                                  listen: true)
+                                              .loadedUser!
+                                              .isVerified)
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 6),
+                                              child: Icon(
+                                                Icons.verified_rounded,
+                                                size: c.verifiedIconSize,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceTint,
+                                              ),
+                                            ),
+                                        ],
                                       )
                                     : null,
                                 actions: [
-                                  PopupMenuButton<void Function()>(
-                                    itemBuilder: (context) {
-                                      return [
-                                        PopupMenuItem(
-                                          height: 25,
-                                          value: () => Provider.of<
-                                                      OtherProfileController>(
-                                                  context,
-                                                  listen: false)
-                                              .showBlock(),
-                                          child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .block),
-                                        )
-                                      ];
-                                    },
-                                    onSelected: (fn) => fn(),
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                    child: Icon(
-                                      Icons.more_vert,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 16, right: 16),
+                                    child: PopupMenuButton<void Function()>(
+                                      itemBuilder: (context) {
+                                        return [
+                                          PopupMenuItem(
+                                            height: 25,
+                                            value: () => Provider.of<
+                                                        OtherProfileController>(
+                                                    context,
+                                                    listen: false)
+                                                .showBlock(),
+                                            child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .block),
+                                          )
+                                        ];
+                                      },
+                                      onSelected: (fn) => fn(),
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
+                                      child: Icon(
+                                        Icons.more_vert,
+                                        size: 20,
+                                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                      ),
                                     ),
-                                  ),
+                                  )
                                 ],
                                 bottom: PreferredSize(
                                   preferredSize: const Size.fromHeight(3),
@@ -171,36 +202,6 @@ class OtherProfile extends StatelessWidget {
                             .onPageRefresh,
                         initialLoadingWidget: const FeedLoader(),
                       ),
-
-            // FeedBuilder(
-            //   user: AppUser(
-            //       username:
-            //           Provider.of<OtherProfileController>(context, listen: false)
-            //               .loadedUser!.username,
-            //       name:
-            //           Provider.of<OtherProfileController>(context, listen: false)
-            //               .loadedUser!.name,
-            //       profilePicture:
-            //           Provider.of<OtherProfileController>(context, listen: false)
-            //               .loadedUser!.profilePicture,
-            //       uid:
-            //           Provider.of<OtherProfileController>(context, listen: false)
-            //               .loadedUser!.uid),
-            //   //query. Ok to be here in MVVM becasue it doesn't interact with database. Just a template for a request
-            //   firestoreQuery: FirebaseFirestore.instance
-            //       .collection('posts')
-            //       .where("author",
-            //           isEqualTo: Provider.of<OtherProfileController>(context,
-            //                   listen: false)
-            //               .loadedUser!.uid)
-            //       .orderBy('time', descending: true),
-            //   //This widget will be first in the list. use Column for this not ListView
-            //   header: const _Header(),
-            //   //Optional funtion to call on refresh.
-            //   refreshFunction:
-            //       Provider.of<OtherProfileController>(context, listen: false)
-            //           .onPageRefresh,
-            // )
           ),
         );
       },

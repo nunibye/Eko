@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:untitled_app/models/current_user.dart';
@@ -51,8 +50,8 @@ class GroupCard extends StatelessWidget {
                   ),
                   (group.icon != '')
                       ? SizedBox(
-                          width: width * 0.18,
-                          height: width * 0.18,
+                          width: width * 0.17,
+                          height: width * 0.17,
                           child: FittedBox(
                               fit: BoxFit.contain,
                               child: Text(group.icon,
@@ -63,8 +62,8 @@ class GroupCard extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.surface,
                           ),
-                          width: width * 0.18,
-                          height: width * 0.18,
+                          width: width * 0.17,
+                          height: width * 0.17,
                           child: FittedBox(
                             fit: BoxFit.contain,
                             child: Text(
@@ -86,7 +85,7 @@ class GroupCard extends StatelessWidget {
                             Text(
                               group.name,
                               style: TextStyle(
-                                fontSize: 19,
+                                fontSize: 17,
                                 fontWeight: unseen
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -95,7 +94,7 @@ class GroupCard extends StatelessWidget {
                             Text(
                               group.description,
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   fontWeight: unseen
                                       ? FontWeight.bold
                                       : FontWeight.w300),

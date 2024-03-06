@@ -47,7 +47,6 @@ class ProfilePage extends StatelessWidget {
 
 class _Header extends StatelessWidget {
   const _Header();
-
   @override
   Widget build(BuildContext context) {
     final width = c.widthGetter(context);
@@ -60,17 +59,23 @@ class _Header extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: width * 0.75,
-                      child: Text(
-                        "@${profileController.user.username}",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      "@${profileController.user.username}",
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                      overflow: TextOverflow.ellipsis,
                     ),
+                    if (profileController.user.isVerified)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Icon(
+                          Icons.verified_rounded,
+                          size: c.verifiedIconSize,
+                          color: Theme.of(context).colorScheme.surfaceTint,
+                        ),
+                      ),
                     const Spacer(),
                     InkWell(
                       onTap: () =>
@@ -78,21 +83,21 @@ class _Header extends StatelessWidget {
                               .qrButtonPressed(),
                       child: Icon(
                         Icons.qr_code,
-                        color: Theme.of(context).colorScheme.onBackground,
-                        size: 25,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        size: 22,
                         weight: 10,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: InkWell(
                         onTap: () => Provider.of<ProfileController>(context,
                                 listen: false)
                             .settingsButtonPressed(),
                         child: Icon(
                           Icons.settings_outlined,
-                          color: Theme.of(context).colorScheme.onBackground,
-                          size: 25,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          size: 22,
                           weight: 10,
                         ),
                       ),

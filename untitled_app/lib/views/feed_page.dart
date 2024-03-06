@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled_app/custom_widgets/shimmer_loaders.dart'
     show FeedLoader;
-import 'package:untitled_app/models/current_user.dart';
 import 'package:untitled_app/models/feed_post_cache.dart';
 import 'package:untitled_app/utilities/locator.dart';
 import '../custom_widgets/pagination.dart';
@@ -28,7 +27,7 @@ class FeedPage extends StatelessWidget {
         final height = MediaQuery.sizeOf(context).height;
         //begin app bar
         final SliverAppBar appBar = SliverAppBar(
-          toolbarHeight: height * 0.13,
+          toolbarHeight: height * 0.11,
           floating: true,
           pinned: false,
           scrolledUnderElevation: 0.0,
@@ -77,7 +76,7 @@ class FeedPage extends StatelessWidget {
             ),
           ],
           title: SizedBox(
-            width: width * 0.25,
+            width: width * 0.2,
             child: Image.asset(
                 (Theme.of(context).brightness == Brightness.light)
                     ? 'images/eko_logo_light.png'

@@ -11,6 +11,7 @@ class AppUser {
   List<dynamic> following;
   String uid;
   int? pageIndex; //for search pagination
+  bool isVerified;
 
   AppUser({
     this.pageIndex,
@@ -21,6 +22,7 @@ class AppUser {
     this.followers = const [],
     this.following = const [],
     this.username = '',
+    this.isVerified = false,
     this.profilePicture =
         "https://firebasestorage.googleapis.com/v0/b/untitled-2832f.appspot.com/o/profile_pictures%2Fdefault%2Fprofile.jpg?alt=media&token=2543c4eb-f991-468f-9ce8-68c576ffca7c",
   }) {
@@ -33,14 +35,16 @@ class AppUser {
   }
   static AppUser fromCurrent(CurrentUser user) {
     return AppUser(
-        username: user.username,
-        uid: user.uid,
-        name: user.name,
-        profilePicture: user.profilePicture,
-        likes: user.hashCode,
-        bio: user.bio,
-        followers: user.followers,
-        following: user.following);
+      username: user.username,
+      uid: user.uid,
+      name: user.name,
+      profilePicture: user.profilePicture,
+      likes: user.hashCode,
+      bio: user.bio,
+      followers: user.followers,
+      following: user.following,
+      isVerified: user.isVerified,
+    );
   }
 
   static AppUser fromJson(Map<String, dynamic> json, {int? page}) {
@@ -53,7 +57,8 @@ class AppUser {
         likes: json['profileData']["likes"],
         bio: json['profileData']['bio'],
         followers: json['profileData']['followers'],
-        following: json['profileData']['following']);
+        following: json['profileData']['following'],
+        isVerified: json['isVerified'] ?? false);
   }
 
   Future<Map<String, dynamic>?> readUserData(String? passedUid,
@@ -69,6 +74,7 @@ class AppUser {
         username = user.username;
         name = user.name;
         bio = user.bio;
+        isVerified = user.isVerified;
         return null;
       }
     }
@@ -84,6 +90,7 @@ class AppUser {
       likes = userData['profileData']['likes'];
       username = userData['username'];
       name = userData['name'];
+      isVerified = userData['isVerified'] ?? false;
 
       bio = userData['profileData']['bio'] ?? '';
     }

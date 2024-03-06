@@ -32,6 +32,7 @@ class ProfileController extends ChangeNotifier {
       likes: locator<CurrentUser>().likes,
       followers: locator<CurrentUser>().followers,
       following: locator<CurrentUser>().following,
+      isVerified: locator<CurrentUser>().isVerified,
     );
 
     notifyListeners();

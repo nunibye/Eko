@@ -22,6 +22,7 @@ class CurrentUser extends AppUser {
   List<dynamic> blockedBy = [];
   bool stateIsLiking = false;
   bool stateIsFollowing = false;
+  bool isVerified = false;
   // CurrentUser({this.newActivity = false}) {
   //   // if (likedPosts.isEmpty) {
   //   //   likedPosts = [];
@@ -167,6 +168,7 @@ class CurrentUser extends AppUser {
       blockedUsers = userData["blockedUsers"] ?? [];
       newActivity = userData["newActivity"] ?? false;
       unreadGroup = userData["unreadGroup"] ?? false;
+      isVerified = userData["isVerified"] ?? false;
       List<dynamic>? fcmTokens = userData["fcmTokens"];
       blockedBy = await getPeopleWhoBlockedMe();
       // print(blockedBy);
@@ -274,7 +276,8 @@ class CurrentUser extends AppUser {
         final user = getUID();
         await Future.wait([
           firestore.collection("users").doc(user).update({
-            "profileData.likedPosts": FieldValue.arrayUnion([commentId ?? postId])
+            "profileData.likedPosts":
+                FieldValue.arrayUnion([commentId ?? postId])
           }),
           (commentId == null)
               ? firestore
@@ -314,7 +317,8 @@ class CurrentUser extends AppUser {
         final user = getUID();
         await Future.wait([
           firestore.collection("users").doc(user).update({
-            "profileData.likedPosts": FieldValue.arrayRemove([commentId ?? postId])
+            "profileData.likedPosts":
+                FieldValue.arrayRemove([commentId ?? postId])
           }),
           (commentId == null)
               ? firestore
@@ -484,6 +488,7 @@ class CurrentUser extends AppUser {
       'name': name,
       'fcmTokens': [],
       'blockedUsers': [],
+      'isVerified': false,
       'profileData': {
         'likedPosts': [],
         'bio': '',

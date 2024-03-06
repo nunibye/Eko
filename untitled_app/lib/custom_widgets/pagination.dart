@@ -131,9 +131,9 @@ class PaginationPage extends StatelessWidget {
                           .isEmpty) {
                     //what to return if dataset is empty
                     return emptySetNotice ??
-                        Center(
+                        Padding(padding: EdgeInsets.all(10),child: Center(
                             child: Text(AppLocalizations.of(context)!
-                                .nothingToSeeHere));
+                                .nothingToSeeHere)));
                   } else if ((!Provider.of<PaginationController>(context,
                               listen: true)
                           .data

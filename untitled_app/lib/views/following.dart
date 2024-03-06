@@ -20,24 +20,13 @@ class Following extends StatelessWidget {
       create: (context) =>
           FollowingController(context: context, rootUser: user),
       builder: (context, child) {
-        // FollowingController controller =
-        //     Provider.of<FollowingController>(context);
-
-        // if (controller.followingList.isEmpty) {
-        //   return const Center(
-        //     child: SizedBox(
-        //       width: 50,
-        //       height: 50,
-        //       child: CircularProgressIndicator(),
-        //     ),
-        //   );
-        // } else {
         return Scaffold(
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios_rounded,
-                  color: Theme.of(context).colorScheme.onBackground),
+                  color: Theme.of(context).colorScheme.onBackground,
+                  size: 20,),
               onPressed: () => context.pop(),
             ),
             backgroundColor: Theme.of(context).colorScheme.background,
@@ -45,13 +34,14 @@ class Following extends StatelessWidget {
               AppLocalizations.of(context)!.following,
               style: TextStyle(
                 fontWeight: FontWeight.normal,
-                
+                fontSize: 20,
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),
           body: Padding(
-            padding: EdgeInsets.all(height * 0.02),
+            padding: EdgeInsets.symmetric(
+                    vertical: height * 0.01, horizontal: 6),
             child: PaginationPage(
                 getter: Provider.of<FollowingController>(context, listen: false)
                     .userGetter,

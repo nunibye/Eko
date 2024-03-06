@@ -46,7 +46,7 @@ class GroupsPage extends StatelessWidget {
                   Provider.of<GroupsPageController>(context, listen: false)
                       .getTimeFromGroup,
               appbar: SliverAppBar(
-                title: Text(AppLocalizations.of(context)!.groups),
+                title: Text(AppLocalizations.of(context)!.groups, style: TextStyle(fontSize: 20),),
                 centerTitle: true,
                 floating: true,
                 pinned: false,
@@ -58,7 +58,7 @@ class GroupsPage extends StatelessWidget {
                     onPressed: () => Provider.of<GroupsPageController>(context,
                             listen: false)
                         .createGroupPressed(),
-                    icon: const Icon(Icons.group_add),
+                    icon: const Icon(Icons.group_add, size: 20,),
                   ),
                 ],
                 bottom: PreferredSize(

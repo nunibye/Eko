@@ -24,41 +24,46 @@ class Post {
   int likes;
   int commentCount;
   final Group? group;
+  final bool isVerified;
 
   //for comments
   final String? rootPostId;
 
-  Post(
-      {this.gifSource,
-      required this.tags,
-      this.gifURL,
-      this.postId = '',
-      this.time = '',
-      this.title,
-      required this.author,
-      this.body,
-      this.group,
-      required this.likes,
-      this.commentCount = 0,
-      this.hasCache = false,
-      this.rootPostId});
+  Post({
+    this.gifSource,
+    required this.tags,
+    this.gifURL,
+    this.postId = '',
+    this.time = '',
+    this.title,
+    required this.author,
+    this.body,
+    this.group,
+    required this.likes,
+    this.commentCount = 0,
+    this.hasCache = false,
+    this.rootPostId,
+    this.isVerified = false,
+  });
 
   static Post fromRaw(RawPostObject rawPost, AppUser user, int commentCount,
       {String? rootPostId, bool hasCache = false, Group? group}) {
     return Post(
-        tags: rawPost.tags,
-        hasCache: hasCache,
-        gifSource: rawPost.gifSource,
-        gifURL: rawPost.gifUrl,
-        postId: rawPost.postID,
-        author: user,
-        title: parseText(rawPost.title),
-        body: parseText(rawPost.body),
-        time: rawPost.time,
-        likes: rawPost.likes,
-        commentCount: commentCount,
-        rootPostId: rootPostId,
-        group: group);
+      tags: rawPost.tags,
+      hasCache: hasCache,
+      gifSource: rawPost.gifSource,
+      gifURL: rawPost.gifUrl,
+      postId: rawPost.postID,
+      author: user,
+      title: parseText(rawPost.title),
+      body: parseText(rawPost.body),
+      time: rawPost.time,
+      likes: rawPost.likes,
+      commentCount: commentCount,
+      rootPostId: rootPostId,
+      group: group,
+      isVerified: user.isVerified,
+    );
   }
 
   static List<String> parseText(String? text) {
@@ -630,7 +635,6 @@ class PostsHandling {
       followingCopy.insert(0, locator<CurrentUser>().getUID());
 
       if (feedChunks.isEmpty) {
-
         final following = followingCopy.slices(30);
 
         for (List<dynamic> slice in following) {

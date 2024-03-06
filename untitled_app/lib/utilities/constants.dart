@@ -121,6 +121,7 @@ const int searchPageDebounce = 1500;
 const int postsOnRefresh = 10;
 const int usersOnSearch = 15;
 const int activitiesPerRequest = 15;
+const double verifiedIconSize = 16;
 const double navBarIconSize = 27;
 const double navBarIconSizeAdder = 4;
 const double navBarHeight = navBarIconSize + 20;
